@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!--
+	This is a semi-hackish way to inject the AllowTool Designator at level load time.
+	Done in the interest of maximum compatibility with other mods and to avoid the CCL dependency.
+	-->
+    <ThingDef>
+        <defName>AllowToolInit</defName>
+        <category>Building</category>
+        <menuHidden>true</menuHidden>
+        <label>AllowToolInit</label>
+        <thingClass>Thing</thingClass>
+        <inspectorTabs>
+            <li>AllowTool.ModInitializer</li>
+        </inspectorTabs>
+    </ThingDef>
+
+</Defs>
