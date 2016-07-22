@@ -10,7 +10,7 @@ namespace AllowTool {
 		private readonly ItemDesignationDragger dragger = new ItemDesignationDragger(ItemIsSelectable);
 
 		private static bool ItemIsSelectable(Thing item) {
-			return item.IsForbidden(Faction.OfColony);
+			return item.IsForbidden(Faction.OfPlayer);
 		}
 
 		public override int DraggableDimensions {
@@ -88,7 +88,7 @@ namespace AllowTool {
 		private int AllowCell(IntVec3 c) {
 			var hitCount = 0;
 			foreach (Thing current in Find.ThingGrid.ThingsAt(c)) {
-				if (current.IsForbidden(Faction.OfColony)) {
+				if (current.IsForbidden(Faction.OfPlayer)) {
 					current.SetForbidden(false);
 					hitCount++;
 				}

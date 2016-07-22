@@ -3,6 +3,7 @@ using Verse;
 using Object = UnityEngine.Object;
 
 namespace AllowTool {
+	[StaticConstructorOnStartup]
 	public class ModInitializer : ITab {
 		
 		private static GameObject obj;

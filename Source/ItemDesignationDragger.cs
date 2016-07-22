@@ -4,6 +4,7 @@ using Verse;
 
 namespace AllowTool {
 	// a complement to DesignationDragger to allow for huge area selection of items
+	[StaticConstructorOnStartup]
 	public class ItemDesignationDragger {
 		private static readonly Material dragHighlightCellMat = MaterialPool.MatFrom("UI/Overlays/DragHighlightCell", ShaderDatabase.MetaOverlay);
 

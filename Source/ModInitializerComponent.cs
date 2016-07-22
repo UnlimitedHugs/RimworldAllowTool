@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace AllowTool {
 	public class ModInitializerComponent : MonoBehaviour {
+		private static readonly FieldInfo resolvedDesignatorsField = typeof(DesignationCategoryDef).GetField("resolvedDesignators", BindingFlags.NonPublic | BindingFlags.Instance);
 		private static bool injectionPerformed;
 		private static Action scheduledCallback;
 
@@ -13,12 +16,12 @@ namespace AllowTool {
 		}
 
 		public void FixedUpdate() {
-			if(injectionPerformed || Game.Mode != GameMode.MapPlaying) return;
-
+			if(injectionPerformed || Current.ProgramState != ProgramState.MapPlaying) return;
 			// find a category with the Claim designator
 			foreach (var designatorCategoryDef in DefDatabase<DesignationCategoryDef>.AllDefs) {
+				var resolvedDesignators = (List<Designator>) resolvedDesignatorsField.GetValue(designatorCategoryDef);
 				// tool may have been already injected during previous load
-				foreach (var designator in designatorCategoryDef.resolvedDesignators) {
+				foreach (var designator in resolvedDesignators) {
 					if(designator is Designator_AllowTool) {
 						injectionPerformed = true;
 						break;
@@ -26,10 +29,10 @@ namespace AllowTool {
 				}
 
 				if (injectionPerformed) break;
-				for (int i = 0; i < designatorCategoryDef.resolvedDesignators.Count; i++) {
-					var designator = designatorCategoryDef.resolvedDesignators[i];
+				for (int i = 0; i < resolvedDesignators.Count; i++) {
+					var designator = resolvedDesignators[i];
 					if(designator is Designator_Claim) {
-						designatorCategoryDef.resolvedDesignators.Insert(i+1, new Designator_AllowTool());
+						resolvedDesignators.Insert(i + 1, new Designator_AllowTool());
 						injectionPerformed = true;
 						Log.Message("AllowTool added to "+designatorCategoryDef.label+" category.");
 						break;
