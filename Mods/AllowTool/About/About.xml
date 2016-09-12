@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Allow Tool</name>
-  <author>UnlimitedHugs</author>
-  
-  <description>Unforbid all items in an area with one handy tool.
-  </description>
-  <targetVersion>0.15.0</targetVersion>
+	<name>Allow Tool</name>
+	<author>UnlimitedHugs</author>
+	<targetVersion>0.15.0</targetVersion>
+	<url>https://ludeon.com/forums/index.php?topic=17218.0</url>
+	<description>&lt;size=20&gt;Description&lt;/size&gt;
+Allows to unforbid all forbidden items in an area.
 
-<url>https://ludeon.com/forums/index.php?topic=17218.0</url>
-
-
-
+&lt;size=20&gt;How to use&lt;/size&gt;
+To select the tool, open the Architect menu, click Orders, then Unforbid.
+Click and drag over an area with forbidden items.
+	</description>
+	
+	
+	
 </ModMetaData>
