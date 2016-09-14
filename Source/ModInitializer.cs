@@ -3,9 +3,13 @@ using Verse;
 using Object = UnityEngine.Object;
 
 namespace AllowTool {
+	/**
+	 * Entry point.
+	 * Creates a GameObject on the scene to forward necessary events to AllowToolController
+	 */
 	[StaticConstructorOnStartup]
 	public class ModInitializer : ITab {
-		
+
 		private static GameObject obj;
 
 		public ModInitializer(){

@@ -5,11 +5,12 @@
 	<targetVersion>0.15.0</targetVersion>
 	<url>https://ludeon.com/forums/index.php?topic=17218.0</url>
 	<description>&lt;size=20&gt;Description&lt;/size&gt;
-Allows to unforbid all forbidden items in an area.
+A set of tools to make handling forbidden items easier.
 
 &lt;size=20&gt;How to use&lt;/size&gt;
-To select the tool, open the Architect menu, click Orders, then Unforbid.
-Click and drag over an area with forbidden items.
+The tools are located in the Architect menu, under the Orders tab. Hovering over each tool shows what it does and how to use it.
+
+Each tool can also be selected with a hotkey without opening the menu. See the Keyboard configuration panel in the options menu to customize the hotkeys.
 	</description>
 	
 	

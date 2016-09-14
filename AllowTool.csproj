@@ -50,10 +50,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\Designator_AllowTool.cs" />
-    <Compile Include="Source\ItemDesignationDragger.cs" />
+    <Compile Include="Source\AllowToolController.cs" />
+    <Compile Include="Source\AllowToolUtility.cs" />
+    <Compile Include="Source\Designator_Allow.cs" />
+    <Compile Include="Source\Designator_AllowAll.cs" />
+    <Compile Include="Source\Designator_Forbid.cs" />
+    <Compile Include="Source\Designator_MassSelect.cs" />
+    <Compile Include="Source\Designator_SelectableThings.cs" />
+    <Compile Include="Source\UnlimitedDesignationDragger.cs" />
     <Compile Include="Source\ModInitializer.cs" />
     <Compile Include="Source\ModInitializerComponent.cs" />
+    <Compile Include="Source\ThingDesignatorDef.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

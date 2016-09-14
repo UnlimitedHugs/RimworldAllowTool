@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<LanguageData>
-
-	<AllowTool_label>Unforbid</AllowTool_label>
-	<AllowTool_desc>Drag over an area to unforbid everything within it.</AllowTool_desc>
-	<AllowTool_area_success>Allowed % items.</AllowTool_area_success>
-	<AllowTool_area_failed>No forbidden items found.</AllowTool_area_failed>
-
-</LanguageData>
