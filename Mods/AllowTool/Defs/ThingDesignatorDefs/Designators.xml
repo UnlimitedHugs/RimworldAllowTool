@@ -55,7 +55,8 @@ Click and drag over an area to use.</description>
 		<insertAfter>AllowTool.Designator_Forbid</insertAfter>
         <label>Unforbid everything</label>
 		<description>Unforbids all forbidden items on the map.
-Click to activate.</description>
+Click to activate.
+Hold Shift to include skeletons and non-fresh corpses.</description>
 		<iconTex>allowAll</iconTex>
 		<dragHighlightTex>allowHighlight</dragHighlightTex>
 		<soundSucceded>TickHigh</soundSucceded>

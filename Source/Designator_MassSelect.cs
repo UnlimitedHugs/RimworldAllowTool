@@ -5,14 +5,6 @@ using Verse;
 
 namespace AllowTool {
 	public class Designator_MassSelect : Designator_SelectableThings {
-		private bool ShiftIsHeld {
-			get { return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift); }
-		}
-
-		private bool ControlIsHeld {
-			get { return Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.RightCommand); }
-		}
-
 		public Designator_MassSelect(ThingDesignatorDef def) : base(def) {
 		}
 
@@ -21,13 +13,13 @@ namespace AllowTool {
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc) {
-			if (!ShiftIsHeld) Find.Selector.ClearSelection();
+			if (!AllowToolUtility.ShiftIsHeld) Find.Selector.ClearSelection();
 			base.DesignateSingleCell(loc);
 			CloseArchitectMenu();
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
-			if (!ShiftIsHeld) Find.Selector.ClearSelection();
+			if (!AllowToolUtility.ShiftIsHeld) Find.Selector.ClearSelection();
 			base.DesignateMultiCell(cells);
 			CloseArchitectMenu();
 		}
@@ -40,7 +32,7 @@ namespace AllowTool {
 				var thing = cellThings[i];
 				if (!thing.def.selectable) continue;
 				if (selectedObjects.Contains(thing)) {
-					if (ControlIsHeld) {
+					if (AllowToolUtility.ControlIsHeld) {
 						selectedObjects.Remove(thing);
 						hits++;
 					}

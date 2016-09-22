@@ -22,14 +22,18 @@ namespace AllowTool {
 		}
 
 		private void AllowAllTheThings() {
+			var includeRotten = AllowToolUtility.ShiftIsHeld;
 			var things = Find.ListerThings.AllThings;
 			var tallyCount = 0;
 			for (var i = 0; i < things.Count; i++) {
 				var thing = things[i];
 				var comp = thing is ThingWithComps ? (thing as ThingWithComps).GetComp<CompForbiddable>() : null;
 				if (comp != null && comp.Forbidden) {
-					comp.Forbidden = false;
-					tallyCount++;
+					CompRottable rottable;
+					if (includeRotten || !(thing is Corpse) || (rottable = (thing as ThingWithComps).GetComp<CompRottable>()) == null || rottable.Stage < RotStage.Rotting) {
+						comp.Forbidden = false;
+						tallyCount++;
+					}
 				}
 			}
 			if (tallyCount > 0) {
