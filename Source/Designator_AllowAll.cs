@@ -9,7 +9,7 @@ namespace AllowTool {
 		}
 
 		public override void ProcessInput(Event ev) {
-			if (!CheckCanInteract()) return;
+			//if (!CheckCanInteract()) return;
 			AllowAllTheThings();
 		}
 
