@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<Allow_area_success>已设置允许 {0} 个物品。</Allow_area_success>
+	<Allow_area_failure>没有找到被禁止的物品。</Allow_area_failure>
+
+	<Forbid_area_success>已设置禁止 {0} 个物品。</Forbid_area_success>
+	<Forbid_area_failure>没有找到未被禁止的物品。</Forbid_area_failure>
+	
+	<Allow_all_success>已设置允许整个地图的 {0} 个物品。</Allow_all_success>
+	<Allow_all_failure>没有找到被禁止的物品。</Allow_all_failure>
+	
+</LanguageData>
