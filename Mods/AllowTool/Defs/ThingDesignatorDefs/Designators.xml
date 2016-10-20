@@ -5,8 +5,6 @@
         <defName>AllowDesignator</defName>
 		<!-- the class that handles the behaviour of this designator. Must extend AllowTool.Designator_SelectableThing -->
 		<designatorClass>AllowTool.Designator_Allow</designatorClass>
-        <!-- hides the designator -->
-		<hidden>false</hidden>
 		<!-- the category def name to add this designator to -->
 		<category>Orders</category>
 		<!-- the designator type to insert this designator after -->
@@ -22,7 +20,7 @@ Click and drag over an area to use.</description>
 		<dragHighlightTex>allowHighlight</dragHighlightTex>
 		<!-- sound def played after a successful designation -->
 		<soundSucceded>TickHigh</soundSucceded>
-		<!-- key binding def used to activate the designator -->
+		<!-- key binding def used to activate the designator, optional -->
 		<hotkeyDef>DesignatorAllow</hotkeyDef>
 		<!-- a string id to be displayed as a message on designation success. Optional. -->
 		<messageSuccess>Allow_area_success</messageSuccess>
@@ -33,7 +31,6 @@ Click and drag over an area to use.</description>
     <AllowTool.ThingDesignatorDef>
         <defName>ForbidDesignator</defName>
 		<designatorClass>AllowTool.Designator_Forbid</designatorClass>
-        <hidden>false</hidden>
 		<category>Orders</category>
 		<insertAfter>AllowTool.Designator_Allow</insertAfter>
         <label>Forbid selection</label>
@@ -50,7 +47,6 @@ Click and drag over an area to use.</description>
     <AllowTool.ThingDesignatorDef>
         <defName>AllowAllDesignator</defName>
 		<designatorClass>AllowTool.Designator_AllowAll</designatorClass>
-        <hidden>false</hidden>
 		<category>Orders</category>
 		<insertAfter>AllowTool.Designator_Forbid</insertAfter>
         <label>Unforbid everything</label>
@@ -68,13 +64,12 @@ Hold Shift to include skeletons and non-fresh corpses.</description>
     <AllowTool.ThingDesignatorDef>
         <defName>MassSelectDesignator</defName>
 		<designatorClass>AllowTool.Designator_MassSelect</designatorClass>
-        <hidden>false</hidden>
 		<category>Orders</category>
 		<insertAfter>AllowTool.Designator_AllowAll</insertAfter>
         <label>Mass select</label>
-		<description>Selects everything in an area, ignoring common sense and selection limits. Selecting too much stuff at once can slow down the game- use with care.
+		<description>Selects everything in an area, ignoring common sense and selection limits.
 Hold Shift to add to your current selection.
-Hold Ctrl/Option to invert selection.</description>
+Hold Ctrl/Option to select only things of the same type as the ones already selected.</description>
 		<iconTex>massSelect</iconTex>
 		<dragHighlightTex>massSelectHighlight</dragHighlightTex>
 		<soundSucceded>ThingSelected</soundSucceded>

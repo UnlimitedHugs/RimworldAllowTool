@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<AllowDesignator.label>Разрешить предметы</AllowDesignator.label>
+	<AllowDesignator.description>Снимает метку запрещения со всех предметов в выделенной области.</AllowDesignator.description>
+
+	<ForbidDesignator.label>Запретить предметы</ForbidDesignator.label>
+	<ForbidDesignator.description>Ставит метку запрещения на все предметы в выделенной области.</ForbidDesignator.description>
+	
+	<AllowAllDesignator.label>Разрешить всё</AllowAllDesignator.label>
+	<AllowAllDesignator.description>Снимает метку запрещения с запрещенных предметов на всей карте.
+Удерживать Shift чтобы снять запрещение также со скелетов и несвежих трупов.</AllowAllDesignator.description>
+	
+	<MassSelectDesignator.label>Массовое выделение</MassSelectDesignator.label>
+	<MassSelectDesignator.description>Выделяет все предметы в указанной области, игнорируя все ограничения.
+Удерживать Shift чтобы добавить указанные предметы к уже выделенным.
+Удерживать Control/Option чтобы выделить только предметы того же типа, что и уже выделенные.</MassSelectDesignator.description>
+	
+</LanguageData>

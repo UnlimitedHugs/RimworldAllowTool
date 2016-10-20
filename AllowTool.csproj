@@ -58,9 +58,13 @@
     <Compile Include="Source\Designator_MassSelect.cs" />
     <Compile Include="Source\Designator_SelectableThings.cs" />
     <Compile Include="Source\UnlimitedDesignationDragger.cs" />
-    <Compile Include="Source\ModInitializer.cs" />
-    <Compile Include="Source\ModInitializerComponent.cs" />
     <Compile Include="Source\ThingDesignatorDef.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HugsLib\HugsLib.csproj">
+      <Project>{a5d9bd45-533c-4ca0-9298-8950a3da724c}</Project>
+      <Name>HugsLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
