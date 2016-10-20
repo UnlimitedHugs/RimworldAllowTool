@@ -18,6 +18,11 @@ namespace AllowTool {
 			get { return true; }
 		}
 
+		private bool visible = true;
+		public override bool Visible {
+			get { return visible; }
+		}
+
 		public Designator_SelectableThings(ThingDesignatorDef def) {
 			this.def = def;
 			defaultLabel = def.label;
@@ -28,6 +33,10 @@ namespace AllowTool {
 			soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
 			soundSucceeded = def.soundSucceded;
 			hotKey = def.hotkeyDef;
+		}
+
+		public void SetVisible(bool value) {
+			visible = value;
 		}
 
 		// this is called by the vanilla DesignationDragger. We are using UnlimitedDesignationDragger instead.
@@ -67,9 +76,8 @@ namespace AllowTool {
 
 		protected abstract int ProcessCell(IntVec3 cell);
 
-		public override GizmoResult GizmoOnGUI(Vector2 topLeft) {
-			var result = base.GizmoOnGUI(topLeft);
-			return result;
+		public virtual void SelectedOnGUI() {
 		}
+
 	}
 }

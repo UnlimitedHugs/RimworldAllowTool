@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+
+	<DesignatorAllow.label>标记允许</DesignatorAllow.label>
+
+	<DesignatorForbid.label>标记禁止</DesignatorForbid.label>
+
+	<DesignatorAllowAll.label>全图允许</DesignatorAllowAll.label>
+
+	<DesignatorMassSelect.label>强行选择</DesignatorMassSelect.label>
+
+</LanguageData>

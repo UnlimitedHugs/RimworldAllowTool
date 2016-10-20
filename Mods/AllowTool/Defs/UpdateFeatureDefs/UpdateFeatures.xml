@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<HugsLib.UpdateFeatureDef Abstract="true" Name="UpdateFeatureBase">
+		<defName>UpdateFeature</defName>
+		<modNameReadable>Allow Tool</modNameReadable>
+		<modIdentifier>AllowTool</modIdentifier>
+		<linkUrl>https://ludeon.com/forums/index.php?topic=17218</linkUrl>
+	</HugsLib.UpdateFeatureDef>
+	
+	<!-- Note: these are probably not worth translating. This is a lot of text, and the player will only see this once -->
+		
+	<HugsLib.UpdateFeatureDef ParentName="UpdateFeatureBase">
+		<defName>AllowTool_2_3_0</defName>
+		<assemblyVersion>2.3.0</assemblyVersion>
+		<content>In-game options have been added for hiding unused tools (see Options &gt; Mod Settings).|The &lt;b&gt;Mass Select&lt;/b&gt; tool has become a lot more useful. When holding the Control key (Option on Mac), it will select only things of the same type as are already selected. This is great for selecting power conduits under walls, walls made only out of a certain material, all animals of a certain species, and many other things.|Also, Allow Tool now includes translations for Spanish, Chinese, Korean and Russian.</content>
+	</HugsLib.UpdateFeatureDef>
+	
+</Defs>

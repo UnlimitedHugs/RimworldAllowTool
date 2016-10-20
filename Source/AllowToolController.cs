@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using HugsLib;
+using HugsLib.Settings;
 using UnityEngine;
 using Verse;
 
@@ -9,45 +11,64 @@ namespace AllowTool {
 	 * The hub of the mod.
 	 * Injects the custom designators and handles hotkey presses.
 	 */
-	public class AllowToolController {
-		private const int MapSceneIndex = 1;
-
+	public class AllowToolController : ModBase {
 		private static FieldInfo resolvedDesignatorsField;
-		private static AllowToolController instance;
-		public static AllowToolController Instance {
-			get { return instance ?? (instance = new AllowToolController()); }
+		public static AllowToolController Instance { get; private set; }
+
+		private readonly List<DesignatorEntry> activeDesignators = new List<DesignatorEntry>();
+		private SettingHandle<bool> settingGlobalHotkeys;
+
+		public override string ModIdentifier {
+			get { return "AllowTool"; }
 		}
 
-		private readonly List<HotkeyEntry> activeHotkeys = new List<HotkeyEntry>(); 
+		internal new ModLogger Logger {
+			get { return base.Logger; }
+		}
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
-		
+
 		private AllowToolController() {
+			Instance = this;
+		}
+
+		public override void Initalize() {
 			Dragger = new UnlimitedDesignationDragger();
 			InitReflectionFields();
 		}
 
-		public void Update() {
+		public override void Update() {
 			Dragger.Update();
 		}
 
-		public void OnGUI() {
-			if(Event.current.type != EventType.KeyDown) return;
+		public override void OnGUI() {
+			for (int i = 0; i < activeDesignators.Count; i++) {
+				var designator = activeDesignators[i].designator;
+				if (DesignatorManager.SelectedDesignator != designator) continue;
+				designator.SelectedOnGUI();
+			}
+			if(Event.current.type != EventType.KeyDown || Current.ProgramState != ProgramState.MapPlaying) return;
 			CheckForHotkeyPresses();
 		}
-
-		public void OnLevelLoaded(int level) {
-			if(level != MapSceneIndex) return;
-			if (DefDatabase<ThingDesignatorDef>.DefCount == 0) {
-				activeHotkeys.Clear(); // mod was unloaded
-			}
-			TryInjectDesignators();
+		
+		public override void DefsLoaded() {
+			LongEventHandler.ExecuteWhenFinished(() => {
+				InjectDesignators(); // DesignationCategoryDef has delayed designator resolution, so we do, too
+				PrepareSettingsHandles();
+			}); 
 		}
 
-		private void TryInjectDesignators() {
+		public override void SettingsChanged() {
+			foreach (var entry in activeDesignators) {
+				entry.designator.SetVisible(entry.visibilitySetting.Value);
+			}
+		}
+
+		private void InjectDesignators() {
+			activeDesignators.Clear();
 			var numDesignatorsInjected = 0;
 			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
-				if (designatorDef.hidden || designatorDef.Injected) continue;
+				if (designatorDef.Injected) continue;
 				var resolvedDesignators = (List<Designator>)resolvedDesignatorsField.GetValue(designatorDef.Category);
 				var insertIndex = -1;
 				for (var i = 0; i < resolvedDesignators.Count; i++) {
@@ -56,41 +77,49 @@ namespace AllowTool {
 					break;
 				}
 				if (insertIndex >= 0) {
-					var designator = (Designator) Activator.CreateInstance(designatorDef.designatorClass, designatorDef);
+					var designator = (Designator_SelectableThings)Activator.CreateInstance(designatorDef.designatorClass, designatorDef);
 					resolvedDesignators.Insert(insertIndex + 1, designator);
-					if (designatorDef.hotkeyDef != null) {
-						activeHotkeys.Add(new HotkeyEntry(designatorDef.hotkeyDef, designator));
-					}
+					var handle = Settings.GetHandle("show" + designatorDef.defName, "setting_showTool_label".Translate(designatorDef.label), null, true);
+					designator.SetVisible(handle.Value);
+					activeDesignators.Add(new DesignatorEntry(designator, designatorDef.hotkeyDef, handle));
 					numDesignatorsInjected++;
 				} else {
-					AllowToolUtility.Error(string.Format("Failed to inject {0} after {1}", designatorDef.defName, designatorDef.insertAfter.Name));		
+					Logger.Error(string.Format("Failed to inject {0} after {1}", designatorDef.defName, designatorDef.insertAfter.Name));		
 				}
 				designatorDef.Injected = true;
 			}
 			if (numDesignatorsInjected > 0) {
-				AllowToolUtility.Log("Injected " + numDesignatorsInjected + " designators");
+				Logger.Trace("Injected " + numDesignatorsInjected + " designators");
 			}
 		}
 
 		private void InitReflectionFields() {
 			resolvedDesignatorsField = typeof (DesignationCategoryDef).GetField("resolvedDesignators", BindingFlags.NonPublic | BindingFlags.Instance);
-			if (resolvedDesignatorsField == null) AllowToolUtility.Error("failed to reflect DesignationCategoryDef.resolvedDesignators");
+			if (resolvedDesignatorsField == null) Logger.Error("failed to reflect DesignationCategoryDef.resolvedDesignators");
+		}
+
+		private void PrepareSettingsHandles() {
+			settingGlobalHotkeys = Settings.GetHandle("globalHotkeys", "setting_globalHotkeys_label".Translate(), "setting_globalHotkeys_desc".Translate(), true);
 		}
 
 		private void CheckForHotkeyPresses() {
-			for (int i = 0; i < activeHotkeys.Count; i++) {
-				if(!activeHotkeys[i].key.JustPressed) continue;
-				activeHotkeys[i].designator.ProcessInput(Event.current);
+			if (!settingGlobalHotkeys) return;
+			for (int i = 0; i < activeDesignators.Count; i++) {
+				var entry = activeDesignators[i];
+				if(entry.key == null || !entry.key.JustPressed || !entry.visibilitySetting.Value) continue;
+				activeDesignators[i].designator.ProcessInput(Event.current);
 				break;
 			}
 		}
 
-		private class HotkeyEntry {
+		private class DesignatorEntry {
+			public readonly Designator_SelectableThings designator;
 			public readonly KeyBindingDef key;
-			public readonly Designator designator;
-			public HotkeyEntry(KeyBindingDef key, Designator designator) {
-				this.key = key;
+			public readonly SettingHandle<bool> visibilitySetting;
+			public DesignatorEntry(Designator_SelectableThings designator, KeyBindingDef key, SettingHandle<bool> visibilitySetting) {
 				this.designator = designator;
+				this.key = key;
+				this.visibilitySetting = visibilitySetting;
 			}
 		}
 	}

@@ -5,7 +5,6 @@ using Verse;
 namespace AllowTool {
 	public class ThingDesignatorDef : Def {
 		public Type designatorClass;
-		public bool hidden = false;
 		public string category;
 		public Type insertAfter = null;
 		public string iconTex;
@@ -44,15 +43,15 @@ namespace AllowTool {
 
 		public override void PostLoad() {
 			Assert(designatorClass != null, "designatorClass field must be set");
-			Assert(designatorClass != null && designatorClass.IsSubclassOf(typeof(Designator_SelectableThings)), "designatorClass must extend Designator_SelectableThings");
+			Assert(designatorClass != null && typeof (Designator_SelectableThings).IsAssignableFrom(designatorClass), "designatorClass must extend Designator_SelectableThings");
 			Assert(category != null, "category field must be set");
 			Assert(insertAfter != null, "insertAfter field must be set");
-			Assert(iconTex!= null, "icon texture must be set");
+			Assert(iconTex != null, "icon texture must be set");
 			Assert(dragHighlightTex != null, "drag highlight texture must be set");
 		}
 
 		private void Assert(bool check, string errorMessage) {
-			if (!check) AllowToolUtility.Error(string.Format("Invalid data in ThingDesignatorDef {0}: {1}", defName, errorMessage));
+			if (!check) Log.Error(string.Format("[AllowTool] Invalid data in ThingDesignatorDef {0}: {1}", defName, errorMessage));
 		}
 	}
 }

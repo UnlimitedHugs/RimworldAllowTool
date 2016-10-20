@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-	<Allow_area_success>Allowed {0} items.</Allow_area_success>
-	<Allow_area_failure>No forbidden items found.</Allow_area_failure>
+	<Allow_area_success>已设置允许 {0} 个物品。</Allow_area_success>
+	<Allow_area_failure>没有找到被禁止的物品。</Allow_area_failure>
 
-	<Forbid_area_success>Forbidden {0} items.</Forbid_area_success>
-	<Forbid_area_failure>No forbiddable items found.</Forbid_area_failure>
+	<Forbid_area_success>已设置禁止 {0} 个物品。</Forbid_area_success>
+	<Forbid_area_failure>没有找到未被禁止的物品。</Forbid_area_failure>
 	
-	<Allow_all_success>Allowed {0} things across the map.</Allow_all_success>
-	<Allow_all_failure>No forbidden things found.</Allow_all_failure>
+	<Allow_all_success>已设置允许整个地图的 {0} 个物品。</Allow_all_success>
+	<Allow_all_failure>没有找到被禁止的物品。</Allow_all_failure>
 	
 	<setting_showTool_label>Show tool: {0}</setting_showTool_label>
 	<setting_showTool_desc>When enabled, this designator tool will appear in the Architect menu.</setting_showTool_desc>
