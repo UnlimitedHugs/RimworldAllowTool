@@ -15,7 +15,7 @@
 
 	<MassSelectDesignator.label>强行选择</MassSelectDesignator.label>
 	<MassSelectDesignator.description>选择区域中的所有物品，无视常识和选择上限。注意：一次选择太多的东西会减慢游戏运行速度，请小心使用。
-	按住Shift键以将物品添加至当前已选择物品。
-	按住Ctrl/Option键反向选择物品。</MassSelectDesignator.description>
+	按住Shift键以将物品添加至当前已选中物品中。
+	按住Ctrl/Option键仅选择和当前已选中物品类型一致的物品。</MassSelectDesignator.description>
 
 </LanguageData>
