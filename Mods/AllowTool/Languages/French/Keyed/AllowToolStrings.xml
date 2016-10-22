@@ -12,10 +12,10 @@
 	
 	<setting_showTool_label>Afficher l'outil: {0}</setting_showTool_label>
 	<setting_showTool_desc>Si activé, cet outil de selection apparaitra dans le menu Architecte.</setting_showTool_desc>
-	<setting_globalHotkeys_label>Utiliser les racourcci clavier généraux</setting_globalHotkeys_label>
-	<setting_globalHotkeys_desc>Si activé, les outils pourront être activé depuis n'importe quel menu en appuyant sur la touche assignée.\nVoir Options &gt; Configuration Clavier pour changer les touches.</setting_globalHotkeys_desc>
+	<setting_globalHotkeys_label>Utiliser les racourccis clavier généraux</setting_globalHotkeys_label>
+	<setting_globalHotkeys_desc>Si activé, les outils pourront être activés depuis n'importe quel menu en appuyant sur la touche assignée.\nVoir Options &gt; Configuration Clavier pour changer les touches.</setting_globalHotkeys_desc>
 	
-	<MassSelect_nowSelecting>Selectionne uniquement : {0}</MassSelect_nowSelecting>
+	<MassSelect_nowSelecting>Selectionner uniquement : {0}</MassSelect_nowSelecting>
 	<MassSelect_anything>Tout</MassSelect_anything>
 	<MassSelect_numMoreTypes>({0} en plus)</MassSelect_numMoreTypes>
 	
