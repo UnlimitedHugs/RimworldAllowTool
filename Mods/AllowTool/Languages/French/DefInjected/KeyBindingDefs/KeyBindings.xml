@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	
-	<DesignatorAllow.label>Indicateur: Autorise</DesignatorAllow.label>
+	<DesignatorAllow.label>Indicateur: Autoriser</DesignatorAllow.label>
 	
 	<DesignatorForbid.label>Indicateur: Interdire</DesignatorForbid.label>
 	
-	<DesignatorAllowAll.label>Indicateur: Autorise tout</DesignatorAllowAll.label>
+	<DesignatorAllowAll.label>Indicateur: Autoriser tout</DesignatorAllowAll.label>
 	
-	<DesignatorMassSelect.label>Indicateur: Autorise selection multiple</DesignatorMassSelect.label>
+	<DesignatorMassSelect.label>Indicateur: Autoriser sélection multiple</DesignatorMassSelect.label>
 
 </LanguageData>
 	
