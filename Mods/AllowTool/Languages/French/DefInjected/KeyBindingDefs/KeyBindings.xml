@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<LanguageData>
+<LanguageData>	
+
+	<DesignatorAllow.label>Icône: Autoriser</DesignatorAllow.label>
 	
-	<DesignatorAllow.label>Indicateur: Autoriser</DesignatorAllow.label>
+	<DesignatorForbid.label>Icône: Interdire</DesignatorForbid.label>
 	
-	<DesignatorForbid.label>Indicateur: Interdire</DesignatorForbid.label>
+	<DesignatorAllowAll.label>Icône: Autoriser tout</DesignatorAllowAll.label>
 	
-	<DesignatorAllowAll.label>Indicateur: Autoriser tout</DesignatorAllowAll.label>
-	
-	<DesignatorMassSelect.label>Indicateur: Autoriser sélection multiple</DesignatorMassSelect.label>
+	<DesignatorMassSelect.label>Icône: Selection multiple</DesignatorMassSelect.label>
 
 </LanguageData>
-	
