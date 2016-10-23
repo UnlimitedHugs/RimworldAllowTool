@@ -9,5 +9,9 @@ namespace AllowTool {
 		public static bool ControlIsHeld {
 			get { return Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.RightCommand); }
 		}
+
+		public static bool AltIsHeld {
+			get { return Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt); }
+		}
 	}
 }

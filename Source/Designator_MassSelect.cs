@@ -9,11 +9,31 @@ namespace AllowTool {
 	public class Designator_MassSelect : Designator_SelectableThings {
 		private const string ConstraintListSeparator = ", ";
 		private const int MaxNumListedConstraints = 5;
+		
+		private enum OperationMode {
+			Normal,
+			Constrained,
+			AllOfDef
+		}
 
 		private readonly Dictionary<int, SelectionDefConstraint> selectionConstraints =  new Dictionary<int, SelectionDefConstraint>();
 		private bool constraintsNeedReindexing;
 		private string cachedConstraintReadout;
-		private bool controlIsHeld;
+		private bool addToSelection;
+		private OperationMode mode;
+
+		// When in AllOfDef mode, dragging is disabled
+		public override int DraggableDimensions {
+			get { return mode == OperationMode.AllOfDef ? 0 : 2; }
+		}
+		
+		public override AcceptanceReport CanDesignateCell(IntVec3 c) {
+			if (mode == OperationMode.AllOfDef) {
+				return TryGetItemOrPawnUnderCursor() != null;
+			} else {
+				return base.CanDesignateCell(c);
+			}
+		}
 
 		public Designator_MassSelect(ThingDesignatorDef def) : base(def) {
 		}
@@ -24,29 +44,46 @@ namespace AllowTool {
 		}
 
 		protected override bool ThingIsRelevant(Thing item) {
-			return !Find.FogGrid.IsFogged(item.Position) && (!controlIsHeld || ThingMatchesSelectionConstraints(item));
+			return !Find.FogGrid.IsFogged(item.Position) && (mode != OperationMode.Constrained || ThingMatchesSelectionConstraints(item));
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc) {
-			if (!AllowToolUtility.ShiftIsHeld) Find.Selector.ClearSelection();
-			base.DesignateSingleCell(loc);
-			CloseArchitectMenu();
+			if (!addToSelection) Find.Selector.ClearSelection();
+			if (mode == OperationMode.AllOfDef) {
+				var target = TryGetItemOrPawnUnderCursor();
+				if(target == null) return;
+				var numHits = SelectAllOfDef(target.def);
+				if (numHits > 0) Messages.Message("Mass_Select_success".Translate(numHits, target.def.label.CapitalizeFirst()), MessageSound.Silent); 
+			} else {
+				base.DesignateSingleCell(loc);
+			}
+			TryCloseArchitectMenu();
 			constraintsNeedReindexing = true;
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
-			if (!AllowToolUtility.ShiftIsHeld) Find.Selector.ClearSelection();
+			if (!addToSelection) Find.Selector.ClearSelection();
 			base.DesignateMultiCell(cells);
-			CloseArchitectMenu();
+			TryCloseArchitectMenu();
 			constraintsNeedReindexing = true;
 		}
 
 		public override void SelectedOnGUI() {
-			controlIsHeld = AllowToolUtility.ControlIsHeld;
-			if (!controlIsHeld) return;
-			if (constraintsNeedReindexing) UpdateSelectionConstraints();
-			var label = "MassSelect_nowSelecting".Translate(cachedConstraintReadout);
-			DrawMouseAttachedLabel(label);
+			mode = OperationMode.Normal;
+			if(AllowToolUtility.ControlIsHeld) mode = OperationMode.Constrained;
+			if(AllowToolUtility.AltIsHeld) mode = OperationMode.AllOfDef;
+			addToSelection = AllowToolUtility.ShiftIsHeld;
+			if (mode == OperationMode.Constrained) {
+				if (constraintsNeedReindexing) UpdateSelectionConstraints();
+				var label = "MassSelect_nowSelecting".Translate(cachedConstraintReadout);
+				DrawMouseAttachedLabel(label);
+			} else if (mode == OperationMode.AllOfDef) {
+				if (Event.current.type == EventType.Repaint) {
+					var target = TryGetItemOrPawnUnderCursor();
+					string label = target == null ? "MassSelect_needTarget".Translate() : "MassSelect_targetHover".Translate(target.def.label.CapitalizeFirst());
+					DrawMouseAttachedLabel(label);
+				}
+			}
 		}
 
 		// select selectables in a sigle cell
@@ -59,7 +96,7 @@ namespace AllowTool {
 				var thing = cellThings[i];
 				if (!thing.def.selectable) continue;
 				if (selectedObjects.Contains(thing)) continue;
-				if (controlIsHeld && !ThingMatchesSelectionConstraints(thing)) continue;
+				if (mode == OperationMode.Constrained && !ThingMatchesSelectionConstraints(thing)) continue;
 				selectedObjects.Add(thing);
 				SelectionDrawer.Notify_Selected(thing);
 				hits++;
@@ -67,7 +104,23 @@ namespace AllowTool {
 			return hits;
 		}
 
-		private void CloseArchitectMenu() {
+		// selects all things with the same def and stuff def
+		private int SelectAllOfDef(ThingDef targetDef) {
+			if(targetDef == null) return 0;
+			var things = Find.ListerThings.AllThings;
+			var selectedObjects = Find.Selector.SelectedObjects;
+			var hits = 0;
+			for (int i = 0; i < things.Count; i++) {
+				var thing = things[i];
+				if (thing.def != targetDef || Find.FogGrid.IsFogged(thing.Position) || selectedObjects.Contains(thing)) continue;
+				selectedObjects.Add(thing);
+				SelectionDrawer.Notify_Selected(thing);
+				hits++;
+			}
+			return hits;
+		}
+
+		private void TryCloseArchitectMenu() {
 			if (Find.Selector.NumSelected == 0) return;
 			if(Find.MainTabsRoot.OpenTab != MainTabDefOf.Architect) return;
 			Find.MainTabsRoot.EscapeCurrentTab();
@@ -83,6 +136,14 @@ namespace AllowTool {
 				Text.Font = GameFont.Small;
 				Widgets.Label(rect, text);
 			}
+		}
+
+		private Thing TryGetItemOrPawnUnderCursor() {
+			var things = Find.ThingGrid.ThingsAt(Gen.MouseCell());
+			foreach (var thing in things) {
+				if (thing.def != null && thing.def.selectable && thing.def.label!=null && (thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Pawn)) return thing;
+			}
+			return null;
 		}
 
 		private void UpdateSelectionConstraints() {

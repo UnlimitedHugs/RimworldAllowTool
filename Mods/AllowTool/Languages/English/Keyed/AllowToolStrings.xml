@@ -10,6 +10,8 @@
 	<Allow_all_success>Allowed {0} things across the map.</Allow_all_success>
 	<Allow_all_failure>No forbidden things found.</Allow_all_failure>
 	
+	<Mass_Select_success>Selected {0} {1} across the map.</Mass_Select_success>
+	
 	<setting_showTool_label>Show tool: {0}</setting_showTool_label>
 	<setting_showTool_desc>When enabled, this designator tool will appear in the Architect menu.</setting_showTool_desc>
 	<setting_globalHotkeys_label>Use global hotkeys</setting_globalHotkeys_label>
@@ -18,5 +20,7 @@
 	<MassSelect_nowSelecting>Now selecting only: {0}</MassSelect_nowSelecting>
 	<MassSelect_anything>Anything</MassSelect_anything>
 	<MassSelect_numMoreTypes>({0} more)</MassSelect_numMoreTypes>
+	<MassSelect_targetHover>Select all: {0}</MassSelect_targetHover>
+	<MassSelect_needTarget>Select item or pawn</MassSelect_needTarget>
 	
 </LanguageData>

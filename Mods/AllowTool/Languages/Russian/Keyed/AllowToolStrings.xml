@@ -10,13 +10,17 @@
 	<Allow_all_success>Разрешено {0} предметов по всей карте.</Allow_all_success>
 	<Allow_all_failure>Не найдено запрещенных предметов.</Allow_all_failure>
 	
+	<Mass_Select_success>Выделено {0} {1} по всей карте.</Mass_Select_success>
+	
 	<setting_showTool_label>Отображать: {0}</setting_showTool_label>
 	<setting_showTool_desc>Если настройка включена, инструмент будет отображаться в меню.</setting_showTool_desc>
 	<setting_globalHotkeys_label>Глобальные быстрые клавиши</setting_globalHotkeys_label>
 	<setting_globalHotkeys_desc>Если включено, инструменты можно выбрать нажатием одной клавиши не открывая меню. Клавиши можно назначить в соответствующем меню в настройках.</setting_globalHotkeys_desc>
 	
-	<MassSelect_nowSelecting>Выбираемые предметы: {0}</MassSelect_nowSelecting>
+	<MassSelect_nowSelecting>Выделяемые предметы: {0}</MassSelect_nowSelecting>
 	<MassSelect_anything>Любые</MassSelect_anything>
 	<MassSelect_numMoreTypes>(еще {0} других)</MassSelect_numMoreTypes>
+	<MassSelect_targetHover>Выделить все: {0}</MassSelect_targetHover>
+	<MassSelect_needTarget>Выберите предмет или существо</MassSelect_needTarget>
 	
 </LanguageData>

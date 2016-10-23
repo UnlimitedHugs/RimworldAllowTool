@@ -10,13 +10,4 @@
     <Allow_all_success>전 지역 {0}개 물품의 상호작용이 허가됐습니다.</Allow_all_success>
     <Allow_all_failure>허가 가능 물품을 찾을 수 없습니다.</Allow_all_failure>
 	
-	<setting_showTool_label>Show tool: {0}</setting_showTool_label>
-	<setting_showTool_desc>When enabled, this designator tool will appear in the Architect menu.</setting_showTool_desc>
-	<setting_globalHotkeys_label>Use global hotkeys</setting_globalHotkeys_label>
-	<setting_globalHotkeys_desc>When enabled, tools can be selected from anywhere by pressing the assigned key.\nSee Options &gt; Keyboard Configuration to customize the keys.</setting_globalHotkeys_desc>
-	
-	<MassSelect_nowSelecting>Now selecting only: {0}</MassSelect_nowSelecting>
-	<MassSelect_anything>Anything</MassSelect_anything>
-	<MassSelect_numMoreTypes>({0} more)</MassSelect_numMoreTypes>
-	
 </LanguageData>

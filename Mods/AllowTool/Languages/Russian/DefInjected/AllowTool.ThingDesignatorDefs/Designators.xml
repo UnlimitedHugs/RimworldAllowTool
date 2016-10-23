@@ -14,6 +14,7 @@
 	<MassSelectDesignator.label>Массовое выделение</MassSelectDesignator.label>
 	<MassSelectDesignator.description>Выделяет все предметы в указанной области, игнорируя все ограничения.
 Удерживать Shift чтобы добавить указанные предметы к уже выделенным.
-Удерживать Control/Option чтобы выделить только предметы того же типа, что и уже выделенные.</MassSelectDesignator.description>
+Удерживать Control/Option чтобы выделить только предметы того же типа, что и уже выделенные.
+Удерживать Alt чтобы выделить предметы одного типа по всей карте.</MassSelectDesignator.description>
 	
 </LanguageData>

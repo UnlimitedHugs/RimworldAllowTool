@@ -69,7 +69,8 @@ Hold Shift to include skeletons and non-fresh corpses.</description>
         <label>Mass select</label>
 		<description>Selects everything in an area, ignoring common sense and selection limits.
 Hold Shift to add to your current selection.
-Hold Ctrl/Option to select only things of the same type as the ones already selected.</description>
+Hold Ctrl/Option to select only things of the same type as the ones already selected.
+Hold Alt to select all things of the same type on the whole map.</description>
 		<iconTex>massSelect</iconTex>
 		<dragHighlightTex>massSelectHighlight</dragHighlightTex>
 		<soundSucceded>ThingSelected</soundSucceded>
