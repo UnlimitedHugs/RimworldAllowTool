@@ -1,22 +1,26 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-	<Allow_area_success>已设置允许 {0} 个物品。</Allow_area_success>
-	<Allow_area_failure>没有找到被禁止的物品。</Allow_area_failure>
+  <Allow_area_success>已设置允许 {0} 个物品。</Allow_area_success>
+  <Allow_area_failure>没有找到被禁止的物品。</Allow_area_failure>
 
-	<Forbid_area_success>已设置禁止 {0} 个物品。</Forbid_area_success>
-	<Forbid_area_failure>没有找到未被禁止的物品。</Forbid_area_failure>
-	
-	<Allow_all_success>已设置允许整个地图的 {0} 个物品。</Allow_all_success>
-	<Allow_all_failure>没有找到被禁止的物品。</Allow_all_failure>
-	
-	<setting_showTool_label>显示工具：{0}</setting_showTool_label>
-	<setting_showTool_desc>开启时，这个标记工具将会显示在建造菜单里。</setting_showTool_desc>
-	<setting_globalHotkeys_label>使用全局快捷键</setting_globalHotkeys_label>
-	<setting_globalHotkeys_desc>开启时，按下对应快捷键时将在任何时候都选中对应工具。\n可通过「选项」&gt;「按键设置」来修改对应快捷键。</setting_globalHotkeys_desc>
-	
-	<MassSelect_nowSelecting>当前强制选择：{0}</MassSelect_nowSelecting>
-	<MassSelect_anything>所有物品</MassSelect_anything>
-	<MassSelect_numMoreTypes>（{0}个其他类型）</MassSelect_numMoreTypes>
-	
+  <Forbid_area_success>已设置禁止 {0} 个物品。</Forbid_area_success>
+  <Forbid_area_failure>没有找到未被禁止的物品。</Forbid_area_failure>
+
+  <Allow_all_success>已设置允许整个地图的 {0} 个物品。</Allow_all_success>
+  <Allow_all_failure>没有找到被禁止的物品。</Allow_all_failure>
+
+  <Mass_Select_success>已选择整个地图的{0} {1}。</Mass_Select_success>
+
+  <setting_showTool_label>显示工具：{0}</setting_showTool_label>
+  <setting_showTool_desc>开启时，这个标记工具将会显示在建造菜单里。</setting_showTool_desc>
+  <setting_globalHotkeys_label>使用全局快捷键</setting_globalHotkeys_label>
+  <setting_globalHotkeys_desc>开启时，按下对应快捷键时将在任何时候都选中对应工具。\n可通过「选项」&gt;「按键设置」来修改对应快捷键。</setting_globalHotkeys_desc>
+
+  <MassSelect_nowSelecting>当前强制选择：{0}</MassSelect_nowSelecting>
+  <MassSelect_anything>所有物品</MassSelect_anything>
+  <MassSelect_numMoreTypes>（{0}个其他类型）</MassSelect_numMoreTypes>
+  <MassSelect_targetHover>选择全部{0}</MassSelect_targetHover>
+  <MassSelect_needTarget>选择物品和单位</MassSelect_needTarget>
+
 </LanguageData>
