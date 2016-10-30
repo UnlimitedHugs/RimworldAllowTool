@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+
+	<AllowDesignator.label>標記允許</AllowDesignator.label>
+	<AllowDesignator.description>允許殖民者與選定區域中的所有物品互動。
+	單擊並拖動出一個區域來使用。</AllowDesignator.description>
+
+	<ForbidDesignator.label>標記禁止</ForbidDesignator.label>
+	<ForbidDesignator.description>禁止殖民者與選定區域中的所有物品互動。
+	單擊並拖動出一個區域來使用。</ForbidDesignator.description>
+
+	<AllowAllDesignator.label>全圖允許</AllowAllDesignator.label>
+	<AllowAllDesignator.description>允許殖民者與地圖上所有的物品互動。點擊起效。
+	按住Shift鍵來允許與已風乾和腐爛中的屍體互動。</AllowAllDesignator.description>
+
+	<MassSelectDesignator.label>強行選擇</MassSelectDesignator.label>
+	<MassSelectDesignator.description>選擇區域中的所有物品，無視常識和選擇上限。注意：一次選擇太多的東西會減慢游戲運行速度，請小心使用。
+	按住Shift鍵以將物品添加至當前已選中物品中。
+	按住Ctrl/Option鍵僅選擇和當前已選中物品類型一致的物品。</MassSelectDesignator.description>
+
+</LanguageData>
