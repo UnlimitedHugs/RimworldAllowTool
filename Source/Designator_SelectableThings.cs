@@ -5,7 +5,7 @@ using Verse;
 
 namespace AllowTool {
 	/**
-	 * Base class for custom designators that deal with selectable things.
+	 * Base class for custom designators that deal with selectable Things.
 	 */
 	public abstract class Designator_SelectableThings : Designator {
 		internal readonly ThingDesignatorDef def;

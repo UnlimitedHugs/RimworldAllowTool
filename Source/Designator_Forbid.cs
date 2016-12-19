@@ -2,6 +2,7 @@
 using Verse;
 
 namespace AllowTool {
+	// Forbids all forbiddable things in the designated area
 	public class Designator_Forbid : Designator_SelectableThings {
 		public Designator_Forbid(ThingDesignatorDef def) : base(def) {
 		}
@@ -13,7 +14,7 @@ namespace AllowTool {
 
 		protected override int ProcessCell(IntVec3 c) {
 			var hitCount = 0;
-			var cellThings = Find.ThingGrid.ThingsListAtFast(c);
+			var cellThings = Find.VisibleMap.thingGrid.ThingsListAtFast(c);
 			for (var i = 0; i < cellThings.Count; i++) {
 				var thing = cellThings[i];
 				var comp = thing is ThingWithComps ? (thing as ThingWithComps).GetComp<CompForbiddable>() : null;

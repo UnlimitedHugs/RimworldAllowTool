@@ -4,6 +4,10 @@ using Verse;
 using Verse.Sound;
 
 namespace AllowTool {
+	/**
+	 * Unforbids all forbidden things on the map.
+	 * Holding Shift will include rotten remains.
+	 */
 	public class Designator_AllowAll : Designator_SelectableThings {
 		public Designator_AllowAll(ThingDesignatorDef def) : base(def) {
 		}
@@ -23,7 +27,8 @@ namespace AllowTool {
 
 		private void AllowAllTheThings() {
 			var includeRotten = AllowToolUtility.ShiftIsHeld;
-			var things = Find.ListerThings.AllThings;
+			if(Find.VisibleMap == null) return;
+			var things = Find.VisibleMap.listerThings.AllThings;
 			var tallyCount = 0;
 			for (var i = 0; i < things.Count; i++) {
 				var thing = things[i];

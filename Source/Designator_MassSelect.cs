@@ -6,6 +6,12 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool {
+	/**
+	 * A tool to select things.
+	 * Default mode selects everything in an area without applying the vanilla selection constraints.
+	 * Holding Control will select only items that have the same Def as those already selected.
+	 * Holding Alt and clicking will select everything on the map that matches the def of the clicked thing.
+	 */
 	public class Designator_MassSelect : Designator_SelectableThings {
 		private const string ConstraintListSeparator = ", ";
 		private const int MaxNumListedConstraints = 5;
@@ -13,7 +19,7 @@ namespace AllowTool {
 		private enum OperationMode {
 			Normal,
 			Constrained,
-			AllOfDef
+			AllOfDef // click thing to select everything on the map with the same def
 		}
 
 		private readonly Dictionary<int, SelectionDefConstraint> selectionConstraints =  new Dictionary<int, SelectionDefConstraint>();
@@ -44,7 +50,7 @@ namespace AllowTool {
 		}
 
 		protected override bool ThingIsRelevant(Thing item) {
-			return !Find.FogGrid.IsFogged(item.Position) && (mode != OperationMode.Constrained || ThingMatchesSelectionConstraints(item));
+			return !BlockedByFog(item.Position, item.Map) && (mode != OperationMode.Constrained || ThingMatchesSelectionConstraints(item));
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc) {
@@ -69,15 +75,18 @@ namespace AllowTool {
 		}
 
 		public override void SelectedOnGUI() {
+			// determine tool operation mode based on keys held
 			mode = OperationMode.Normal;
 			if(AllowToolUtility.ControlIsHeld) mode = OperationMode.Constrained;
 			if(AllowToolUtility.AltIsHeld) mode = OperationMode.AllOfDef;
 			addToSelection = AllowToolUtility.ShiftIsHeld;
 			if (mode == OperationMode.Constrained) {
+				// update dev filter and draw filter readout on cursor
 				if (constraintsNeedReindexing) UpdateSelectionConstraints();
 				var label = "MassSelect_nowSelecting".Translate(cachedConstraintReadout);
 				DrawMouseAttachedLabel(label);
 			} else if (mode == OperationMode.AllOfDef) {
+				// draw readout of thing that will be selected on click
 				if (Event.current.type == EventType.Repaint) {
 					var target = TryGetItemOrPawnUnderCursor();
 					string label = target == null ? "MassSelect_needTarget".Translate() : "MassSelect_targetHover".Translate(target.def.label.CapitalizeFirst());
@@ -88,8 +97,9 @@ namespace AllowTool {
 
 		// select selectables in a sigle cell
 		protected override int ProcessCell(IntVec3 cell) {
-			if (Find.FogGrid.IsFogged(cell)) return 0;
-			var cellThings = Find.ThingGrid.ThingsListAtFast(cell);
+			var map = Find.VisibleMap;
+			if (BlockedByFog(cell, map)) return 0;
+			var cellThings = map.thingGrid.ThingsListAtFast(cell);
 			var selectedObjects = Find.Selector.SelectedObjects;
 			var hits = 0;
 			for (var i = 0; i < cellThings.Count; i++) {
@@ -107,17 +117,23 @@ namespace AllowTool {
 		// selects all things with the same def and stuff def
 		private int SelectAllOfDef(ThingDef targetDef) {
 			if(targetDef == null) return 0;
-			var things = Find.ListerThings.AllThings;
+			var map = Find.VisibleMap;
+			var things = map.listerThings.AllThings;
 			var selectedObjects = Find.Selector.SelectedObjects;
 			var hits = 0;
 			for (int i = 0; i < things.Count; i++) {
 				var thing = things[i];
-				if (thing.def != targetDef || Find.FogGrid.IsFogged(thing.Position) || selectedObjects.Contains(thing)) continue;
+				if (thing.def != targetDef || BlockedByFog(thing.Position, thing.Map) || selectedObjects.Contains(thing)) continue;
 				selectedObjects.Add(thing);
 				SelectionDrawer.Notify_Selected(thing);
 				hits++;
 			}
 			return hits;
+		}
+
+		// ignore fogged cells unless dev mode is on
+		private bool BlockedByFog(IntVec3 pos, Map map) {
+			return map.fogGrid.IsFogged(pos) && !Prefs.DevMode;
 		}
 
 		private void TryCloseArchitectMenu() {
@@ -139,7 +155,7 @@ namespace AllowTool {
 		}
 
 		private Thing TryGetItemOrPawnUnderCursor() {
-			var things = Find.ThingGrid.ThingsAt(Gen.MouseCell());
+			var things = Find.VisibleMap.thingGrid.ThingsAt(UI.MouseCell());
 			foreach (var thing in things) {
 				if (thing.def != null && thing.def.selectable && thing.def.label!=null && (thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Pawn)) return thing;
 			}
@@ -147,6 +163,7 @@ namespace AllowTool {
 		}
 
 		private void UpdateSelectionConstraints() {
+			// build an index of defs to test things against
 			constraintsNeedReindexing = false;
 			selectionConstraints.Clear();
 			// get defs of selected objects, count duplicates

@@ -22,7 +22,7 @@ namespace AllowTool {
 			listening = true;
 			filterCallback = callback;
 			dragHighlightMat = MaterialPool.MatFrom(dragHighlightTex, ShaderDatabase.MetaOverlay, Color.white);
-			invokingDesignator = DesignatorManager.SelectedDesignator;
+			invokingDesignator = Find.MapUI.designatorManager.SelectedDesignator;
 		}
 
 		public IEnumerable<IntVec3> GetAffectedCells() {
@@ -31,18 +31,23 @@ namespace AllowTool {
 
 		public void Update() {
 			if (!listening) return;
-			if (DesignatorManager.SelectedDesignator != invokingDesignator) {
+			if (Current.ProgramState != ProgramState.Playing || Find.VisibleMap == null) {
 				listening = false;
 				return;
 			}
-			if(!draggerActive && DesignatorManager.Dragger.Dragging) {
-				mouseDownPosition = Gen.MouseCell();
+			if (Find.MapUI.designatorManager.SelectedDesignator != invokingDesignator) {
+				listening = false;
+				return;
+			}
+			var dragger = Find.MapUI.designatorManager.Dragger;
+			if (!draggerActive && dragger.Dragging) {
+				mouseDownPosition = UI.MouseCell();
 				draggerActive = true;
-			} else if (draggerActive && !DesignatorManager.Dragger.Dragging) {
+			} else if (draggerActive && !dragger.Dragging) {
 				draggerActive = false;
 			}
 			if (draggerActive) {
-				var mouseCell = Gen.MouseCell();
+				var mouseCell = UI.MouseCell();
 				UpdateAffectedCellsInRect(mouseDownPosition, mouseCell);
 				DrawOverlayOnCells(affectedCells);
 			}
@@ -50,6 +55,8 @@ namespace AllowTool {
 
 		private void UpdateAffectedCellsInRect(IntVec3 pos1, IntVec3 pos2) {
 			affectedCells.Clear();
+			var map = Find.VisibleMap;
+			if (map == null) return;
 			// estabilish bounds
 			int minX, maxX, minZ, maxZ;
 			if (pos1.x <= pos2.x) {
@@ -68,7 +75,7 @@ namespace AllowTool {
 			}
 
 			// check all items against bounds
-			var allTheThings = Find.ListerThings.AllThings;
+			var allTheThings = map.listerThings.AllThings;
 			for (var i = 0; i < allTheThings.Count; i++) {
 				var thing = allTheThings[i];
 				var thingPos = thing.Position;
