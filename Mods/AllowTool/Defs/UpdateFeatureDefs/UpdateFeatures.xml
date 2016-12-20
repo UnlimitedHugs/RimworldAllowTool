@@ -12,13 +12,13 @@
 	<HugsLib.UpdateFeatureDef ParentName="UpdateFeatureBase">
 		<defName>AllowTool_2_3_0</defName>
 		<assemblyVersion>2.3.0</assemblyVersion>
-		<content>In-game options have been added for hiding unused tools (see Options &gt; Mod Settings).|The &lt;b&gt;Mass Select&lt;/b&gt; tool has become a lot more useful. When holding the Control key (Option on Mac), it will select only things of the same type as are already selected. This is great for selecting power conduits under walls, walls made only out of a certain material, all animals of a certain species, and many other things.|Also, Allow Tool now includes translations for Spanish, Chinese, Korean and Russian.</content>
+		<content>In-game options have been added for hiding unused tools (see Options &gt; Mod Settings).|The &lt;b&gt;Mass Select&lt;/b&gt; tool has become a lot more useful. When holding the Control key (Option on Mac), it will select only things of the same type as are already selected. This is great for selecting power conduits under walls, walls made only out of a certain material, all animals of a certain species, and many other things.</content>
 	</HugsLib.UpdateFeatureDef>
 	
 	<HugsLib.UpdateFeatureDef ParentName="UpdateFeatureBase">
 		<defName>AllowTool_2_4_0</defName>
 		<assemblyVersion>2.4.0</assemblyVersion>
-		<content>The Mass Select tool is now able to select all items or pawns of the same type across the whole map (Hold Alt and click).|Also, the mod is now available in French.</content>
+		<content>The Mass Select tool is now able to select all items or pawns of the same type across the whole map (Hold Alt and click).</content>
 	</HugsLib.UpdateFeatureDef>
 	
 </Defs>

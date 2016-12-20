@@ -43,7 +43,7 @@ namespace AllowTool {
 		}
 
 		public override void OnGUI() {
-			if (Current.ProgramState != ProgramState.Playing || Current.Game.VisibleMap == null) return;
+			if (Current.Game == null || Current.Game.VisibleMap == null) return;
 			var selectedDesignator = Find.MapUI.designatorManager.SelectedDesignator;
 			for (int i = 0; i < activeDesignators.Count; i++) {
 				var designator = activeDesignators[i].designator;
@@ -54,7 +54,7 @@ namespace AllowTool {
 				CheckForHotkeyPresses();
 			}
 		}
-		
+
 		public override void DefsLoaded() {
 			LongEventHandler.ExecuteWhenFinished(InjectDesignators); // DesignationCategoryDef has delayed designator resolution, so we do, too
 			PrepareSettingsHandles();
