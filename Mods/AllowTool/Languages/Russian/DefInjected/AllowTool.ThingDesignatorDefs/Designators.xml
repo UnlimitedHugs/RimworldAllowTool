@@ -9,6 +9,7 @@
 	
 	<AllowAllDesignator.label>Разрешить всё</AllowAllDesignator.label>
 	<AllowAllDesignator.description>Снимает метку запрещения с запрещенных предметов на всей карте.
+Удерживать Ctrl чтобы снять запрещение также со зданий.
 Удерживать Shift чтобы снять запрещение также со скелетов и несвежих трупов.</AllowAllDesignator.description>
 	
 	<MassSelectDesignator.label>Массовое выделение</MassSelectDesignator.label>

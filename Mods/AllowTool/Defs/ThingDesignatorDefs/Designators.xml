@@ -52,6 +52,7 @@ Click and drag over an area to use.</description>
         <label>Unforbid everything</label>
 		<description>Unforbids all forbidden items on the map.
 Click to activate.
+Hold Ctrl to include buildings.
 Hold Shift to include skeletons and non-fresh corpses.</description>
 		<iconTex>allowAll</iconTex>
 		<dragHighlightTex>allowHighlight</dragHighlightTex>
