@@ -56,8 +56,11 @@ namespace AllowTool {
 		}
 
 		public override void DefsLoaded() {
-			LongEventHandler.ExecuteWhenFinished(InjectDesignators); // DesignationCategoryDef has delayed designator resolution, so we do, too
 			PrepareSettingsHandles();
+		}
+
+		public override void WorldLoaded() {
+			InjectDesignators();
 		}
 
 		public override void SettingsChanged() {
