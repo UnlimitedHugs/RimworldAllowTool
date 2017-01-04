@@ -57,6 +57,7 @@ namespace AllowTool {
 
 		public override void DefsLoaded() {
 			PrepareSettingsHandles();
+			activeDesignators.Clear();
 		}
 
 		public override void WorldLoaded() {
@@ -70,7 +71,6 @@ namespace AllowTool {
 		}
 
 		private void InjectDesignators() {
-			activeDesignators.Clear();
 			var numDesignatorsInjected = 0;
 			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
 				if (designatorDef.Injected) continue;
