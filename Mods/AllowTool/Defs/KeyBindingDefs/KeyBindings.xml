@@ -29,4 +29,10 @@
 		<defaultKeyCodeA>Y</defaultKeyCodeA>
 	</KeyBindingDef>
 	
+	<KeyBindingDef>
+		<category>AllowTool</category>
+		<defName>DesignatorHaulUrgently</defName>
+		<label>Designator: Haul urgently</label>
+	</KeyBindingDef>
+	
 </KeyBindingDefs>

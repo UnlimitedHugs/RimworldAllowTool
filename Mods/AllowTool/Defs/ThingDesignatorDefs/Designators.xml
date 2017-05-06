@@ -52,8 +52,8 @@ Click and drag over an area to use.</description>
         <label>Unforbid everything</label>
 		<description>Unforbids all forbidden items on the map.
 Click to activate.
-Hold Ctrl to include buildings.
-Hold Shift to include skeletons and non-fresh corpses.</description>
+&lt;b&gt;Hold Ctrl/Option&lt;/b&gt; to include buildings.
+&lt;b&gt;Hold Shift&lt;/b&gt; to include skeletons and non-fresh corpses.</description>
 		<iconTex>allowAll</iconTex>
 		<dragHighlightTex>allowHighlight</dragHighlightTex>
 		<soundSucceded>TickHigh</soundSucceded>
@@ -69,13 +69,30 @@ Hold Shift to include skeletons and non-fresh corpses.</description>
 		<insertAfter>AllowTool.Designator_AllowAll</insertAfter>
         <label>Mass select</label>
 		<description>Selects everything in an area, ignoring common sense and selection limits.
-Hold Shift to add to your current selection.
-Hold Ctrl/Option to select only things of the same type as the ones already selected.
-Hold Alt to select all things of the same type on the whole map.</description>
+&lt;b&gt;Hold Shift&lt;/b&gt; to add to your current selection.
+&lt;b&gt;Hold Ctrl/Option&lt;/b&gt; to select only things of the same type as the ones already selected.
+&lt;b&gt;Hold Alt&lt;/b&gt; to select all things of the same type on the whole map.</description>
 		<iconTex>massSelect</iconTex>
 		<dragHighlightTex>massSelectHighlight</dragHighlightTex>
 		<soundSucceded>ThingSelected</soundSucceded>
 		<hotkeyDef>DesignatorMassSelect</hotkeyDef>
+	</AllowTool.ThingDesignatorDef>
+	
+	<AllowTool.ThingDesignatorDef>
+        <defName>HaulUrgentlyDesignator</defName>
+		<designatorClass>AllowTool.Designator_HaulUrgently</designatorClass>
+		<category>Orders</category>
+		<insertAfter>AllowTool.Designator_MassSelect</insertAfter>
+        <label>Haul urgently</label>
+		<description>Mark things to be hauled as soon as possible. Colonists will delay other work until hauling is complete.
+Configurable in the Work tab.
+&lt;b&gt;Hold Shift&lt;/b&gt; to interrupt current colonist work.</description>
+		<iconTex>haulUrgently</iconTex>
+		<dragHighlightTex>haulUrgentlyHighlight</dragHighlightTex>
+		<soundSucceded>ThingSelected</soundSucceded>
+		<hotkeyDef>DesignatorHaulUrgently</hotkeyDef>
+		<messageSuccess>Haul_urgently_success</messageSuccess>
+		<messageFailure>Haul_urgently_failure</messageFailure>
 	</AllowTool.ThingDesignatorDef>
 	
 </Defs>

@@ -23,4 +23,7 @@
 	<MassSelect_targetHover>Select all: {0}</MassSelect_targetHover>
 	<MassSelect_needTarget>Select item or pawn</MassSelect_needTarget>
 	
+	<Haul_urgently_success>{0} items will be hauled urgently.</Haul_urgently_success>
+	<Haul_urgently_failure>Found no items that require hauling.</Haul_urgently_failure>
+	
 </LanguageData>

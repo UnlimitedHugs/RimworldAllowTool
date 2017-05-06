@@ -8,22 +8,13 @@ namespace AllowTool {
 		}
 
 		protected override bool ThingIsRelevant(Thing item) {
+			if (item.Position.Fogged(item.Map)) return false;
 			var comp = item is ThingWithComps ? (item as ThingWithComps).GetComp<CompForbiddable>() : null;
 			return comp != null && !comp.Forbidden;
 		}
 
 		protected override int ProcessCell(IntVec3 c) {
-			var hitCount = 0;
-			var cellThings = Find.VisibleMap.thingGrid.ThingsListAtFast(c);
-			for (var i = 0; i < cellThings.Count; i++) {
-				var thing = cellThings[i];
-				var comp = thing is ThingWithComps ? (thing as ThingWithComps).GetComp<CompForbiddable>() : null;
-				if (comp!=null && thing.def.selectable && !comp.Forbidden) {
-					comp.Forbidden = true;
-					hitCount++;
-				}
-			}
-			return hitCount;
+			return AllowToolUtility.ToggleForbiddenInCell(c, Find.VisibleMap, true);
 		}
 	}
 }

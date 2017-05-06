@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using HugsLib.Utils;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -77,9 +78,9 @@ namespace AllowTool {
 		public override void SelectedOnGUI() {
 			// determine tool operation mode based on keys held
 			mode = OperationMode.Normal;
-			if(AllowToolUtility.ControlIsHeld) mode = OperationMode.Constrained;
-			if(AllowToolUtility.AltIsHeld) mode = OperationMode.AllOfDef;
-			addToSelection = AllowToolUtility.ShiftIsHeld;
+			if(HugsLibUtility.ControlIsHeld) mode = OperationMode.Constrained;
+			if(HugsLibUtility.AltIsHeld) mode = OperationMode.AllOfDef;
+			addToSelection = HugsLibUtility.ShiftIsHeld;
 			if (mode == OperationMode.Constrained) {
 				// update dev filter and draw filter readout on cursor
 				if (constraintsNeedReindexing) UpdateSelectionConstraints();
@@ -95,7 +96,7 @@ namespace AllowTool {
 			}
 		}
 
-		// select selectables in a sigle cell
+		// select selectables in a single cell
 		protected override int ProcessCell(IntVec3 cell) {
 			var map = Find.VisibleMap;
 			if (BlockedByFog(cell, map)) return 0;

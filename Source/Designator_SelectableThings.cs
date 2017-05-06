@@ -23,7 +23,7 @@ namespace AllowTool {
 			get { return visible; }
 		}
 
-		public Designator_SelectableThings(ThingDesignatorDef def) {
+		protected Designator_SelectableThings(ThingDesignatorDef def) {
 			this.def = def;
 			defaultLabel = def.label;
 			defaultDesc = def.description;
