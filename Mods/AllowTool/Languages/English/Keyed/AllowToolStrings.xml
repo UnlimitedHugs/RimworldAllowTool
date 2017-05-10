@@ -26,4 +26,32 @@
 	<Haul_urgently_success>{0} items will be hauled urgently.</Haul_urgently_success>
 	<Haul_urgently_failure>Found no items that require hauling.</Haul_urgently_failure>
 	
+	<Designator_context_prefix>AllowTool: {0}</Designator_context_prefix>
+	<Designator_context_urgent>Haul all items urgently</Designator_context_urgent>
+	<Designator_context_urgent_succ>{0} items marked for urgent hauling.</Designator_context_urgent_succ>
+	<Designator_context_urgent_fail>Found no new items to haul.</Designator_context_urgent_fail>
+	<Designator_context_strip>Strip all bodies</Designator_context_strip>
+	<Designator_context_strip_succ>{0} bodies designated for stripping.</Designator_context_strip_succ>
+	<Designator_context_strip_fail>No bodies found to strip.</Designator_context_strip_fail>
+	<Designator_context_rearm>Rearm all traps</Designator_context_rearm>
+	<Designator_context_rearm_succ>{0} traps have been designated for rearming.</Designator_context_rearm_succ>
+	<Designator_context_rearm_fail>No traps need rearming right now.</Designator_context_rearm_fail>
+	<Designator_context_harvest>Harvest all plants</Designator_context_harvest>
+	<Designator_context_harvest_succ>{0} plants designated for harvesting.</Designator_context_harvest_succ>
+	<Designator_context_harvest_fail>Found no new plants to harvest.</Designator_context_harvest_fail>
+	<Designator_context_haul>Haul everything</Designator_context_haul>
+	<Designator_context_haul_succ>Designated {0} new things to haul.</Designator_context_haul_succ>
+	<Designator_context_haul_fail>Found no new things to haul.</Designator_context_haul_fail>
+	<Designator_context_chop>Chop all wood</Designator_context_chop>
+	<Designator_context_chop_succ>Designated {0} new trees to chop.</Designator_context_chop_succ>
+	<Designator_context_chop_fail>No new harvestable trees found in the area.</Designator_context_chop_fail>
+	<Designator_context_hunt>Hunt all animals</Designator_context_hunt>
+	<Designator_context_hunt_succ>Designated {0} new animals to hunt.</Designator_context_hunt_succ>
+	<Designator_context_hunt_fail>No new huntable animals are in the area right now.</Designator_context_hunt_fail>
+	<Designator_context_cancel_build>Remove all building blueprints</Designator_context_cancel_build>
+	<Designator_context_cancel_build_succ>{0} building blueprints were removed.</Designator_context_cancel_build_succ>
+	<Designator_context_cancel_build_fail>Found no blueprints to remove.</Designator_context_cancel_build_fail>
+	<Designator_context_cancel_desig>Remove all designations on map</Designator_context_cancel_desig>
+	<Designator_context_cancel_desig_msg>Cleared {0} designations from things and {1} from terrain.</Designator_context_cancel_desig_msg>
+	
 </LanguageData>

@@ -139,7 +139,7 @@ namespace AllowTool {
 
 		private void TryCloseArchitectMenu() {
 			if (Find.Selector.NumSelected == 0) return;
-			if(Find.MainTabsRoot.OpenTab != MainTabDefOf.Architect) return;
+			if(Find.MainTabsRoot.OpenTab != MainButtonDefOf.Architect) return;
 			Find.MainTabsRoot.EscapeCurrentTab();
 		}
 

@@ -1,4 +1,7 @@
-﻿using RimWorld;
+﻿using System.Reflection;
+using HugsLib.Utils;
+using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -14,5 +17,15 @@ namespace AllowTool {
 		// work types
 		public static WorkTypeDef HaulingUrgent;
 
+		[StaticConstructorOnStartup]
+		public static class Textures {
+			public static Texture2D rightClickOverlay;
+
+			static Textures() {
+				foreach (var fieldInfo in typeof(Textures).GetFields(HugsLibUtility.AllBindingFlags)) {
+					fieldInfo.SetValue(null, ContentFinder<Texture2D>.Get(fieldInfo.Name));
+				}
+			}
+		}
 	}
 }

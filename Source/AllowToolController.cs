@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using AllowTool.Context;
 using HugsLib;
 using HugsLib.Settings;
 using HugsLib.Utils;
@@ -15,7 +16,7 @@ namespace AllowTool {
 	public class AllowToolController : ModBase {
 		private const string DesignatorHandleNamePrefix = "show";
 
-		private static FieldInfo resolvedDesignatorsField;
+		public static FieldInfo ResolvedDesignatorsField;
 		public static AllowToolController Instance { get; private set; }
 
 		private readonly List<DesignatorEntry> activeDesignators = new List<DesignatorEntry>();
@@ -45,31 +46,6 @@ namespace AllowTool {
 			Dragger.Update();
 		}
 
-		public override void Tick(int currentTick) {
-			if (currentTick % 10 == 0) {
-				PruneUrgentHaulingDesignations();
-			}
-		}
-
-		// TODO: scrap this for A17, replace with harmony patch
-		private void PruneUrgentHaulingDesignations() {
-			// look on all maps
-			for (int i = 0; i < Find.Maps.Count; i++) {
-				var map = Find.Maps[i];
-				if(map == null || map.designationManager == null) continue;
-				// iterate through all designations
-				for (int j = 0; j < map.designationManager.allDesignations.Count; j++) {
-					var designation = map.designationManager.allDesignations[j];
-					// drop designations on cells without haulables
-					if (designation.def == AllowToolDefOf.HaulUgentlyDesignation) {
-						if(Designator_HaulUrgently.CountDesignateableThingsInCell(designation.target.Cell, map)==0){
-							map.designationManager.RemoveDesignation(designation);
-						}
-					}
-				}
-			}
-		}
-
 		public override void OnGUI() {
 			if (Current.Game == null || Current.Game.VisibleMap == null) return;
 			var selectedDesignator = Find.MapUI.designatorManager.SelectedDesignator;
@@ -88,8 +64,10 @@ namespace AllowTool {
 			activeDesignators.Clear();
 		}
 
+		// we do our injections at world load because some mods overwrite ThingDesignatorDef.resolvedDesignators during init
 		public override void WorldLoaded() {
 			InjectDesignators();
+			DesignatorContextMenuController.PrepareContextMenus();
 		}
 
 		public override void SettingsChanged() {
@@ -103,7 +81,7 @@ namespace AllowTool {
 			var numDesignatorsInjected = 0;
 			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
 				if (designatorDef.Injected) continue;
-				var resolvedDesignators = (List<Designator>)resolvedDesignatorsField.GetValue(designatorDef.Category);
+				var resolvedDesignators = (List<Designator>)ResolvedDesignatorsField.GetValue(designatorDef.Category);
 				var insertIndex = -1;
 				for (var i = 0; i < resolvedDesignators.Count; i++) {
 					if(resolvedDesignators[i].GetType() != designatorDef.insertAfter) continue;
@@ -127,8 +105,8 @@ namespace AllowTool {
 		}
 
 		private void InitReflectionFields() {
-			resolvedDesignatorsField = typeof (DesignationCategoryDef).GetField("resolvedDesignators", BindingFlags.NonPublic | BindingFlags.Instance);
-			if (resolvedDesignatorsField == null) Logger.Error("failed to reflect DesignationCategoryDef.resolvedDesignators");
+			ResolvedDesignatorsField = typeof (DesignationCategoryDef).GetField("resolvedDesignators", BindingFlags.NonPublic | BindingFlags.Instance);
+			if (ResolvedDesignatorsField == null) Logger.Error("failed to reflect DesignationCategoryDef.resolvedDesignators");
 		}
 
 		private void PrepareSettingsHandles() {

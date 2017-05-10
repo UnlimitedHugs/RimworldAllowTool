@@ -4,7 +4,7 @@
 	<DesignationDef>
 		<defName>HaulUgentlyDesignation</defName>
 		<texturePath>haulDesignator</texturePath>
-		<targetType>Cell</targetType>
+		<targetType>Thing</targetType>
 	</DesignationDef>
 
 </DesignationDefs>

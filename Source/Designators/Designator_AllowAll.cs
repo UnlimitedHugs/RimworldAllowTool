@@ -11,7 +11,7 @@ namespace AllowTool {
 	 */
 	public class Designator_AllowAll : Designator_SelectableThings {
 		public Designator_AllowAll(ThingDesignatorDef def) : base(def) {
-		}
+		} 
 
 		public override void ProcessInput(Event ev) {
 			if (!CheckCanInteract()) return;
