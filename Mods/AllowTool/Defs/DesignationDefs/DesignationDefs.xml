@@ -3,7 +3,7 @@
 
 	<DesignationDef>
 		<defName>HaulUgentlyDesignation</defName>
-		<texturePath>haulDesignator</texturePath>
+		<texturePath>haulDesignation</texturePath>
 		<targetType>Thing</targetType>
 	</DesignationDef>
 

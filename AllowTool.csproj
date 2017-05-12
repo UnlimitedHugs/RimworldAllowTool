@@ -65,13 +65,15 @@
     <Compile Include="Source\Context\MenuProvider_Haul.cs" />
     <Compile Include="Source\Context\MenuProvider_HaulUrgently.cs" />
     <Compile Include="Source\Context\MenuProvider_Hunt.cs" />
+    <Compile Include="Source\Context\MenuProvider_Mine.cs" />
     <Compile Include="Source\Context\MenuProvider_Rearm.cs" />
+    <Compile Include="Source\Context\MenuProvider_SelectSimilar.cs" />
     <Compile Include="Source\Context\MenuProvider_Strip.cs" />
     <Compile Include="Source\Designators\Designator_Allow.cs" />
     <Compile Include="Source\Designators\Designator_AllowAll.cs" />
     <Compile Include="Source\Designators\Designator_Forbid.cs" />
     <Compile Include="Source\Designators\Designator_HaulUrgently.cs" />
-    <Compile Include="Source\Designators\Designator_MassSelect.cs" />
+    <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
     <Compile Include="Source\Patches\Command_GizmoOnGUI_Patch.cs" />
     <Compile Include="Source\Patches\Designator_ProcessInput_Patch.cs" />

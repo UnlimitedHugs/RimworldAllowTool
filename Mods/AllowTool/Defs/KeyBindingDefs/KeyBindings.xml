@@ -24,8 +24,8 @@
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
-		<defName>DesignatorMassSelect</defName>
-		<label>Designator: Mass select</label>
+		<defName>DesignatorSelectSimilar</defName>
+		<label>Designator: Select similar</label>
 		<defaultKeyCodeA>Y</defaultKeyCodeA>
 	</KeyBindingDef>
 	

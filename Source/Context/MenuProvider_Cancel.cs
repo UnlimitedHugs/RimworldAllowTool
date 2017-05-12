@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using Verse;
 
 namespace AllowTool.Context {
+	/// <summary>
+	/// Adds two menu entries: cancel all designations and cancel all blueprints
+	/// </summary>
 	public class MenuProvider_Cancel : BaseDesignatorMenuProvider {
 		private const string CancelDesignationsTextKey = "Designator_context_cancel_desig";
 		private const string CancelBlueprintsTextKey = "Designator_context_cancel_build";
@@ -50,16 +52,6 @@ namespace AllowTool.Context {
 				hitCount++;
 			}
 			ReportActionResult(hitCount, CancelBlueprintsTextKey);
-		}
-
-		private bool AnyDesingationsOnThing(Thing thing, List<Designation> allDesignations) {
-			for (int index = 0; index < allDesignations.Count; index++) {
-				var des = allDesignations[index];
-				if (des.target.Thing == thing) {
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 }

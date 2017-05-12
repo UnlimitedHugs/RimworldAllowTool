@@ -17,6 +17,13 @@ namespace AllowTool.Patches {
 	internal static class Command_GizmoOnGUI_Patch {
 		private static bool injectCompleted;
 
+		[HarmonyPrepare]
+		private static void PrePatch() {
+			LongEventHandler.ExecuteWhenFinished(() => {
+				if (!injectCompleted) AllowToolController.Instance.Logger.Warning("Command_GizmoOnGUI infix could not be applied. Desginator button overlays disabled.");
+			});
+		}
+
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> DrawRightClickIcon(IEnumerable<CodeInstruction> instructions) {
 			var expectedMethod = AccessTools.Method(typeof (Widgets), "DrawTextureFitted", new[] {typeof (Rect), typeof (Texture2D), typeof (float), typeof (Vector2), typeof (Rect)});
@@ -38,11 +45,6 @@ namespace AllowTool.Patches {
 				}
 				yield return instruction;
 			}
-		}
-
-		[HarmonyAfter]
-		private static void PostPatch() {
-			if (!injectCompleted) AllowToolController.Instance.Logger.Warning("Command_GizmoOnGUI infix could not be applied");
 		}
 	}
 }

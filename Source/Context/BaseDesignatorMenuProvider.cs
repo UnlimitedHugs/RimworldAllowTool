@@ -21,6 +21,10 @@ namespace AllowTool.Context {
 		// the group of things handled by the designator this handler belongs to
 		protected abstract ThingRequestGroup DesingatorRequestGroup { get; }
 
+		public virtual bool Enabled {
+			get { return true; }
+		}
+
 		public virtual void OpenContextMenu(Designator designator) {
 			Find.WindowStack.Add(new FloatMenu(ListMenuEntries(designator).ToList()));
 		}

@@ -8,7 +8,7 @@ namespace AllowTool.Context {
 	public static class DesignatorContextMenuController {
 
 		private static readonly Dictionary<Command, BaseDesignatorMenuProvider> contextMenuHandlers = new Dictionary<Command, BaseDesignatorMenuProvider>(); 
-		private static readonly Vector2 overlayIconOffset = new Vector2(60f, 2f);
+		private static readonly Vector2 overlayIconOffset = new Vector2(59f, 2f);
 
 		public static void PrepareContextMenus() {
 			try {
@@ -47,7 +47,8 @@ namespace AllowTool.Context {
 		public static void DrawCommandOverlayIfNeeded(Command gizmo, Vector2 topLeft) {
 			try {
 				if (!(gizmo is Designator)) return;
-				if (contextMenuHandlers.ContainsKey(gizmo)) {
+				BaseDesignatorMenuProvider provider;
+				if (contextMenuHandlers.TryGetValue(gizmo, out provider) && provider.Enabled) {
 					var overlay = AllowToolDefOf.Textures.rightClickOverlay;
 					GUI.DrawTexture(new Rect(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y, overlay.width, overlay.height), overlay);
 				}
@@ -59,7 +60,8 @@ namespace AllowTool.Context {
 
 		/// <returns>true if a supported designator was right-clicked</returns>
 		public static bool TryProcessRightClickOnDesignator(Designator designator) {
-			if (contextMenuHandlers.ContainsKey(designator)) {
+			BaseDesignatorMenuProvider provider;
+			if (contextMenuHandlers.TryGetValue(designator, out provider) && provider.Enabled) {
 				contextMenuHandlers[designator].OpenContextMenu(designator);
 				return true;
 			}

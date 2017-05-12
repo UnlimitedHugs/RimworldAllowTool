@@ -63,26 +63,25 @@ Click to activate.
 	</AllowTool.ThingDesignatorDef>
 	
     <AllowTool.ThingDesignatorDef>
-        <defName>MassSelectDesignator</defName>
-		<designatorClass>AllowTool.Designator_MassSelect</designatorClass>
+        <defName>SelectSimilarDesignator</defName>
+		<designatorClass>AllowTool.Designator_SelectSimilar</designatorClass>
 		<category>Orders</category>
 		<insertAfter>AllowTool.Designator_AllowAll</insertAfter>
-        <label>Mass select</label>
-		<description>Selects everything in an area, ignoring common sense and selection limits.
-&lt;b&gt;Hold Shift&lt;/b&gt; to add to your current selection.
-&lt;b&gt;Hold Ctrl/Option&lt;/b&gt; to select only things of the same type as the ones already selected.
-&lt;b&gt;Hold Alt&lt;/b&gt; to select all things of the same type on the whole map.</description>
-		<iconTex>massSelect</iconTex>
-		<dragHighlightTex>massSelectHighlight</dragHighlightTex>
+        <label>Select similar</label>
+		<description>Selects only things similar to those already selected.
+&lt;b&gt;Hold Shift&lt;/b&gt; to pick additional things.
+&lt;b&gt;Hold Alt&lt;/b&gt; to ignore selection limits.</description>
+		<iconTex>selectSimilar</iconTex>
+		<dragHighlightTex>selectSimilarHighlight</dragHighlightTex>
 		<soundSucceded>ThingSelected</soundSucceded>
-		<hotkeyDef>DesignatorMassSelect</hotkeyDef>
+		<hotkeyDef>DesignatorSelectSimilar</hotkeyDef>
 	</AllowTool.ThingDesignatorDef>
 	
 	<AllowTool.ThingDesignatorDef>
         <defName>HaulUrgentlyDesignator</defName>
 		<designatorClass>AllowTool.Designator_HaulUrgently</designatorClass>
 		<category>Orders</category>
-		<insertAfter>AllowTool.Designator_MassSelect</insertAfter>
+		<insertAfter>AllowTool.Designator_SelectSimilar</insertAfter>
         <label>Haul urgently</label>
 		<description>Mark things to be hauled as soon as possible. Colonists will delay other work until hauling is complete.
 Configurable in the Work tab.

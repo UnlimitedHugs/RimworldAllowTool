@@ -16,17 +16,24 @@
 	<setting_showTool_desc>When enabled, this designator tool will appear in the Architect menu.</setting_showTool_desc>
 	<setting_globalHotkeys_label>Use global hotkeys</setting_globalHotkeys_label>
 	<setting_globalHotkeys_desc>When enabled, tools can be selected from anywhere by pressing the assigned key.\nSee Options &gt; Keyboard Configuration to customize the keys.</setting_globalHotkeys_desc>
+	<setting_mineConnected_label>Allow "Mine connected ores" tool</setting_mineConnected_label>
+	<setting_mineConnected_desc>If enabled, adds a right-click menu to the Mine tool that selects all ore tiles next to those already selected.</setting_mineConnected_desc>
+	<setting_selectionLimit_label>Thing selection limit</setting_selectionLimit_label>
+	<setting_selectionLimit_desc>Limits the number of things that can be selected simultaneously by the "Select similar" tool. Setting this too high may lag out the game while selecting things.</setting_selectionLimit_desc>
 	
-	<MassSelect_nowSelecting>Now selecting only: {0}</MassSelect_nowSelecting>
-	<MassSelect_anything>Anything</MassSelect_anything>
-	<MassSelect_numMoreTypes>({0} more)</MassSelect_numMoreTypes>
-	<MassSelect_targetHover>Select all: {0}</MassSelect_targetHover>
-	<MassSelect_needTarget>Select item or pawn</MassSelect_needTarget>
+	<SelectSimilar_cursor_needConstraint>Click to pick something</SelectSimilar_cursor_needConstraint>
+	<SelectSimilar_cursor_nowSelecting>Drag to select only: {0}</SelectSimilar_cursor_nowSelecting>
+	<SelectSimilar_cursor_limit>Selection limit reached</SelectSimilar_cursor_limit>
+	<SelectSimilar_numMoreTypes>({0} more)</SelectSimilar_numMoreTypes>
 	
 	<Haul_urgently_success>{0} items will be hauled urgently.</Haul_urgently_success>
 	<Haul_urgently_failure>Found no items that require hauling.</Haul_urgently_failure>
 	
 	<Designator_context_prefix>AllowTool: {0}</Designator_context_prefix>
+	<Designator_context_similar>Select all similar things on map</Designator_context_similar>
+	<Designator_context_similar_succ>Selected {0} similar things on the map.</Designator_context_similar_succ>
+	<Designator_context_similar_part>Selected {0} closest similar things out of {1} on the map</Designator_context_similar_part>
+	<Designator_context_similar_fail>Something must be selected to select similar things.</Designator_context_similar_fail>
 	<Designator_context_urgent>Haul all items urgently</Designator_context_urgent>
 	<Designator_context_urgent_succ>{0} items marked for urgent hauling.</Designator_context_urgent_succ>
 	<Designator_context_urgent_fail>Found no new items to haul.</Designator_context_urgent_fail>
@@ -48,10 +55,13 @@
 	<Designator_context_hunt>Hunt all animals</Designator_context_hunt>
 	<Designator_context_hunt_succ>Designated {0} new animals to hunt.</Designator_context_hunt_succ>
 	<Designator_context_hunt_fail>No new huntable animals are in the area right now.</Designator_context_hunt_fail>
+	<Designator_context_mine>Mine connected ores</Designator_context_mine>
+	<Designator_context_mine_succ>Designated {0} additional tiles to mine.</Designator_context_mine_succ>
+	<Designator_context_mine_fail>Designate one or more ore tiles for mining to use this tool.</Designator_context_mine_fail>
 	<Designator_context_cancel_build>Remove all building blueprints</Designator_context_cancel_build>
 	<Designator_context_cancel_build_succ>{0} building blueprints were removed.</Designator_context_cancel_build_succ>
 	<Designator_context_cancel_build_fail>Found no blueprints to remove.</Designator_context_cancel_build_fail>
-	<Designator_context_cancel_desig>Remove all designations on map</Designator_context_cancel_desig>
-	<Designator_context_cancel_desig_msg>Cleared {0} designations from things and {1} from terrain.</Designator_context_cancel_desig_msg>
+	<Designator_context_cancel_desig>Remove all orders on map</Designator_context_cancel_desig>
+	<Designator_context_cancel_desig_msg>Cleared {0} orders from things and {1} from terrain.</Designator_context_cancel_desig_msg>
 	
 </LanguageData>

@@ -20,9 +20,9 @@ namespace AllowTool {
 		public static AllowToolController Instance { get; private set; }
 
 		private readonly List<DesignatorEntry> activeDesignators = new List<DesignatorEntry>();
-		private readonly Dictionary<string, SettingHandle<bool>> designatorToggleHandles = new Dictionary<string, SettingHandle<bool>>(); 
+		private readonly Dictionary<string, SettingHandle<bool>> designatorToggleHandles = new Dictionary<string, SettingHandle<bool>>();
 		private SettingHandle<bool> settingGlobalHotkeys;
-
+		
 		public override string ModIdentifier {
 			get { return "AllowTool"; }
 		}
@@ -31,6 +31,10 @@ namespace AllowTool {
 			get { return base.Logger; }
 		}
 
+		internal SettingHandle<int> SelectionLimitSetting { get; private set; }
+
+		internal SettingHandle<bool> MineConnectedSetting { get; private set; }
+		
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 
 		private AllowToolController() {
@@ -77,6 +81,19 @@ namespace AllowTool {
 			UpdateHaulingWorkTypeVisiblity();
 		}
 
+		private void PrepareSettingsHandles() {
+			settingGlobalHotkeys = Settings.GetHandle("globalHotkeys", "setting_globalHotkeys_label".Translate(), "setting_globalHotkeys_desc".Translate(), true);
+			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
+				var handleName = DesignatorHandleNamePrefix + designatorDef.defName;
+				var handle = Settings.GetHandle(handleName, "setting_showTool_label".Translate(designatorDef.label), null, true);
+				designatorToggleHandles[handleName] = handle;
+			}
+			MineConnectedSetting = Settings.GetHandle("mineConnected", "setting_mineConnected_label".Translate(), "setting_mineConnected_desc".Translate(), true);
+			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
+			SelectionLimitSetting.SpinnerIncrement = 50;
+			UpdateHaulingWorkTypeVisiblity();
+		}
+
 		private void InjectDesignators() {
 			var numDesignatorsInjected = 0;
 			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
@@ -107,16 +124,6 @@ namespace AllowTool {
 		private void InitReflectionFields() {
 			ResolvedDesignatorsField = typeof (DesignationCategoryDef).GetField("resolvedDesignators", BindingFlags.NonPublic | BindingFlags.Instance);
 			if (ResolvedDesignatorsField == null) Logger.Error("failed to reflect DesignationCategoryDef.resolvedDesignators");
-		}
-
-		private void PrepareSettingsHandles() {
-			settingGlobalHotkeys = Settings.GetHandle("globalHotkeys", "setting_globalHotkeys_label".Translate(), "setting_globalHotkeys_desc".Translate(), true);
-			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
-				var handleName = DesignatorHandleNamePrefix + designatorDef.defName;
-				var handle = Settings.GetHandle(handleName, "setting_showTool_label".Translate(designatorDef.label), null, true);
-				designatorToggleHandles[handleName] = handle;
-			}
-			UpdateHaulingWorkTypeVisiblity();
 		}
 
 		private void UpdateHaulingWorkTypeVisiblity() {
