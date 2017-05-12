@@ -7,8 +7,12 @@ namespace AllowTool.Context {
 	/// Selects similar things to those already selected across the entire map
 	/// </summary>
 	public class MenuProvider_SelectSimilar : BaseDesignatorMenuProvider {
-		protected override string EntryTextKey {
+		public override string EntryTextKey {
 			get { return "Designator_context_similar"; }
+		}
+
+		public override string SettingId {
+			get { return "providerSelectSimilar"; }
 		}
 
 		public override Type HandledDesignatorType {

@@ -4,8 +4,12 @@ using Verse;
 
 namespace AllowTool.Context {
 	public class MenuProvider_Chop : BaseDesignatorMenuProvider {
-		protected override string EntryTextKey {
+		public override string EntryTextKey {
 			get { return "Designator_context_chop"; }
+		}
+
+		public override string SettingId {
+			get { return "providerChop"; }
 		}
 
 		public override Type HandledDesignatorType {

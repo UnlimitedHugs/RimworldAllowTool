@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
 	<Allow_area_success>Allowed {0} items.</Allow_area_success>
@@ -16,10 +16,17 @@
 	<setting_showTool_desc>When enabled, this designator tool will appear in the Architect menu.</setting_showTool_desc>
 	<setting_globalHotkeys_label>Use global hotkeys</setting_globalHotkeys_label>
 	<setting_globalHotkeys_desc>When enabled, tools can be selected from anywhere by pressing the assigned key.\nSee Options &gt; Keyboard Configuration to customize the keys.</setting_globalHotkeys_desc>
-	<setting_mineConnected_label>Allow "Mine connected ores" tool</setting_mineConnected_label>
-	<setting_mineConnected_desc>If enabled, adds a right-click menu to the Mine tool that selects all ore tiles next to those already selected.</setting_mineConnected_desc>
 	<setting_selectionLimit_label>Thing selection limit</setting_selectionLimit_label>
 	<setting_selectionLimit_desc>Limits the number of things that can be selected simultaneously by the "Select similar" tool. Setting this too high may lag out the game while selecting things.</setting_selectionLimit_desc>
+	<setting_contextWatermark_label>Context menu watermark</setting_contextWatermark_label>
+	<setting_contextWatermark_desc>Displays an AllowTool watermark in tool context menus when enabled.</setting_contextWatermark_desc>
+	<setting_contextOverlay_label>Right click icon on tools</setting_contextOverlay_label>
+	<setting_contextOverlay_desc>When enabled, displays a small icon on designator tools that have a context menu.</setting_contextOverlay_desc>
+	<setting_providerPrefix>Enable: {0}</setting_providerPrefix>
+	<setting_provider_desc>When enabled, adds a right-click menu to the tool that allows it to affect the entire map.</setting_provider_desc>
+	<setting_showToggles_btn>▼ Show settings ▼</setting_showToggles_btn>
+	<setting_showToolToggles_label>Enable or disable tools</setting_showToolToggles_label>
+	<setting_showProviderToggles_label>Enable or disable context menus</setting_showProviderToggles_label>
 	
 	<SelectSimilar_cursor_needConstraint>Click to pick something</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Drag to select only: {0}</SelectSimilar_cursor_nowSelecting>
@@ -29,8 +36,7 @@
 	<Haul_urgently_success>{0} items will be hauled urgently.</Haul_urgently_success>
 	<Haul_urgently_failure>Found no items that require hauling.</Haul_urgently_failure>
 	
-	<Designator_context_prefix>AllowTool: {0}</Designator_context_prefix>
-	<Designator_context_similar>Select all similar things on map</Designator_context_similar>
+	<Designator_context_similar>Select similar things on map</Designator_context_similar>
 	<Designator_context_similar_succ>Selected {0} similar things on the map.</Designator_context_similar_succ>
 	<Designator_context_similar_part>Selected {0} closest similar things out of {1} on the map</Designator_context_similar_part>
 	<Designator_context_similar_fail>Something must be selected to select similar things.</Designator_context_similar_fail>
@@ -39,7 +45,7 @@
 	<Designator_context_urgent_fail>Found no new items to haul.</Designator_context_urgent_fail>
 	<Designator_context_strip>Strip all bodies</Designator_context_strip>
 	<Designator_context_strip_succ>{0} bodies designated for stripping.</Designator_context_strip_succ>
-	<Designator_context_strip_fail>No bodies found to strip.</Designator_context_strip_fail>
+	<Designator_context_strip_fail>Found no bodies to strip.</Designator_context_strip_fail>
 	<Designator_context_rearm>Rearm all traps</Designator_context_rearm>
 	<Designator_context_rearm_succ>{0} traps have been designated for rearming.</Designator_context_rearm_succ>
 	<Designator_context_rearm_fail>No traps need rearming right now.</Designator_context_rearm_fail>
@@ -58,10 +64,10 @@
 	<Designator_context_mine>Mine connected ores</Designator_context_mine>
 	<Designator_context_mine_succ>Designated {0} additional tiles to mine.</Designator_context_mine_succ>
 	<Designator_context_mine_fail>Designate one or more ore tiles for mining to use this tool.</Designator_context_mine_fail>
-	<Designator_context_cancel_build>Remove all building blueprints</Designator_context_cancel_build>
+	<Designator_context_cancel_build>Cancel all building blueprints</Designator_context_cancel_build>
 	<Designator_context_cancel_build_succ>{0} building blueprints were removed.</Designator_context_cancel_build_succ>
 	<Designator_context_cancel_build_fail>Found no blueprints to remove.</Designator_context_cancel_build_fail>
-	<Designator_context_cancel_desig>Remove all orders on map</Designator_context_cancel_desig>
+	<Designator_context_cancel_desig>Cancel all orders on map</Designator_context_cancel_desig>
 	<Designator_context_cancel_desig_msg>Cleared {0} orders from things and {1} from terrain.</Designator_context_cancel_desig_msg>
 	
 </LanguageData>

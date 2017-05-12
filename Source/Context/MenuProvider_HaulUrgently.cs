@@ -3,8 +3,12 @@ using Verse;
 
 namespace AllowTool.Context {
 	public class MenuProvider_HaulUrgently : BaseDesignatorMenuProvider {
-		protected override string EntryTextKey {
+		public override string EntryTextKey {
 			get { return "Designator_context_urgent"; }
+		}
+
+		public override string SettingId {
+			get { return "providerHaulUrgently"; }
 		}
 
 		public override Type HandledDesignatorType {

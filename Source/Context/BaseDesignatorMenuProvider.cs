@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HugsLib.Settings;
+using UnityEngine;
 using Verse;
 
 namespace AllowTool.Context {
@@ -14,15 +16,24 @@ namespace AllowTool.Context {
 		private const string SuccessMessageStringIdSuffix = "_succ";
 		private const string FailureMessageStringIdSuffix = "_fail";
 
+		public virtual SettingHandle<bool> ProviderHandle { get; set; } 
 		// the text key for the context menu entry, as well as the base for the sucess/failure message keys
-		protected abstract string EntryTextKey { get; }
+		public abstract string EntryTextKey { get; }
 		// the type of the designator this provider should make a context menu for
 		public abstract Type HandledDesignatorType { get; }
 		// the group of things handled by the designator this handler belongs to
 		protected abstract ThingRequestGroup DesingatorRequestGroup { get; }
-
+		
 		public virtual bool Enabled {
-			get { return true; }
+			get {
+				var handle = ProviderHandle;
+				if(handle != null) return handle.Value;
+				return true;
+			}
+		}
+
+		public virtual string SettingId {
+			get { return null; }
 		}
 
 		public virtual void OpenContextMenu(Designator designator) {
@@ -55,11 +66,22 @@ namespace AllowTool.Context {
 			}
 		}
 
-		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action, bool includePrefix = true) {
-			var label = includePrefix ? "Designator_context_prefix".Translate(labelKey.Translate()) : labelKey.Translate();
-			return new FloatMenuOption(label, () => {
+		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action) {
+			var showWatermark = AllowToolController.Instance.ContextWatermarkSetting.Value;
+			const string watermarkSpacing = "         ";
+			var label = labelKey.Translate();
+			if (showWatermark) label = watermarkSpacing + label;
+			var opt = new FloatMenuOption(label, () => {
 				InvokeActionWithErrorHandling(action, designator);
 			});
+			if (showWatermark) {
+				opt.extraPartOnGUI = rect => {
+					var tex = AllowToolDefOf.Textures.contextMenuWatermark;
+					GUI.DrawTexture(new Rect(rect.x, rect.y, tex.width, tex.height), tex);
+					return false;
+				};
+			}
+			return opt;
 		}
 
 		protected void InvokeActionWithErrorHandling(MenuActionMethod action, Designator designator) {

@@ -4,8 +4,12 @@ using Verse;
 
 namespace AllowTool.Context {
 	public class MenuProvider_Hunt : BaseDesignatorMenuProvider {
-		protected override string EntryTextKey {
+		public override string EntryTextKey {
 			get { return "Designator_context_hunt"; }
+		}
+
+		public override string SettingId {
+			get { return "providerHunt"; }
 		}
 
 		public override Type HandledDesignatorType {

@@ -4,8 +4,12 @@ using Verse;
 
 namespace AllowTool.Context {
 	public class MenuProvider_Strip : BaseDesignatorMenuProvider {
-		protected override string EntryTextKey {
+		public override string EntryTextKey {
 			get { return "Designator_context_strip"; }
+		}
+
+		public override string SettingId {
+			get { return "providerStrip"; }
 		}
 
 		public override Type HandledDesignatorType {

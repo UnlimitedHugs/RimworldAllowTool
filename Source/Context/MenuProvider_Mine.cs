@@ -8,6 +8,10 @@ namespace AllowTool.Context {
 			get { return "Designator_context_mine"; }
 		}
 
+		public override string SettingId {
+			get { return "providerMine"; }
+		}
+
 		public override Type HandledDesignatorType {
 			get { return typeof (Designator_Mine); }
 		}

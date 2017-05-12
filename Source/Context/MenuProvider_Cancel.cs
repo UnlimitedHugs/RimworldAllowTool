@@ -11,8 +11,12 @@ namespace AllowTool.Context {
 		private const string CancelDesignationsTextKey = "Designator_context_cancel_desig";
 		private const string CancelBlueprintsTextKey = "Designator_context_cancel_build";
 
-		protected override string EntryTextKey {
+		public override string EntryTextKey {
 			get { return "Designator_context_cancel_desig"; }
+		}
+
+		public override string SettingId {
+			get { return "providerCancel"; }
 		}
 
 		public override Type HandledDesignatorType {
@@ -24,8 +28,8 @@ namespace AllowTool.Context {
 		}
 
 		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
-			yield return MakeMenuOption(designator, CancelDesignationsTextKey, RemoveDesignationsAction, false);
-			yield return MakeMenuOption(designator, CancelBlueprintsTextKey, RemoveBlueprintsAction, false);
+			yield return MakeMenuOption(designator, CancelDesignationsTextKey, RemoveDesignationsAction);
+			yield return MakeMenuOption(designator, CancelBlueprintsTextKey, RemoveBlueprintsAction);
 		}
 
 		protected void RemoveDesignationsAction(Designator designator, Map map) {
