@@ -3,7 +3,9 @@ using RimWorld;
 using Verse;
 
 namespace AllowTool {
-	// Designates things for urgent hauling.
+	/// <summary>
+	/// Designates things for urgent hauling.
+	/// </summary>
 	public class Designator_HaulUrgently : Designator_SelectableThings {
 
 		public Designator_HaulUrgently(ThingDesignatorDef def)

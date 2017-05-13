@@ -20,18 +20,14 @@ namespace AllowTool.Context {
 				contextMenuHandlers.Clear();
 
 				var providers = MenuProviderInstances;
-				// assign handlers to designator instances
+				// bind handlers to designator instances
 				// we can't do a direct type lookup here, since we want to support modded designators. 
 				// i.e. Designator_Hunt -> Designator_ModdedHunt should also be supported.
-				var allDesignators = DefDatabase<DesignationCategoryDef>.AllDefs.SelectMany(cat => (List<Designator>) AllowToolController.ResolvedDesignatorsField.GetValue(cat));
+				var allDesignators = DefDatabase<DesignationCategoryDef>.AllDefs
+					.SelectMany(cat => (List<Designator>) AllowToolController.ResolvedDesignatorsField.GetValue(cat));
 				foreach (var designator in allDesignators) {
 					// check if designator matches the type required by any of the handlers
-					for (int i = 0; i < providers.Count; i++) {
-						if (providers[i].HandledDesignatorType.IsInstanceOfType(designator)) {
-							contextMenuHandlers.Add(designator, providers[i]);
-							break;
-						}
-					}
+					TryBindDesignatorToHandler(designator, providers);
 				}
 			} catch (Exception e) {
 				AllowToolController.Instance.Logger.ReportException(e);
@@ -63,6 +59,12 @@ namespace AllowTool.Context {
 			return false;
 		}
 
+		public static void DoContextMenuActionForSelectedDesignator() {
+			var selectedDesignator = Find.DesignatorManager.SelectedDesignator;
+			if (selectedDesignator == null || !contextMenuHandlers.ContainsKey(selectedDesignator)) return;
+			contextMenuHandlers[selectedDesignator].HotkeyAction(selectedDesignator);
+		}
+
 		private static List<BaseDesignatorMenuProvider> InstantiateProviders() {
 			var providers = new List<BaseDesignatorMenuProvider>();
 			try {
@@ -79,6 +81,20 @@ namespace AllowTool.Context {
 			}
 			providers.SortBy(p => p.SettingId);
 			return providers;
+		}
+
+		private static void TryBindDesignatorToHandler(Designator designator, List<BaseDesignatorMenuProvider> providers) {
+			if(designator == null) return;
+			if (contextMenuHandlers.ContainsKey(designator)) {
+				AllowToolController.Instance.Logger.Warning("Tried to repeat binding for designator {0}: {1}", designator, Environment.StackTrace);
+				return;
+			}
+			for (int i = 0; i < providers.Count; i++) {
+				if (providers[i].HandledDesignatorType.IsInstanceOfType(designator)) {
+					contextMenuHandlers.Add(designator, providers[i]);
+					break;
+				}
+			}
 		}
 	}
 }

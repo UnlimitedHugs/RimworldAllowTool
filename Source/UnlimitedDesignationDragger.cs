@@ -3,11 +3,12 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool {
-	/**
-	 * This is an alternative DesignationDragger that allows unlimited area selection of selectable things.
-	 * Works by filtering all things based on position instead of querying each cell for things.
-	 * Must be activated on demand by designator that require this functionality.
-	 */
+	
+	/// <summary>
+	/// This is an alternative DesignationDragger that allows unlimited area selection of selectable things. 
+	/// Works by filtering all things based on position instead of querying each cell for things.
+	/// Must be activated on demand by designator that require this functionality.
+	/// </summary>
 	public class UnlimitedDesignationDragger {
 		public delegate bool ThingIsReleveantFilter(Thing item);
 

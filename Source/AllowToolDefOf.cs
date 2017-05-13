@@ -1,10 +1,13 @@
-﻿using System.Reflection;
+﻿// ReSharper disable UnassignedField.Global
 using HugsLib.Utils;
 using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace AllowTool {
+	/// <summary>
+	/// Automatically filled with AllowTool Defs
+	/// </summary>
 	[DefOf]
 	public static class AllowToolDefOf {
 
@@ -16,6 +19,9 @@ namespace AllowTool {
 
 		// work types
 		public static WorkTypeDef HaulingUrgent;
+
+		// key bindings
+		public static KeyBindingDef ToolContextMenuAction;
 
 		[StaticConstructorOnStartup]
 		public static class Textures {

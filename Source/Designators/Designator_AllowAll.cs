@@ -5,10 +5,11 @@ using Verse;
 using Verse.Sound;
 
 namespace AllowTool {
-	/**
-	 * Unforbids all forbidden things on the map.
-	 * Holding Shift will include rotten remains.
-	 */
+	
+	/// <summary>
+	/// Unforbids all forbidden things on the map.
+	/// Holding Shift will include rotten remains.
+	/// </summary>
 	public class Designator_AllowAll : Designator_SelectableThings {
 		public Designator_AllowAll(ThingDesignatorDef def) : base(def) {
 		} 

@@ -8,11 +8,12 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool {
-	/**
-	 * A tool to select things of the same Def as those already selected.
-	 * Holding Shift allows picking additional things to select.
-	 * Holding Alt will ignore all selection limits.
-	 */
+	
+	/// <summary>
+	/// A tool to select things of the same Def as those already selected.
+	/// Holding Shift allows picking additional things to select.
+	/// Holding Alt will ignore all selection limits.
+	/// </summary>
 	public class Designator_SelectSimilar : Designator_SelectableThings {
 		private const string ConstraintListSeparator = ", ";
 		private const int MaxNumListedConstraints = 5;

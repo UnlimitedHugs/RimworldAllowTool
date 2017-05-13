@@ -43,7 +43,7 @@
 	<Designator_context_urgent>Haul all items urgently</Designator_context_urgent>
 	<Designator_context_urgent_succ>{0} items marked for urgent hauling.</Designator_context_urgent_succ>
 	<Designator_context_urgent_fail>Found no new items to haul.</Designator_context_urgent_fail>
-	<Designator_context_strip>Strip all bodies</Designator_context_strip>
+	<Designator_context_strip>Strip all enemies</Designator_context_strip>
 	<Designator_context_strip_succ>{0} bodies designated for stripping.</Designator_context_strip_succ>
 	<Designator_context_strip_fail>Found no bodies to strip.</Designator_context_strip_fail>
 	<Designator_context_rearm>Rearm all traps</Designator_context_rearm>
@@ -62,8 +62,8 @@
 	<Designator_context_hunt_succ>Designated {0} new animals to hunt.</Designator_context_hunt_succ>
 	<Designator_context_hunt_fail>No new huntable animals are in the area right now.</Designator_context_hunt_fail>
 	<Designator_context_mine>Mine connected ores</Designator_context_mine>
-	<Designator_context_mine_succ>Designated {0} additional tiles to mine.</Designator_context_mine_succ>
-	<Designator_context_mine_fail>Designate one or more ore tiles for mining to use this tool.</Designator_context_mine_fail>
+	<Designator_context_mine_succ>Designated {0} additional ore tiles to mine.</Designator_context_mine_succ>
+	<Designator_context_mine_fail>Designate one or more ore tiles for mining to use this command.</Designator_context_mine_fail>
 	<Designator_context_cancel_build>Cancel all building blueprints</Designator_context_cancel_build>
 	<Designator_context_cancel_build_succ>{0} building blueprints were removed.</Designator_context_cancel_build_succ>
 	<Designator_context_cancel_build_fail>Found no blueprints to remove.</Designator_context_cancel_build_fail>

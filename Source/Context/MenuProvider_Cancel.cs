@@ -23,8 +23,8 @@ namespace AllowTool.Context {
 			get { return typeof (Designator_Cancel); }
 		}
 
-		protected override ThingRequestGroup DesingatorRequestGroup {
-			get { return ThingRequestGroup.Everything; }
+		public override void ContextMenuAction(Designator designator, Map map) {
+			RemoveDesignationsAction(designator, map);
 		}
 
 		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {

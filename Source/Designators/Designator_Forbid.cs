@@ -2,7 +2,9 @@
 using Verse;
 
 namespace AllowTool {
-	// Forbids all forbiddable things in the designated area
+	/// <summary>
+	/// Forbids all forbiddable things in the designated area
+	/// </summary>
 	public class Designator_Forbid : Designator_SelectableThings {
 		public Designator_Forbid(ThingDesignatorDef def) : base(def) {
 		}

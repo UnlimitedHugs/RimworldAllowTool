@@ -19,10 +19,6 @@ namespace AllowTool.Context {
 			get { return typeof(Designator_SelectSimilar); }
 		}
 
-		protected override ThingRequestGroup DesingatorRequestGroup {
-			get { return ThingRequestGroup.Everything; }
-		}
-
 		public override void ContextMenuAction(Designator designator, Map map) {
 			var des = (Designator_SelectSimilar) designator;
 			if (Find.Selector.NumSelected == 0) {

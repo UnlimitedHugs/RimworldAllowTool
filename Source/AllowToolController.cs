@@ -9,10 +9,10 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool {
-	/**
-	 * The hub of the mod.
-	 * Injects the custom designators and handles hotkey presses.
-	 */
+	/// <summary>
+	/// The hub of the mod. 
+	/// Injects the custom designators and handles hotkey presses.
+	/// </summary>
 	public class AllowToolController : ModBase {
 		private const string DesignatorHandleNamePrefix = "show";
 
@@ -161,6 +161,10 @@ namespace AllowTool {
 		}
 
 		private void CheckForHotkeyPresses() {
+			if (Event.current.keyCode == KeyCode.None) return;
+			if (AllowToolDefOf.ToolContextMenuAction.JustPressed) {
+				DesignatorContextMenuController.DoContextMenuActionForSelectedDesignator();
+			}
 			if (!settingGlobalHotkeys || Find.VisibleMap == null) return;
 			for (int i = 0; i < activeDesignators.Count; i++) {
 				var entry = activeDesignators[i];

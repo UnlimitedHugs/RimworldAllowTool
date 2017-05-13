@@ -1,8 +1,12 @@
-﻿using System;
+﻿// ReSharper disable UnassignedField.Global
+using System;
 using UnityEngine;
 using Verse;
 
 namespace AllowTool {
+	/// <summary>
+	/// Base def for AllowTool designators. These are automatically instantiated and injected.
+	/// </summary>
 	public class ThingDesignatorDef : Def {
 		public Type designatorClass;
 		public string category;

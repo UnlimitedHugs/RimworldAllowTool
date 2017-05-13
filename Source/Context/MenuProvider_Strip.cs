@@ -17,7 +17,19 @@ namespace AllowTool.Context {
 		}
 
 		protected override ThingRequestGroup DesingatorRequestGroup {
-			get { return ThingRequestGroup.Corpse; }
+			get { return ThingRequestGroup.Everything; }
+		}
+
+		public override void ContextMenuAction(Designator designator, Map map) {
+			int hitCount = 0;
+			var playerFaction = Faction.OfPlayer;
+			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
+				if (thing.Faction != playerFaction && designator.CanDesignateThing(thing).Accepted) {
+					designator.DesignateThing(thing);
+					hitCount++;
+				}
+			}
+			ReportActionResult(hitCount);
 		}
 	}
 }

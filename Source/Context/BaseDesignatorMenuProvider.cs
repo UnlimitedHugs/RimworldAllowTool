@@ -16,14 +16,17 @@ namespace AllowTool.Context {
 		private const string SuccessMessageStringIdSuffix = "_succ";
 		private const string FailureMessageStringIdSuffix = "_fail";
 
+		// the toogle for this provider, assigned automatically by AllotToolController
 		public virtual SettingHandle<bool> ProviderHandle { get; set; } 
 		// the text key for the context menu entry, as well as the base for the sucess/failure message keys
 		public abstract string EntryTextKey { get; }
 		// the type of the designator this provider should make a context menu for
 		public abstract Type HandledDesignatorType { get; }
 		// the group of things handled by the designator this handler belongs to
-		protected abstract ThingRequestGroup DesingatorRequestGroup { get; }
-		
+		protected virtual ThingRequestGroup DesingatorRequestGroup {
+			get { return ThingRequestGroup.Everything; }
+		}
+		// returning false will disable the context menu and the overlay icon
 		public virtual bool Enabled {
 			get {
 				var handle = ProviderHandle;
@@ -31,7 +34,7 @@ namespace AllowTool.Context {
 				return true;
 			}
 		}
-
+		// id for the setting handle creation. Null disables the handle
 		public virtual string SettingId {
 			get { return null; }
 		}
@@ -53,6 +56,11 @@ namespace AllowTool.Context {
 				}
 			}
 			ReportActionResult(hitCount);
+		}
+
+		// called if the common hotkey is pressed while the designator is selected
+		public virtual void HotkeyAction(Designator designator) {
+			InvokeActionWithErrorHandling(ContextMenuAction, designator);
 		}
 
 		public virtual void ReportActionResult(int designationCount, string baseMessageKey = null) {
@@ -87,6 +95,7 @@ namespace AllowTool.Context {
 		protected void InvokeActionWithErrorHandling(MenuActionMethod action, Designator designator) {
 			try {
 				var map = Find.VisibleMap;
+				if(map == null) return;
 				action(designator, map);
 			} catch (Exception e) {
 				AllowToolController.Instance.Logger.Error("Exception while processing context menu action: " + e);

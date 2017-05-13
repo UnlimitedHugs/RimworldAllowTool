@@ -2,7 +2,9 @@
 using Verse;
 
 namespace AllowTool {
-	// Unforbids all forbidden things in the designated area
+	/// <summary>
+	/// Unforbids all forbidden things in the designated area
+	/// </summary>
 	public class Designator_Allow : Designator_SelectableThings {
 		
 		public Designator_Allow(ThingDesignatorDef def) : base(def) {
