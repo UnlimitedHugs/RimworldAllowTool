@@ -50,11 +50,11 @@ namespace AllowTool {
 		// tool selected
 		public override void ProcessInput(Event ev) {
 			base.ProcessInput(ev);
-			AllowToolController.Instance.Dragger.BeginListening(ThingIsRelevant, def.DragHighlightTex);
+			AllowToolController.Instance.Dragger.BeginListening(CanDesignateThing, def.DragHighlightTex);
 		}
 
-		public override void DesignateSingleCell(IntVec3 loc) {
-			if (ProcessCell(loc) > 0) {
+		public override void DesignateSingleCell(IntVec3 cell) {
+			if (GetNumDesigantedThings() > 0) {
 				FinalizeDesignationSucceeded();
 			} else {
 				FinalizeDesignationFailed();
@@ -64,7 +64,8 @@ namespace AllowTool {
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
 			var hitCount = 0;
 			foreach (var cell in AllowToolController.Instance.Dragger.GetAffectedCells()) {
-				var hits = ProcessCell(cell);
+				DesignateSingleCell(cell);
+				var hits = GetNumDesigantedThings();
 				hitCount += hits;
 			}
 			if (hitCount > 0) {
@@ -75,9 +76,7 @@ namespace AllowTool {
 			}
 		}
 
-		protected abstract bool ThingIsRelevant(Thing item);
-
-		protected abstract int ProcessCell(IntVec3 cell);
+		public abstract int GetNumDesigantedThings();
 
 		public virtual void SelectedOnGUI() {
 		}

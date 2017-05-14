@@ -6,17 +6,24 @@ namespace AllowTool {
 	/// Forbids all forbiddable things in the designated area
 	/// </summary>
 	public class Designator_Forbid : Designator_SelectableThings {
+		private int numDesignated;
+
 		public Designator_Forbid(ThingDesignatorDef def) : base(def) {
 		}
 
-		protected override bool ThingIsRelevant(Thing item) {
-			if (item.Position.Fogged(item.Map)) return false;
-			var comp = item is ThingWithComps ? (item as ThingWithComps).GetComp<CompForbiddable>() : null;
+		public override int GetNumDesigantedThings() {
+			return numDesignated;
+		}
+
+		public override AcceptanceReport CanDesignateThing(Thing thing) {
+			if (thing.Position.Fogged(thing.Map)) return false;
+			var comp = thing is ThingWithComps ? (thing as ThingWithComps).GetComp<CompForbiddable>() : null;
 			return comp != null && !comp.Forbidden;
 		}
 
-		protected override int ProcessCell(IntVec3 c) {
-			return AllowToolUtility.ToggleForbiddenInCell(c, Find.VisibleMap, true);
+
+		public override void DesignateSingleCell(IntVec3 cell) {
+			numDesignated = AllowToolUtility.ToggleForbiddenInCell(cell, Find.VisibleMap, true);
 		}
 	}
 }

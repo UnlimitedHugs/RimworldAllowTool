@@ -10,7 +10,7 @@ namespace AllowTool {
 	/// Must be activated on demand by designator that require this functionality.
 	/// </summary>
 	public class UnlimitedDesignationDragger {
-		public delegate bool ThingIsReleveantFilter(Thing item);
+		public delegate AcceptanceReport ThingIsReleveantFilter(Thing item);
 
 		private readonly HashSet<IntVec3> affectedCells = new HashSet<IntVec3>(); 
 		private ThingIsReleveantFilter filterCallback;
@@ -88,7 +88,7 @@ namespace AllowTool {
 			for (var i = 0; i < allTheThings.Count; i++) {
 				var thing = allTheThings[i];
 				var thingPos = thing.Position;
-				if (thing.def.selectable && thingPos.x >= minX && thingPos.x <= maxX && thingPos.z >= minZ && thingPos.z <= maxZ && filterCallback(thing)) {
+				if (thing.def.selectable && thingPos.x >= minX && thingPos.x <= maxX && thingPos.z >= minZ && thingPos.z <= maxZ && filterCallback(thing).Accepted) {
 					affectedCells.Add(thingPos);
 				}
 			}

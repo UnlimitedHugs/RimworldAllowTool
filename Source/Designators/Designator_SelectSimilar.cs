@@ -28,6 +28,11 @@ namespace AllowTool {
 			get { return selectorRef ?? (selectorRef = Find.Selector); }
 		}
 
+		private int numDesignated;
+		public override int GetNumDesigantedThings() {
+			return numDesignated;
+		}
+
 		private bool AnySelectionContstraints {
 			get { return selectionConstraints.Count > 0; }
 		}
@@ -42,26 +47,34 @@ namespace AllowTool {
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
-			return ThingIsRelevant(thing);
+			return thing.def != null &&
+				   thing.def.selectable &&
+				   thing.def.label != null &&
+				   !BlockedByFog(thing.Position, thing.Map) &&
+				   (ThingMatchesSelectionConstraints(thing) || dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection conststraints if we are not dragging, only clicking
+				   SelectionLimitAllowsAdditionalThing();
 		}
 
 		public override void DesignateThing(Thing t) {
 			TrySelectThing(t);
 		}
 
-		public override void DesignateSingleCell(IntVec3 loc) {
-			if (!HugsLibUtility.ShiftIsHeld) {
-				Selector.ClearSelection();
-				ReindexSelectionConstraints();
+		public override void DesignateSingleCell(IntVec3 cell) {
+			var map = Find.VisibleMap;
+			var cellThings = map.thingGrid.ThingsListAtFast(cell);
+			numDesignated = 0;
+			for (var i = 0; i < cellThings.Count; i++) {
+				if (TrySelectThing(cellThings[i])) {
+					numDesignated++;
+				}
 			}
-			if(loc.IsValid) TrySelectOneThingInCell(loc);
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> vanillaCells) {
 			var selectedCells = AllowToolController.Instance.Dragger.GetAffectedCells().ToList();
 			// we have to check manually because DesignateSingleCell is not invoked for 2-dimensional designators
 			if (dragger.SelectingSingleCell) {
-				DesignateSingleCell(selectedCells.FirstOrDefault());
+				ProcessSincleCellClick(selectedCells.FirstOrDefault());
 			} else {
 				base.DesignateMultiCell(vanillaCells);
 			}
@@ -129,7 +142,7 @@ namespace AllowTool {
 		}
 
 		public bool TrySelectThing(Thing thing) {
-			if (!ThingIsRelevant(thing) || Selector.IsSelected(thing)) return false;
+			if (!CanDesignateThing(thing).Accepted || Selector.IsSelected(thing)) return false;
 			Selector.SelectedObjects.Add(thing); // manually adding objects to the selection list gets around the stock selection limit
 			SelectionDrawer.Notify_Selected(thing);
 			if (!AnySelectionContstraints) {
@@ -140,33 +153,17 @@ namespace AllowTool {
 			return true;
 		}
 
-		protected override bool ThingIsRelevant(Thing thing) {
-			return thing.def != null &&
-			       thing.def.selectable &&
-			       thing.def.label != null &&
-			       !BlockedByFog(thing.Position, thing.Map) &&
-				   (ThingMatchesSelectionConstraints(thing) || dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection conststraints if we are not dragging, only clicking
-			       SelectionLimitAllowsAdditionalThing();
-		}
-		
-		// select selectables in a single cell
-		protected override int ProcessCell(IntVec3 cell) {
-			var map = Find.VisibleMap;
-			var cellThings = map.thingGrid.ThingsListAtFast(cell);
-			var hits = 0;
-			for (var i = 0; i < cellThings.Count; i++) {
-				if (TrySelectThing(cellThings[i])) {
-					hits++;
-				}
+		private void ProcessSincleCellClick(IntVec3 cell) {
+			if (!HugsLibUtility.ShiftIsHeld) {
+				Selector.ClearSelection();
+				ReindexSelectionConstraints();
 			}
-			return hits;
-		}
-
-		private void TrySelectOneThingInCell(IntVec3 cell) {
-			var things = Find.VisibleMap.thingGrid.ThingsAt(cell);
-			foreach (var thing in things) {
-				if (TrySelectThing(thing)) {
-					break;
+			if (cell.IsValid) {
+				var things = Find.VisibleMap.thingGrid.ThingsAt(cell);
+				foreach (var thing in things) {
+					if (TrySelectThing(thing)) {
+						break;
+					}
 				}
 			}
 		}
