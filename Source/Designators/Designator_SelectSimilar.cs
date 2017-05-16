@@ -72,7 +72,6 @@ namespace AllowTool {
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> vanillaCells) {
 			var selectedCells = AllowToolController.Instance.Dragger.GetAffectedCells().ToList();
-			// we have to check manually because DesignateSingleCell is not invoked for 2-dimensional designators
 			if (dragger.SelectingSingleCell) {
 				ProcessSincleCellClick(selectedCells.FirstOrDefault());
 			} else {

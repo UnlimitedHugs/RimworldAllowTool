@@ -27,16 +27,19 @@ namespace AllowTool.Patches {
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> DrawRightClickIcon(IEnumerable<CodeInstruction> instructions) {
 			var expectedMethod = AccessTools.Method(typeof (Widgets), "DrawTextureFitted", new[] {typeof (Rect), typeof (Texture2D), typeof (float), typeof (Vector2), typeof (Rect)});
+			var checksPassed = false;
 			if (expectedMethod == null) {
 				AllowToolController.Instance.Logger.Error("Failed to reflect required method: " + Environment.StackTrace);
+			} else {
+				checksPassed = true;
 			}
 			foreach (var instruction in instructions) {
-				if (expectedMethod != null && !injectCompleted) {
+				if (checksPassed && !injectCompleted) {
 					// right after the gizmo icon texture is drawn
 					if (instruction.opcode == OpCodes.Call && expectedMethod.Equals(instruction.operand)) {
-						// load this (Command) arg
+						// push this (Command) arg
 						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						// load topLeft (Vector2) arg
+						// push topLeft (Vector2) arg
 						yield return new CodeInstruction(OpCodes.Ldarg_1);
 						// call our delegate
 						yield return new CodeInstruction(OpCodes.Call, ((Action<Command, Vector2>)DesignatorContextMenuController.DrawCommandOverlayIfNeeded).Method);

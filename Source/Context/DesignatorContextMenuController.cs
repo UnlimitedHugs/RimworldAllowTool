@@ -5,9 +5,13 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool.Context {
+	/// <summary>
+	/// Hub for everything related to designator context menus.
+	/// Instantiates individual handlers, processess input events and draws overlay icons.
+	/// </summary>
 	public static class DesignatorContextMenuController {
-
-		private static readonly Dictionary<Command, BaseDesignatorMenuProvider> contextMenuHandlers = new Dictionary<Command, BaseDesignatorMenuProvider>(); 
+		private static readonly Dictionary<Command, BaseDesignatorMenuProvider> designatorMenuProviders = new Dictionary<Command, BaseDesignatorMenuProvider>();
+		private static readonly List<Command> reverseDesignatorsForRemoval = new List<Command>();
 		private static readonly Vector2 overlayIconOffset = new Vector2(59f, 2f);
 
 		private static List<BaseDesignatorMenuProvider> _providers;
@@ -17,7 +21,8 @@ namespace AllowTool.Context {
 
 		public static void PrepareContextMenus() {
 			try {
-				contextMenuHandlers.Clear();
+				ClearReverseDesignatorPairs();
+				designatorMenuProviders.Clear();
 
 				var providers = MenuProviderInstances;
 				// bind handlers to designator instances
@@ -27,7 +32,7 @@ namespace AllowTool.Context {
 					.SelectMany(cat => (List<Designator>) AllowToolController.ResolvedDesignatorsField.GetValue(cat));
 				foreach (var designator in allDesignators) {
 					// check if designator matches the type required by any of the handlers
-					TryBindDesignatorToHandler(designator, providers);
+					TryBindDesignatorToHandler(designator, designator, providers);
 				}
 			} catch (Exception e) {
 				AllowToolController.Instance.Logger.ReportException(e);
@@ -37,32 +42,72 @@ namespace AllowTool.Context {
 		// draws the "righclickable" icon over compatible designator buttons
 		public static void DrawCommandOverlayIfNeeded(Command gizmo, Vector2 topLeft) {
 			try {
-				if (!(gizmo is Designator) || !AllowToolController.Instance.ContextOverlaySetting.Value) return;
-				BaseDesignatorMenuProvider provider;
-				if (contextMenuHandlers.TryGetValue(gizmo, out provider) && provider.Enabled) {
-					var overlay = AllowToolDefOf.Textures.rightClickOverlay;
-					GUI.DrawTexture(new Rect(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y, overlay.width, overlay.height), overlay);
+				if (!AllowToolController.Instance.ContextOverlaySetting.Value) return;
+				if (gizmo is Designator || gizmo is Command_Action) {
+					BaseDesignatorMenuProvider provider;
+					if (designatorMenuProviders.TryGetValue(gizmo, out provider) && provider.Enabled) {
+						var overlay = AllowToolDefOf.Textures.rightClickOverlay;
+						GUI.DrawTexture(new Rect(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y, overlay.width, overlay.height), overlay);
+					}
 				}
 			} catch (Exception e) {
-				if (contextMenuHandlers.ContainsKey(gizmo)) contextMenuHandlers.Remove(gizmo);
+				if (designatorMenuProviders.ContainsKey(gizmo)) designatorMenuProviders.Remove(gizmo);
 				AllowToolController.Instance.Logger.ReportException(e);
 			}
 		}
 
-		/// <returns>true if a supported designator was right-clicked</returns>
-		public static bool TryProcessRightClickOnDesignator(Designator designator) {
-			BaseDesignatorMenuProvider provider;
-			if (contextMenuHandlers.TryGetValue(designator, out provider) && provider.Enabled) {
-				contextMenuHandlers[designator].OpenContextMenu(designator);
-				return true;
+		// try catch a right click on a supported designator. Left clicks should return false.
+		public static bool TryProcessDesignatorInput(Designator designator) {
+			try {
+				if (Event.current.button != 1) return false;
+				foreach (var provider in MenuProviderInstances) {
+					if (provider.HandledDesignatorType.IsInstanceOfType(designator)) {
+						provider.OpenContextMenu(designator);
+						return true;
+					}
+				}
+			} catch (Exception e) {
+				AllowToolController.Instance.Logger.ReportException(e);
 			}
 			return false;
 		}
 
-		public static void DoContextMenuActionForSelectedDesignator() {
+		// called when a designator is selected and the context action key is pressed
+		public static void DoContextMenuActionForActiveDesignator() {
 			var selectedDesignator = Find.DesignatorManager.SelectedDesignator;
-			if (selectedDesignator == null || !contextMenuHandlers.ContainsKey(selectedDesignator)) return;
-			contextMenuHandlers[selectedDesignator].HotkeyAction(selectedDesignator);
+			if (selectedDesignator == null || !designatorMenuProviders.ContainsKey(selectedDesignator)) return;
+			designatorMenuProviders[selectedDesignator].HotkeyAction(selectedDesignator);
+		}
+
+		// called every OnGUI- Commands for reverse designators are instantiated each time they are drawn, so we need to discard the old ones
+		public static void ClearReverseDesignatorPairs() {
+			if (reverseDesignatorsForRemoval.Count > 0) {
+				foreach (var command in reverseDesignatorsForRemoval) {
+					if (designatorMenuProviders.ContainsKey(command)) designatorMenuProviders.Remove(command);
+				}
+				reverseDesignatorsForRemoval.Clear();
+			}
+		}
+
+		// Pairs a Command_Action with its reverse designator. This is necessary to display the context menu icon.
+		// Also replaces the action property so that we can intercept the right click interaction
+		public static void RegisterReverseDesignatorPair(Designator designator, Command_Action designatorButton) {
+			var originalAction = designatorButton.action;
+			designatorButton.action = () => {
+				if (!TryProcessDesignatorInput(designator)) {
+					originalAction();
+				}
+			};
+			var providers = MenuProviderInstances;
+			TryBindDesignatorToHandler(designator, designatorButton, providers);
+			reverseDesignatorsForRemoval.Add(designatorButton);
+		}
+
+		public static void CheckForMemoryLeak() {
+			// this should not happen, unless another mod patches out our ClearReverseDesignatorPairs call
+			if (designatorMenuProviders.Count > 100000) {
+				AllowToolController.Instance.Logger.Warning("Too many designator context menu providers! A mod interaction may have caused a memory leak.");
+			}
 		}
 
 		private static List<BaseDesignatorMenuProvider> InstantiateProviders() {
@@ -83,15 +128,21 @@ namespace AllowTool.Context {
 			return providers;
 		}
 
-		private static void TryBindDesignatorToHandler(Designator designator, List<BaseDesignatorMenuProvider> providers) {
-			if(designator == null) return;
-			if (contextMenuHandlers.ContainsKey(designator)) {
-				AllowToolController.Instance.Logger.Warning("Tried to repeat binding for designator {0}: {1}", designator, Environment.StackTrace);
+		/// <param name="designator">The designator that will be paired to a menu provider</param>
+		/// <param name="commandToBind">The actual button that will display the overlay and trigger the menu</param>
+		/// <param name="providers">All available handlers</param>
+		private static void TryBindDesignatorToHandler(Designator designator, Command commandToBind, List<BaseDesignatorMenuProvider> providers) {
+			if (designator == null || commandToBind == null) {
+				AllowToolController.Instance.Logger.Trace("Tried to bind null designator|command: {0}|{1}", designator, commandToBind);
+				return;
+			}
+			if (designatorMenuProviders.ContainsKey(commandToBind)) {
+				AllowToolController.Instance.Logger.Trace("Tried to repeat binding for designator|command {0}|{1}", designator, commandToBind);
 				return;
 			}
 			for (int i = 0; i < providers.Count; i++) {
 				if (providers[i].HandledDesignatorType.IsInstanceOfType(designator)) {
-					contextMenuHandlers.Add(designator, providers[i]);
+					designatorMenuProviders.Add(commandToBind, providers[i]);
 					break;
 				}
 			}

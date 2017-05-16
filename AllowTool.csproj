@@ -78,6 +78,7 @@
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
     <Compile Include="Source\Patches\Command_GizmoOnGUI_Patch.cs" />
     <Compile Include="Source\Patches\Designator_ProcessInput_Patch.cs" />
+    <Compile Include="Source\Patches\InspectGizmoGrid_DrawInspectGizmoGridFor_Patch.cs" />
     <Compile Include="Source\UnlimitedDesignationDragger.cs" />
     <Compile Include="Source\ThingDesignatorDef.cs" />
     <Compile Include="Source\AI\WorkGiver_HaulUrgently.cs" />

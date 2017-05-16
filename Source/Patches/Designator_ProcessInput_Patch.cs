@@ -1,6 +1,5 @@
 ﻿using AllowTool.Context;
 using Harmony;
-using UnityEngine;
 using Verse;
 
 namespace AllowTool.Patches {
@@ -12,8 +11,7 @@ namespace AllowTool.Patches {
 	internal class Designator_ProcessInput_Patch {
 		[HarmonyPrefix]
 		public static bool InterceptRightClicksOnSupportedDesignators(Designator __instance) {
-			if (Event.current.button != 1) return true; // right click only
-			return !DesignatorContextMenuController.TryProcessRightClickOnDesignator(__instance);
+			return !DesignatorContextMenuController.TryProcessDesignatorInput(__instance);
 		}	 
 	}
 }

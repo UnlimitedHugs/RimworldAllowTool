@@ -52,6 +52,9 @@ namespace AllowTool {
 
 		public override void Update() {
 			Dragger.Update();
+			if (Time.frameCount % (60*60) == 0) { // 'bout every minute
+				DesignatorContextMenuController.CheckForMemoryLeak();
+			}
 		}
 
 		public override void OnGUI() {
@@ -77,7 +80,7 @@ namespace AllowTool {
 			InjectDesignators();
 			DesignatorContextMenuController.PrepareContextMenus();
 		}
-
+		
 		public override void SettingsChanged() {
 			foreach (var entry in activeDesignators) {
 				entry.designator.SetVisible(GetDesignatorHandleValue(entry.designator.def));
@@ -163,7 +166,7 @@ namespace AllowTool {
 		private void CheckForHotkeyPresses() {
 			if (Event.current.keyCode == KeyCode.None) return;
 			if (AllowToolDefOf.ToolContextMenuAction.JustPressed) {
-				DesignatorContextMenuController.DoContextMenuActionForSelectedDesignator();
+				DesignatorContextMenuController.DoContextMenuActionForActiveDesignator();
 			}
 			if (!settingGlobalHotkeys || Find.VisibleMap == null) return;
 			for (int i = 0; i < activeDesignators.Count; i++) {
