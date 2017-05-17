@@ -21,4 +21,10 @@
 		<content>The Mass Select tool is now able to select all items or pawns of the same type across the whole map (Hold Alt and click).</content>
 	</HugsLib.UpdateFeatureDef>
 	
+	<HugsLib.UpdateFeatureDef ParentName="UpdateFeatureBase">
+		<defName>AllowTool_3_0_0</defName>
+		<assemblyVersion>3.0.0</assemblyVersion>
+		<content>&lt;b&gt;Massive update!&lt;/b&gt;|&lt;b&gt;New tools:&lt;/b&gt;|img:News/selectSimilar|caption:"Select similar" (formerly Mass select) allows to easily find and select only things similar to those already selected. Great for deconstruction and finding things around the map.|img:News/haulUrgently|caption:"Haul urgently" allows to have the marked items hauled before any other work is done. Holding Shift will have colonists interrupt current work and begin hauling immediately.|&lt;b&gt;Tool right-click menus:&lt;/b&gt;|img:News/contextMenuExample|caption:Tools with the small mouse icon now have a context menu that allows them to affect the whole map. To activate the context menu action for the tool you are holding, you can also press the "Context action" key ("Equals" by default).</content>
+	</HugsLib.UpdateFeatureDef>
+	
 </Defs>

@@ -4,16 +4,16 @@
 	<author>UnlimitedHugs</author>
 	<targetVersion>0.17.0</targetVersion>
 	<url>https://ludeon.com/forums/index.php?topic=17218.0</url>
-	<description>Version: 2.5.4
+	<description>Version: 3.0.0
 
-&lt;size=20&gt;Description&lt;/size&gt;
-A set of tools to make handling forbidden items easier.
+A set of tools to make your life on the Rim a bit easier.
+Easily forbid and unforbid items, select similar things, have things hauled urgently and affect the entire map with powerful new tool extensions.
 
-&lt;size=20&gt;How to use&lt;/size&gt;
-The tools are located in the Architect menu, under the Orders tab. Hovering over each tool shows what it does and how to use it.
+All tools are found in the Architect &gt; Orders menu. Right-click tools with the small mouse icon to access their whole-map function.
 
-Each tool can also be selected with a hotkey without opening the menu. See the Keyboard configuration panel in the options menu to customize the hotkeys.
-	</description>
+Pressing the Context Action key ("Equals" by default) will activate the whole-map function of the tool you are holding.
+
+All tools are accessible from anywhere by pressing their shortcut key without opening the menu. See the Keyboard configuration panel in the options menu to customize the hotkeys.</description>
 	
 	
 	
