@@ -80,7 +80,12 @@ namespace AllowTool {
 			InjectDesignators();
 			DesignatorContextMenuController.PrepareContextMenus();
 		}
-		
+
+		public override void MapLoaded(Map map) {
+			// necessary when adding the mod to existing saves
+			AllowToolUtility.EnsureAllColonistsKnowWorkType(AllowToolDefOf.HaulingUrgent, map);
+		}
+
 		public override void SettingsChanged() {
 			foreach (var entry in activeDesignators) {
 				entry.designator.SetVisible(GetDesignatorHandleValue(entry.designator.def));
