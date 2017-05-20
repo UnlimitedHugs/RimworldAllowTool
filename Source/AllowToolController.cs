@@ -5,6 +5,7 @@ using AllowTool.Context;
 using HugsLib;
 using HugsLib.Settings;
 using HugsLib.Utils;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -90,7 +91,6 @@ namespace AllowTool {
 			foreach (var entry in activeDesignators) {
 				entry.designator.SetVisible(GetDesignatorHandleValue(entry.designator.def));
 			}
-			UpdateHaulingWorkTypeVisiblity();
 		}
 
 		private void PrepareSettingsHandles() {
@@ -114,7 +114,6 @@ namespace AllowTool {
 				provider.ProviderHandle = Settings.GetHandle(provider.SettingId, "setting_providerPrefix".Translate(provider.EntryTextKey.Translate()), "setting_provider_desc".Translate(), true);
 				provider.ProviderHandle.VisibilityPredicate = () => expandProviderSettings;
 			}
-			UpdateHaulingWorkTypeVisiblity();
 		}
 
 		private void MakeSettingsCategoryToggle(string labelId, Action buttonAction) {
@@ -157,11 +156,7 @@ namespace AllowTool {
 			ResolvedDesignatorsField = typeof (DesignationCategoryDef).GetField("resolvedDesignators", BindingFlags.NonPublic | BindingFlags.Instance);
 			if (ResolvedDesignatorsField == null) Logger.Error("failed to reflect DesignationCategoryDef.resolvedDesignators");
 		}
-
-		private void UpdateHaulingWorkTypeVisiblity() {
-			AllowToolDefOf.HaulingUrgent.visible = GetDesignatorHandleValue(AllowToolDefOf.HaulUrgentlyDesignator);
-		}
-
+		
 		private bool GetDesignatorHandleValue(ThingDesignatorDef def) {
 			SettingHandle<bool> handle;
 			designatorToggleHandles.TryGetValue(DesignatorHandleNamePrefix + def.defName, out handle);
