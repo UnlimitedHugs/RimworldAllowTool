@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using AllowTool.Context;
+using Harmony;
 using HugsLib;
 using HugsLib.Settings;
 using HugsLib.Utils;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -15,10 +15,23 @@ namespace AllowTool {
 	/// Injects the custom designators and handles hotkey presses.
 	/// </summary>
 	public class AllowToolController : ModBase {
-		private const string DesignatorHandleNamePrefix = "show";
+		internal const string ModId = "AllowTool";
+		internal const string DesignatorHandleNamePrefix = "show";
+		internal const string HarmonyInstanceId = "HugsLib.AllowTool";
 
 		public static FieldInfo ResolvedDesignatorsField;
 		public static AllowToolController Instance { get; private set; }
+
+		internal static HarmonyInstance HarmonyInstance { get; set; }
+
+		// called before implied def generation
+		public static void HideHaulUrgentlyWorkTypeIfDisabled() {
+			var haulUrgentlyHandleName = DesignatorHandleNamePrefix + AllowToolDefOf.HaulUrgentlyDesignator.defName; // DefOf's are already filled in
+			var peekValue = HugsLibController.SettingsManager.GetModSettings(ModId).PeekValue(haulUrgentlyHandleName); // handles will be created later- just peek for now
+			if (peekValue == "False") {
+				AllowToolDefOf.HaulingUrgent.visible = false;
+			}
+		}
 
 		private readonly List<DesignatorEntry> activeDesignators = new List<DesignatorEntry>();
 		private readonly Dictionary<string, SettingHandle<bool>> designatorToggleHandles = new Dictionary<string, SettingHandle<bool>>();
@@ -27,11 +40,15 @@ namespace AllowTool {
 		private bool expandProviderSettings;
 		
 		public override string ModIdentifier {
-			get { return "AllowTool"; }
+			get { return ModId; }
 		}
 
 		internal new ModLogger Logger {
 			get { return base.Logger; }
+		}
+
+		protected override bool HarmonyAutoPatch {
+			get { return false; } // we patch out stuff early on. See AllowToolEarlyInit
 		}
 
 		internal SettingHandle<int> SelectionLimitSetting { get; private set; }

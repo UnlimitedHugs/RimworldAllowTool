@@ -60,7 +60,7 @@ namespace AllowTool {
 					}
 				}
 				if (injectedPawns.Count > 0) {
-					AllowToolController.Instance.Logger.Message("Injected work type {0} into pawns: {1}", def.defName, injectedPawns.ListElements());
+					AllowToolController.Instance.Logger.Message("Injected work type {0} into pawns: {1}", def.defName, injectedPawns.Join(", ", true));
 				}
 			} catch (Exception e) {
 				AllowToolController.Instance.Logger.Error("Exception while injecting WorkTypeDef into colonist pawns: " + e);
