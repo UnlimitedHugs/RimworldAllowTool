@@ -4,9 +4,11 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool {
-	/**
-	 * Base class for custom designators that deal with selectable Things.
-	 */
+	
+	/// <summary>
+	/// Base class for custom designators that deal with selectable Things.
+	/// This mainly exists to allow the use of an alternative DesignationDragger.
+	/// </summary>
 	public abstract class Designator_SelectableThings : Designator {
 		internal readonly ThingDesignatorDef def;
 
@@ -23,7 +25,7 @@ namespace AllowTool {
 			get { return visible; }
 		}
 
-		public Designator_SelectableThings(ThingDesignatorDef def) {
+		protected Designator_SelectableThings(ThingDesignatorDef def) {
 			this.def = def;
 			defaultLabel = def.label;
 			defaultDesc = def.description;
@@ -40,6 +42,7 @@ namespace AllowTool {
 		}
 
 		// this is called by the vanilla DesignationDragger. We are using UnlimitedDesignationDragger instead.
+		// returning false prevents the vanilla dragger from selecting any of the cells.
 		public override AcceptanceReport CanDesignateCell(IntVec3 c) {
 			return false;
 		}
@@ -47,11 +50,11 @@ namespace AllowTool {
 		// tool selected
 		public override void ProcessInput(Event ev) {
 			base.ProcessInput(ev);
-			AllowToolController.Instance.Dragger.BeginListening(ThingIsRelevant, def.DragHighlightTex);
+			AllowToolController.Instance.Dragger.BeginListening(CanDesignateThing, def.DragHighlightTex);
 		}
 
-		public override void DesignateSingleCell(IntVec3 loc) {
-			if (ProcessCell(loc) > 0) {
+		public override void DesignateSingleCell(IntVec3 cell) {
+			if (GetNumDesigantedThings() > 0) {
 				FinalizeDesignationSucceeded();
 			} else {
 				FinalizeDesignationFailed();
@@ -61,7 +64,8 @@ namespace AllowTool {
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
 			var hitCount = 0;
 			foreach (var cell in AllowToolController.Instance.Dragger.GetAffectedCells()) {
-				var hits = ProcessCell(cell);
+				DesignateSingleCell(cell);
+				var hits = GetNumDesigantedThings();
 				hitCount += hits;
 			}
 			if (hitCount > 0) {
@@ -72,9 +76,7 @@ namespace AllowTool {
 			}
 		}
 
-		protected abstract bool ThingIsRelevant(Thing item);
-
-		protected abstract int ProcessCell(IntVec3 cell);
+		public abstract int GetNumDesigantedThings();
 
 		public virtual void SelectedOnGUI() {
 		}

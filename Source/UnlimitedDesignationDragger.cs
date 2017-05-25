@@ -3,12 +3,14 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool {
-	/**
-	 * This is an alternative DesignationDragger that allows unlimited area selection of selectable things.
-	 * Must be activated on demand by designator that require this functionality.
-	 */
+	
+	/// <summary>
+	/// This is an alternative DesignationDragger that allows unlimited area selection of selectable things. 
+	/// Works by filtering all things based on position instead of querying each cell for things.
+	/// Must be activated on demand by designator that require this functionality.
+	/// </summary>
 	public class UnlimitedDesignationDragger {
-		public delegate bool ThingIsReleveantFilter(Thing item);
+		public delegate AcceptanceReport ThingIsReleveantFilter(Thing item);
 
 		private readonly HashSet<IntVec3> affectedCells = new HashSet<IntVec3>(); 
 		private ThingIsReleveantFilter filterCallback;
@@ -16,13 +18,20 @@ namespace AllowTool {
 		private Designator invokingDesignator;
 		private bool listening;
 		private bool draggerActive;
-		private IntVec3 mouseDownPosition;
+		private IntVec3 mouseDownCell;
+		private IntVec3 lastMouseCell;
 
 		public void BeginListening(ThingIsReleveantFilter callback, Texture2D dragHighlightTex) {
 			listening = true;
 			filterCallback = callback;
 			dragHighlightMat = MaterialPool.MatFrom(dragHighlightTex, ShaderDatabase.MetaOverlay, Color.white);
 			invokingDesignator = Find.MapUI.designatorManager.SelectedDesignator;
+		}
+		
+		public bool SelectingSingleCell {
+			get {
+				return draggerActive && lastMouseCell == mouseDownCell;
+			}
 		}
 
 		public IEnumerable<IntVec3> GetAffectedCells() {
@@ -41,14 +50,14 @@ namespace AllowTool {
 			}
 			var dragger = Find.MapUI.designatorManager.Dragger;
 			if (!draggerActive && dragger.Dragging) {
-				mouseDownPosition = UI.MouseCell();
+				mouseDownCell = UI.MouseCell();
 				draggerActive = true;
 			} else if (draggerActive && !dragger.Dragging) {
 				draggerActive = false;
 			}
 			if (draggerActive) {
-				var mouseCell = UI.MouseCell();
-				UpdateAffectedCellsInRect(mouseDownPosition, mouseCell);
+				lastMouseCell = UI.MouseCell();
+				UpdateAffectedCellsInRect(mouseDownCell, lastMouseCell);
 				DrawOverlayOnCells(affectedCells);
 			}
 		}
@@ -79,7 +88,7 @@ namespace AllowTool {
 			for (var i = 0; i < allTheThings.Count; i++) {
 				var thing = allTheThings[i];
 				var thingPos = thing.Position;
-				if (thing.def.selectable && thingPos.x >= minX && thingPos.x <= maxX && thingPos.z >= minZ && thingPos.z <= maxZ && filterCallback(thing)) {
+				if (thing.def.selectable && thingPos.x >= minX && thingPos.x <= maxX && thingPos.z >= minZ && thingPos.z <= maxZ && filterCallback(thing).Accepted) {
 					affectedCells.Add(thingPos);
 				}
 			}

@@ -24,15 +24,20 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>Mods\AllowTool\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
@@ -50,15 +55,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Context\DesignatorContextMenuController.cs" />
     <Compile Include="Source\AllowToolController.cs" />
+    <Compile Include="Source\AllowToolDefOf.cs" />
     <Compile Include="Source\AllowToolUtility.cs" />
-    <Compile Include="Source\Designator_Allow.cs" />
-    <Compile Include="Source\Designator_AllowAll.cs" />
-    <Compile Include="Source\Designator_Forbid.cs" />
-    <Compile Include="Source\Designator_MassSelect.cs" />
-    <Compile Include="Source\Designator_SelectableThings.cs" />
+    <Compile Include="Source\Context\BaseDesignatorMenuProvider.cs" />
+    <Compile Include="Source\Context\MenuProvider_Cancel.cs" />
+    <Compile Include="Source\Context\MenuProvider_Chop.cs" />
+    <Compile Include="Source\Context\MenuProvider_Harvest.cs" />
+    <Compile Include="Source\Context\MenuProvider_Haul.cs" />
+    <Compile Include="Source\Context\MenuProvider_HaulUrgently.cs" />
+    <Compile Include="Source\Context\MenuProvider_Hunt.cs" />
+    <Compile Include="Source\Context\MenuProvider_Mine.cs" />
+    <Compile Include="Source\Context\MenuProvider_Rearm.cs" />
+    <Compile Include="Source\Context\MenuProvider_SelectSimilar.cs" />
+    <Compile Include="Source\Context\MenuProvider_Strip.cs" />
+    <Compile Include="Source\Designators\Designator_Allow.cs" />
+    <Compile Include="Source\Designators\Designator_AllowAll.cs" />
+    <Compile Include="Source\Designators\Designator_Forbid.cs" />
+    <Compile Include="Source\Designators\Designator_HaulUrgently.cs" />
+    <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
+    <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
+    <Compile Include="Source\Patches\Command_GizmoOnGUI_Patch.cs" />
+    <Compile Include="Source\Patches\Designator_ProcessInput_Patch.cs" />
+    <Compile Include="Source\Patches\InspectGizmoGrid_DrawInspectGizmoGridFor_Patch.cs" />
     <Compile Include="Source\UnlimitedDesignationDragger.cs" />
     <Compile Include="Source\ThingDesignatorDef.cs" />
+    <Compile Include="Source\AI\WorkGiver_HaulUrgently.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HugsLibChecker\HugsLibChecker.csproj">
@@ -71,6 +94,7 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

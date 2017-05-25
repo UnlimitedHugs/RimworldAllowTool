@@ -1,40 +1,50 @@
-﻿using RimWorld;
+﻿using HugsLib.Utils;
+using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace AllowTool {
-	/**
-	 * Unforbids all forbidden things on the map.
-	 * Holding Shift will include rotten remains.
-	 */
+	
+	/// <summary>
+	/// Unforbids all forbidden things on the map.
+	/// Holding Shift will include rotten remains.
+	/// </summary>
 	public class Designator_AllowAll : Designator_SelectableThings {
+		private int numDesignated;
+
 		public Designator_AllowAll(ThingDesignatorDef def) : base(def) {
-		}
+		} 
 
 		public override void ProcessInput(Event ev) {
 			if (!CheckCanInteract()) return;
 			AllowAllTheThings();
 		}
 
-		protected override bool ThingIsRelevant(Thing item) {
+		public override int GetNumDesigantedThings() {
+			return numDesignated;
+		}
+
+		public override AcceptanceReport CanDesignateThing(Thing t) {
 			return false;
 		}
 
-		protected override int ProcessCell(IntVec3 cell) {
-			return 0;
+		public override void DesignateSingleCell(IntVec3 cell) {
+			numDesignated = 0;
 		}
 
 		private void AllowAllTheThings() {
-			var includeRotten = AllowToolUtility.ShiftIsHeld;
-			var includeNonHaulable = AllowToolUtility.ControlIsHeld;
-			if(Find.VisibleMap == null) return;
+			var includeRotten = HugsLibUtility.ShiftIsHeld;
+			var includeNonHaulable = HugsLibUtility.ControlIsHeld;
+			var map = Find.VisibleMap;
+			if(map == null) return;
 			var things = Find.VisibleMap.listerThings.AllThings;
 			var tallyCount = 0;
 			for (var i = 0; i < things.Count; i++) {
 				var thing = things[i];
 				var comp = thing is ThingWithComps ? (thing as ThingWithComps).GetComp<CompForbiddable>() : null;
-				if (comp != null && comp.Forbidden && (includeNonHaulable || (thing.def != null && thing.def.EverHaulable))) {
+				var thingCellFogged = map.fogGrid.IsFogged(thing.Position);
+				if (comp != null && !thingCellFogged && comp.Forbidden && (includeNonHaulable || (thing.def != null && thing.def.EverHaulable))) {
 					CompRottable rottable;
 					if (includeRotten || !(thing is Corpse) || (rottable = (thing as ThingWithComps).GetComp<CompRottable>()) == null || rottable.Stage < RotStage.Rotting) {
 						comp.Forbidden = false;

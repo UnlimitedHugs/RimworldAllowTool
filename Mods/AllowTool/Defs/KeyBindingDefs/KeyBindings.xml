@@ -6,27 +6,42 @@
 		<category>AllowTool</category>
 		<defName>DesignatorAllow</defName>
 		<label>Designator: Allow</label>
-		<defaultKeyCodeA>U</defaultKeyCodeA>
+		<defaultKeyCodeA>Z</defaultKeyCodeA>
 	</KeyBindingDef>
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
 		<defName>DesignatorForbid</defName>
 		<label>Designator: Forbid</label>
-		<defaultKeyCodeA>I</defaultKeyCodeA>
+		<defaultKeyCodeA>End</defaultKeyCodeA>
 	</KeyBindingDef>
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
 		<defName>DesignatorAllowAll</defName>
 		<label>Designator: Allow all</label>
+		<defaultKeyCodeA>Home</defaultKeyCodeA>
 	</KeyBindingDef>
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
-		<defName>DesignatorMassSelect</defName>
-		<label>Designator: Mass select</label>
-		<defaultKeyCodeA>Y</defaultKeyCodeA>
+		<defName>DesignatorSelectSimilar</defName>
+		<label>Designator: Select similar</label>
+		<defaultKeyCodeA>P</defaultKeyCodeA>
+	</KeyBindingDef>
+	
+	<KeyBindingDef>
+		<category>AllowTool</category>
+		<defName>DesignatorHaulUrgently</defName>
+		<label>Designator: Haul urgently</label>
+		<defaultKeyCodeA>O</defaultKeyCodeA>
+	</KeyBindingDef>	
+	
+	<KeyBindingDef>
+		<category>AllowTool</category>
+		<defName>ToolContextMenuAction</defName>
+		<label>Current tool: context menu action</label>
+		<defaultKeyCodeA>Equals</defaultKeyCodeA>
 	</KeyBindingDef>
 	
 </KeyBindingDefs>
