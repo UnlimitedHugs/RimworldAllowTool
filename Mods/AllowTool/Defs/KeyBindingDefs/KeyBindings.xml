@@ -27,20 +27,20 @@
 		<category>AllowTool</category>
 		<defName>DesignatorSelectSimilar</defName>
 		<label>Designator: Select similar</label>
-		<defaultKeyCodeA>T</defaultKeyCodeA>
+		<defaultKeyCodeA>P</defaultKeyCodeA>
 	</KeyBindingDef>
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
 		<defName>DesignatorHaulUrgently</defName>
 		<label>Designator: Haul urgently</label>
-		<defaultKeyCodeA>G</defaultKeyCodeA>
+		<defaultKeyCodeA>O</defaultKeyCodeA>
 	</KeyBindingDef>	
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
 		<defName>ToolContextMenuAction</defName>
-		<label>Activate context menu action for current tool</label>
+		<label>Current tool: context menu action</label>
 		<defaultKeyCodeA>Equals</defaultKeyCodeA>
 	</KeyBindingDef>
 	
