@@ -1,6 +1,5 @@
 ﻿using HugsLib.Utils;
 using RimWorld;
-using UnityEngine;
 using Verse;
 using Verse.Sound;
 
@@ -16,7 +15,8 @@ namespace AllowTool {
 		public Designator_AllowAll(ThingDesignatorDef def) : base(def) {
 		} 
 
-		public override void ProcessInput(Event ev) {
+		public override void Selected() {
+			Find.DesignatorManager.Deselect();
 			if (!CheckCanInteract()) return;
 			AllowAllTheThings();
 		}

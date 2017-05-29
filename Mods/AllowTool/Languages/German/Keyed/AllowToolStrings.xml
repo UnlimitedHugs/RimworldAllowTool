@@ -6,12 +6,12 @@
 
 	<Forbid_area_success>{0} Gegenstände verboten.</Forbid_area_success>
 	<Forbid_area_failure>Keine zu verbietenden Gegenstände gefunden.</Forbid_area_failure>
-	
+
 	<Allow_all_success>{0} Dinge auf der Karte erlaubt.</Allow_all_success>
 	<Allow_all_failure>Keine verbotenden Dinge gefunden.</Allow_all_failure>
-	
+
 	<Mass_Select_success>Wählte {0} {1} auf der Karte.</Mass_Select_success>
-	
+
 	<setting_showTool_label>Zeige Werkzeug: {0}</setting_showTool_label>
 	<setting_showTool_desc>Wenn aktiviert, wird das Bezeichner Werkzeug im Baumenü erscheinen.</setting_showTool_desc>
 	<setting_globalHotkeys_label>Nutze globale Hotkeys</setting_globalHotkeys_label>
@@ -27,15 +27,15 @@
 	<setting_showToggles_btn>▼ Zeige Einstellungen ▼</setting_showToggles_btn>
 	<setting_showToolToggles_label>Aktiviere oder Deaktiviere Werkzeuge</setting_showToolToggles_label>
 	<setting_showProviderToggles_label>Aktiviere oder Deaktiviere Umfeldmenüs</setting_showProviderToggles_label>
-	
+
 	<SelectSimilar_cursor_needConstraint>Klick um etwas auzuheben</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Ziehe um lediglich: {0} auszuwählen</SelectSimilar_cursor_nowSelecting>
 	<SelectSimilar_cursor_limit>Auswahllimit erreicht</SelectSimilar_cursor_limit>
 	<SelectSimilar_numMoreTypes>({0} mehr)</SelectSimilar_numMoreTypes>
-	
+
 	<Haul_urgently_success>{0} Gegenstände werden dringends getragen.</Haul_urgently_success>
 	<Haul_urgently_failure>Keine Gegenstände zum tragen gefunden.</Haul_urgently_failure>
-	
+
 	<Designator_context_similar>Wählt ähnliche Dinge in der Karte aus</Designator_context_similar>
 	<Designator_context_similar_succ>Wählte {0} ähnliche Gegenstände auf der Karte.</Designator_context_similar_succ>
 	<Designator_context_similar_part>Wählte {0} der nächsten ähnlichen Dinge von {1} auf der Karte</Designator_context_similar_part>

@@ -12,10 +12,13 @@
 Удерживать Ctrl чтобы снять запрещение также со зданий.
 Удерживать Shift чтобы снять запрещение также со скелетов и несвежих трупов.</AllowAllDesignator.description>
 	
-	<MassSelectDesignator.label>Массовое выделение</MassSelectDesignator.label>
-	<MassSelectDesignator.description>Выделяет все предметы в указанной области, игнорируя все ограничения.
-Удерживать Shift чтобы добавить указанные предметы к уже выделенным.
-Удерживать Control/Option чтобы выделить только предметы того же типа, что и уже выделенные.
-Удерживать Alt чтобы выделить предметы одного типа по всей карте.</MassSelectDesignator.description>
+	<SelectSimilarDesignator.label>Выделить схожие</SelectSimilarDesignator.label>
+	<SelectSimilarDesignator.description>Выделяет только предметы, схожие с уже выделенными.
+Удерживать Shift чтобы выделить дополнительные типы.
+Удерживать Alt чтобы игнорировать ограничение кол-ва выделенных предметов.</SelectSimilarDesignator.description>
+
+	<HaulUrgentlyDesignator.label>Срочный перенос</HaulUrgentlyDesignator.label>
+	<HaulUrgentlyDesignator.description>Выделяет предметы, которые должны быть перенесены прежде любых других работ.
+Удерживать Shift прервать текущие работы и начать переносить немедленно.</HaulUrgentlyDesignator.description>
 	
 </LanguageData>

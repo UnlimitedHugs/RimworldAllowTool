@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using AllowTool.Context;
 using Harmony;
@@ -18,16 +19,17 @@ namespace AllowTool {
 		internal const string ModId = "AllowTool";
 		internal const string DesignatorHandleNamePrefix = "show";
 		internal const string HarmonyInstanceId = "HugsLib.AllowTool";
+		private const string HaulWorktypeSettingName = "haulUrgentlyWorktype";
 
 		public static FieldInfo ResolvedDesignatorsField;
+		public static FieldInfo ReverseDesignatorDatabaseDesListField;
 		public static AllowToolController Instance { get; private set; }
 
 		internal static HarmonyInstance HarmonyInstance { get; set; }
 
 		// called before implied def generation
 		public static void HideHaulUrgentlyWorkTypeIfDisabled() {
-			var haulUrgentlyHandleName = DesignatorHandleNamePrefix + AllowToolDefOf.HaulUrgentlyDesignator.defName; // DefOf's are already filled in
-			var peekValue = HugsLibController.SettingsManager.GetModSettings(ModId).PeekValue(haulUrgentlyHandleName); // handles will be created later- just peek for now
+			var peekValue = HugsLibController.SettingsManager.GetModSettings(ModId).PeekValue(HaulWorktypeSettingName); // handles will be created later- just peek for now
 			if (peekValue == "False") {
 				AllowToolDefOf.HaulingUrgent.visible = false;
 			}
@@ -65,7 +67,7 @@ namespace AllowTool {
 
 		public override void Initialize() {
 			Dragger = new UnlimitedDesignationDragger();
-			InitReflectionFields();
+			PrepareReflection();
 		}
 
 		public override void Update() {
@@ -106,14 +108,25 @@ namespace AllowTool {
 
 		public override void SettingsChanged() {
 			foreach (var entry in activeDesignators) {
-				entry.designator.SetVisible(GetDesignatorHandleValue(entry.designator.def));
+				entry.designator.SetVisible(IsDesignatorEnabledInSettings(entry.designator.def));
 			}
+		}
+
+		public bool IsDesignatorEnabledInSettings(ThingDesignatorDef def) {
+			SettingHandle<bool> handle;
+			designatorToggleHandles.TryGetValue(DesignatorHandleNamePrefix + def.defName, out handle);
+			return handle == null || handle.Value;
+		}
+
+		public Designator_SelectableThings TryGetDesignator(ThingDesignatorDef def) {
+			return activeDesignators.Select(e => e.designator).FirstOrDefault(d => d.def == def);
 		}
 
 		private void PrepareSettingsHandles() {
 			settingGlobalHotkeys = Settings.GetHandle("globalHotkeys", "setting_globalHotkeys_label".Translate(), "setting_globalHotkeys_desc".Translate(), true);
 			ContextOverlaySetting = Settings.GetHandle("contextOverlay", "setting_contextOverlay_label".Translate(), "setting_contextOverlay_desc".Translate(), true);
 			ContextWatermarkSetting = Settings.GetHandle("contextWatermark", "setting_contextWatermark_label".Translate(), "setting_contextWatermark_desc".Translate(), true);
+			Settings.GetHandle(HaulWorktypeSettingName, "setting_haulUrgentlyWorktype_label".Translate(), "setting_haulUrgentlyWorktype_desc".Translate(), true);
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
 			SelectionLimitSetting.SpinnerIncrement = 50;
 			// designators
@@ -156,7 +169,7 @@ namespace AllowTool {
 				if (insertIndex >= 0) {
 					var designator = (Designator_SelectableThings)Activator.CreateInstance(designatorDef.designatorClass, designatorDef);
 					resolvedDesignators.Insert(insertIndex + 1, designator);
-					designator.SetVisible(GetDesignatorHandleValue(designatorDef));
+					designator.SetVisible(IsDesignatorEnabledInSettings(designatorDef));
 					activeDesignators.Add(new DesignatorEntry(designator, designatorDef.hotkeyDef));
 					numDesignatorsInjected++;
 				} else {
@@ -169,15 +182,13 @@ namespace AllowTool {
 			}
 		}
 
-		private void InitReflectionFields() {
-			ResolvedDesignatorsField = typeof (DesignationCategoryDef).GetField("resolvedDesignators", BindingFlags.NonPublic | BindingFlags.Instance);
-			if (ResolvedDesignatorsField == null) Logger.Error("failed to reflect DesignationCategoryDef.resolvedDesignators");
-		}
-		
-		private bool GetDesignatorHandleValue(ThingDesignatorDef def) {
-			SettingHandle<bool> handle;
-			designatorToggleHandles.TryGetValue(DesignatorHandleNamePrefix + def.defName, out handle);
-			return handle == null || handle.Value;
+		private void PrepareReflection() {
+			ResolvedDesignatorsField = typeof(DesignationCategoryDef).GetField("resolvedDesignators", HugsLibUtility.AllBindingFlags);
+			ReverseDesignatorDatabaseDesListField = typeof(ReverseDesignatorDatabase).GetField("desList", HugsLibUtility.AllBindingFlags);
+			if (ResolvedDesignatorsField == null || ResolvedDesignatorsField.FieldType != typeof(List<Designator>)
+			    || ReverseDesignatorDatabaseDesListField == null || ReverseDesignatorDatabaseDesListField.FieldType != typeof(List<Designator>)) {
+				Logger.Error("Failed to reflect required members");
+			}
 		}
 
 		private void CheckForHotkeyPresses() {
@@ -189,7 +200,7 @@ namespace AllowTool {
 			for (int i = 0; i < activeDesignators.Count; i++) {
 				var entry = activeDesignators[i];
 				if(entry.key == null || !entry.key.JustPressed || !entry.designator.Visible) continue;
-				activeDesignators[i].designator.ProcessInput(Event.current);
+				Find.DesignatorManager.Select(entry.designator);
 				break;
 			}
 		}

@@ -19,9 +19,9 @@ namespace AllowTool {
 		private const int MaxNumListedConstraints = 5;
 		
 		private readonly Dictionary<int, SelectionDefConstraint> selectionConstraints =  new Dictionary<int, SelectionDefConstraint>();
+		private readonly bool reverseDesignatorMode;
 		private bool constraintsNeedReindexing;
 		private string readableConstraintList;
-		private UnlimitedDesignationDragger dragger;
 		
 		private Selector selectorRef;
 		private Selector Selector { // cache selector to avoid lots of unnecessary routing calls
@@ -40,10 +40,13 @@ namespace AllowTool {
 		public Designator_SelectSimilar(ThingDesignatorDef def) : base(def) {
 		}
 
-		public override void ProcessInput(Event ev) {
-			base.ProcessInput(ev);
+		public Designator_SelectSimilar(ThingDesignatorDef def, bool reverseDesignatorMode) : base(def) {
+			this.reverseDesignatorMode = reverseDesignatorMode;
+		}
+
+		public override void Selected() {
+			base.Selected();
 			ReindexSelectionConstraints();
-			dragger = AllowToolController.Instance.Dragger;
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
@@ -51,11 +54,20 @@ namespace AllowTool {
 				   thing.def.selectable &&
 				   thing.def.label != null &&
 				   !BlockedByFog(thing.Position, thing.Map) &&
-				   (ThingMatchesSelectionConstraints(thing) || dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection conststraints if we are not dragging, only clicking
+				   (reverseDesignatorMode || ThingMatchesSelectionConstraints(thing) || AllowToolController.Instance.Dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection conststraints if we are not dragging, only clicking
 				   SelectionLimitAllowsAdditionalThing();
 		}
 
 		public override void DesignateThing(Thing t) {
+			if (reverseDesignatorMode) {
+				// intercept call from the reverse designator button
+				// activate the regualar select similar designator for the player to select more items
+				var selectSimilarNonReverse = AllowToolController.Instance.TryGetDesignator(AllowToolDefOf.SelectSimilarDesignator);
+				if (Find.DesignatorManager.SelectedDesignator != selectSimilarNonReverse) {
+					// debounce multiple selected items
+					Find.DesignatorManager.Select(selectSimilarNonReverse);
+				}
+			} 
 			TrySelectThing(t);
 		}
 
@@ -72,8 +84,8 @@ namespace AllowTool {
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> vanillaCells) {
 			var selectedCells = AllowToolController.Instance.Dragger.GetAffectedCells().ToList();
-			if (dragger.SelectingSingleCell) {
-				ProcessSincleCellClick(selectedCells.FirstOrDefault());
+			if (AllowToolController.Instance.Dragger.SelectingSingleCell) {
+				ProcessSingleCellClick(selectedCells.FirstOrDefault());
 			} else {
 				base.DesignateMultiCell(vanillaCells);
 			}
@@ -95,7 +107,7 @@ namespace AllowTool {
 		}
 
 		public bool SelectionLimitAllowsAdditionalThing() {
-			return Selector.NumSelected < AllowToolController.Instance.SelectionLimitSetting.Value || dragger.SelectingSingleCell || HugsLibUtility.AltIsHeld;
+			return Selector.NumSelected < AllowToolController.Instance.SelectionLimitSetting.Value || AllowToolController.Instance.Dragger.SelectingSingleCell || HugsLibUtility.AltIsHeld;
 		}
 
 		// generate an index of defs to compare other things against, based on currently selected things
@@ -152,7 +164,7 @@ namespace AllowTool {
 			return true;
 		}
 
-		private void ProcessSincleCellClick(IntVec3 cell) {
+		private void ProcessSingleCellClick(IntVec3 cell) {
 			if (!HugsLibUtility.ShiftIsHeld) {
 				Selector.ClearSelection();
 				ReindexSelectionConstraints();

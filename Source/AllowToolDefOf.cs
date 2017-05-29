@@ -16,6 +16,7 @@ namespace AllowTool {
 
 		// designators
 		public static ThingDesignatorDef HaulUrgentlyDesignator;
+		public static ThingDesignatorDef SelectSimilarDesignator;
 
 		// work types
 		public static WorkTypeDef HaulingUrgent;

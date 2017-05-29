@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -46,10 +45,8 @@ namespace AllowTool {
 		public override AcceptanceReport CanDesignateCell(IntVec3 c) {
 			return false;
 		}
-
-		// tool selected
-		public override void ProcessInput(Event ev) {
-			base.ProcessInput(ev);
+		
+		public override void Selected() {
 			AllowToolController.Instance.Dragger.BeginListening(CanDesignateThing, def.DragHighlightTex);
 		}
 

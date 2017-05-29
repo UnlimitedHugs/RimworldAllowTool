@@ -81,6 +81,8 @@
     <Compile Include="Source\Patches\DefOfHelper_RebindAll_Patch.cs" />
     <Compile Include="Source\Patches\Designator_ProcessInput_Patch.cs" />
     <Compile Include="Source\Patches\InspectGizmoGrid_DrawInspectGizmoGridFor_Patch.cs" />
+    <Compile Include="Source\Patches\ReverseDesignatorDatabase_Init_Patch.cs" />
+    <Compile Include="Source\ReverseDesignatorProvider.cs" />
     <Compile Include="Source\UnlimitedDesignationDragger.cs" />
     <Compile Include="Source\ThingDesignatorDef.cs" />
     <Compile Include="Source\AI\WorkGiver_HaulUrgently.cs" />
@@ -98,6 +100,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>RimWorldWin.exe</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

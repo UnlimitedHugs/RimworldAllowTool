@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<HaulingUrgent.labelShort>Перенос+</HaulingUrgent.labelShort>
+	<HaulingUrgent.pawnLabel>Срочный переносчик</HaulingUrgent.pawnLabel>
+	<HaulingUrgent.gerundLabel>Срочно переносится</HaulingUrgent.gerundLabel>
+	<HaulingUrgent.description>Перенос высокого приоритета. Применяется к предметам помеченным инструментом "Срочный перенос".\nДобавлено модом Allow Tool.</HaulingUrgent.description>
+	<HaulingUrgent.verb>Срочно перенести</HaulingUrgent.verb>
+
+</LanguageData>

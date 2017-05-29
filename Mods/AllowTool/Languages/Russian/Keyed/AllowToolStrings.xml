@@ -27,6 +27,8 @@
 	<setting_showToggles_btn>▼ Открыть настройки ▼</setting_showToggles_btn>
 	<setting_showToolToggles_label>Включить или отключить инструменты</setting_showToolToggles_label>
 	<setting_showProviderToggles_label>Включить или отключить контекстные меню</setting_showProviderToggles_label>
+    <setting_haulUrgentlyWorktype_label>Отображать тип работы "Перенос+"</setting_haulUrgentlyWorktype_label>
+    <setting_haulUrgentlyWorktype_desc>Если включено, панель настроек работ отображает дополнительный тип работы для инструмента срочного переноса. Требуется перезапуск.</setting_haulUrgentlyWorktype_desc>
 	
 	<SelectSimilar_cursor_needConstraint>Клик для выделения предмета</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Будет выделено только: {0}</SelectSimilar_cursor_nowSelecting>
@@ -40,7 +42,7 @@
 	<Designator_context_similar_succ>Выделено {0} схожих предметов на карте.</Designator_context_similar_succ>
 	<Designator_context_similar_part>Выделено {0} из доступных {1} схожих предметов на карте.</Designator_context_similar_part>
 	<Designator_context_similar_fail>Что-нибудь должно быть уже выделено чтобы найти и выделить схожие предметов.</Designator_context_similar_fail>
-	<Designator_context_urgent>Срочно перенести все предметы</Designator_context_urgent>
+	<Designator_context_urgent>Срочно перенести видимые предметы</Designator_context_urgent>
 	<Designator_context_urgent_succ>{0} предметов отмечено для срочного переноса.</Designator_context_urgent_succ>
 	<Designator_context_urgent_fail>Не найдено предметов нуждающихся в переносе.</Designator_context_urgent_fail>
 	<Designator_context_strip>Снять одежду со всех врагов</Designator_context_strip>

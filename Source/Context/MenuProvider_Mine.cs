@@ -25,17 +25,9 @@ namespace AllowTool.Context {
 		}
 		
 		public override void ContextMenuAction(Designator designator, Map map) {
-			var anyDesignations = map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine).Any();
-			// try to auto-designate selected rocks if no designations are present
-			if (!anyDesignations) {
-				var toDesignate = Find.Selector.SelectedObjects.OfType<Thing>().Where(o => CellCanBeMineDesignated(o.Position, map));
-				var numHits = toDesignate.Count(t => {
-					t.Position.ToggleDesignation(DesignationDefOf.Mine, true, map);
-					return true;
-				});
-				if (numHits > 0) anyDesignations = true;
-			}
-			if (!anyDesignations) {
+			MineDesignateSelectedOres(map);
+			var anyMineDesignations = map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine).Any();
+			if (!anyMineDesignations) {
 				Messages.Message("Designator_context_mine_fail".Translate(), MessageSound.RejectInput);
 				return;
 			}
@@ -47,6 +39,14 @@ namespace AllowTool.Context {
 		private bool CellCanBeMineDesignated(IntVec3 cell, Map map) {
 			var thing = map.edificeGrid[cell];
 			return thing != null && thing.def.building != null && thing.def.mineable && thing.def.building.isResourceRock;
+		}
+
+		// ensure all selected ores are Mine designated
+		private void MineDesignateSelectedOres(Map map) {
+			var toDesignate = Find.Selector.SelectedObjects.OfType<Thing>().Where(o => CellCanBeMineDesignated(o.Position, map));
+			foreach (var thing in toDesignate) {
+				thing.Position.ToggleDesignation(DesignationDefOf.Mine, true);
+			}
 		}
 
 		// Expands cell designations iteratively to adjacent cells that are deemed valid by the expansionFilter. 

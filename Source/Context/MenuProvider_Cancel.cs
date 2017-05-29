@@ -46,7 +46,7 @@ namespace AllowTool.Context {
 				}
 				manager.RemoveDesignation(des);
 			}
-			Messages.Message("Designator_context_cancel_desig_msg".Translate(hitCountThings, hitCountTiles), MessageSound.Standard);
+			Messages.Message("Designator_context_cancel_desig_msg".Translate(hitCountThings, hitCountTiles), MessageSound.Benefit);
 		}
 		
 		protected void RemoveBlueprintsAction(Designator designator, Map map) {
