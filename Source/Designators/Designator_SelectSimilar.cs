@@ -49,26 +49,37 @@ namespace AllowTool {
 			ReindexSelectionConstraints();
 		}
 
+		// ensure we used the proper designator for the context action, that does not have its constraints removed
+		public Designator_SelectSimilar GetNonReverseVersion() {
+			return !reverseDesignatorMode ? this : (Designator_SelectSimilar) AllowToolController.Instance.TryGetDesignator(AllowToolDefOf.SelectSimilarDesignator);
+		}
+
+		// used by dragger and reverse designator. We want the reverse designator to always show, but ignoring constraints breaks the context action
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
 			return thing.def != null &&
 				   thing.def.selectable &&
 				   thing.def.label != null &&
 				   !BlockedByFog(thing.Position, thing.Map) &&
 				   (reverseDesignatorMode || ThingMatchesSelectionConstraints(thing) || AllowToolController.Instance.Dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection conststraints if we are not dragging, only clicking
-				   SelectionLimitAllowsAdditionalThing();
+				   (reverseDesignatorMode || SelectionLimitAllowsAdditionalThing());
 		}
 
 		public override void DesignateThing(Thing t) {
+			TrySelectThing(t);
+		}
+
+		protected override void FinalizeDesignationSucceeded() {
 			if (reverseDesignatorMode) {
+				Log.Message("xx");
 				// intercept call from the reverse designator button
 				// activate the regualar select similar designator for the player to select more items
-				var selectSimilarNonReverse = AllowToolController.Instance.TryGetDesignator(AllowToolDefOf.SelectSimilarDesignator);
+				var selectSimilarNonReverse = GetNonReverseVersion();
 				if (Find.DesignatorManager.SelectedDesignator != selectSimilarNonReverse) {
 					// debounce multiple selected items
 					Find.DesignatorManager.Select(selectSimilarNonReverse);
 				}
-			} 
-			TrySelectThing(t);
+			}
+			base.FinalizeDesignationSucceeded();
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {

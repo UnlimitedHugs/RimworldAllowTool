@@ -50,7 +50,7 @@ namespace AllowTool.Context {
 		public virtual void ContextMenuAction(Designator designator, Map map) {
 			int hitCount = 0;
 			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
-				if (designator.CanDesignateThing(thing).Accepted) {
+				if (ValidForDesignation(thing) && designator.CanDesignateThing(thing).Accepted) {
 					designator.DesignateThing(thing);
 					hitCount++;
 				}
@@ -90,6 +90,10 @@ namespace AllowTool.Context {
 				};
 			}
 			return opt;
+		}
+
+		protected bool ValidForDesignation(Thing thing) {
+			return thing != null && thing.def != null && thing.Map != null && !thing.Map.fogGrid.IsFogged(thing.Position);
 		}
 
 		protected void InvokeActionWithErrorHandling(MenuActionMethod action, Designator designator) {

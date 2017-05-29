@@ -1,5 +1,5 @@
 ﻿using System;
-using RimWorld;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -21,12 +21,34 @@ namespace AllowTool.Context {
 			get { return ThingRequestGroup.HaulableEver; }
 		}
 
-		// skip rock chunks in designation, select only visible on screen
+		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
+			yield return MakeMenuOption(designator, "Designator_context_urgent_visible", HaulVisibleAction);
+			yield return MakeMenuOption(designator, "Designator_context_urgent_all", HaulEverythingAction);
+		}
+		
+		// hotkey activation
 		public override void ContextMenuAction(Designator designator, Map map) {
+			HaulVisibleAction(designator, map);
+		}
+
+		// skip rock chunks in designation, select only visible on screen
+		private void HaulVisibleAction(Designator designator, Map map) {
 			var visibleRect = GetVisibleMapRect();
+			DesignateWithPredicate(designator,map, thing => visibleRect.Contains(thing.Position));
+		}
+
+		private void HaulEverythingAction(Designator designator, Map map) {
+			DesignateWithPredicate(designator, map);
+		}
+
+		private void DesignateWithPredicate(Designator designator, Map map, Func<Thing, bool> shouldDesignateThing = null) {
 			int hitCount = 0;
 			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
-				if (visibleRect.Contains(thing.Position) && designator.CanDesignateThing(thing).Accepted && !thing.def.designateHaulable) {
+				if (ValidForDesignation(thing) &&
+					designator.CanDesignateThing(thing).Accepted && 
+					!thing.def.designateHaulable && 
+					(shouldDesignateThing == null || shouldDesignateThing(thing))) {
+					
 					designator.DesignateThing(thing);
 					hitCount++;
 				}

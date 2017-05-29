@@ -42,7 +42,9 @@
 	<Designator_context_similar_succ>Selected {0} similar things on the map.</Designator_context_similar_succ>
 	<Designator_context_similar_part>Selected {0} closest similar things out of {1} on the map</Designator_context_similar_part>
 	<Designator_context_similar_fail>Something must be selected to select similar things.</Designator_context_similar_fail>
-	<Designator_context_urgent>Haul visible items urgently</Designator_context_urgent>
+	<Designator_context_urgent>Haul all items urgently</Designator_context_urgent>
+	<Designator_context_urgent_visible>Haul visible items urgently</Designator_context_urgent_visible>
+	<Designator_context_urgent_all>Haul all map items urgently</Designator_context_urgent_all>
 	<Designator_context_urgent_succ>{0} items marked for urgent hauling.</Designator_context_urgent_succ>
 	<Designator_context_urgent_fail>Found no new items to haul.</Designator_context_urgent_fail>
 	<Designator_context_strip>Strip all enemies</Designator_context_strip>
