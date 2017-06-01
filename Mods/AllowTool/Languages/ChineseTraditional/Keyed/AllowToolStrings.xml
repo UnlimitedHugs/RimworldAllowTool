@@ -22,11 +22,17 @@
   <setting_contextWatermark_desc>啟用後，會在工具的右鍵菜單中顯示一鍵允許（AllowTool）的水印。</setting_contextWatermark_desc>
   <setting_contextOverlay_label>右鍵點擊工具圖標</setting_contextOverlay_label>
   <setting_contextOverlay_desc>啟用後，會在有右鍵菜單的命令工具上顯示一個小圖標。</setting_contextOverlay_desc>
+  <setting_extendedContextHotkey_label>擴展的「右鍵菜單」快捷鍵</setting_extendedContextHotkey_label>
+  <setting_extendedContextHotkey_desc>當沒有選擇工具是，當選擇物品時，「右鍵菜單」快捷鍵會激活第一個可見的工具的右鍵菜單。</setting_extendedContextHotkey_desc>
+  <setting_reverseDesignatorPick_label>從已選擇的物品選擇工具</setting_reverseDesignatorPick_label>
+  <setting_reverseDesignatorPick_desc>當有物品被選擇時，按住Shift鍵並點擊一個工具，可以替換已標記的命令。</setting_reverseDesignatorPick_desc>
   <setting_providerPrefix>啟用：{0}</setting_providerPrefix>
   <setting_provider_desc>啟用後，給工具添加一個可以影響全圖的右鍵菜單。</setting_provider_desc>
   <setting_showToggles_btn>▼ 顯示設置 ▼</setting_showToggles_btn>
   <setting_showToolToggles_label>啟用或禁用工具</setting_showToolToggles_label>
   <setting_showProviderToggles_label>啟用或禁用右鍵菜單</setting_showProviderToggles_label>
+  <setting_showReverseToggles_label>作用於已選擇物品的工具</setting_showReverseToggles_label>
+  <setting_reverseDesignator_desc>啟用後，已選擇的物品上會顯示所支持的工具 。載入存檔或創建遊戲後才會生效。</setting_reverseDesignator_desc>
   <setting_haulUrgentlyWorktype_label>顯示「搬運+」工作類型</setting_haulUrgentlyWorktype_label>
   <setting_haulUrgentlyWorktype_desc>啟用後，會在工作標籤中顯示「緊急搬運」的工作類型。此項設置必須重啟遊戲後才會生效。\n</setting_haulUrgentlyWorktype_desc>
 
@@ -46,15 +52,16 @@
   <Designator_context_urgent_visible>緊急搬運所有可見的物品。</Designator_context_urgent_visible>
   <Designator_context_urgent_all>禁止搬運地圖上所有物品。</Designator_context_urgent_all>
   <Designator_context_urgent_succ>{0}个個物品標記了緊急搬運。</Designator_context_urgent_succ>
+  <Designator_context_urgent_visible_succ>{0}個可見的物品標記了緊急搬運。</Designator_context_urgent_visible_succ>
   <Designator_context_urgent_fail>沒有其他可搬運的物品了。</Designator_context_urgent_fail>
   <Designator_context_strip>剝光所有敵人。</Designator_context_strip>
-  <Designator_context_strip_succ>{0}具軀體已標記了剝光。</Designator_context_strip_succ>
+  <Designator_context_strip_succ>{0}具軀體標記了剝光。</Designator_context_strip_succ>
   <Designator_context_strip_fail>沒有可剝光的軀體。</Designator_context_strip_fail>
   <Designator_context_rearm>重置所有陷阱。</Designator_context_rearm>
-  <Designator_context_rearm_succ>{0}个陷阱已標記了重置。</Designator_context_rearm_succ>
+  <Designator_context_rearm_succ>{0}个陷阱標記了重置。</Designator_context_rearm_succ>
   <Designator_context_rearm_fail>目前沒有需要重置的陷阱了。</Designator_context_rearm_fail>
   <Designator_context_harvest>收穫所有植物。</Designator_context_harvest>
-  <Designator_context_harvest_succ>{0}株植物已標記了收穫。</Designator_context_harvest_succ>
+  <Designator_context_harvest_succ>{0}株植物標記了收穫。</Designator_context_harvest_succ>
   <Designator_context_harvest_fail>沒有其他可收穫的植物了。</Designator_context_harvest_fail>
   <Designator_context_haul>搬運所有物品。</Designator_context_haul>
   <Designator_context_haul_succ>新標記了搬运{0}个物品。</Designator_context_haul_succ>

@@ -22,11 +22,17 @@
   <setting_contextWatermark_desc>启用后，会在工具的右键菜单中显示一键允许（AllowTool）的水印。</setting_contextWatermark_desc>
   <setting_contextOverlay_label>右键点击工具图标</setting_contextOverlay_label>
   <setting_contextOverlay_desc>启用后，会在有右键菜单的命令工具上的中显示一个小图标。</setting_contextOverlay_desc>
+  <setting_extendedContextHotkey_label>扩展的「右键菜单」快捷键</setting_extendedContextHotkey_label>
+  <setting_extendedContextHotkey_desc>当没有选择工具时，当选择物品时，「右键菜单」快捷键会第一个可见的工具的右键菜单。</setting_extendedContextHotkey_desc>
+  <setting_reverseDesignatorPick_label>从已选择的物品选择工具</setting_reverseDesignatorPick_label>
+  <setting_reverseDesignatorPick_desc>当有物品被选择时，按住Shift键并点击一个工具，可以替换已标记的命令。</setting_reverseDesignatorPick_desc>
   <setting_providerPrefix>启用：{0}</setting_providerPrefix>
   <setting_provider_desc>启用后，给工具添加一个可以影响全图的右键菜单。</setting_provider_desc>
   <setting_showToggles_btn>▼ 显示设置 ▼</setting_showToggles_btn>
   <setting_showToolToggles_label>启用或禁用工具</setting_showToolToggles_label>
   <setting_showProviderToggles_label>启用或禁用右键菜单</setting_showProviderToggles_label>
+  <setting_showReverseToggles_label>作用于已选择物品的工具</setting_showReverseToggles_label>
+  <setting_reverseDesignator_desc>启用后，以选择的物品上会显示支持的工具。载入存档或创建游戏后才会生效。</setting_reverseDesignator_desc>
   <setting_haulUrgentlyWorktype_label>显示「搬运+」工作类型</setting_haulUrgentlyWorktype_label>
   <setting_haulUrgentlyWorktype_desc>启用后，会在工作标签中显示「紧急搬运」的工作类型。\n此项设置必须重启游戏后才会生效。</setting_haulUrgentlyWorktype_desc>
 
@@ -46,6 +52,7 @@
   <Designator_context_urgent_visible>紧急搬运可见的物品。</Designator_context_urgent_visible>
   <Designator_context_urgent_all>紧急搬运地图上所有物品。</Designator_context_urgent_all>
   <Designator_context_urgent_succ>{0}个物品已标记了紧急搬运。</Designator_context_urgent_succ>
+  <Designator_context_urgent_visible_succ>{0}个可见的物品已标记了紧急搬运。</Designator_context_urgent_visible_succ>
   <Designator_context_urgent_fail>没有其他可搬运的物品了。</Designator_context_urgent_fail>
   <Designator_context_strip>剥光所有敌人。</Designator_context_strip>
   <Designator_context_strip_succ>{0}具躯体已标记了剥光。</Designator_context_strip_succ>
