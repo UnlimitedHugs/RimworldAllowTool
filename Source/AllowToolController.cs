@@ -18,28 +18,36 @@ namespace AllowTool {
 	public class AllowToolController : ModBase {
 		internal const string ModId = "AllowTool";
 		internal const string DesignatorHandleNamePrefix = "show";
+		internal const string ReverseDesignatorHandleNamePrefix = "showrev";
 		internal const string HarmonyInstanceId = "HugsLib.AllowTool";
 		private const string HaulWorktypeSettingName = "haulUrgentlyWorktype";
 
 		public static FieldInfo ResolvedDesignatorsField;
 		public static FieldInfo ReverseDesignatorDatabaseDesListField;
+		public static FieldInfo GizmoGridGizmoListField;
 		public static AllowToolController Instance { get; private set; }
 
 		internal static HarmonyInstance HarmonyInstance { get; set; }
 
 		// called before implied def generation
 		public static void HideHaulUrgentlyWorkTypeIfDisabled() {
-			var peekValue = HugsLibController.SettingsManager.GetModSettings(ModId).PeekValue(HaulWorktypeSettingName); // handles will be created later- just peek for now
-			if (peekValue == "False") {
-				AllowToolDefOf.HaulingUrgent.visible = false;
+			try {
+				var peekValue = HugsLibController.SettingsManager.GetModSettings(ModId).PeekValue(HaulWorktypeSettingName); // handles will be created later- just peek for now
+				if (peekValue == "False") {
+					AllowToolDefOf.HaulingUrgent.visible = false;
+				}
+			} catch (Exception e) {
+				Log.Error("AllowTool failed to modify work type visibility: "+e);
 			}
 		}
 
 		private readonly List<DesignatorEntry> activeDesignators = new List<DesignatorEntry>();
 		private readonly Dictionary<string, SettingHandle<bool>> designatorToggleHandles = new Dictionary<string, SettingHandle<bool>>();
+		private readonly Dictionary<string, SettingHandle<bool>> reverseDesignatorToggleHandles = new Dictionary<string, SettingHandle<bool>>();
 		private SettingHandle<bool> settingGlobalHotkeys;
 		private bool expandToolSettings;
 		private bool expandProviderSettings;
+		private bool expandReverseToolSettings;
 		
 		public override string ModIdentifier {
 			get { return ModId; }
@@ -58,6 +66,10 @@ namespace AllowTool {
 		internal SettingHandle<bool> ContextOverlaySetting { get; set; }
 
 		internal SettingHandle<bool> ContextWatermarkSetting { get; private set; }
+
+		public SettingHandle<bool> ExtendedContextActionSetting { get; set; }
+
+		public SettingHandle<bool> ReverseDesignatorPickSetting { get; set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 
@@ -113,9 +125,11 @@ namespace AllowTool {
 		}
 
 		public bool IsDesignatorEnabledInSettings(ThingDesignatorDef def) {
-			SettingHandle<bool> handle;
-			designatorToggleHandles.TryGetValue(DesignatorHandleNamePrefix + def.defName, out handle);
-			return handle == null || handle.Value;
+			return GetToolHandleSettingValue(designatorToggleHandles, DesignatorHandleNamePrefix + def.defName);
+		}
+
+		public bool IsReverseDesignatorEnabledInSettings(ReverseDesignatorDef def) {
+			return GetToolHandleSettingValue(reverseDesignatorToggleHandles, ReverseDesignatorHandleNamePrefix + def.defName);
 		}
 
 		public Designator_SelectableThings TryGetDesignator(ThingDesignatorDef def) {
@@ -127,6 +141,8 @@ namespace AllowTool {
 			ContextOverlaySetting = Settings.GetHandle("contextOverlay", "setting_contextOverlay_label".Translate(), "setting_contextOverlay_desc".Translate(), true);
 			ContextWatermarkSetting = Settings.GetHandle("contextWatermark", "setting_contextWatermark_label".Translate(), "setting_contextWatermark_desc".Translate(), true);
 			Settings.GetHandle(HaulWorktypeSettingName, "setting_haulUrgentlyWorktype_label".Translate(), "setting_haulUrgentlyWorktype_desc".Translate(), true);
+			ExtendedContextActionSetting = Settings.GetHandle("extendedContextActionKey", "setting_extendedContextHotkey_label".Translate(), "setting_extendedContextHotkey_desc".Translate(), true);
+			ReverseDesignatorPickSetting = Settings.GetHandle("reverseDesignatorPick", "setting_reverseDesignatorPick_label".Translate(), "setting_reverseDesignatorPick_desc".Translate(), true);
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
 			SelectionLimitSetting.SpinnerIncrement = 50;
 			// designators
@@ -144,6 +160,14 @@ namespace AllowTool {
 				provider.ProviderHandle = Settings.GetHandle(provider.SettingId, "setting_providerPrefix".Translate(provider.EntryTextKey.Translate()), "setting_provider_desc".Translate(), true);
 				provider.ProviderHandle.VisibilityPredicate = () => expandProviderSettings;
 			}
+			// reverse designators
+			MakeSettingsCategoryToggle("setting_showReverseToggles_label", () => expandReverseToolSettings = !expandReverseToolSettings);
+			foreach (var reverseDef in DefDatabase<ReverseDesignatorDef>.AllDefs) {
+				var handleName = ReverseDesignatorHandleNamePrefix + reverseDef.defName;
+				var handle = Settings.GetHandle(handleName, "setting_showTool_label".Translate(reverseDef.designatorDef.label), "setting_reverseDesignator_desc".Translate(), true);
+				handle.VisibilityPredicate = () => expandReverseToolSettings;
+				reverseDesignatorToggleHandles[handleName] = handle;
+			}
 		}
 
 		private void MakeSettingsCategoryToggle(string labelId, Action buttonAction) {
@@ -153,6 +177,15 @@ namespace AllowTool {
 				if (Widgets.ButtonText(rect, "setting_showToggles_btn".Translate())) buttonAction();
 				return false;
 			};
+		}
+
+		public Designator_SelectableThings InstantiateDesignator(Type designatorType, ThingDesignatorDef designatorDef) {
+			try {
+				return (Designator_SelectableThings) Activator.CreateInstance(designatorType, designatorDef);
+			} catch (Exception e) {
+				Logger.ReportException(e, null, false, string.Format("instantiation of {0} with Def {1}", (designatorType != null ? designatorType.FullName : "(null)"), designatorDef));
+			}
+			return null;
 		}
 
 		private void InjectDesignators() {
@@ -167,7 +200,7 @@ namespace AllowTool {
 					break;
 				}
 				if (insertIndex >= 0) {
-					var designator = (Designator_SelectableThings)Activator.CreateInstance(designatorDef.designatorClass, designatorDef);
+					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef);
 					resolvedDesignators.Insert(insertIndex + 1, designator);
 					designator.SetVisible(IsDesignatorEnabledInSettings(designatorDef));
 					activeDesignators.Add(new DesignatorEntry(designator, designatorDef.hotkeyDef));
@@ -185,16 +218,23 @@ namespace AllowTool {
 		private void PrepareReflection() {
 			ResolvedDesignatorsField = typeof(DesignationCategoryDef).GetField("resolvedDesignators", HugsLibUtility.AllBindingFlags);
 			ReverseDesignatorDatabaseDesListField = typeof(ReverseDesignatorDatabase).GetField("desList", HugsLibUtility.AllBindingFlags);
+			var gizmoGridType = GenTypes.GetTypeInAnyAssembly("RimWorld.InspectGizmoGrid");
+			if (gizmoGridType != null) {
+				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
+			}
 			if (ResolvedDesignatorsField == null || ResolvedDesignatorsField.FieldType != typeof(List<Designator>)
-			    || ReverseDesignatorDatabaseDesListField == null || ReverseDesignatorDatabaseDesListField.FieldType != typeof(List<Designator>)) {
+			    || ReverseDesignatorDatabaseDesListField == null || ReverseDesignatorDatabaseDesListField.FieldType != typeof(List<Designator>)
+				|| GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)) {
 				Logger.Error("Failed to reflect required members");
 			}
 		}
 
+		
+
 		private void CheckForHotkeyPresses() {
 			if (Event.current.keyCode == KeyCode.None) return;
 			if (AllowToolDefOf.ToolContextMenuAction.JustPressed) {
-				DesignatorContextMenuController.DoContextMenuActionForActiveDesignator();
+				DesignatorContextMenuController.ProcessContextActionHotkeyPress();
 			}
 			if (!settingGlobalHotkeys || Find.VisibleMap == null) return;
 			for (int i = 0; i < activeDesignators.Count; i++) {
@@ -212,6 +252,12 @@ namespace AllowTool {
 				this.designator = designator;
 				this.key = key;
 			}
+		}
+
+		private bool GetToolHandleSettingValue(Dictionary<string, SettingHandle<bool>> handleDict, string handleName) {
+			SettingHandle<bool> handle;
+			handleDict.TryGetValue(handleName, out handle);
+			return handle == null || handle.Value;
 		}
 	}
 }

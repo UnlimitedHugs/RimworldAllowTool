@@ -13,8 +13,8 @@ namespace AllowTool.Context {
 	public abstract class BaseDesignatorMenuProvider {
 		protected delegate void MenuActionMethod(Designator designator, Map map);
 
-		private const string SuccessMessageStringIdSuffix = "_succ";
-		private const string FailureMessageStringIdSuffix = "_fail";
+		protected const string SuccessMessageStringIdSuffix = "_succ";
+		protected const string FailureMessageStringIdSuffix = "_fail";
 
 		// the toogle for this provider, assigned automatically by AllotToolController
 		public virtual SettingHandle<bool> ProviderHandle { get; set; } 

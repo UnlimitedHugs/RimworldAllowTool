@@ -6,12 +6,12 @@
 
 	<Forbid_area_success>Запрещено {0} предметов.</Forbid_area_success>
 	<Forbid_area_failure>Не найдено предметов для запрещения.</Forbid_area_failure>
-	
+
 	<Allow_all_success>Разрешено {0} предметов по всей карте.</Allow_all_success>
 	<Allow_all_failure>Не найдено запрещенных предметов.</Allow_all_failure>
-	
+
 	<Mass_Select_success>Выделено {0} {1} по всей карте.</Mass_Select_success>
-	
+
 	<setting_showTool_label>Отображать: {0}</setting_showTool_label>
 	<setting_showTool_desc>Если настройка включена, инструмент будет отображаться в меню.</setting_showTool_desc>
 	<setting_globalHotkeys_label>Глобальные быстрые клавиши</setting_globalHotkeys_label>
@@ -22,27 +22,36 @@
 	<setting_contextWatermark_desc>Отображает логотип AllowTool в контекстном меню инструментов.</setting_contextWatermark_desc>
 	<setting_contextOverlay_label>Иконка контекстного меню на инструментах</setting_contextOverlay_label>
 	<setting_contextOverlay_desc>Отображает иконку "правый клик" на инструментах, у которых есть контекстное меню.</setting_contextOverlay_desc>
+	<setting_extendedContextHotkey_label>Расширенная клавиша "Действие контекстного меню"</setting_extendedContextHotkey_label>
+	<setting_extendedContextHotkey_desc>Когда не выбран ни одни инструмент, клавиша "Действие контекстного меню" активирует действие контекстного меню первого инструмента на выделенных предметах.</setting_extendedContextHotkey_desc>
+	<setting_reverseDesignatorPick_label>Выбор инструментов с выделенных предметов</setting_reverseDesignatorPick_label>
+	<setting_reverseDesignatorPick_desc>Когда выделены предметы, удерживая клавишу Shift и нажав на инструмент, можно выбрать этот инструмент для дальнейшей работы вместо того чтобы активировать его на выделенных предметах.</setting_reverseDesignatorPick_desc>
 	<setting_providerPrefix>Включить: {0}</setting_providerPrefix>
 	<setting_provider_desc>Добавляет контекстное меню этому инструменту, позволяющее воздействовать на всю карту сразу.</setting_provider_desc>
 	<setting_showToggles_btn>▼ Открыть настройки ▼</setting_showToggles_btn>
 	<setting_showToolToggles_label>Включить или отключить инструменты</setting_showToolToggles_label>
 	<setting_showProviderToggles_label>Включить или отключить контекстные меню</setting_showProviderToggles_label>
-    <setting_haulUrgentlyWorktype_label>Отображать тип работы "Перенос+"</setting_haulUrgentlyWorktype_label>
-    <setting_haulUrgentlyWorktype_desc>Если включено, панель настроек работ отображает дополнительный тип работы для инструмента срочного переноса. Требуется перезапуск.</setting_haulUrgentlyWorktype_desc>
-	
+	<setting_showReverseToggles_label>Инструменты на выделенных предметах</setting_showReverseToggles_label>
+	<setting_showReverseToggles_label>Tools on selected things</setting_showReverseToggles_label>
+	<setting_reverseDesignator_desc>Если включено, отображает этот инструмент на поддерживаемых выделенных предметах. Вступает в силу после загрузки сохраненной игры.</setting_reverseDesignator_desc>
+	<setting_haulUrgentlyWorktype_label>Отображать тип работы "Перенос+"</setting_haulUrgentlyWorktype_label>
+	<setting_haulUrgentlyWorktype_desc>Если включено, панель настроек работ отображает дополнительный тип работы для инструмента срочного переноса. Требуется перезапуск.</setting_haulUrgentlyWorktype_desc>
+
 	<SelectSimilar_cursor_needConstraint>Клик для выделения предмета</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Будет выделено только: {0}</SelectSimilar_cursor_nowSelecting>
 	<SelectSimilar_cursor_limit>Выделено максимум предметов</SelectSimilar_cursor_limit>
 	<SelectSimilar_numMoreTypes>(еще {0})</SelectSimilar_numMoreTypes>
-	
+
 	<Haul_urgently_success>{0} предметов будут перенесены срочно.</Haul_urgently_success>
 	<Haul_urgently_failure>Не найдено предметов нуждающихся в переносе.</Haul_urgently_failure>
-	
+
 	<Designator_context_similar>Выделить схожие предметы на карте</Designator_context_similar>
 	<Designator_context_similar_succ>Выделено {0} схожих предметов на карте.</Designator_context_similar_succ>
 	<Designator_context_similar_part>Выделено {0} из доступных {1} схожих предметов на карте.</Designator_context_similar_part>
 	<Designator_context_similar_fail>Что-нибудь должно быть уже выделено чтобы найти и выделить схожие предметов.</Designator_context_similar_fail>
-	<Designator_context_urgent>Срочно перенести видимые предметы</Designator_context_urgent>
+	<Designator_context_urgent>Срочно перенести предметы</Designator_context_urgent>
+	<Designator_context_urgent_visible>Срочно перенести видимые предметы</Designator_context_urgent_visible>
+	<Designator_context_urgent_all>Срочно перенести все предметы на карте</Designator_context_urgent_all>
 	<Designator_context_urgent_succ>{0} предметов отмечено для срочного переноса.</Designator_context_urgent_succ>
 	<Designator_context_urgent_fail>Не найдено предметов нуждающихся в переносе.</Designator_context_urgent_fail>
 	<Designator_context_strip>Снять одежду со всех врагов</Designator_context_strip>
@@ -71,5 +80,5 @@
 	<Designator_context_cancel_build_fail>Не найдено планов для отмены.</Designator_context_cancel_build_fail>
 	<Designator_context_cancel_desig>Отменить все указания на карте</Designator_context_cancel_desig>
 	<Designator_context_cancel_desig_msg>Отменено {0} указаний на предметах и {1} на ландшафте.</Designator_context_cancel_desig_msg>
-	
+
 </LanguageData>

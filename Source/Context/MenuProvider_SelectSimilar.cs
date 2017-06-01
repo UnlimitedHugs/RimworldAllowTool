@@ -21,7 +21,10 @@ namespace AllowTool.Context {
 
 		public override void ContextMenuAction(Designator designator, Map map) {
 			var des = (Designator_SelectSimilar) designator;
-			des = des.GetNonReverseVersion();
+			var reverse = des as Designator_SelectSimilarReverse;
+			if (reverse != null) {
+				des = reverse.GetNonReverseVersion();
+			}
 			if (Find.Selector.NumSelected == 0) {
 				Messages.Message("Designator_context_similar_fail".Translate(), MessageSound.RejectInput);
 				return;

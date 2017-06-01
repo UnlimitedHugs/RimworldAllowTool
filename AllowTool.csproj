@@ -77,12 +77,14 @@
     <Compile Include="Source\Designators\Designator_HaulUrgently.cs" />
     <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
+    <Compile Include="Source\Reverse\Designator_SelectSimilarReverse.cs" />
     <Compile Include="Source\Patches\Command_GizmoOnGUI_Patch.cs" />
     <Compile Include="Source\Patches\DefOfHelper_RebindAll_Patch.cs" />
     <Compile Include="Source\Patches\Designator_ProcessInput_Patch.cs" />
     <Compile Include="Source\Patches\InspectGizmoGrid_DrawInspectGizmoGridFor_Patch.cs" />
     <Compile Include="Source\Patches\ReverseDesignatorDatabase_Init_Patch.cs" />
     <Compile Include="Source\ReverseDesignatorProvider.cs" />
+    <Compile Include="Source\Reverse\ReverseDesignatorDef.cs" />
     <Compile Include="Source\UnlimitedDesignationDragger.cs" />
     <Compile Include="Source\ThingDesignatorDef.cs" />
     <Compile Include="Source\AI\WorkGiver_HaulUrgently.cs" />

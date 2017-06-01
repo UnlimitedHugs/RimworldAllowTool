@@ -4,7 +4,7 @@ using Verse;
 
 namespace AllowTool.Patches {
 	/// <summary>
-	/// Intercepts right clicks on supported designators, ignores other interactions
+	/// Intercepts right clicks and shift-left clicks on supported designators, ignores other interactions
 	/// </summary>
 	[HarmonyPatch(typeof(Designator))]
 	[HarmonyPatch("ProcessInput")]

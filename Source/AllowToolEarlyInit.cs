@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using System;
+using Harmony;
 using Verse;
 
 namespace AllowTool {
@@ -7,8 +8,13 @@ namespace AllowTool {
 	/// </summary>
 	public class AllowToolEarlyInit : Mod {
 		public AllowToolEarlyInit(ModContentPack content) : base(content) {
-			AllowToolController.HarmonyInstance = HarmonyInstance.Create(AllowToolController.HarmonyInstanceId);
-			AllowToolController.HarmonyInstance.PatchAll(typeof(AllowToolController).Assembly);
+			try {
+				AllowToolController.HarmonyInstance = HarmonyInstance.Create(AllowToolController.HarmonyInstanceId);
+				AllowToolController.HarmonyInstance.PatchAll(typeof(AllowToolController).Assembly);
+			} catch (Exception e) {
+				// Resharper disable once
+				Log.Error("AllowTool failed to apply Harmony patches: "+e);
+			}
 		}
 	}
 }

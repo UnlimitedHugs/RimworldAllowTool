@@ -22,11 +22,17 @@
 	<setting_contextWatermark_desc>Displays an AllowTool watermark in tool context menus when enabled.</setting_contextWatermark_desc>
 	<setting_contextOverlay_label>Right click icon on tools</setting_contextOverlay_label>
 	<setting_contextOverlay_desc>When enabled, displays a small icon on designator tools that have a context menu.</setting_contextOverlay_desc>
+	<setting_extendedContextHotkey_label>Extended "Context action" hotkey</setting_extendedContextHotkey_label>
+	<setting_extendedContextHotkey_desc>When no tool is selected, the "Context action" hotkey will activate the context action on the first visible tool when items are selected.</setting_extendedContextHotkey_desc>
+	<setting_reverseDesignatorPick_label>Pick tool from selected items</setting_reverseDesignatorPick_label>
+	<setting_reverseDesignatorPick_desc>Holding the Shift key and clicking on a tool while having items selected will pick that tool up instead of activating it on the items.</setting_reverseDesignatorPick_desc>
 	<setting_providerPrefix>Enable: {0}</setting_providerPrefix>
 	<setting_provider_desc>When enabled, adds a right-click menu to the tool that allows it to affect the entire map.</setting_provider_desc>
 	<setting_showToggles_btn>▼ Show settings ▼</setting_showToggles_btn>
 	<setting_showToolToggles_label>Enable or disable tools</setting_showToolToggles_label>
 	<setting_showProviderToggles_label>Enable or disable context menus</setting_showProviderToggles_label>
+	<setting_showReverseToggles_label>Tools on selected things</setting_showReverseToggles_label>
+	<setting_reverseDesignator_desc>When enabled, shows this tool when supported things are selected. Load or start a game for this setting to take effect.</setting_reverseDesignator_desc>
 	<setting_haulUrgentlyWorktype_label>Show "Haul+" work type</setting_haulUrgentlyWorktype_label>
 	<setting_haulUrgentlyWorktype_desc>When enabled, shows the work type for the "Haul urgently" tool in the Work tab.\nThe game must be restarted for this setting to take effect.</setting_haulUrgentlyWorktype_desc>
 	
@@ -46,6 +52,7 @@
 	<Designator_context_urgent_visible>Haul visible items urgently</Designator_context_urgent_visible>
 	<Designator_context_urgent_all>Haul all map items urgently</Designator_context_urgent_all>
 	<Designator_context_urgent_succ>{0} items marked for urgent hauling.</Designator_context_urgent_succ>
+	<Designator_context_urgent_visible_succ>{0} visible items marked for urgent hauling.</Designator_context_urgent_visible_succ>
 	<Designator_context_urgent_fail>Found no new items to haul.</Designator_context_urgent_fail>
 	<Designator_context_strip>Strip all enemies</Designator_context_strip>
 	<Designator_context_strip_succ>{0} bodies designated for stripping.</Designator_context_strip_succ>

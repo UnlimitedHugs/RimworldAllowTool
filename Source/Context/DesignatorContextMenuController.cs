@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HugsLib.Utils;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -10,9 +12,29 @@ namespace AllowTool.Context {
 	/// Instantiates individual handlers, processess input events and draws overlay icons.
 	/// </summary>
 	public static class DesignatorContextMenuController {
+		private enum MouseButtons {
+			Left = 0, Right = 1
+		}
+
 		private static readonly Dictionary<Command, BaseDesignatorMenuProvider> designatorMenuProviders = new Dictionary<Command, BaseDesignatorMenuProvider>();
-		private static readonly List<Command> reverseDesignatorsForRemoval = new List<Command>();
+		private static readonly List<KeyValuePair<Command, Designator>> currentDrawnReverseDesignators = new List<KeyValuePair<Command, Designator>>();
 		private static readonly Vector2 overlayIconOffset = new Vector2(59f, 2f);
+		private static readonly HashSet<Type> reversePickingSupportedDesignators = new HashSet<Type> {
+			typeof(Designator_Cancel),
+			typeof(Designator_Claim),
+			typeof(Designator_Deconstruct),
+			typeof(Designator_Uninstall),
+			typeof(Designator_Haul),
+			typeof(Designator_Hunt),
+			typeof(Designator_Slaughter),
+			typeof(Designator_Tame),
+			typeof(Designator_PlantsCut),
+			typeof(Designator_PlantsHarvest),
+			typeof(Designator_Mine),
+			typeof(Designator_Strip),
+			typeof(Designator_RearmTrap),
+			typeof(Designator_Open)
+		}; 
 
 		private static List<BaseDesignatorMenuProvider> _providers;
 		public static List<BaseDesignatorMenuProvider> MenuProviderInstances {
@@ -59,11 +81,14 @@ namespace AllowTool.Context {
 		// try catch a right click on a supported designator. Left clicks should return false.
 		public static bool TryProcessDesignatorInput(Designator designator) {
 			try {
-				if (Event.current.button != 1) return false;
-				foreach (var provider in MenuProviderInstances) {
-					if (provider.HandledDesignatorType.IsInstanceOfType(designator)) {
-						provider.OpenContextMenu(designator);
-						return true;
+				if (Event.current.button == (int)MouseButtons.Left && HugsLibUtility.ShiftIsHeld && AllowToolController.Instance.ReverseDesignatorPickSetting) {
+					return TryPickDesignatorFromReverseDesignator(designator);
+				} else if (Event.current.button == (int)MouseButtons.Right) {
+					foreach (var provider in MenuProviderInstances) {
+						if (provider.HandledDesignatorType.IsInstanceOfType(designator)) {
+							provider.OpenContextMenu(designator);
+							return true;
+						}
 					}
 				}
 			} catch (Exception e) {
@@ -72,20 +97,28 @@ namespace AllowTool.Context {
 			return false;
 		}
 
-		// called when a designator is selected and the context action key is pressed
-		public static void DoContextMenuActionForActiveDesignator() {
+		public static void ProcessContextActionHotkeyPress() {
 			var selectedDesignator = Find.DesignatorManager.SelectedDesignator;
-			if (selectedDesignator == null || !designatorMenuProviders.ContainsKey(selectedDesignator)) return;
-			designatorMenuProviders[selectedDesignator].HotkeyAction(selectedDesignator);
+			if (selectedDesignator != null && designatorMenuProviders.ContainsKey(selectedDesignator)) {
+				designatorMenuProviders[selectedDesignator].HotkeyAction(selectedDesignator);
+			} else if(AllowToolController.Instance.ExtendedContextActionSetting.Value) {
+				// activate hotkey action for first visible reverse designator
+				foreach (var pair in currentDrawnReverseDesignators) {
+					if (designatorMenuProviders.ContainsKey(pair.Key)) {
+						designatorMenuProviders[pair.Key].HotkeyAction(pair.Value);
+						break;
+					}
+				}
+			}
 		}
 
 		// called every OnGUI- Commands for reverse designators are instantiated each time they are drawn, so we need to discard the old ones
 		public static void ClearReverseDesignatorPairs() {
-			if (reverseDesignatorsForRemoval.Count > 0) {
-				foreach (var command in reverseDesignatorsForRemoval) {
-					if (designatorMenuProviders.ContainsKey(command)) designatorMenuProviders.Remove(command);
+			if (currentDrawnReverseDesignators.Count > 0) {
+				foreach (var pair in currentDrawnReverseDesignators) {
+					if (designatorMenuProviders.ContainsKey(pair.Key)) designatorMenuProviders.Remove(pair.Key);
 				}
-				reverseDesignatorsForRemoval.Clear();
+				currentDrawnReverseDesignators.Clear();
 			}
 		}
 
@@ -100,7 +133,7 @@ namespace AllowTool.Context {
 			};
 			var providers = MenuProviderInstances;
 			TryBindDesignatorToHandler(designator, designatorButton, providers);
-			reverseDesignatorsForRemoval.Add(designatorButton);
+			currentDrawnReverseDesignators.Add(new KeyValuePair<Command, Designator>(designatorButton, designator));
 		}
 
 		public static void CheckForMemoryLeak() {
@@ -108,6 +141,14 @@ namespace AllowTool.Context {
 			if (designatorMenuProviders.Count > 100000) {
 				AllowToolController.Instance.Logger.Warning("Too many designator context menu providers! A mod interaction may have caused a memory leak.");
 			}
+		}
+
+		private static bool TryPickDesignatorFromReverseDesignator(Designator designator) {
+			if (designator is Designator_SelectableThings || (designator!=null && reversePickingSupportedDesignators.Contains(designator.GetType()))) {
+				Find.DesignatorManager.Select(designator);
+				return true;
+			}
+			return false;
 		}
 
 		private static List<BaseDesignatorMenuProvider> InstantiateProviders() {

@@ -34,14 +34,14 @@ namespace AllowTool.Context {
 		// skip rock chunks in designation, select only visible on screen
 		private void HaulVisibleAction(Designator designator, Map map) {
 			var visibleRect = GetVisibleMapRect();
-			DesignateWithPredicate(designator,map, thing => visibleRect.Contains(thing.Position));
+			DesignateWithPredicate(designator, map, thing => visibleRect.Contains(thing.Position), "Designator_context_urgent_visible_succ");
 		}
 
 		private void HaulEverythingAction(Designator designator, Map map) {
 			DesignateWithPredicate(designator, map);
 		}
 
-		private void DesignateWithPredicate(Designator designator, Map map, Func<Thing, bool> shouldDesignateThing = null) {
+		private void DesignateWithPredicate(Designator designator, Map map, Func<Thing, bool> shouldDesignateThing = null, string successMessageKey = null) {
 			int hitCount = 0;
 			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
 				if (ValidForDesignation(thing) &&
@@ -53,7 +53,14 @@ namespace AllowTool.Context {
 					hitCount++;
 				}
 			}
-			ReportActionResult(hitCount);
+			if (successMessageKey == null) {
+				successMessageKey = EntryTextKey + SuccessMessageStringIdSuffix;
+			}
+			if (hitCount > 0) {
+				Messages.Message(successMessageKey.Translate(hitCount), MessageSound.Benefit);
+			} else {
+				Messages.Message((EntryTextKey + FailureMessageStringIdSuffix).Translate(), MessageSound.RejectInput);
+			}
 		}
 
 		// code swiped from ThingSelectionUtility

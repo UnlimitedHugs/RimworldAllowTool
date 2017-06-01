@@ -19,14 +19,8 @@ namespace AllowTool {
 		private const int MaxNumListedConstraints = 5;
 		
 		private readonly Dictionary<int, SelectionDefConstraint> selectionConstraints =  new Dictionary<int, SelectionDefConstraint>();
-		private readonly bool reverseDesignatorMode;
 		private bool constraintsNeedReindexing;
 		private string readableConstraintList;
-		
-		private Selector selectorRef;
-		private Selector Selector { // cache selector to avoid lots of unnecessary routing calls
-			get { return selectorRef ?? (selectorRef = Find.Selector); }
-		}
 
 		private int numDesignated;
 		public override int GetNumDesigantedThings() {
@@ -40,46 +34,22 @@ namespace AllowTool {
 		public Designator_SelectSimilar(ThingDesignatorDef def) : base(def) {
 		}
 
-		public Designator_SelectSimilar(ThingDesignatorDef def, bool reverseDesignatorMode) : base(def) {
-			this.reverseDesignatorMode = reverseDesignatorMode;
-		}
-
 		public override void Selected() {
 			base.Selected();
 			ReindexSelectionConstraints();
 		}
-
-		// ensure we used the proper designator for the context action, that does not have its constraints removed
-		public Designator_SelectSimilar GetNonReverseVersion() {
-			return !reverseDesignatorMode ? this : (Designator_SelectSimilar) AllowToolController.Instance.TryGetDesignator(AllowToolDefOf.SelectSimilarDesignator);
-		}
-
-		// used by dragger and reverse designator. We want the reverse designator to always show, but ignoring constraints breaks the context action
+		
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
 			return thing.def != null &&
 				   thing.def.selectable &&
 				   thing.def.label != null &&
 				   !BlockedByFog(thing.Position, thing.Map) &&
-				   (reverseDesignatorMode || ThingMatchesSelectionConstraints(thing) || AllowToolController.Instance.Dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection conststraints if we are not dragging, only clicking
-				   (reverseDesignatorMode || SelectionLimitAllowsAdditionalThing());
+				   (ThingMatchesSelectionConstraints(thing) || AllowToolController.Instance.Dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection conststraints if we are not dragging, only clicking
+				   SelectionLimitAllowsAdditionalThing();
 		}
 
 		public override void DesignateThing(Thing t) {
 			TrySelectThing(t);
-		}
-
-		protected override void FinalizeDesignationSucceeded() {
-			if (reverseDesignatorMode) {
-				Log.Message("xx");
-				// intercept call from the reverse designator button
-				// activate the regualar select similar designator for the player to select more items
-				var selectSimilarNonReverse = GetNonReverseVersion();
-				if (Find.DesignatorManager.SelectedDesignator != selectSimilarNonReverse) {
-					// debounce multiple selected items
-					Find.DesignatorManager.Select(selectSimilarNonReverse);
-				}
-			}
-			base.FinalizeDesignationSucceeded();
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
@@ -118,18 +88,19 @@ namespace AllowTool {
 		}
 
 		public bool SelectionLimitAllowsAdditionalThing() {
-			return Selector.NumSelected < AllowToolController.Instance.SelectionLimitSetting.Value || AllowToolController.Instance.Dragger.SelectingSingleCell || HugsLibUtility.AltIsHeld;
+			return Find.Selector.NumSelected < AllowToolController.Instance.SelectionLimitSetting.Value || AllowToolController.Instance.Dragger.SelectingSingleCell || HugsLibUtility.AltIsHeld;
 		}
 
 		// generate an index of defs to compare other things against, based on currently selected things
 		public void ReindexSelectionConstraints() {
 			try {
+				var selector = Find.Selector;
 				constraintsNeedReindexing = false;
 				selectionConstraints.Clear();
 				readableConstraintList = "";
-				if (Selector.NumSelected == 0) return;
+				if (selector.NumSelected == 0) return;
 				// get defs of selected objects, count duplicates
-				foreach (var selectedObject in Selector.SelectedObjects) {
+				foreach (var selectedObject in selector.SelectedObjects) {
 					var thing = selectedObject as Thing;
 					if (thing == null || thing.def == null || !thing.def.selectable) continue;
 					int constraintHash = GetConstraintHashForThing(thing);
@@ -164,8 +135,9 @@ namespace AllowTool {
 		}
 
 		public bool TrySelectThing(Thing thing) {
-			if (!CanDesignateThing(thing).Accepted || Selector.IsSelected(thing)) return false;
-			Selector.SelectedObjects.Add(thing); // manually adding objects to the selection list gets around the stock selection limit
+			var selector = Find.Selector;
+			if (!CanDesignateThing(thing).Accepted || selector.IsSelected(thing)) return false;
+			selector.SelectedObjects.Add(thing); // manually adding objects to the selection list gets around the stock selection limit
 			SelectionDrawer.Notify_Selected(thing);
 			if (!AnySelectionContstraints) {
 				ReindexSelectionConstraints();
@@ -177,7 +149,7 @@ namespace AllowTool {
 
 		private void ProcessSingleCellClick(IntVec3 cell) {
 			if (!HugsLibUtility.ShiftIsHeld) {
-				Selector.ClearSelection();
+				Find.Selector.ClearSelection();
 				ReindexSelectionConstraints();
 			}
 			if (cell.IsValid) {
@@ -195,9 +167,9 @@ namespace AllowTool {
 			return map.fogGrid.IsFogged(cell) && !DebugSettings.godMode;
 		}
 
-		// close architect menu if anything wa selected
+		// close architect menu if anything was selected
 		private void TryCloseArchitectMenu() {
-			if (Selector.NumSelected == 0) return;
+			if (Find.Selector.NumSelected == 0) return;
 			if (Find.MainTabsRoot.OpenTab != MainButtonDefOf.Architect) return;
 			Find.MainTabsRoot.EscapeCurrentTab();
 		}
