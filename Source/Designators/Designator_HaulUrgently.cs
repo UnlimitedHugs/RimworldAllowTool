@@ -7,14 +7,8 @@ namespace AllowTool {
 	/// Designates things for urgent hauling.
 	/// </summary>
 	public class Designator_HaulUrgently : Designator_SelectableThings {
-		private int numDesignated;
-
 		public Designator_HaulUrgently(ThingDesignatorDef def)
 			: base(def) {
-		}
-
-		public override int GetNumDesigantedThings() {
-			return numDesignated;
 		}
 
 		protected override void FinalizeDesignationSucceeded() {
@@ -32,13 +26,13 @@ namespace AllowTool {
 
 		public override void DesignateSingleCell(IntVec3 cell) {
 			var map = Find.VisibleMap;
-			numDesignated = 0;
+			numThingsDesignated = 0;
 
 			var cellThings = map.thingGrid.ThingsListAt(cell);
 			for (var i = 0; i < cellThings.Count; i++) {
 				var thing = cellThings[i];
 				if (!ThingIsRelevant(thing)) continue;
-				numDesignated++;
+				numThingsDesignated++;
 				DesignateThing(thing);
 			}
 		}

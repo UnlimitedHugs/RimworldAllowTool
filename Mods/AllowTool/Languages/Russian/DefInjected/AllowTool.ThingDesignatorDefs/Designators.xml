@@ -19,6 +19,10 @@
 
 	<HaulUrgentlyDesignator.label>Срочный перенос</HaulUrgentlyDesignator.label>
 	<HaulUrgentlyDesignator.description>Выделяет предметы, которые должны быть перенесены прежде любых других работ.
-Удерживать Shift прервать текущие работы и начать переносить немедленно.</HaulUrgentlyDesignator.description>
+Удерживать Shift чтобы прервать текущие работы и начать переносить немедленно.</HaulUrgentlyDesignator.description>
+
+	<FinishOffDesignator.label>Добить</FinishOffDesignator.label>
+	<FinishOffDesignator.description>Быстро и безболезненно убить поверженных существ.
+Удерживать Shift чтобы включить поселенцев и союзников.</FinishOffDesignator.description>
 	
 </LanguageData>

@@ -7,4 +7,10 @@
 		<targetType>Thing</targetType>
 	</DesignationDef>
 
+	<DesignationDef>
+		<defName>FinishOffDesignation</defName>
+		<texturePath>finishOffDesignation</texturePath>
+		<targetType>Thing</targetType>
+	</DesignationDef>
+
 </DesignationDefs>

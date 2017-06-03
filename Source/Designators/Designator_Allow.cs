@@ -6,8 +6,7 @@ namespace AllowTool {
 	/// Unforbids all forbidden things in the designated area
 	/// </summary>
 	public class Designator_Allow : Designator_SelectableThings {
-		private int numDesignated;
-
+		
 		public Designator_Allow(ThingDesignatorDef def) : base(def) {
 		}
 
@@ -18,11 +17,7 @@ namespace AllowTool {
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
-			numDesignated = AllowToolUtility.ToggleForbiddenInCell(cell, Find.VisibleMap, false);
-		}
-
-		public override int GetNumDesigantedThings() {
-			return numDesignated;
+			numThingsDesignated = AllowToolUtility.ToggleForbiddenInCell(cell, Find.VisibleMap, false);
 		}
 	}
 }

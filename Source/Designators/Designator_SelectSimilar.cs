@@ -22,11 +22,6 @@ namespace AllowTool {
 		private bool constraintsNeedReindexing;
 		private string readableConstraintList;
 
-		private int numDesignated;
-		public override int GetNumDesigantedThings() {
-			return numDesignated;
-		}
-
 		private bool AnySelectionContstraints {
 			get { return selectionConstraints.Count > 0; }
 		}
@@ -55,10 +50,10 @@ namespace AllowTool {
 		public override void DesignateSingleCell(IntVec3 cell) {
 			var map = Find.VisibleMap;
 			var cellThings = map.thingGrid.ThingsListAtFast(cell);
-			numDesignated = 0;
+			numThingsDesignated = 0;
 			for (var i = 0; i < cellThings.Count; i++) {
 				if (TrySelectThing(cellThings[i])) {
-					numDesignated++;
+					numThingsDesignated++;
 				}
 			}
 		}

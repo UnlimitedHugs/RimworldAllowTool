@@ -70,6 +70,8 @@ namespace AllowTool {
 		public SettingHandle<bool> ExtendedContextActionSetting { get; set; }
 
 		public SettingHandle<bool> ReverseDesignatorPickSetting { get; set; }
+		
+		public SettingHandle<bool> FinishOffSkillRequirement { get; set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 
@@ -87,6 +89,10 @@ namespace AllowTool {
 			if (Time.frameCount % (60*60) == 0) { // 'bout every minute
 				DesignatorContextMenuController.CheckForMemoryLeak();
 			}
+		}
+
+		public override void Tick(int currentTick) {
+			DesignationCleanupManager.Tick(currentTick);
 		}
 
 		public override void OnGUI() {
@@ -168,6 +174,8 @@ namespace AllowTool {
 				handle.VisibilityPredicate = () => expandReverseToolSettings;
 				reverseDesignatorToggleHandles[handleName] = handle;
 			}
+			FinishOffSkillRequirement = Settings.GetHandle("finishOffSkill", "setting_finishOffSkill_label".Translate(), "setting_finishOffSkill_desc".Translate(), true);
+			FinishOffSkillRequirement.VisibilityPredicate = () => Prefs.DevMode;
 		}
 
 		private void MakeSettingsCategoryToggle(string labelId, Action buttonAction) {

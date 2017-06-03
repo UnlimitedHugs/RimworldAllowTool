@@ -27,4 +27,10 @@
 		<content>&lt;b&gt;Massive update!&lt;/b&gt;|&lt;b&gt;New tools:&lt;/b&gt;|img:News/selectSimilar|caption:"Select similar" (formerly Mass select) allows to easily find and select only things similar to those already selected. Great for deconstruction and finding things around the map.|img:News/haulUrgently|caption:"Haul urgently" allows to have the marked items hauled before any other work is done. Holding Shift will have colonists interrupt current work and begin hauling immediately.|&lt;b&gt;Tool right-click menus:&lt;/b&gt;|img:News/contextMenuExample|caption:Tools with the small mouse icon now have a context menu that allows them to affect the whole map. To activate the context menu action for the tool you are holding, you can also press the "Context action" key ("Equals" by default).</content>
 	</HugsLib.UpdateFeatureDef>
 	
+	<HugsLib.UpdateFeatureDef ParentName="UpdateFeatureBase">
+		<defName>AllowTool_3_2_0</defName>
+		<assemblyVersion>3.2.0</assemblyVersion>
+		<content>&lt;b&gt;New tool:&lt;/b&gt;|img:News/finishOff|caption:"Finish off" allows to quickly and humanely clean up downed animals and raid survivors. Requires a colonist skilled in melee combat to carry out the order.</content>
+	</HugsLib.UpdateFeatureDef>
+	
 </Defs>

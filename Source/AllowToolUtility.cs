@@ -55,7 +55,7 @@ namespace AllowTool {
 							injectedPawns.Add(pawn);
 						}
 						if (cyclesLeft == 0) {
-							throw new Exception(string.Format("Ran out of cycles while trying to pad work priorities array:  {0} {1} {2}", def.defName, pawn.Name, priorityList.Count));
+							throw new Exception(String.Format("Ran out of cycles while trying to pad work priorities array:  {0} {1} {2}", def.defName, pawn.Name, priorityList.Count));
 						}
 					}
 				}
@@ -65,6 +65,11 @@ namespace AllowTool {
 			} catch (Exception e) {
 				AllowToolController.Instance.Logger.Error("Exception while injecting WorkTypeDef into colonist pawns: " + e);
 			}
+		}
+
+		public static bool PawnIsFriendly(Thing t) {
+			var pawn = t as Pawn;
+			return pawn != null && pawn.Faction != null && (pawn.IsPrisonerOfColony || !pawn.Faction.HostileTo(Faction.OfPlayer));
 		}
 
 		// returns a work priority based on disabled work types and tags for that pawn
@@ -78,6 +83,5 @@ namespace AllowTool {
 			}
 			return defaultWorkPriority;
 		}
-
 	}
 }

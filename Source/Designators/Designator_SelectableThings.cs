@@ -10,6 +10,7 @@ namespace AllowTool {
 	/// </summary>
 	public abstract class Designator_SelectableThings : Designator {
 		internal readonly ThingDesignatorDef def;
+		protected int numThingsDesignated;
 
 		public override int DraggableDimensions {
 			get { return 2; }
@@ -51,10 +52,16 @@ namespace AllowTool {
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
-			if (GetNumDesigantedThings() > 0) {
-				FinalizeDesignationSucceeded();
-			} else {
-				FinalizeDesignationFailed();
+			numThingsDesignated = 0;
+			var map = Find.VisibleMap;
+			if (map == null) return;
+			var things = map.thingGrid.ThingsListAt(cell);
+			for (int i = 0; i < things.Count; i++) {
+				var t = things[i];
+				if (CanDesignateThing(t).Accepted) {
+					DesignateThing(t);
+					numThingsDesignated++;
+				}
 			}
 		}
 
@@ -62,21 +69,18 @@ namespace AllowTool {
 			var hitCount = 0;
 			foreach (var cell in AllowToolController.Instance.Dragger.GetAffectedCells()) {
 				DesignateSingleCell(cell);
-				var hits = GetNumDesigantedThings();
-				hitCount += hits;
+				hitCount += numThingsDesignated;
 			}
 			if (hitCount > 0) {
 				if (def.messageSuccess != null) Messages.Message(def.messageSuccess.Translate(hitCount.ToString()), MessageSound.Silent);
 				FinalizeDesignationSucceeded();
 			} else {
 				if (def.messageFailure != null) Messages.Message(def.messageFailure.Translate(), MessageSound.RejectInput);
+				FinalizeDesignationFailed();
 			}
 		}
 
-		public abstract int GetNumDesigantedThings();
-
 		public virtual void SelectedOnGUI() {
 		}
-
 	}
 }

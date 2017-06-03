@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\AI\JobDriver_FinishOff.cs" />
+    <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
     <Compile Include="Source\AllowToolEarlyInit.cs" />
     <Compile Include="Source\Context\DesignatorContextMenuController.cs" />
     <Compile Include="Source\AllowToolController.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Source\Context\BaseDesignatorMenuProvider.cs" />
     <Compile Include="Source\Context\MenuProvider_Cancel.cs" />
     <Compile Include="Source\Context\MenuProvider_Chop.cs" />
+    <Compile Include="Source\Context\MenuProvider_FinishOff.cs" />
     <Compile Include="Source\Context\MenuProvider_Harvest.cs" />
     <Compile Include="Source\Context\MenuProvider_Haul.cs" />
     <Compile Include="Source\Context\MenuProvider_HaulUrgently.cs" />
@@ -71,12 +74,15 @@
     <Compile Include="Source\Context\MenuProvider_Rearm.cs" />
     <Compile Include="Source\Context\MenuProvider_SelectSimilar.cs" />
     <Compile Include="Source\Context\MenuProvider_Strip.cs" />
+    <Compile Include="Source\DesignationCleanupManager.cs" />
     <Compile Include="Source\Designators\Designator_Allow.cs" />
     <Compile Include="Source\Designators\Designator_AllowAll.cs" />
+    <Compile Include="Source\Designators\Designator_FinishOff.cs" />
     <Compile Include="Source\Designators\Designator_Forbid.cs" />
     <Compile Include="Source\Designators\Designator_HaulUrgently.cs" />
     <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
+    <Compile Include="Source\Patches\Thing_GetFloatMenuOptions_Patch.cs" />
     <Compile Include="Source\Reverse\Designator_SelectSimilarReverse.cs" />
     <Compile Include="Source\Patches\Command_GizmoOnGUI_Patch.cs" />
     <Compile Include="Source\Patches\DefOfHelper_RebindAll_Patch.cs" />

@@ -15,4 +15,18 @@
 		</requiredCapacities>
 	</WorkGiverDef>
 
+	<WorkGiverDef>
+		<defName>FinishOff</defName>
+		<label>finish off creature</label>
+		<giverClass>AllowTool.WorkGiver_FinishOff</giverClass>
+		<workType>FinishingOff</workType>
+		<verb>finish off</verb>
+		<gerund>finishing off</gerund>
+		<priorityInType>50</priorityInType>
+		<directOrderable>false</directOrderable> <!-- uses custom context menu option drawer -->
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
 </WorkGivers>

@@ -94,4 +94,20 @@ Configurable in the Work tab.
 		<messageFailure>Haul_urgently_failure</messageFailure>
 	</AllowTool.ThingDesignatorDef>
 	
+	<AllowTool.ThingDesignatorDef>
+        <defName>FinishOffDesignator</defName>
+		<designatorClass>AllowTool.Designator_FinishOff</designatorClass>
+		<category>Orders</category>
+		<insertAfter>AllowTool.Designator_HaulUrgently</insertAfter>
+        <label>Finish off</label>
+		<description>Quickly and painlessly kill downed creatures.
+&lt;b&gt;Hold Shift&lt;/b&gt; to include colonists and allies.</description>
+		<iconTex>finishOff</iconTex>
+		<dragHighlightTex>finishOffHighlight</dragHighlightTex>
+		<soundSucceded>ThingSelected</soundSucceded>
+		<hotkeyDef>DesignatorFinishOff</hotkeyDef>
+		<messageSuccess>Finish_off_success</messageSuccess>
+		<messageFailure>Finish_off_failure</messageFailure>
+	</AllowTool.ThingDesignatorDef>
+	
 </Defs>

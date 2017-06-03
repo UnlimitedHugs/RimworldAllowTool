@@ -2,9 +2,15 @@
 <LanguageData>
 	
 	<HaulingUrgent.labelShort>Перенос+</HaulingUrgent.labelShort>
-	<HaulingUrgent.pawnLabel>Срочный переносчик</HaulingUrgent.pawnLabel>
-	<HaulingUrgent.gerundLabel>Срочно переносится</HaulingUrgent.gerundLabel>
+	<HaulingUrgent.pawnLabel>срочный переносчик</HaulingUrgent.pawnLabel>
+	<HaulingUrgent.gerundLabel>срочно переносится</HaulingUrgent.gerundLabel>
 	<HaulingUrgent.description>Перенос высокого приоритета. Применяется к предметам помеченным инструментом "Срочный перенос".\nДобавлено модом Allow Tool.</HaulingUrgent.description>
-	<HaulingUrgent.verb>Срочно перенести</HaulingUrgent.verb>
+	<HaulingUrgent.verb>срочно перенести</HaulingUrgent.verb>
+	
+	<FinishingOff.labelShort>Добивание</FinishingOff.labelShort>
+	<FinishingOff.pawnLabel>добиватель</FinishingOff.pawnLabel>
+	<FinishingOff.gerundLabel>добивается</FinishingOff.gerundLabel>
+	<FinishingOff.description>Добивание поверженных существ.\nДобавлено модом Allow Tool.</FinishingOff.description>
+	<FinishingOff.verb>добить</FinishingOff.verb>
 
 </LanguageData>

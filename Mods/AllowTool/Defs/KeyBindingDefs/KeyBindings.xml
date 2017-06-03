@@ -39,6 +39,12 @@
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
+		<defName>DesignatorFinishOff</defName>
+		<label>Designator: Finish off</label>
+	</KeyBindingDef>
+	
+	<KeyBindingDef>
+		<category>AllowTool</category>
 		<defName>ToolContextMenuAction</defName>
 		<label>Current tool: context menu action</label>
 		<defaultKeyCodeA>Equals</defaultKeyCodeA>

@@ -11,6 +11,8 @@
 	
 	<DesignatorHaulUrgently.label>Инструмент: Срочный перенос</DesignatorHaulUrgently.label>
 	
+	<DesignatorFinishOff.label>Инструмент: Добить</DesignatorFinishOff.label>
+	
 	<ToolContextMenuAction.label>Действие контекстного меню</ToolContextMenuAction.label>
 
 </LanguageData>

@@ -15,5 +15,23 @@
 			<li>Hauling</li>
 		</workTags>
 	</WorkTypeDef>
-	
+
+	<WorkTypeDef>
+		<defName>FinishingOff</defName>
+		<labelShort>Finish</labelShort>
+		<pawnLabel>Executor</pawnLabel>
+		<gerundLabel>finishing off</gerundLabel>
+		<description>Quickly and painlessly kill downed creatures.</description>
+		<verb>Finish off</verb>
+		<naturalPriority>1140</naturalPriority>
+		<alwaysStartActive>true</alwaysStartActive>
+		<visible>false</visible>
+		<relevantSkills>
+			<li>Melee</li>
+		</relevantSkills>
+		<workTags>
+			<li>Violent</li>
+		</workTags>
+	</WorkTypeDef>
+
 </WorkTypeDefs>

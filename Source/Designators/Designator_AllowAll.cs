@@ -10,8 +10,6 @@ namespace AllowTool {
 	/// Holding Shift will include rotten remains.
 	/// </summary>
 	public class Designator_AllowAll : Designator_SelectableThings {
-		private int numDesignated;
-
 		public Designator_AllowAll(ThingDesignatorDef def) : base(def) {
 		} 
 
@@ -21,16 +19,12 @@ namespace AllowTool {
 			AllowAllTheThings();
 		}
 
-		public override int GetNumDesigantedThings() {
-			return numDesignated;
-		}
-
 		public override AcceptanceReport CanDesignateThing(Thing t) {
 			return false;
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
-			numDesignated = 0;
+			numThingsDesignated = 0;
 		}
 
 		private void AllowAllTheThings() {

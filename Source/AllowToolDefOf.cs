@@ -13,13 +13,26 @@ namespace AllowTool {
 
 		// designations
 		public static DesignationDef HaulUgentlyDesignation;
+		public static DesignationDef FinishOffDesignation;
 
 		// designators
-		public static ThingDesignatorDef HaulUrgentlyDesignator;
 		public static ThingDesignatorDef SelectSimilarDesignator;
+		public static ThingDesignatorDef FinishOffDesignator;
+
+		// deverse designators
+		public static ReverseDesignatorDef ReverseFinishOff;
 
 		// work types
 		public static WorkTypeDef HaulingUrgent;
+		
+		// work giver
+		public static WorkGiverDef FinishOff;
+
+		// jobs
+		public static JobDef FinishOffPawn;
+
+		// effecters
+		public static EffecterDef EffecterWeaponGlint;
 
 		// key bindings
 		public static KeyBindingDef ToolContextMenuAction;
