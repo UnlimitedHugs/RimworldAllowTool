@@ -24,6 +24,7 @@ namespace AllowTool {
 
 		// work types
 		public static WorkTypeDef HaulingUrgent;
+		public static WorkTypeDef FinishingOff;
 		
 		// work giver
 		public static WorkGiverDef FinishOff;

@@ -122,6 +122,7 @@ namespace AllowTool {
 		public override void MapLoaded(Map map) {
 			// necessary when adding the mod to existing saves
 			AllowToolUtility.EnsureAllColonistsKnowWorkType(AllowToolDefOf.HaulingUrgent, map);
+			AllowToolUtility.EnsureAllColonistsKnowWorkType(AllowToolDefOf.FinishingOff, map);
 		}
 
 		public override void SettingsChanged() {
