@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Harmony;
 using HugsLib.Utils;
 using RimWorld;
@@ -44,9 +45,11 @@ namespace AllowTool {
 						// the priority list must be padded to accomodate our WorkTypeDef.index
 						// the value added will be the priority for our work type
 						// more than one element may need to be added (other modded work types taking up indices)
-						while (priorityList.Count <= def.index && cyclesLeft > 0) {
+						// pad by the maximum index available to make provisions for ther mods' worktypes
+						var maxIndex = DefDatabase<WorkTypeDef>.AllDefs.Max(d => d.index);
+						while (priorityList.Count <= maxIndex && cyclesLeft > 0) {
 							cyclesLeft--;
-							var nowAddingSpecifiedWorktype = priorityList.Count == def.index;
+							var nowAddingSpecifiedWorktype = priorityList.Count == maxIndex;
 							int priority = disabledWorkPriority;
 							if (nowAddingSpecifiedWorktype) {
 								priority = GetWorkTypePriorityForPawn(def, pawn);
