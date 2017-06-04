@@ -35,6 +35,8 @@
 	<setting_reverseDesignator_desc>When enabled, shows this tool when supported things are selected. Load or start a game for this setting to take effect.</setting_reverseDesignator_desc>
 	<setting_haulUrgentlyWorktype_label>Show "Haul+" work type</setting_haulUrgentlyWorktype_label>
 	<setting_haulUrgentlyWorktype_desc>When enabled, shows the work type for the "Haul urgently" tool in the Work tab.\nThe game must be restarted for this setting to take effect.</setting_haulUrgentlyWorktype_desc>
+	<setting_finishOffWorktype_label>Show "Finish off" work type</setting_finishOffWorktype_label>
+	<setting_finishOffWorktype_desc>When enabled, shows the work type for the "Finish off" tool in the Work tab.\nThe game must be restarted for this setting to take effect.</setting_finishOffWorktype_desc>
 	<setting_finishOffSkill_label>"Finish off" skill requirement</setting_finishOffSkill_label>
 	<setting_finishOffSkill_desc>The "Finish off" tool will require a pawn with a sufficiently high melee skill to use.</setting_finishOffSkill_desc>
 	

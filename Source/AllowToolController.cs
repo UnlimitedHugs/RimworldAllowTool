@@ -21,6 +21,7 @@ namespace AllowTool {
 		internal const string ReverseDesignatorHandleNamePrefix = "showrev";
 		internal const string HarmonyInstanceId = "HugsLib.AllowTool";
 		private const string HaulWorktypeSettingName = "haulUrgentlyWorktype";
+		private const string FinishOffWorktypeSettingName = "finishOffWorktype";
 
 		public static FieldInfo ResolvedDesignatorsField;
 		public static FieldInfo ReverseDesignatorDatabaseDesListField;
@@ -32,9 +33,15 @@ namespace AllowTool {
 		// called before implied def generation
 		public static void HideHaulUrgentlyWorkTypeIfDisabled() {
 			try {
-				var peekValue = HugsLibController.SettingsManager.GetModSettings(ModId).PeekValue(HaulWorktypeSettingName); // handles will be created later- just peek for now
+				// handles will be created later- just peek for now
+				var pack = HugsLibController.SettingsManager.GetModSettings(ModId);
+				var peekValue = pack.PeekValue(HaulWorktypeSettingName);
 				if (peekValue == "False") {
 					AllowToolDefOf.HaulingUrgent.visible = false;
+				}
+				peekValue = pack.PeekValue(FinishOffWorktypeSettingName);
+				if (peekValue == "True") {
+					AllowToolDefOf.FinishingOff.visible = true;
 				}
 			} catch (Exception e) {
 				Log.Error("AllowTool failed to modify work type visibility: "+e);
@@ -121,8 +128,11 @@ namespace AllowTool {
 
 		public override void MapLoaded(Map map) {
 			// necessary when adding the mod to existing saves
-			AllowToolUtility.EnsureAllColonistsKnowWorkType(AllowToolDefOf.HaulingUrgent, map);
-			AllowToolUtility.EnsureAllColonistsKnowWorkType(AllowToolDefOf.FinishingOff, map);
+			var injected = AllowToolUtility.EnsureAllColonistsKnowAllWorkTypes(map);
+			if (injected) {
+				AllowToolUtility.EnsureAllColonistsHaveWorkTypeEnabled(AllowToolDefOf.HaulingUrgent, map);
+				AllowToolUtility.EnsureAllColonistsHaveWorkTypeEnabled(AllowToolDefOf.FinishingOff, map);
+			}
 		}
 
 		public override void SettingsChanged() {
@@ -148,6 +158,7 @@ namespace AllowTool {
 			ContextOverlaySetting = Settings.GetHandle("contextOverlay", "setting_contextOverlay_label".Translate(), "setting_contextOverlay_desc".Translate(), true);
 			ContextWatermarkSetting = Settings.GetHandle("contextWatermark", "setting_contextWatermark_label".Translate(), "setting_contextWatermark_desc".Translate(), true);
 			Settings.GetHandle(HaulWorktypeSettingName, "setting_haulUrgentlyWorktype_label".Translate(), "setting_haulUrgentlyWorktype_desc".Translate(), true);
+			Settings.GetHandle(FinishOffWorktypeSettingName, "setting_finishOffWorktype_label".Translate(), "setting_finishOffWorktype_desc".Translate(), false);
 			ExtendedContextActionSetting = Settings.GetHandle("extendedContextActionKey", "setting_extendedContextHotkey_label".Translate(), "setting_extendedContextHotkey_desc".Translate(), true);
 			ReverseDesignatorPickSetting = Settings.GetHandle("reverseDesignatorPick", "setting_reverseDesignatorPick_label".Translate(), "setting_reverseDesignatorPick_desc".Translate(), true);
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));

@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	
-	<HaulingUrgent.labelShort>Перенос+</HaulingUrgent.labelShort>
-	<HaulingUrgent.pawnLabel>срочный переносчик</HaulingUrgent.pawnLabel>
-	<HaulingUrgent.gerundLabel>срочно переносится</HaulingUrgent.gerundLabel>
+	<HaulingUrgent.labelShort>Носильщик+</HaulingUrgent.labelShort>
+	<HaulingUrgent.pawnLabel>срочный носильщик</HaulingUrgent.pawnLabel>
+	<HaulingUrgent.gerundLabel>Срочный перенос</HaulingUrgent.gerundLabel>
 	<HaulingUrgent.description>Перенос высокого приоритета. Применяется к предметам помеченным инструментом "Срочный перенос".\nДобавлено модом Allow Tool.</HaulingUrgent.description>
 	<HaulingUrgent.verb>срочно перенести</HaulingUrgent.verb>
 	
-	<FinishingOff.labelShort>Добивание</FinishingOff.labelShort>
+	<FinishingOff.labelShort>Добиватель</FinishingOff.labelShort>
 	<FinishingOff.pawnLabel>добиватель</FinishingOff.pawnLabel>
-	<FinishingOff.gerundLabel>добивается</FinishingOff.gerundLabel>
-	<FinishingOff.description>Добивание поверженных существ.\nДобавлено модом Allow Tool.</FinishingOff.description>
+	<FinishingOff.gerundLabel>Добивание</FinishingOff.gerundLabel>
+	<FinishingOff.description>Добивание поверженных существ. Применяется к предметам помеченным инструментом "Добить".\nДобавлено модом Allow Tool.</FinishingOff.description>
 	<FinishingOff.verb>добить</FinishingOff.verb>
 
 </LanguageData>

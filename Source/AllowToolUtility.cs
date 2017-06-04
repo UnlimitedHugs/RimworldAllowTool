@@ -8,6 +8,9 @@ using Verse;
 
 namespace AllowTool {
 	public static class AllowToolUtility {
+		const int DisabledWorkPriority = 0;
+		const int DefaultWorkPriority = 3;
+
 		// unforbids forbidden things in a cell and returns the number of hits
 		public static int ToggleForbiddenInCell(IntVec3 cell, Map map, bool makeForbidden) {
 			if(map == null) throw new NullReferenceException("map is null");
@@ -29,44 +32,62 @@ namespace AllowTool {
 		}
 
 		// Allows to add WorkTypeDefs to an existing saved game without causing exceptions in the Work tab and work scheduler.
-		public static void EnsureAllColonistsKnowWorkType(WorkTypeDef def, Map map) {
-			const int disabledWorkPriority = 0;
+		// Returns true if the work type array had to be padded for at least one pawn.
+		public static bool EnsureAllColonistsKnowAllWorkTypes(Map map) {
 			try {
 				var injectedPawns = new HashSet<Pawn>();
-				if (map == null || map.mapPawns == null) return;
+				if (map == null || map.mapPawns == null) return false;
 				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer)) {
 					if (pawn == null || pawn.workSettings == null) continue;
-					var workDefMap = Traverse.Create(pawn.workSettings).Field("priorities").GetValue<DefMap<WorkTypeDef, int>>();
-					if (workDefMap == null) throw new Exception("Failed to retrieve workDefMap for pawn: " + pawn);
-					var priorityList = Traverse.Create(workDefMap).Field("values").GetValue<List<int>>();
-					if (priorityList == null) throw new Exception("Failed to retrieve priority list for pawn: " + pawn);
-					if (priorityList.Count > 0) {
+					var priorityList = GetWorkPriorityListForPawn(pawn);
+					if (priorityList != null && priorityList.Count > 0) {
 						var cyclesLeft = 100;
-						// the priority list must be padded to accomodate our WorkTypeDef.index
-						// the value added will be the priority for our work type
-						// more than one element may need to be added (other modded work types taking up indices)
-						// pad by the maximum index available to make provisions for ther mods' worktypes
+						// the priority list must be padded to accomodate all available WorkTypeDef.index
+						// pad by the maximum index available to make provisions for other mods' worktypes
 						var maxIndex = DefDatabase<WorkTypeDef>.AllDefs.Max(d => d.index);
 						while (priorityList.Count <= maxIndex && cyclesLeft > 0) {
 							cyclesLeft--;
-							var nowAddingSpecifiedWorktype = priorityList.Count == maxIndex;
-							int priority = disabledWorkPriority;
-							if (nowAddingSpecifiedWorktype) {
-								priority = GetWorkTypePriorityForPawn(def, pawn);
-							}
-							priorityList.Add(priority);
+							priorityList.Add(DisabledWorkPriority);
 							injectedPawns.Add(pawn);
 						}
 						if (cyclesLeft == 0) {
-							throw new Exception(String.Format("Ran out of cycles while trying to pad work priorities array:  {0} {1} {2}", def.defName, pawn.Name, priorityList.Count));
+							throw new Exception(String.Format("Ran out of cycles while trying to pad work priorities list:  {0} {1}", pawn.Name, priorityList.Count));
 						}
 					}
 				}
 				if (injectedPawns.Count > 0) {
-					AllowToolController.Instance.Logger.Message("Injected work type {0} into pawns: {1}", def.defName, injectedPawns.Join(", ", true));
+					AllowToolController.Instance.Logger.Message("Padded work priority lists for pawns: {0}", injectedPawns.Join(", ", true));
+					return true;
 				}
 			} catch (Exception e) {
 				AllowToolController.Instance.Logger.Error("Exception while injecting WorkTypeDef into colonist pawns: " + e);
+			}
+			return false;
+		}
+
+		// due to other mods' worktypes, our worktype priority may start at zero. This should fix that.
+		public static void EnsureAllColonistsHaveWorkTypeEnabled(WorkTypeDef def, Map map) {
+			try {
+				var activatedPawns = new HashSet<Pawn>();
+				if (map == null || map.mapPawns == null) return;
+				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer)) {
+					var priorityList = GetWorkPriorityListForPawn(pawn);
+					if (priorityList != null && priorityList.Count > 0) {
+						var curValue = priorityList[def.index];
+						if (curValue == DisabledWorkPriority) {
+							var adjustedValue = GetWorkTypePriorityForPawn(def, pawn);
+							if (adjustedValue != curValue) {
+								priorityList[def.index] = adjustedValue;
+								activatedPawns.Add(pawn);
+							}
+						}	
+					}
+				}
+				if (activatedPawns.Count > 0) {
+					AllowToolController.Instance.Logger.Message("Adjusted work type priority of {0} to default for pawns: {1}", def.defName, activatedPawns.Join(", ", true));
+				}
+			} catch (Exception e) {
+				AllowToolController.Instance.Logger.Error("Exception while adjusting work type priority in colonist pawns: " + e);
 			}
 		}
 
@@ -75,16 +96,25 @@ namespace AllowTool {
 			return pawn != null && pawn.Faction != null && (pawn.IsPrisonerOfColony || !pawn.Faction.HostileTo(Faction.OfPlayer));
 		}
 
+		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
+			if (pawn != null && pawn.workSettings != null) {
+				var workDefMap = Traverse.Create(pawn.workSettings).Field("priorities").GetValue<DefMap<WorkTypeDef, int>>();
+				if (workDefMap == null) throw new Exception("Failed to retrieve workDefMap for pawn: " + pawn);
+				var priorityList = Traverse.Create(workDefMap).Field("values").GetValue<List<int>>();
+				if (priorityList == null) throw new Exception("Failed to retrieve priority list for pawn: " + pawn);
+				return priorityList;
+			}
+			return null;
+		}
+
 		// returns a work priority based on disabled work types and tags for that pawn
 		private static int GetWorkTypePriorityForPawn(WorkTypeDef workDef, Pawn pawn) {
-			const int disabledWorkPriority = 0;
-			const int defaultWorkPriority = 3;
 			if (pawn.story != null){
 				if (pawn.story.WorkTypeIsDisabled(workDef) || pawn.story.WorkTagIsDisabled(workDef.workTags)) {
-					return disabledWorkPriority;
+					return DisabledWorkPriority;
 				}
 			}
-			return defaultWorkPriority;
+			return DefaultWorkPriority;
 		}
 	}
 }

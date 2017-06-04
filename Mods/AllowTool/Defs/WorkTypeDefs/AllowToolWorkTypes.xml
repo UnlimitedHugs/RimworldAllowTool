@@ -20,8 +20,8 @@
 		<defName>FinishingOff</defName>
 		<labelShort>Finish</labelShort>
 		<pawnLabel>Executor</pawnLabel>
-		<gerundLabel>finishing off</gerundLabel>
-		<description>Quickly and painlessly kill downed creatures.</description>
+		<gerundLabel>Finishing off</gerundLabel>
+		<description>Quickly and painlessly kill downed creatures.\nAdded by the Allow Tool mod. Can be disabled in Options &gt; Mod Settings.</description>
 		<verb>Finish off</verb>
 		<naturalPriority>1140</naturalPriority>
 		<alwaysStartActive>true</alwaysStartActive>
