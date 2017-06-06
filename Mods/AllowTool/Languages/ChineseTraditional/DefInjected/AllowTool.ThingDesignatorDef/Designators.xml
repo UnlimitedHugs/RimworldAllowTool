@@ -25,5 +25,9 @@
 可在工作标签中設置。
 &lt;b&gt;按住Shift&lt;/b&gt;以中斷殖民者當前的工作。</HaulUrgentlyDesignator.description>
 
+  <FinishOffDesignator.label>殺死單位</FinishOffDesignator.label>
+  <FinishOffDesignator.description>快速而無痛地殺死倒地的單位。
+&lt;b&gt;按住Shift&lt;/b&gt;以包括殖民者和盟友。</FinishOffDesignator.description>
+
 
 </LanguageData>

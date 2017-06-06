@@ -35,6 +35,10 @@
   <setting_reverseDesignator_desc>启用后，以选择的物品上会显示支持的工具。载入存档或创建游戏后才会生效。</setting_reverseDesignator_desc>
   <setting_haulUrgentlyWorktype_label>显示「搬运+」工作类型</setting_haulUrgentlyWorktype_label>
   <setting_haulUrgentlyWorktype_desc>启用后，会在工作标签中显示「紧急搬运」的工作类型。\n此项设置必须重启游戏后才会生效。</setting_haulUrgentlyWorktype_desc>
+  <setting_finishOffWorktype_label>显示「杀死」工作类型</setting_finishOffWorktype_label>
+  <setting_finishOffWorktype_desc>启用后，会在工作标签中显示「杀死单位」的工作类型。\n此项设置必须重启游戏后才会生效。</setting_finishOffWorktype_desc>
+  <setting_finishOffSkill_label>「杀死单位」技能要求</setting_finishOffSkill_label>
+  <setting_finishOffSkill_desc>「杀死单位」工具要求执行者有足够高的格斗技能。</setting_finishOffSkill_desc>
 
   <SelectSimilar_cursor_needConstraint>点击以标记物品</SelectSimilar_cursor_needConstraint>
   <SelectSimilar_cursor_nowSelecting>拖动以仅选择：{0}</SelectSimilar_cursor_nowSelecting>
@@ -44,6 +48,13 @@
   <Haul_urgently_success>{0}个物品标记了紧急搬运。</Haul_urgently_success>
   <Haul_urgently_failure>没有需要搬运的物品。</Haul_urgently_failure>
 
+  <Finish_off_skillRequired>要求殖民者的格斗技能达到{0}级或更高才能使用。</Finish_off_skillRequired>
+  <Finish_off_pawnSkillRequired>要求格斗技能{0}级</Finish_off_pawnSkillRequired>
+  <Finish_off_success>标记了{0}个目标。</Finish_off_success>
+  <Finish_off_failure>未发现有效的倒地单位。</Finish_off_failure>
+  <Finish_off_floatMenu>杀死{0}</Finish_off_floatMenu>
+  <Finish_off_floatMenu_reason_friendly>友方，按住Shift</Finish_off_floatMenu_reason_friendly>
+
   <Designator_context_similar>选择地图上相似的物品。</Designator_context_similar>
   <Designator_context_similar_succ>已选择地图上{0}个相似的物品。</Designator_context_similar_succ>
   <Designator_context_similar_part>已选择地图上{1}个相似的物品中的{0}个。</Designator_context_similar_part>
@@ -51,17 +62,17 @@
   <Designator_context_urgent>紧急搬运所有物品。</Designator_context_urgent>
   <Designator_context_urgent_visible>紧急搬运可见的物品。</Designator_context_urgent_visible>
   <Designator_context_urgent_all>紧急搬运地图上所有物品。</Designator_context_urgent_all>
-  <Designator_context_urgent_succ>{0}个物品已标记了紧急搬运。</Designator_context_urgent_succ>
-  <Designator_context_urgent_visible_succ>{0}个可见的物品已标记了紧急搬运。</Designator_context_urgent_visible_succ>
+  <Designator_context_urgent_succ>{0}个物品标记了紧急搬运。</Designator_context_urgent_succ>
+  <Designator_context_urgent_visible_succ>{0}个可见的物品标记了紧急搬运。</Designator_context_urgent_visible_succ>
   <Designator_context_urgent_fail>没有其他可搬运的物品了。</Designator_context_urgent_fail>
   <Designator_context_strip>剥光所有敌人。</Designator_context_strip>
-  <Designator_context_strip_succ>{0}具躯体已标记了剥光。</Designator_context_strip_succ>
+  <Designator_context_strip_succ>{0}具躯体标记了剥光。</Designator_context_strip_succ>
   <Designator_context_strip_fail>没有可剥光的躯体。</Designator_context_strip_fail>
   <Designator_context_rearm>重置所有陷阱。</Designator_context_rearm>
-  <Designator_context_rearm_succ>{0}个陷阱已标记了重置。</Designator_context_rearm_succ>
+  <Designator_context_rearm_succ>{0}个陷阱标记了重置。</Designator_context_rearm_succ>
   <Designator_context_rearm_fail>目前没有需要重置的陷阱了。</Designator_context_rearm_fail>
   <Designator_context_harvest>收获所有植物。</Designator_context_harvest>
-  <Designator_context_harvest_succ>{0}株植物已标记了收获。</Designator_context_harvest_succ>
+  <Designator_context_harvest_succ>{0}株植物标记了收获。</Designator_context_harvest_succ>
   <Designator_context_harvest_fail>没有其他可收获的植物了。</Designator_context_harvest_fail>
   <Designator_context_haul>搬运所有物品。</Designator_context_haul>
   <Designator_context_haul_succ>新标记了搬运{0}个物品。</Designator_context_haul_succ>
@@ -80,5 +91,9 @@
   <Designator_context_cancel_build_fail>没有其他可移除的蓝图了。</Designator_context_cancel_build_fail>
   <Designator_context_cancel_desig>取消地图上的所有命令。</Designator_context_cancel_desig>
   <Designator_context_cancel_desig_msg>清除了地图上{0}个物品命令和{0}个地形命令。</Designator_context_cancel_desig_msg>
+  <Designator_context_finish>杀死所有倒地的单位</Designator_context_finish>
+  <Designator_context_finish_succ>{0}个单位标记了杀死。</Designator_context_finish_succ>
+  <Designator_context_finish_allies>{0}个单位标记了杀死，包括友方。</Designator_context_finish_allies>
+  <Designator_context_finish_fail>未发现有效的倒地单位。</Designator_context_finish_fail>
 
 </LanguageData>
