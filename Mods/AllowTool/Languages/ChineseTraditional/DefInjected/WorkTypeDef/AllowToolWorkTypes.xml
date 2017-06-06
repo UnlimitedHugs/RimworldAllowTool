@@ -8,5 +8,12 @@
   <HaulingUrgent.gerundLabel>緊急搬運</HaulingUrgent.gerundLabel>
   <HaulingUrgent.verb>緊急搬運</HaulingUrgent.verb>
 
+  <FinishingOff.label>殺死</FinishingOff.label>
+  <FinishingOff.description>快速而無痛地殺死倒地的單位。\n由「一鍵允許」Mod添加。可在「選項」&gt;「Mod設置」中禁用。</FinishingOff.description>
+  <FinishingOff.labelShort>殺死</FinishingOff.labelShort>
+  <FinishingOff.pawnLabel>執行者</FinishingOff.pawnLabel>
+  <FinishingOff.gerundLabel>殺死</FinishingOff.gerundLabel>
+  <FinishingOff.verb>殺死</FinishingOff.verb>
+
 
 </LanguageData>

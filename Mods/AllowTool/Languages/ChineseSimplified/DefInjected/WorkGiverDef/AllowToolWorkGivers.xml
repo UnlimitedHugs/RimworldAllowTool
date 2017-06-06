@@ -5,5 +5,9 @@
   <HaulUrgently.verb>紧急搬运</HaulUrgently.verb>
   <HaulUrgently.gerund>紧急搬运</HaulUrgently.gerund>
 
+  <FinishOff.label>杀死单位</FinishOff.label>
+  <FinishOff.verb>杀死</FinishOff.verb>
+  <FinishOff.gerund>杀死</FinishOff.gerund>
+
 
 </LanguageData>
