@@ -35,6 +35,10 @@
   <setting_reverseDesignator_desc>啟用後，已選擇的物品上會顯示所支持的工具 。載入存檔或創建遊戲後才會生效。</setting_reverseDesignator_desc>
   <setting_haulUrgentlyWorktype_label>顯示「搬運+」工作類型</setting_haulUrgentlyWorktype_label>
   <setting_haulUrgentlyWorktype_desc>啟用後，會在工作標籤中顯示「緊急搬運」的工作類型。此項設置必須重啟遊戲後才會生效。\n</setting_haulUrgentlyWorktype_desc>
+  <setting_finishOffWorktype_label>顯示「殺死」工作類型</setting_finishOffWorktype_label>
+  <setting_finishOffWorktype_desc>啟用後，會在工作標籤中顯示「殺死單位」的工作類型。此項設置必須重啟遊戲後才會生效。\n</setting_finishOffWorktype_desc>
+  <setting_finishOffSkill_label>「殺死單位」技能要求</setting_finishOffSkill_label>
+  <setting_finishOffSkill_desc>「殺死單位」工具要求執行者有足夠高的格鬥技能。</setting_finishOffSkill_desc>
 
   <SelectSimilar_cursor_needConstraint>點擊以標記物品</SelectSimilar_cursor_needConstraint>
   <SelectSimilar_cursor_nowSelecting>拖動以僅選擇：{0}</SelectSimilar_cursor_nowSelecting>
@@ -43,6 +47,13 @@
 
   <Haul_urgently_success>{0}個物品標記了緊急搬運。</Haul_urgently_success>
   <Haul_urgently_failure>沒有需要搬運的物品。</Haul_urgently_failure>
+
+  <Finish_off_skillRequired>要求殖民者的格鬥技能達到{0}級或更高才能使用。</Finish_off_skillRequired>
+  <Finish_off_pawnSkillRequired>要求格鬥技能{0}級</Finish_off_pawnSkillRequired>
+  <Finish_off_success>標記了{0}個目標</Finish_off_success>
+  <Finish_off_failure>未發現有效的倒地單位。</Finish_off_failure>
+  <Finish_off_floatMenu>殺死{0}</Finish_off_floatMenu>
+  <Finish_off_floatMenu_reason_friendly>友方，按住Shift</Finish_off_floatMenu_reason_friendly>
 
   <Designator_context_similar>選擇地圖上相似的物品。</Designator_context_similar>
   <Designator_context_similar_succ>已選擇地圖上{0}个相似的物品。</Designator_context_similar_succ>
@@ -80,5 +91,9 @@
   <Designator_context_cancel_build_fail>沒有其他可移除的藍圖了。</Designator_context_cancel_build_fail>
   <Designator_context_cancel_desig>取消地圖上的所有命令</Designator_context_cancel_desig>
   <Designator_context_cancel_desig_msg>清除了地圖上{0}個物品命令和{0}個地形命令</Designator_context_cancel_desig_msg>
+  <Designator_context_finish>殺死所有倒地的單位</Designator_context_finish>
+  <Designator_context_finish_succ>{0}個單位標記了殺死</Designator_context_finish_succ>
+  <Designator_context_finish_allies>{0}個單位標記了殺死，包括友方。</Designator_context_finish_allies>
+  <Designator_context_finish_fail>未發現有效的倒地單位。</Designator_context_finish_fail>
 
 </LanguageData>
