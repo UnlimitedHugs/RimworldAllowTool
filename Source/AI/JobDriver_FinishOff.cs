@@ -56,14 +56,17 @@ namespace AllowTool {
 			}
 			var part = victim.RaceProps.body.GetPartsWithTag("ConsciousnessSource").FirstOrDefault();
 			int amount = part != null ? Mathf.Clamp((int)victim.health.hediffSet.GetPartHealth(part) - 1, 1, 20) : 20;
-			DamageInfo damageInfo = new DamageInfo(DamageDefOf.ExecutionCut, amount, -1f, slayer, part);
+			var damageInfo = new DamageInfo(DamageDefOf.ExecutionCut, amount, -1f, slayer, part);
 			victim.TakeDamage(damageInfo);
 			if (!victim.Dead) {
 				victim.Kill(damageInfo);
 			}
-			Thing thing = position.GetThingList(slayer.Map).FirstOrDefault(t => t is Corpse && (t as Corpse).InnerPawn == victim);
-			if (thing != null) {
-				thing.SetForbiddenIfOutsideHomeArea();
+			var body = position.GetThingList(Map).FirstOrDefault(t => t is Corpse && (t as Corpse).InnerPawn == victim);
+			if (body != null) {
+				body.SetForbiddenIfOutsideHomeArea();
+			}
+			if (AllowToolController.Instance.FinishOffUnforbidsSetting) {
+				UnforbidAdjacentThingsTo(position, Map);
 			}
 		}
 
@@ -97,6 +100,13 @@ namespace AllowTool {
 		private bool JobHasFailed() {
 			var target = TargetThingA as Pawn;
 			return target == null || !target.Spawned || target.Dead || !target.Downed || !target.HasDesignation(AllowToolDefOf.FinishOffDesignation);
+		}
+
+		private void UnforbidAdjacentThingsTo(IntVec3 center, Map map) {
+			foreach (var offset in GenAdj.AdjacentCellsAndInside) {
+				var pos = center + offset;
+				AllowToolUtility.ToggleForbiddenInCell(pos, map, false);
+			}
 		}
 	}
 }
