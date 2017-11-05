@@ -70,7 +70,7 @@ namespace AllowTool {
 			try {
 				var activatedPawns = new HashSet<Pawn>();
 				if (map == null || map.mapPawns == null) return;
-				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer)) {
+				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer).Concat(map.mapPawns.PrisonersOfColony)) {
 					var priorityList = GetWorkPriorityListForPawn(pawn);
 					if (priorityList != null && priorityList.Count > 0) {
 						var curValue = priorityList[def.index];
