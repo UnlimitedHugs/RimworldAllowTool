@@ -85,7 +85,7 @@ namespace AllowTool.Context {
 					return TryPickDesignatorFromReverseDesignator(designator);
 				} else if (Event.current.button == (int)MouseButtons.Right) {
 					foreach (var provider in MenuProviderInstances) {
-						if (provider.HandledDesignatorType.IsInstanceOfType(designator)) {
+						if (provider.HandledDesignatorType.IsInstanceOfType(designator) && provider.Enabled) {
 							provider.OpenContextMenu(designator);
 							return true;
 						}
