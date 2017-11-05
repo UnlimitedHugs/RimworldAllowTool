@@ -50,7 +50,7 @@ namespace AllowTool.Context {
 				// bind handlers to designator instances
 				// we can't do a direct type lookup here, since we want to support modded designators. 
 				// i.e. Designator_Hunt -> Designator_ModdedHunt should also be supported.
-				var allDesignators = DefDatabase<DesignationCategoryDef>.AllDefs
+				var allDesignators = DefDatabase<DesignationCategoryDef>.AllDefs.ToArray()
 					.SelectMany(cat => (List<Designator>) AllowToolController.ResolvedDesignatorsField.GetValue(cat));
 				foreach (var designator in allDesignators) {
 					// check if designator matches the type required by any of the handlers
