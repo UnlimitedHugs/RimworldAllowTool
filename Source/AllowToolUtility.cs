@@ -42,7 +42,7 @@ namespace AllowTool {
 					var priorityList = GetWorkPriorityListForPawn(pawn);
 					if (priorityList != null && priorityList.Count > 0) {
 						var cyclesLeft = 100;
-						// the priority list must be padded to accomodate all available WorkTypeDef.index
+						// the priority list must be padded to accommodate all available WorkTypeDef.index
 						// pad by the maximum index available to make provisions for other mods' worktypes
 						var maxIndex = DefDatabase<WorkTypeDef>.AllDefs.Max(d => d.index);
 						while (priorityList.Count <= maxIndex && cyclesLeft > 0) {

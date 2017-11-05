@@ -3,7 +3,7 @@ using Verse;
 
 namespace AllowTool.Patches {
 	/// <summary>
-	/// Inject our own reverse designators when the vanilla ones are initalized
+	/// Inject our own reverse designators when the vanilla ones are initialized
 	/// </summary>
 	[HarmonyPatch(typeof(ReverseDesignatorDatabase), "InitDesignators")]
 	internal static class ReverseDesignatorDatabase_Init_Patch {

@@ -20,7 +20,7 @@ namespace AllowTool.Patches {
 		[HarmonyPrepare]
 		private static void PrePatch() {
 			LongEventHandler.ExecuteWhenFinished(() => {
-				if (!injectCompleted) AllowToolController.Logger.Warning("Command_GizmoOnGUI infix could not be applied. Desginator button overlays disabled.");
+				if (!injectCompleted) AllowToolController.Logger.Warning("Command_GizmoOnGUI infix could not be applied. Designator button overlays disabled.");
 			});
 		}
 

@@ -8,7 +8,7 @@ using Verse;
 
 namespace AllowTool.Context {
 	/// <summary>
-	/// Base class for all types that provide context menu functionality on desingators.
+	/// Base class for all types that provide context menu functionality on designators.
 	/// Types are instantiated automatically by DesignatorContextMenuController.
 	/// </summary>
 	public abstract class BaseDesignatorMenuProvider {
@@ -17,14 +17,14 @@ namespace AllowTool.Context {
 		protected const string SuccessMessageStringIdSuffix = "_succ";
 		protected const string FailureMessageStringIdSuffix = "_fail";
 
-		// the toogle for this provider, assigned automatically by AllotToolController
+		// the toggle for this provider, assigned automatically by AllotToolController
 		public virtual SettingHandle<bool> ProviderHandle { get; set; } 
-		// the text key for the context menu entry, as well as the base for the sucess/failure message keys
+		// the text key for the context menu entry, as well as the base for the success/failure message keys
 		public abstract string EntryTextKey { get; }
 		// the type of the designator this provider should make a context menu for
 		public abstract Type HandledDesignatorType { get; }
 		// the group of things handled by the designator this handler belongs to
-		protected virtual ThingRequestGroup DesingatorRequestGroup {
+		protected virtual ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.Everything; }
 		}
 		// returning false will disable the context menu and the overlay icon
@@ -50,7 +50,7 @@ namespace AllowTool.Context {
 
 		public virtual void ContextMenuAction(Designator designator, Map map) {
 			int hitCount = 0;
-			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
+			foreach (var thing in map.listerThings.ThingsInGroup(DesignatorRequestGroup)) {
 				if (ValidForDesignation(thing) && designator.CanDesignateThing(thing).Accepted) {
 					designator.DesignateThing(thing);
 					hitCount++;

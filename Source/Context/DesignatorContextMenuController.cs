@@ -9,7 +9,7 @@ using Verse;
 namespace AllowTool.Context {
 	/// <summary>
 	/// Hub for everything related to designator context menus.
-	/// Instantiates individual handlers, processess input events and draws overlay icons.
+	/// Instantiates individual handlers, processes input events and draws overlay icons.
 	/// </summary>
 	public static class DesignatorContextMenuController {
 		private enum MouseButtons {
@@ -61,7 +61,7 @@ namespace AllowTool.Context {
 			}
 		}
 
-		// draws the "righclickable" icon over compatible designator buttons
+		// draws the "rightclickable" icon over compatible designator buttons
 		public static void DrawCommandOverlayIfNeeded(Command gizmo, Vector2 topLeft) {
 			try {
 				if (!AllowToolController.Instance.ContextOverlaySetting.Value) return;

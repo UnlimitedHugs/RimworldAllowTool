@@ -33,7 +33,7 @@ namespace AllowTool {
 			useMouseIcon = true;
 			soundDragSustain = SoundDefOf.DesignateDragStandard;
 			soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			soundSucceeded = def.soundSucceded;
+			soundSucceeded = def.soundSucceeded;
 			hotKey = def.hotkeyDef;
 		}
 

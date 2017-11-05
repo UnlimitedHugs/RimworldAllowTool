@@ -18,7 +18,7 @@ namespace AllowTool.Context {
 			get { return typeof (Designator_HaulUrgently); }
 		}
 
-		protected override ThingRequestGroup DesingatorRequestGroup {
+		protected override ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.HaulableEver; }
 		}
 
@@ -44,7 +44,7 @@ namespace AllowTool.Context {
 
 		private void DesignateWithPredicate(Designator designator, Map map, Func<Thing, bool> shouldDesignateThing = null, string successMessageKey = null) {
 			int hitCount = 0;
-			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
+			foreach (var thing in map.listerThings.ThingsInGroup(DesignatorRequestGroup)) {
 				if (ValidForDesignation(thing) &&
 					designator.CanDesignateThing(thing).Accepted && 
 					!thing.def.designateHaulable && 

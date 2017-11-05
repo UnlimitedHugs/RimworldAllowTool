@@ -7,7 +7,7 @@ using Verse;
 
 namespace AllowTool.Context {
 	/// <summary>
-	/// Expands Mine designation on tiles to ajacent ore tiles. This is basically a vein miner.
+	/// Expands Mine designation on tiles to adjacent ore tiles. This is basically a vein miner.
 	/// </summary>
 	public class MenuProvider_Mine : BaseDesignatorMenuProvider {
 		private delegate bool ValidationPredicate(IntVec3 cell, Map map);

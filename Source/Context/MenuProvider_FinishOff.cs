@@ -19,14 +19,14 @@ namespace AllowTool.Context {
 			get { return typeof(Designator_FinishOff); }
 		}
 
-		protected override ThingRequestGroup DesingatorRequestGroup {
+		protected override ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.Pawn; }
 		}
 
 		public override void ContextMenuAction(Designator designator, Map map) {
 			int hitCount = 0;
 			bool friendliesFound = false;
-			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
+			foreach (var thing in map.listerThings.ThingsInGroup(DesignatorRequestGroup)) {
 				if (ValidForDesignation(thing) && designator.CanDesignateThing(thing).Accepted) {
 					designator.DesignateThing(thing);
 					hitCount++;

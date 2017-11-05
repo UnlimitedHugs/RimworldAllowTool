@@ -10,10 +10,10 @@ namespace AllowTool {
 	/// Must be activated on demand by designator that require this functionality.
 	/// </summary>
 	public class UnlimitedDesignationDragger {
-		public delegate AcceptanceReport ThingIsReleveantFilter(Thing item);
+		public delegate AcceptanceReport ThingIsRelevantFilter(Thing item);
 
 		private readonly HashSet<IntVec3> affectedCells = new HashSet<IntVec3>(); 
-		private ThingIsReleveantFilter filterCallback;
+		private ThingIsRelevantFilter filterCallback;
 		private Material dragHighlightMat;
 		private Designator invokingDesignator;
 		private bool listening;
@@ -21,7 +21,7 @@ namespace AllowTool {
 		private IntVec3 mouseDownCell;
 		private IntVec3 lastMouseCell;
 
-		public void BeginListening(ThingIsReleveantFilter callback, Texture2D dragHighlightTex) {
+		public void BeginListening(ThingIsRelevantFilter callback, Texture2D dragHighlightTex) {
 			listening = true;
 			filterCallback = callback;
 			dragHighlightMat = MaterialPool.MatFrom(dragHighlightTex, ShaderDatabase.MetaOverlay, Color.white);
@@ -66,7 +66,7 @@ namespace AllowTool {
 			affectedCells.Clear();
 			var map = Find.VisibleMap;
 			if (map == null) return;
-			// estabilish bounds
+			// establish bounds
 			int minX, maxX, minZ, maxZ;
 			if (pos1.x <= pos2.x) {
 				minX = pos1.x;

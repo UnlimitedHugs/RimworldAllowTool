@@ -16,14 +16,14 @@ namespace AllowTool.Context {
 			get { return typeof (Designator_Strip); }
 		}
 
-		protected override ThingRequestGroup DesingatorRequestGroup {
+		protected override ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.Everything; }
 		}
 
 		public override void ContextMenuAction(Designator designator, Map map) {
 			int hitCount = 0;
 			var playerFaction = Faction.OfPlayer;
-			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
+			foreach (var thing in map.listerThings.ThingsInGroup(DesignatorRequestGroup)) {
 				if (thing.Faction != playerFaction && designator.CanDesignateThing(thing).Accepted) {
 					designator.DesignateThing(thing);
 					hitCount++;

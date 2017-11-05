@@ -22,7 +22,7 @@ namespace AllowTool {
 		private bool constraintsNeedReindexing;
 		private string readableConstraintList;
 
-		private bool AnySelectionContstraints {
+		private bool AnySelectionConstraints {
 			get { return selectionConstraints.Count > 0; }
 		}
 
@@ -39,7 +39,7 @@ namespace AllowTool {
 				   thing.def.selectable &&
 				   thing.def.label != null &&
 				   !BlockedByFog(thing.Position, thing.Map) &&
-				   (ThingMatchesSelectionConstraints(thing) || AllowToolController.Instance.Dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection conststraints if we are not dragging, only clicking
+				   (ThingMatchesSelectionConstraints(thing) || AllowToolController.Instance.Dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection constraints if we are not dragging, only clicking
 				   SelectionLimitAllowsAdditionalThing();
 		}
 
@@ -74,7 +74,7 @@ namespace AllowTool {
 			string label;
 			if (!SelectionLimitAllowsAdditionalThing()) {
 				label = "SelectSimilar_cursor_limit".Translate();
-			} else if (AnySelectionContstraints) {
+			} else if (AnySelectionConstraints) {
 				label = "SelectSimilar_cursor_nowSelecting".Translate(readableConstraintList);
 			} else {
 				label = "SelectSimilar_cursor_needConstraint".Translate();
@@ -102,11 +102,11 @@ namespace AllowTool {
 					SelectionDefConstraint constraint;
 					selectionConstraints.TryGetValue(constraintHash, out constraint);
 					if (constraint == null) selectionConstraints[constraintHash] = constraint = new SelectionDefConstraint(thing.def, thing.Stuff);
-					constraint.occurences++;
+					constraint.occurrences++;
 				}
 				var constraintList = selectionConstraints.Values.ToList();
 				var builder = new StringBuilder();
-				constraintList.Sort((e1, e2) => -e1.occurences.CompareTo(e2.occurences)); // sort by number of occurences, descending
+				constraintList.Sort((e1, e2) => -e1.occurrences.CompareTo(e2.occurrences)); // sort by number of occurrences, descending
 				// list constraints for the tooltip
 				for (int i = 0; i < constraintList.Count; i++) {
 					var isLastEntry = i >= constraintList.Count - 1;
@@ -134,7 +134,7 @@ namespace AllowTool {
 			if (!CanDesignateThing(thing).Accepted || selector.IsSelected(thing)) return false;
 			selector.SelectedObjects.Add(thing); // manually adding objects to the selection list gets around the stock selection limit
 			SelectionDrawer.Notify_Selected(thing);
-			if (!AnySelectionContstraints) {
+			if (!AnySelectionConstraints) {
 				ReindexSelectionConstraints();
 			} else {
 				constraintsNeedReindexing = true;
@@ -182,7 +182,7 @@ namespace AllowTool {
 		}
 
 		private bool ThingMatchesSelectionConstraints(Thing thing) {
-			return !AnySelectionContstraints || selectionConstraints.ContainsKey(GetConstraintHashForThing(thing));
+			return !AnySelectionConstraints || selectionConstraints.ContainsKey(GetConstraintHashForThing(thing));
 		}
 
 		// Try to uniquely identify a thing/stuff combination
@@ -198,7 +198,7 @@ namespace AllowTool {
 		private class SelectionDefConstraint {
 			public readonly Def thingDef;
 			public readonly Def stuffDef;
-			public int occurences = 1;
+			public int occurrences = 1;
 
 			public SelectionDefConstraint(Def thingDef, Def stuffDef) {
 				this.thingDef = thingDef;

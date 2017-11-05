@@ -18,7 +18,7 @@ namespace AllowTool {
 			for (int i = 0; i < designations.Count; i++) {
 				var des = designations[i];
 				// find our haul designation
-				if (des.def != AllowToolDefOf.HaulUgentlyDesignation) continue;
+				if (des.def != AllowToolDefOf.HaulUrgentlyDesignation) continue;
 				var thing = des.target.Thing;
 				// make sure the designated thing is a valid candidate for hauling
 				if (thing != null && thing.def != null &&

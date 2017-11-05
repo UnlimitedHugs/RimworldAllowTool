@@ -16,7 +16,7 @@ namespace AllowTool.Context {
 			get { return typeof (Designator_PlantsHarvest); }
 		}
 
-		protected override ThingRequestGroup DesingatorRequestGroup {
+		protected override ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.Plant; }
 		}
 	}

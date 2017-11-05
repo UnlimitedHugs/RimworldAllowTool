@@ -49,7 +49,7 @@ namespace AllowTool.Patches {
 		}
 
 		[HarmonyTranspiler]
-		public static IEnumerable<CodeInstruction> RegisterRevereseDesignatorCommandPair(IEnumerable<CodeInstruction> instructions) {
+		public static IEnumerable<CodeInstruction> RegisterReverseDesignatorCommandPair(IEnumerable<CodeInstruction> instructions) {
 			var instructionsArr = instructions.ToArray();
 			var currentDesignatorHolderIndex = -1;
 			var currentCommandIndex = -1;
