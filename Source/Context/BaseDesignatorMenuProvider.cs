@@ -93,7 +93,7 @@ namespace AllowTool.Context {
 			return opt;
 		}
 
-		protected bool ValidForDesignation(Thing thing) {
+		protected virtual bool ValidForDesignation(Thing thing) {
 			return thing != null && thing.def != null && thing.Map != null && !thing.Map.fogGrid.IsFogged(thing.Position);
 		}
 

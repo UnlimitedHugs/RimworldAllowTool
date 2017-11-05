@@ -74,6 +74,7 @@
 	<Designator_context_rearm_succ>{0} traps have been designated for rearming.</Designator_context_rearm_succ>
 	<Designator_context_rearm_fail>No traps need rearming right now.</Designator_context_rearm_fail>
 	<Designator_context_harvest>Harvest all plants</Designator_context_harvest>
+	<Designator_context_harvest_home>Harvest plants in home area</Designator_context_harvest_home>
 	<Designator_context_harvest_succ>{0} plants designated for harvesting.</Designator_context_harvest_succ>
 	<Designator_context_harvest_fail>Found no new plants to harvest.</Designator_context_harvest_fail>
 	<Designator_context_haul>Haul everything</Designator_context_haul>
