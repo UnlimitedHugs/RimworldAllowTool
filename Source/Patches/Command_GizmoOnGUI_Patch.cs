@@ -20,16 +20,16 @@ namespace AllowTool.Patches {
 		[HarmonyPrepare]
 		private static void PrePatch() {
 			LongEventHandler.ExecuteWhenFinished(() => {
-				if (!injectCompleted) AllowToolController.Instance.Logger.Warning("Command_GizmoOnGUI infix could not be applied. Desginator button overlays disabled.");
+				if (!injectCompleted) AllowToolController.Logger.Warning("Command_GizmoOnGUI infix could not be applied. Desginator button overlays disabled.");
 			});
 		}
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> DrawRightClickIcon(IEnumerable<CodeInstruction> instructions) {
-			var expectedMethod = AccessTools.Method(typeof (Widgets), "DrawTextureFitted", new[] {typeof (Rect), typeof (Texture2D), typeof (float), typeof (Vector2), typeof (Rect)});
+			var expectedMethod = AccessTools.Method(typeof (Widgets), "DrawTextureFitted", new[] {typeof (Rect), typeof (Texture), typeof (float), typeof (Vector2), typeof (Rect), typeof (float)});
 			var checksPassed = false;
 			if (expectedMethod == null) {
-				AllowToolController.Instance.Logger.Error("Failed to reflect required method: " + Environment.StackTrace);
+				AllowToolController.Logger.Error("Failed to reflect required method: " + Environment.StackTrace);
 			} else {
 				checksPassed = true;
 			}

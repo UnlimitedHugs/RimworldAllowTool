@@ -14,29 +14,32 @@ namespace AllowTool {
 		private const int prepareSwingDuration = 60;
 		private const float victimSkullMoteChance = .25f;
 
+		public override bool TryMakePreToilReservations() {
+			return pawn.Reserve(job.GetTarget(TargetIndex.A), job);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils() {
-			if (CurJob.playerForced) {
+			if (job.playerForced) {
 				TargetA.Thing.ToggleDesignation(AllowToolDefOf.FinishOffDesignation, true);
 			}
 			AddFailCondition(JobHasFailed);
-			yield return Toils_Reserve.Reserve(TargetIndex.A);
 			yield return Toils_Misc.ThrowColonistAttackingMote(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
 			Thing skullMote = null;
 			yield return new Toil {
 				initAction = () => {
-					var victim = CurJob.targetA.Thing as Pawn;
+					var victim = job.targetA.Thing as Pawn;
 					skullMote = TryMakeSkullMote(victim, victimSkullMoteChance);
-					AllowToolDefOf.EffecterWeaponGlint.Spawn().Trigger(pawn, CurJob.targetA.Thing);
+					AllowToolDefOf.EffecterWeaponGlint.Spawn().Trigger(pawn, job.targetA.Thing);
 				},
 				defaultDuration = prepareSwingDuration,
 				defaultCompleteMode = ToilCompleteMode.Delay
 			};
 			yield return new Toil {
 				initAction = () => {
-					var victim = CurJob.targetA.Thing as Pawn;
-					if (victim == null || CurJob.verbToUse == null) return;
-					CurJob.verbToUse.TryStartCastOn(victim);
+					var victim = job.targetA.Thing as Pawn;
+					if (victim == null || job.verbToUse == null) return;
+					job.verbToUse.TryStartCastOn(victim);
 					DoSocialImpact(victim);
 					DoExecution(pawn, victim);
 					if (skullMote != null && !skullMote.Destroyed) {

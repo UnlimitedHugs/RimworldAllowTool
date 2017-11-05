@@ -125,7 +125,7 @@ namespace AllowTool {
 				}
 				readableConstraintList = builder.ToString();
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.ReportException(e);
+				AllowToolController.Logger.ReportException(e);
 			}
 		}
 

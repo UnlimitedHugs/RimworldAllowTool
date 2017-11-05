@@ -57,7 +57,7 @@ namespace AllowTool.Context {
 					TryBindDesignatorToHandler(designator, designator, providers);
 				}
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.ReportException(e);
+				AllowToolController.Logger.ReportException(e);
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace AllowTool.Context {
 				}
 			} catch (Exception e) {
 				if (designatorMenuProviders.ContainsKey(gizmo)) designatorMenuProviders.Remove(gizmo);
-				AllowToolController.Instance.Logger.ReportException(e);
+				AllowToolController.Logger.ReportException(e);
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace AllowTool.Context {
 					}
 				}
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.ReportException(e);
+				AllowToolController.Logger.ReportException(e);
 			}
 			return false;
 		}
@@ -139,7 +139,7 @@ namespace AllowTool.Context {
 		public static void CheckForMemoryLeak() {
 			// this should not happen, unless another mod patches out our ClearReverseDesignatorPairs call
 			if (designatorMenuProviders.Count > 100000) {
-				AllowToolController.Instance.Logger.Warning("Too many designator context menu providers! A mod interaction may have caused a memory leak.");
+				AllowToolController.Logger.Warning("Too many designator context menu providers! A mod interaction may have caused a memory leak.");
 			}
 		}
 
@@ -159,11 +159,11 @@ namespace AllowTool.Context {
 					try {
 						providers.Add((BaseDesignatorMenuProvider) Activator.CreateInstance(providerType));
 					} catch (Exception e) {
-						AllowToolController.Instance.Logger.Error("Exception while instantiating {0}: {1}", providerType, e);
+						AllowToolController.Logger.Error("Exception while instantiating {0}: {1}", providerType, e);
 					}
 				}
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.ReportException(e);
+				AllowToolController.Logger.ReportException(e);
 			}
 			providers.SortBy(p => p.SettingId);
 			return providers;
@@ -174,11 +174,11 @@ namespace AllowTool.Context {
 		/// <param name="providers">All available handlers</param>
 		private static void TryBindDesignatorToHandler(Designator designator, Command commandToBind, List<BaseDesignatorMenuProvider> providers) {
 			if (designator == null || commandToBind == null) {
-				AllowToolController.Instance.Logger.Trace("Tried to bind null designator|command: {0}|{1}", designator, commandToBind);
+				AllowToolController.Logger.Trace("Tried to bind null designator|command: {0}|{1}", designator, commandToBind);
 				return;
 			}
 			if (designatorMenuProviders.ContainsKey(commandToBind)) {
-				AllowToolController.Instance.Logger.Trace("Tried to repeat binding for designator|command {0}|{1}", designator, commandToBind);
+				AllowToolController.Logger.Trace("Tried to repeat binding for designator|command {0}|{1}", designator, commandToBind);
 				return;
 			}
 			for (int i = 0; i < providers.Count; i++) {

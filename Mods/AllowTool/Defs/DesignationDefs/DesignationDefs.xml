@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DesignationDefs>
+<Defs>
 
 	<DesignationDef>
 		<defName>HaulUgentlyDesignation</defName>
@@ -13,4 +13,4 @@
 		<targetType>Thing</targetType>
 	</DesignationDef>
 
-</DesignationDefs>
+</Defs>

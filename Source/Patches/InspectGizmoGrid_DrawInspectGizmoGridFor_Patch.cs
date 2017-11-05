@@ -38,11 +38,11 @@ namespace AllowTool.Patches {
 			}
 			commandGroupKeyField = AccessTools.Field(typeof(Command), "groupKey");
 			LongEventHandler.ExecuteWhenFinished(() => {
-				if (!patchApplied) AllowToolController.Instance.Logger.Warning("InspectGizmoGrid.DrawInspectGizmoGridFor patch failed. Reverse designator context menus are disabled.");
+				if (!patchApplied) AllowToolController.Logger.Warning("InspectGizmoGrid.DrawInspectGizmoGridFor patch failed. Reverse designator context menus are disabled.");
 			});
 			// make sure we have all required references, fail patch otherwise
 			if (method == null || designatorReferencerType == null || holderDesignatorField == null || commandGroupKeyField == null) {
-				AllowToolController.Instance.Logger.Warning("Could not reflect a required type or field: "+Environment.StackTrace);
+				AllowToolController.Logger.Warning("Could not reflect a required type or field: "+Environment.StackTrace);
 				return null;
 			}
 			return method;
@@ -69,10 +69,10 @@ namespace AllowTool.Patches {
 					prevInstruction = instruction;
 				}
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.Warning("Exception during local vars identification: " + e);
+				AllowToolController.Logger.Warning("Exception during local vars identification: " + e);
 			}
 			if (currentCommandIndex < 0 || currentDesignatorHolderIndex < 0) {
-				AllowToolController.Instance.Logger.Warning("Failed to identify local variables for patching: "+Environment.StackTrace);
+				AllowToolController.Logger.Warning("Failed to identify local variables for patching: "+Environment.StackTrace);
 			} else {
 				prechecksSuccess = true;
 			}

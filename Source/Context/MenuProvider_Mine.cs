@@ -28,12 +28,12 @@ namespace AllowTool.Context {
 			MineDesignateSelectedOres(map);
 			var anyMineDesignations = map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine).Any();
 			if (!anyMineDesignations) {
-				Messages.Message("Designator_context_mine_fail".Translate(), MessageSound.RejectInput);
+				Messages.Message("Designator_context_mine_fail".Translate(), MessageTypeDefOf.RejectInput);
 				return;
 			}
 			// expand designations, excluding designated fogged cells to prevent exposing completely hidden ores
 			var hits = FloodExpandDesignationType(DesignationDefOf.Mine, map, (cell, m) => !m.fogGrid.IsFogged(cell), CellCanBeMineDesignated);
-			Messages.Message("Designator_context_mine_succ".Translate(hits), MessageSound.Benefit);
+			Messages.Message("Designator_context_mine_succ".Translate(hits), MessageTypeDefOf.TaskCompletion);
 		}
 
 		private bool CellCanBeMineDesignated(IntVec3 cell, Map map) {
@@ -72,7 +72,7 @@ namespace AllowTool.Context {
 				}
 			}
 			if (cyclesLimit == 0) {
-				AllowToolController.Instance.Logger.Error("Ran out of cycles while expanding designations: " + Environment.StackTrace);
+				AllowToolController.Logger.Error("Ran out of cycles while expanding designations: " + Environment.StackTrace);
 			}
 			return hitCount;
 		}

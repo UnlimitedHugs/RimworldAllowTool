@@ -1,4 +1,5 @@
 ﻿using System;
+using RimWorld;
 using Verse;
 
 namespace AllowTool.Context {
@@ -35,7 +36,7 @@ namespace AllowTool.Context {
 				}
 			}
 			if (hitCount>0 && friendliesFound) {
-				Messages.Message("Designator_context_finish_allies".Translate(hitCount), MessageSound.Standard);
+				Messages.Message("Designator_context_finish_allies".Translate(hitCount), MessageTypeDefOf.CautionInput);
 			}
 			ReportActionResult(hitCount);
 		}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HugsLib.Settings;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -68,9 +69,9 @@ namespace AllowTool.Context {
 				baseMessageKey = EntryTextKey;
 			}
 			if (designationCount > 0) {
-				Messages.Message((baseMessageKey + SuccessMessageStringIdSuffix).Translate(designationCount), MessageSound.Benefit);
+				Messages.Message((baseMessageKey + SuccessMessageStringIdSuffix).Translate(designationCount), MessageTypeDefOf.TaskCompletion);
 			} else {
-				Messages.Message((baseMessageKey + FailureMessageStringIdSuffix).Translate(), MessageSound.RejectInput);
+				Messages.Message((baseMessageKey + FailureMessageStringIdSuffix).Translate(), MessageTypeDefOf.RejectInput);
 			}
 		}
 
@@ -102,7 +103,7 @@ namespace AllowTool.Context {
 				if(map == null) return;
 				action(designator, map);
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.Error("Exception while processing context menu action: " + e);
+				AllowToolController.Logger.Error("Exception while processing context menu action: " + e);
 			}
 		}
 	}

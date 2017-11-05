@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -57,9 +58,9 @@ namespace AllowTool.Context {
 				successMessageKey = EntryTextKey + SuccessMessageStringIdSuffix;
 			}
 			if (hitCount > 0) {
-				Messages.Message(successMessageKey.Translate(hitCount), MessageSound.Benefit);
+				Messages.Message(successMessageKey.Translate(hitCount), MessageTypeDefOf.TaskCompletion);
 			} else {
-				Messages.Message((EntryTextKey + FailureMessageStringIdSuffix).Translate(), MessageSound.RejectInput);
+				Messages.Message((EntryTextKey + FailureMessageStringIdSuffix).Translate(), MessageTypeDefOf.RejectInput);
 			}
 		}
 

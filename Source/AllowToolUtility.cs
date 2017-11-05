@@ -56,11 +56,11 @@ namespace AllowTool {
 					}
 				}
 				if (injectedPawns.Count > 0) {
-					AllowToolController.Instance.Logger.Message("Padded work priority lists for pawns: {0}", injectedPawns.Join(", ", true));
+					AllowToolController.Logger.Message("Padded work priority lists for pawns: {0}", injectedPawns.Join(", ", true));
 					return true;
 				}
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.Error("Exception while injecting WorkTypeDef into colonist pawns: " + e);
+				AllowToolController.Logger.Error("Exception while injecting WorkTypeDef into colonist pawns: " + e);
 			}
 			return false;
 		}
@@ -84,10 +84,10 @@ namespace AllowTool {
 					}
 				}
 				if (activatedPawns.Count > 0) {
-					AllowToolController.Instance.Logger.Message("Adjusted work type priority of {0} to default for pawns: {1}", def.defName, activatedPawns.Join(", ", true));
+					AllowToolController.Logger.Message("Adjusted work type priority of {0} to default for pawns: {1}", def.defName, activatedPawns.Join(", ", true));
 				}
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.Error("Exception while adjusting work type priority in colonist pawns: " + e);
+				AllowToolController.Logger.Error("Exception while adjusting work type priority in colonist pawns: " + e);
 			}
 		}
 

@@ -60,8 +60,9 @@ namespace AllowTool {
 			get { return ModId; }
 		}
 
-		internal new ModLogger Logger {
-			get { return base.Logger; }
+		private static ModLogger staticLogger;
+		internal new static ModLogger Logger {
+			get { return staticLogger ?? (staticLogger = new ModLogger(ModId)); }
 		}
 
 		protected override bool HarmonyAutoPatch {
