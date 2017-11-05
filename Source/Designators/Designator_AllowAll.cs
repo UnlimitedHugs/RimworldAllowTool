@@ -47,10 +47,10 @@ namespace AllowTool {
 				}
 			}
 			if (tallyCount > 0) {
-				if (def.messageSuccess != null) Messages.Message(def.messageSuccess.Translate(tallyCount.ToString()), MessageSound.Silent);
-				def.soundSucceded.PlayOneShotOnCamera();
+				if (def.messageSuccess != null) Messages.Message(def.messageSuccess.Translate(tallyCount.ToString()), MessageTypeDefOf.SilentInput);
+				def.soundSucceeded.PlayOneShotOnCamera();
 			} else {
-				if (def.messageFailure != null) Messages.Message(def.messageFailure.Translate(), MessageSound.RejectInput);
+				if (def.messageFailure != null) Messages.Message(def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
 			}
 		}
 	}

@@ -33,7 +33,7 @@ namespace AllowTool {
 			useMouseIcon = true;
 			soundDragSustain = SoundDefOf.DesignateDragStandard;
 			soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			soundSucceeded = def.soundSucceded;
+			soundSucceeded = def.soundSucceeded;
 			hotKey = def.hotkeyDef;
 		}
 
@@ -72,10 +72,10 @@ namespace AllowTool {
 				hitCount += numThingsDesignated;
 			}
 			if (hitCount > 0) {
-				if (def.messageSuccess != null) Messages.Message(def.messageSuccess.Translate(hitCount.ToString()), MessageSound.Silent);
+				if (def.messageSuccess != null) Messages.Message(def.messageSuccess.Translate(hitCount.ToString()), MessageTypeDefOf.SilentInput);
 				FinalizeDesignationSucceeded();
 			} else {
-				if (def.messageFailure != null) Messages.Message(def.messageFailure.Translate(), MessageSound.RejectInput);
+				if (def.messageFailure != null) Messages.Message(def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
 				FinalizeDesignationFailed();
 			}
 		}

@@ -13,7 +13,7 @@ namespace AllowTool {
 		public Type insertAfter = null;
 		public string iconTex;
 		public string dragHighlightTex;
-		public SoundDef soundSucceded = null;
+		public SoundDef soundSucceeded = null;
 		public KeyBindingDef hotkeyDef = null;
 		public string messageSuccess = null;
 		public string messageFailure = null;

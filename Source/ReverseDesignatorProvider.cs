@@ -3,7 +3,7 @@ using Verse;
 
 namespace AllowTool {
 	/// <summary>
-	/// Injects custom reverse designators- the ones that show up when approptiate items are selected
+	/// Injects custom reverse designators- the ones that show up when appropriate items are selected
 	/// </summary>
 	public static class ReverseDesignatorProvider {
 		public static void OnReverseDesignatorInit(ReverseDesignatorDatabase database) {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -17,7 +18,7 @@ namespace AllowTool.Context {
 			get { return typeof (Designator_HaulUrgently); }
 		}
 
-		protected override ThingRequestGroup DesingatorRequestGroup {
+		protected override ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.HaulableEver; }
 		}
 
@@ -43,7 +44,7 @@ namespace AllowTool.Context {
 
 		private void DesignateWithPredicate(Designator designator, Map map, Func<Thing, bool> shouldDesignateThing = null, string successMessageKey = null) {
 			int hitCount = 0;
-			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
+			foreach (var thing in map.listerThings.ThingsInGroup(DesignatorRequestGroup)) {
 				if (ValidForDesignation(thing) &&
 					designator.CanDesignateThing(thing).Accepted && 
 					!thing.def.designateHaulable && 
@@ -57,9 +58,9 @@ namespace AllowTool.Context {
 				successMessageKey = EntryTextKey + SuccessMessageStringIdSuffix;
 			}
 			if (hitCount > 0) {
-				Messages.Message(successMessageKey.Translate(hitCount), MessageSound.Benefit);
+				Messages.Message(successMessageKey.Translate(hitCount), MessageTypeDefOf.TaskCompletion);
 			} else {
-				Messages.Message((EntryTextKey + FailureMessageStringIdSuffix).Translate(), MessageSound.RejectInput);
+				Messages.Message((EntryTextKey + FailureMessageStringIdSuffix).Translate(), MessageTypeDefOf.RejectInput);
 			}
 		}
 

@@ -12,14 +12,14 @@ namespace AllowTool {
 	public static class AllowToolDefOf {
 
 		// designations
-		public static DesignationDef HaulUgentlyDesignation;
+		public static DesignationDef HaulUrgentlyDesignation;
 		public static DesignationDef FinishOffDesignation;
 
 		// designators
 		public static ThingDesignatorDef SelectSimilarDesignator;
 		public static ThingDesignatorDef FinishOffDesignator;
 
-		// deverse designators
+		// reverse designators
 		public static ReverseDesignatorDef ReverseFinishOff;
 
 		// work types

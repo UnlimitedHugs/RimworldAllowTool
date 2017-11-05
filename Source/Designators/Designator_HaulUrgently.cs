@@ -21,7 +21,7 @@ namespace AllowTool {
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing t) {
-			return ThingIsRelevant(t) && !t.HasDesignation(AllowToolDefOf.HaulUgentlyDesignation);
+			return ThingIsRelevant(t) && !t.HasDesignation(AllowToolDefOf.HaulUrgentlyDesignation);
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
@@ -39,10 +39,10 @@ namespace AllowTool {
 
 		public override void DesignateThing(Thing thing) {
 			if (thing.def.designateHaulable) {
-				// for things that require explicit hauling desingation, such as rock chunks
+				// for things that require explicit hauling designation, such as rock chunks
 				thing.ToggleDesignation(DesignationDefOf.Haul, true);
 			}
-			thing.ToggleDesignation(AllowToolDefOf.HaulUgentlyDesignation, true);
+			thing.ToggleDesignation(AllowToolDefOf.HaulUrgentlyDesignation, true);
 			// unforbid for convenience
 			thing.SetForbidden(false, false);
 		}

@@ -65,7 +65,7 @@ namespace AllowTool {
 		protected override void FinalizeDesignationSucceeded() {
 			base.FinalizeDesignationSucceeded();
 			if (!AnyPawnsMeetSkillRequirement) {
-				Messages.Message("Finish_off_skillRequired".Translate(MeleeSkillLevelRequired), MessageSound.RejectInput);
+				Messages.Message("Finish_off_skillRequired".Translate(MeleeSkillLevelRequired), MessageTypeDefOf.RejectInput);
 			}
 		}
 

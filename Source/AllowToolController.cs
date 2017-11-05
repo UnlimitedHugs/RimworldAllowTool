@@ -60,8 +60,9 @@ namespace AllowTool {
 			get { return ModId; }
 		}
 
-		internal new ModLogger Logger {
-			get { return base.Logger; }
+		private static ModLogger staticLogger;
+		internal new static ModLogger Logger {
+			get { return staticLogger ?? (staticLogger = new ModLogger(ModId)); }
 		}
 
 		protected override bool HarmonyAutoPatch {
@@ -79,6 +80,8 @@ namespace AllowTool {
 		public SettingHandle<bool> ReverseDesignatorPickSetting { get; set; }
 		
 		public SettingHandle<bool> FinishOffSkillRequirement { get; set; }
+
+		public SettingHandle<bool> FinishOffUnforbidsSetting { get; set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 
@@ -161,6 +164,7 @@ namespace AllowTool {
 			Settings.GetHandle(FinishOffWorktypeSettingName, "setting_finishOffWorktype_label".Translate(), "setting_finishOffWorktype_desc".Translate(), false);
 			ExtendedContextActionSetting = Settings.GetHandle("extendedContextActionKey", "setting_extendedContextHotkey_label".Translate(), "setting_extendedContextHotkey_desc".Translate(), true);
 			ReverseDesignatorPickSetting = Settings.GetHandle("reverseDesignatorPick", "setting_reverseDesignatorPick_label".Translate(), "setting_reverseDesignatorPick_desc".Translate(), true);
+			FinishOffUnforbidsSetting = Settings.GetHandle("finishOffUnforbids", "setting_finishOffUnforbids_label".Translate(), "setting_finishOffUnforbids_desc".Translate(), true);
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
 			SelectionLimitSetting.SpinnerIncrement = 50;
 			// designators

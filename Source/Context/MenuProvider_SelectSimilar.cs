@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using Verse;
 
 namespace AllowTool.Context {
@@ -26,7 +27,7 @@ namespace AllowTool.Context {
 				des = reverse.GetNonReverseVersion();
 			}
 			if (Find.Selector.NumSelected == 0) {
-				Messages.Message("Designator_context_similar_fail".Translate(), MessageSound.RejectInput);
+				Messages.Message("Designator_context_similar_fail".Translate(), MessageTypeDefOf.RejectInput);
 				return;
 			}
 			
@@ -57,9 +58,9 @@ namespace AllowTool.Context {
 			}
 
 			if (limitWasHit) {
-				Messages.Message("Designator_context_similar_part".Translate(hitCount, thingsToSelect.Count), MessageSound.Benefit);
+				Messages.Message("Designator_context_similar_part".Translate(hitCount, thingsToSelect.Count), MessageTypeDefOf.TaskCompletion);
 			} else {
-				Messages.Message("Designator_context_similar_succ".Translate(hitCount), MessageSound.Benefit);
+				Messages.Message("Designator_context_similar_succ".Translate(hitCount), MessageTypeDefOf.TaskCompletion);
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 ﻿using System;
+using RimWorld;
 using Verse;
 
 namespace AllowTool.Context {
@@ -18,14 +19,14 @@ namespace AllowTool.Context {
 			get { return typeof(Designator_FinishOff); }
 		}
 
-		protected override ThingRequestGroup DesingatorRequestGroup {
+		protected override ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.Pawn; }
 		}
 
 		public override void ContextMenuAction(Designator designator, Map map) {
 			int hitCount = 0;
 			bool friendliesFound = false;
-			foreach (var thing in map.listerThings.ThingsInGroup(DesingatorRequestGroup)) {
+			foreach (var thing in map.listerThings.ThingsInGroup(DesignatorRequestGroup)) {
 				if (ValidForDesignation(thing) && designator.CanDesignateThing(thing).Accepted) {
 					designator.DesignateThing(thing);
 					hitCount++;
@@ -35,7 +36,7 @@ namespace AllowTool.Context {
 				}
 			}
 			if (hitCount>0 && friendliesFound) {
-				Messages.Message("Designator_context_finish_allies".Translate(hitCount), MessageSound.Standard);
+				Messages.Message("Designator_context_finish_allies".Translate(hitCount), MessageTypeDefOf.CautionInput);
 			}
 			ReportActionResult(hitCount);
 		}

@@ -42,7 +42,7 @@ namespace AllowTool {
 					var priorityList = GetWorkPriorityListForPawn(pawn);
 					if (priorityList != null && priorityList.Count > 0) {
 						var cyclesLeft = 100;
-						// the priority list must be padded to accomodate all available WorkTypeDef.index
+						// the priority list must be padded to accommodate all available WorkTypeDef.index
 						// pad by the maximum index available to make provisions for other mods' worktypes
 						var maxIndex = DefDatabase<WorkTypeDef>.AllDefs.Max(d => d.index);
 						while (priorityList.Count <= maxIndex && cyclesLeft > 0) {
@@ -56,11 +56,11 @@ namespace AllowTool {
 					}
 				}
 				if (injectedPawns.Count > 0) {
-					AllowToolController.Instance.Logger.Message("Padded work priority lists for pawns: {0}", injectedPawns.Join(", ", true));
+					AllowToolController.Logger.Message("Padded work priority lists for pawns: {0}", injectedPawns.Join(", ", true));
 					return true;
 				}
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.Error("Exception while injecting WorkTypeDef into colonist pawns: " + e);
+				AllowToolController.Logger.Error("Exception while injecting WorkTypeDef into colonist pawns: " + e);
 			}
 			return false;
 		}
@@ -70,7 +70,7 @@ namespace AllowTool {
 			try {
 				var activatedPawns = new HashSet<Pawn>();
 				if (map == null || map.mapPawns == null) return;
-				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer)) {
+				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer).Concat(map.mapPawns.PrisonersOfColony)) {
 					var priorityList = GetWorkPriorityListForPawn(pawn);
 					if (priorityList != null && priorityList.Count > 0) {
 						var curValue = priorityList[def.index];
@@ -84,10 +84,10 @@ namespace AllowTool {
 					}
 				}
 				if (activatedPawns.Count > 0) {
-					AllowToolController.Instance.Logger.Message("Adjusted work type priority of {0} to default for pawns: {1}", def.defName, activatedPawns.Join(", ", true));
+					AllowToolController.Logger.Message("Adjusted work type priority of {0} to default for pawns: {1}", def.defName, activatedPawns.Join(", ", true));
 				}
 			} catch (Exception e) {
-				AllowToolController.Instance.Logger.Error("Exception while adjusting work type priority in colonist pawns: " + e);
+				AllowToolController.Logger.Error("Exception while adjusting work type priority in colonist pawns: " + e);
 			}
 		}
 
