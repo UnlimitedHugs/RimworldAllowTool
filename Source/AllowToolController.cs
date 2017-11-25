@@ -23,7 +23,6 @@ namespace AllowTool {
 		private const string HaulWorktypeSettingName = "haulUrgentlyWorktype";
 		private const string FinishOffWorktypeSettingName = "finishOffWorktype";
 
-		public static FieldInfo ResolvedDesignatorsField;
 		public static FieldInfo ReverseDesignatorDatabaseDesListField;
 		public static FieldInfo GizmoGridGizmoListField;
 		public static AllowToolController Instance { get; private set; }
@@ -216,7 +215,7 @@ namespace AllowTool {
 			var numDesignatorsInjected = 0;
 			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
 				if (designatorDef.Injected) continue;
-				var resolvedDesignators = (List<Designator>)ResolvedDesignatorsField.GetValue(designatorDef.Category);
+				var resolvedDesignators = designatorDef.Category.AllResolvedDesignators;
 				var insertIndex = -1;
 				for (var i = 0; i < resolvedDesignators.Count; i++) {
 					if(resolvedDesignators[i].GetType() != designatorDef.insertAfter) continue;
@@ -240,14 +239,12 @@ namespace AllowTool {
 		}
 
 		private void PrepareReflection() {
-			ResolvedDesignatorsField = typeof(DesignationCategoryDef).GetField("resolvedDesignators", HugsLibUtility.AllBindingFlags);
 			ReverseDesignatorDatabaseDesListField = typeof(ReverseDesignatorDatabase).GetField("desList", HugsLibUtility.AllBindingFlags);
 			var gizmoGridType = GenTypes.GetTypeInAnyAssembly("RimWorld.InspectGizmoGrid");
 			if (gizmoGridType != null) {
 				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
 			}
-			if (ResolvedDesignatorsField == null || ResolvedDesignatorsField.FieldType != typeof(List<Designator>)
-			    || ReverseDesignatorDatabaseDesListField == null || ReverseDesignatorDatabaseDesListField.FieldType != typeof(List<Designator>)
+			if (ReverseDesignatorDatabaseDesListField == null || ReverseDesignatorDatabaseDesListField.FieldType != typeof(List<Designator>)
 				|| GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)) {
 				Logger.Error("Failed to reflect required members");
 			}
