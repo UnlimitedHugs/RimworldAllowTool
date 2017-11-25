@@ -26,8 +26,8 @@
   <setting_extendedContextHotkey_desc>当没有选择工具时，当选择物品时，「右键菜单」快捷键会第一个可见的工具的右键菜单。</setting_extendedContextHotkey_desc>
   <setting_reverseDesignatorPick_label>从已选择的物品选择工具</setting_reverseDesignatorPick_label>
   <setting_reverseDesignatorPick_desc>当有物品被选择时，按住Shift键并点击一个工具，可以替换已标记的命令。</setting_reverseDesignatorPick_desc>
-  <setting_finishOffUnforbids_label>“杀死单位”解除禁用</setting_finishOffUnforbids_label>
-  <setting_finishOffUnforbids_desc>启用后，任何被“杀死单位”功能产生的单位掉落物将会立即被允许搬运。</setting_finishOffUnforbids_desc>
+  <setting_finishOffUnforbids_label>“杀死单位”掉落不禁止互动</setting_finishOffUnforbids_label>
+  <setting_finishOffUnforbids_desc>启用后，当生物被击杀时的身体和物品掉落会自动允许搬运。</setting_finishOffUnforbids_desc>
   <setting_providerPrefix>启用：{0}</setting_providerPrefix>
   <setting_provider_desc>启用后，给工具添加一个可以影响全图的右键菜单。</setting_provider_desc>
   <setting_showToggles_btn>▼ 显示设置 ▼</setting_showToggles_btn>
@@ -74,6 +74,7 @@
   <Designator_context_rearm_succ>{0}个陷阱标记了重置。</Designator_context_rearm_succ>
   <Designator_context_rearm_fail>目前没有需要重置的陷阱了。</Designator_context_rearm_fail>
   <Designator_context_harvest>收获所有植物。</Designator_context_harvest>
+  <Designator_context_harvest_home>收获生活区内的植物</Designator_context_harvest_home>
   <Designator_context_harvest_succ>{0}株植物标记了收获。</Designator_context_harvest_succ>
   <Designator_context_harvest_fail>没有其他可收获的植物了。</Designator_context_harvest_fail>
   <Designator_context_haul>搬运所有物品。</Designator_context_haul>
