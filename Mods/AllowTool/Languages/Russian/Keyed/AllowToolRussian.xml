@@ -2,13 +2,13 @@
 <LanguageData>
 
 	<Allow_area_success>Разрешено {0} предметов.</Allow_area_success>
-	<Allow_area_failure>Не найдено запрещенных предметов.</Allow_area_failure>
+	<Allow_area_failure>Не найдено запрещённых предметов.</Allow_area_failure>
 
 	<Forbid_area_success>Запрещено {0} предметов.</Forbid_area_success>
 	<Forbid_area_failure>Не найдено предметов для запрещения.</Forbid_area_failure>
 
 	<Allow_all_success>Разрешено {0} предметов по всей карте.</Allow_all_success>
-	<Allow_all_failure>Не найдено запрещенных предметов.</Allow_all_failure>
+	<Allow_all_failure>Не найдено запрещённых предметов.</Allow_all_failure>
 
 	<Mass_Select_success>Выделено {0} {1} по всей карте.</Mass_Select_success>
 
@@ -26,14 +26,15 @@
 	<setting_extendedContextHotkey_desc>Когда не выбран ни одни инструмент, клавиша "Действие контекстного меню" активирует действие контекстного меню первого инструмента на выделенных предметах.</setting_extendedContextHotkey_desc>
 	<setting_reverseDesignatorPick_label>Выбор инструментов с выделенных предметов</setting_reverseDesignatorPick_label>
 	<setting_reverseDesignatorPick_desc>Когда выделены предметы, удерживая клавишу Shift и нажав на инструмент, можно выбрать этот инструмент для дальнейшей работы вместо того чтобы активировать его на выделенных предметах.</setting_reverseDesignatorPick_desc>
+	<setting_finishOffUnforbids_label>Выпавшее разрешено после "Добить"</setting_finishOffUnforbids_label>
+	<setting_finishOffUnforbids_desc>Если включено, тела и выпавшие предметы при добивании автоматически станут доступны для переноса.</setting_finishOffUnforbids_desc>
 	<setting_providerPrefix>Включить: {0}</setting_providerPrefix>
 	<setting_provider_desc>Добавляет контекстное меню этому инструменту, позволяющее воздействовать на всю карту сразу.</setting_provider_desc>
 	<setting_showToggles_btn>▼ Открыть настройки ▼</setting_showToggles_btn>
 	<setting_showToolToggles_label>Включить или отключить инструменты</setting_showToolToggles_label>
 	<setting_showProviderToggles_label>Включить или отключить контекстные меню</setting_showProviderToggles_label>
 	<setting_showReverseToggles_label>Инструменты на выделенных предметах</setting_showReverseToggles_label>
-	<setting_showReverseToggles_label>Tools on selected things</setting_showReverseToggles_label>
-	<setting_reverseDesignator_desc>Если включено, отображает этот инструмент на поддерживаемых выделенных предметах. Вступает в силу после загрузки сохраненной игры.</setting_reverseDesignator_desc>
+	<setting_reverseDesignator_desc>Если включено, отображает этот инструмент на поддерживаемых выделенных предметах. Вступает в силу после загрузки сохранённой игры.</setting_reverseDesignator_desc>
 	<setting_haulUrgentlyWorktype_label>Отображать тип работы "Носильщик+"</setting_haulUrgentlyWorktype_label>
 	<setting_haulUrgentlyWorktype_desc>Если включено, панель настроек работ отображает дополнительный тип работы для инструмента срочного переноса. Требуется перезапуск.</setting_haulUrgentlyWorktype_desc>
 	<setting_finishOffWorktype_label>Отображать тип работы "Добивание"</setting_finishOffWorktype_label>
@@ -44,7 +45,7 @@
 	<SelectSimilar_cursor_needConstraint>Клик для выделения предмета</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Будет выделено только: {0}</SelectSimilar_cursor_nowSelecting>
 	<SelectSimilar_cursor_limit>Выделено максимум предметов</SelectSimilar_cursor_limit>
-	<SelectSimilar_numMoreTypes>(еще {0})</SelectSimilar_numMoreTypes>
+	<SelectSimilar_numMoreTypes>(ещё {0})</SelectSimilar_numMoreTypes>
 
 	<Haul_urgently_success>{0} предметов будут перенесены срочно.</Haul_urgently_success>
 	<Haul_urgently_failure>Не найдено предметов нуждающихся в переносе.</Haul_urgently_failure>
@@ -64,6 +65,7 @@
 	<Designator_context_urgent_visible>Срочно перенести видимые предметы</Designator_context_urgent_visible>
 	<Designator_context_urgent_all>Срочно перенести все предметы на карте</Designator_context_urgent_all>
 	<Designator_context_urgent_succ>{0} предметов отмечено для срочного переноса.</Designator_context_urgent_succ>
+	<Designator_context_urgent_visible_succ>{0} видимых предметов отмечено для срочного переноса.</Designator_context_urgent_visible_succ>
 	<Designator_context_urgent_fail>Не найдено предметов нуждающихся в переносе.</Designator_context_urgent_fail>
 	<Designator_context_strip>Снять одежду со всех врагов</Designator_context_strip>
 	<Designator_context_strip_succ>{0} отмечено тел для снятия одежды.</Designator_context_strip_succ>
@@ -72,9 +74,10 @@
 	<Designator_context_rearm_succ>{0} капканов будут заряжены.</Designator_context_rearm_succ>
 	<Designator_context_rearm_fail>Не найдено капканов, требующих зарядки.</Designator_context_rearm_fail>
 	<Designator_context_harvest>Собрать урожай со всех растений</Designator_context_harvest>
+	<Designator_context_harvest_home>Собрать урожай в домашней области</Designator_context_harvest_home>
 	<Designator_context_harvest_succ>{0} растений отмечено для сбора урожая.</Designator_context_harvest_succ>
 	<Designator_context_harvest_fail>На найдено растений готовых к сбору.</Designator_context_harvest_fail>
-	<Designator_context_haul>Перенести все</Designator_context_haul>
+	<Designator_context_haul>Перенести всё</Designator_context_haul>
 	<Designator_context_haul_succ>Отмечено {0} новых предметов для переноса.</Designator_context_haul_succ>
 	<Designator_context_haul_fail>Не найдено новых предметов для переноса.</Designator_context_haul_fail>
 	<Designator_context_chop>Вырубить весь лес</Designator_context_chop>
