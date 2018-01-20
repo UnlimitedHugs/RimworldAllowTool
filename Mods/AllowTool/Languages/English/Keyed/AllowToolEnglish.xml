@@ -98,5 +98,8 @@
 	<Designator_context_finish_succ>{0} creatures will be finished off.</Designator_context_finish_succ>
 	<Designator_context_finish_allies>{0} creatures will be finished off, including friendlies.</Designator_context_finish_allies>
 	<Designator_context_finish_fail>No valid downed targets have been found.</Designator_context_finish_fail>
+	<Designator_context_cut>Cut all blighted plants</Designator_context_cut>
+	<Designator_context_cut_succ>Designated {0} blighted plants to cut.</Designator_context_cut_succ>
+	<Designator_context_cut_fail>Found no new blighted plants to cut.</Designator_context_cut_fail>
 	
 </LanguageData>

@@ -98,5 +98,8 @@
 	<Designator_context_finish_succ>{0} существ будут добиты.</Designator_context_finish_succ>
 	<Designator_context_finish_allies>{0} существ, включая дружественных, будут добиты.</Designator_context_finish_allies>
 	<Designator_context_finish_fail>Не найдено целей для добивания.</Designator_context_finish_fail>
+	<Designator_context_cut>Срезать все больные растения</Designator_context_cut>
+	<Designator_context_cut_succ>Отмечено {0} больных растений для срезания.</Designator_context_cut_succ>
+	<Designator_context_cut_fail>Не найдено новых больных растений для срезания.</Designator_context_cut_fail>
 	
 </LanguageData>
