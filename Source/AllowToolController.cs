@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AllowTool.Context;
+using AllowTool.Settings;
 using Harmony;
 using HugsLib;
 using HugsLib.Settings;
 using HugsLib.Utils;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -25,6 +27,7 @@ namespace AllowTool {
 
 		public static FieldInfo ReverseDesignatorDatabaseDesListField;
 		public static FieldInfo GizmoGridGizmoListField;
+		public static FieldInfo DraftControllerAutoUndrafterField;
 		public static AllowToolController Instance { get; private set; }
 
 		internal static HarmonyInstance HarmonyInstance { get; set; }
@@ -65,24 +68,22 @@ namespace AllowTool {
 		}
 
 		protected override bool HarmonyAutoPatch {
-			get { return false; } // we patch out stuff early on. See AllowToolEarlyInit
+			get { return false; } // we patch our stuff early on. See AllowToolEarlyInit
 		}
 
 		internal SettingHandle<int> SelectionLimitSetting { get; private set; }
-
-		internal SettingHandle<bool> ContextOverlaySetting { get; set; }
-
+		internal SettingHandle<bool> ContextOverlaySetting { get; private set; }
 		internal SettingHandle<bool> ContextWatermarkSetting { get; private set; }
-
-		public SettingHandle<bool> ExtendedContextActionSetting { get; set; }
-
-		public SettingHandle<bool> ReverseDesignatorPickSetting { get; set; }
-		
-		public SettingHandle<bool> FinishOffSkillRequirement { get; set; }
-
-		public SettingHandle<bool> FinishOffUnforbidsSetting { get; set; }
+		internal SettingHandle<bool> PartyHuntSetting { get; private set; }
+		internal SettingHandle<bool> PartyHuntFinishSetting { get; private set; }
+		internal SettingHandle<bool> PartyHuntDesignatedSetting { get; private set; }
+		public SettingHandle<bool> ExtendedContextActionSetting { get; private set; }
+		public SettingHandle<bool> ReverseDesignatorPickSetting { get; private set; }
+		public SettingHandle<bool> FinishOffSkillRequirement { get; private set; }
+		public SettingHandle<bool> FinishOffUnforbidsSetting { get; private set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
+		public WorldSettings WorldSettings { get; private set; }
 
 		private AllowToolController() {
 			Instance = this;
@@ -126,6 +127,7 @@ namespace AllowTool {
 		public override void WorldLoaded() {
 			InjectDesignators();
 			DesignatorContextMenuController.PrepareContextMenus();
+			WorldSettings = UtilityWorldObjectManager.GetUtilityWorldObject<WorldSettings>();
 		}
 
 		public override void MapLoaded(Map map) {
@@ -164,6 +166,13 @@ namespace AllowTool {
 			ExtendedContextActionSetting = Settings.GetHandle("extendedContextActionKey", "setting_extendedContextHotkey_label".Translate(), "setting_extendedContextHotkey_desc".Translate(), true);
 			ReverseDesignatorPickSetting = Settings.GetHandle("reverseDesignatorPick", "setting_reverseDesignatorPick_label".Translate(), "setting_reverseDesignatorPick_desc".Translate(), true);
 			FinishOffUnforbidsSetting = Settings.GetHandle("finishOffUnforbids", "setting_finishOffUnforbids_label".Translate(), "setting_finishOffUnforbids_desc".Translate(), true);
+			
+			// party hunt
+			PartyHuntSetting = Settings.GetHandle("partyHunt", "setting_partyHunt_label".Translate(), "setting_partyHunt_desc".Translate(), true);
+			PartyHuntFinishSetting = Settings.GetHandle("partyHuntFinish", "setting_partyHuntFinish_label".Translate(), "setting_partyHuntFinish_desc".Translate(), true);
+			PartyHuntDesignatedSetting = Settings.GetHandle("partyHuntDesignated", "setting_partyHuntDesignated_label".Translate(), "setting_partyHuntDesignated_desc".Translate(), false);
+			PartyHuntFinishSetting.VisibilityPredicate = PartyHuntDesignatedSetting.VisibilityPredicate = () => PartyHuntSetting.Value;
+
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
 			SelectionLimitSetting.SpinnerIncrement = 50;
 			// designators
@@ -244,13 +253,17 @@ namespace AllowTool {
 			if (gizmoGridType != null) {
 				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
 			}
+			DraftControllerAutoUndrafterField = typeof(Pawn_DraftController).GetField("autoUndrafter", HugsLibUtility.AllBindingFlags);
+
 			if (ReverseDesignatorDatabaseDesListField == null || ReverseDesignatorDatabaseDesListField.FieldType != typeof(List<Designator>)
-				|| GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)) {
+				|| GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>) ||
+				DraftControllerAutoUndrafterField == null || DraftControllerAutoUndrafterField.FieldType != typeof(AutoUndrafter)) {
 				Logger.Error("Failed to reflect required members");
 			}
 		}
 
 		
+
 
 		private void CheckForHotkeyPresses() {
 			if (Event.current.keyCode == KeyCode.None) return;

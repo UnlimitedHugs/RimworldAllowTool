@@ -9,7 +9,7 @@ namespace AllowTool.Patches {
 	/// </summary>
 	[HarmonyPatch(typeof(ThingWithComps), "GetFloatMenuOptions")]
 	//public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
-	internal class Thing_GetFloatMenuOptions_Patch {
+	internal static class Thing_GetFloatMenuOptions_Patch {
 		[HarmonyPostfix]
 		public static void FinishOffWhenDrafted(ref IEnumerable<FloatMenuOption> __result, Thing __instance, Pawn selPawn) {
 			var floatOption = WorkGiver_FinishOff.InjectThingFloatOptionIfNeeded(__instance, selPawn);

@@ -96,6 +96,10 @@ namespace AllowTool {
 			return pawn != null && pawn.Faction != null && (pawn.IsPrisonerOfColony || !pawn.Faction.HostileTo(Faction.OfPlayer));
 		}
 
+		public static bool PawnCapableOfViolence(Pawn pawn) {
+			return !(pawn.story == null || pawn.story.WorkTagIsDisabled(WorkTags.Violent));
+		}
+
 		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
 			if (pawn != null && pawn.workSettings != null) {
 				var workDefMap = Traverse.Create(pawn.workSettings).Field("priorities").GetValue<DefMap<WorkTypeDef, int>>();
