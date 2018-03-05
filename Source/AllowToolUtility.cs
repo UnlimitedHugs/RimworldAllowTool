@@ -37,7 +37,7 @@ namespace AllowTool {
 			try {
 				var injectedPawns = new HashSet<Pawn>();
 				if (map == null || map.mapPawns == null) return false;
-				foreach (var pawn in map.mapPawns.AllPawns) {
+				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer)) {
 					if (pawn == null || pawn.workSettings == null) continue;
 					var priorityList = GetWorkPriorityListForPawn(pawn);
 					if (priorityList != null && priorityList.Count > 0) {
