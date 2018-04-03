@@ -54,6 +54,7 @@ namespace AllowTool.Patches {
 			var currentDesignatorHolderIndex = -1;
 			var currentCommandIndex = -1;
 			var prechecksSuccess = false;
+			patchApplied = false;
 			// find indices of local vars. They could be hardcoded, but this method is more future-proof
 			try {
 				CodeInstruction prevInstruction = null;
@@ -84,7 +85,7 @@ namespace AllowTool.Patches {
 			// currentDesignatorHolderIndex: 10 
 			foreach (var instruction in instructionsArr) {
 				yield return instruction;
-				if (prechecksSuccess && !patchApplied) {
+				if (prechecksSuccess) {
 					// after the group key for the command is set
 					if (instruction.opcode == OpCodes.Stfld && commandGroupKeyField.Equals(instruction.operand)) {
 						// push reference to designator reference holder
