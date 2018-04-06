@@ -23,9 +23,12 @@ namespace AllowTool {
 			}
 			for (var i = 0; i < cellThings.Count; i++) {
 				var thing = cellThings[i] as ThingWithComps;
-				if (thing != null && thing.def.selectable && thing.IsForbidden(Faction.OfPlayer) != makeForbidden) {
-					thing.SetForbidden(makeForbidden);
-					hitCount++;
+				if (thing != null && thing.def.selectable) {
+					var comp = thing.GetComp<CompForbiddable>();
+					if (comp != null && comp.Forbidden != makeForbidden) {
+						comp.Forbidden = makeForbidden;
+						hitCount++;
+					}
 				}
 			}
 			return hitCount;
