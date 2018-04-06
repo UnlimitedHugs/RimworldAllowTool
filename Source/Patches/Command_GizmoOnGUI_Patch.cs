@@ -28,13 +28,14 @@ namespace AllowTool.Patches {
 		public static IEnumerable<CodeInstruction> DrawRightClickIcon(IEnumerable<CodeInstruction> instructions) {
 			var expectedMethod = AccessTools.Method(typeof (Widgets), "DrawTextureFitted", new[] {typeof (Rect), typeof (Texture), typeof (float), typeof (Vector2), typeof (Rect), typeof (float)});
 			var checksPassed = false;
+			injectCompleted = false;
 			if (expectedMethod == null) {
 				AllowToolController.Logger.Error("Failed to reflect required method: " + Environment.StackTrace);
 			} else {
 				checksPassed = true;
 			}
 			foreach (var instruction in instructions) {
-				if (checksPassed && !injectCompleted) {
+				if (checksPassed) {
 					// right after the gizmo icon texture is drawn
 					if (instruction.opcode == OpCodes.Call && expectedMethod.Equals(instruction.operand)) {
 						// push this (Command) arg
