@@ -38,8 +38,8 @@
       <HintPath>..\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp-1.0">
+      <HintPath>..\Assembly-CSharp-1.0.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -87,7 +87,6 @@
     <Compile Include="Source\Reverse\Designator_SelectSimilarReverse.cs" />
     <Compile Include="Source\Patches\Command_GizmoOnGUI_Patch.cs" />
     <Compile Include="Source\Patches\DefOfHelper_RebindAll_Patch.cs" />
-    <Compile Include="Source\Patches\Designator_ProcessInput_Patch.cs" />
     <Compile Include="Source\Patches\InspectGizmoGrid_DrawInspectGizmoGridFor_Patch.cs" />
     <Compile Include="Source\Patches\ReverseDesignatorDatabase_Init_Patch.cs" />
     <Compile Include="Source\ReverseDesignatorProvider.cs" />

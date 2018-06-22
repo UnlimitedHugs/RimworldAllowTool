@@ -17,7 +17,7 @@ namespace AllowTool {
 
 
 		public override void DesignateSingleCell(IntVec3 cell) {
-			numThingsDesignated = AllowToolUtility.ToggleForbiddenInCell(cell, Find.VisibleMap, true);
+			numThingsDesignated = AllowToolUtility.ToggleForbiddenInCell(cell, Find.CurrentMap, true);
 		}
 	}
 }

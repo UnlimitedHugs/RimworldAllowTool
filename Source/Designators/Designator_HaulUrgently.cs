@@ -14,7 +14,7 @@ namespace AllowTool {
 		protected override void FinalizeDesignationSucceeded() {
 			base.FinalizeDesignationSucceeded();
 			if (HugsLibUtility.ShiftIsHeld) {
-				foreach (var colonist in Find.VisibleMap.mapPawns.FreeColonists) {
+				foreach (var colonist in Find.CurrentMap.mapPawns.FreeColonists) {
 					colonist.jobs.CheckForJobOverride();
 				}
 			}
@@ -25,7 +25,7 @@ namespace AllowTool {
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
-			var map = Find.VisibleMap;
+			var map = Find.CurrentMap;
 			numThingsDesignated = 0;
 
 			var cellThings = map.thingGrid.ThingsListAt(cell);

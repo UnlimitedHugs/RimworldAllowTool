@@ -24,7 +24,7 @@ namespace AllowTool.Patches {
 		[HarmonyTargetMethod]
 		// ReSharper disable once UnusedParameter.Global
 		public static MethodInfo TargetMethod(HarmonyInstance inst) {
-			// get out target type
+			// get our target type
 			gizmoGridType = GenTypes.GetTypeInAnyAssembly("InspectGizmoGrid");
 			var method = AccessTools.Method(gizmoGridType, "DrawInspectGizmoGridFor");
 			if (gizmoGridType != null) {

@@ -30,9 +30,9 @@ namespace AllowTool {
 		private void AllowAllTheThings() {
 			var includeRotten = HugsLibUtility.ShiftIsHeld;
 			var includeNonHaulable = HugsLibUtility.ControlIsHeld;
-			var map = Find.VisibleMap;
+			var map = Find.CurrentMap;
 			if(map == null) return;
-			var things = Find.VisibleMap.listerThings.AllThings;
+			var things = Find.CurrentMap.listerThings.AllThings;
 			var tallyCount = 0;
 			for (var i = 0; i < things.Count; i++) {
 				var thing = things[i];

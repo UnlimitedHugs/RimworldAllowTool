@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using AllowTool.Context;
 using Verse;
 
 namespace AllowTool {
@@ -7,15 +7,16 @@ namespace AllowTool {
 	/// </summary>
 	public static class ReverseDesignatorProvider {
 		public static void OnReverseDesignatorInit(ReverseDesignatorDatabase database) {
-			var designatorsList = (List<Designator>)AllowToolController.ReverseDesignatorDatabaseDesListField.GetValue(database);
+			var designatorsList = database.AllDesignators;
 			foreach (var def in DefDatabase<ReverseDesignatorDef>.AllDefs) {
 				if (AllowToolController.Instance.IsReverseDesignatorEnabledInSettings(def)) {
 					var des = AllowToolController.Instance.InstantiateDesignator(def.designatorClass, def.designatorDef);
 					if (Current.Game.Rules.DesignatorAllowed(des)) {
 						designatorsList.Add(des);
 					}
-				}	
+				}
 			}
+			DesignatorContextMenuController.PrepareReverseDesignatorContextMenus();
 		}
 	}
 }

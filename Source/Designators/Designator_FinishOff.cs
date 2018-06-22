@@ -46,9 +46,9 @@ namespace AllowTool {
 		public Designator_FinishOff(ThingDesignatorDef def) : base(def) {
 		}
 
-		public override GizmoResult GizmoOnGUI(Vector2 topLeft) {
+		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth) {
 			UpdateDisabledState();
-			return base.GizmoOnGUI(topLeft);
+			return base.GizmoOnGUI(topLeft, maxWidth);
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing t) {
@@ -72,7 +72,7 @@ namespace AllowTool {
 		private void RecacheSkilledPawnAvailabilityIfNeeded() {
 			if (lastPawnCheckTime + PawnRecheckIntervalSeconds < Time.time) {
 				lastPawnCheckTime = Time.time;
-				var map = Find.VisibleMap;
+				var map = Find.CurrentMap;
 				_anyPawnsMeetSkillRequirement = false;
 				if (map == null) return;
 				foreach (var pawn in map.mapPawns.FreeColonists) {

@@ -53,7 +53,7 @@ namespace AllowTool {
 						} else {
 							if (forced || t.HasDesignation(AllowToolDefOf.FinishOffDesignation)) {
 								// ignore designation if forced- driver will add the designation
-								var verb = pawn.meleeVerbs != null ? pawn.meleeVerbs.TryGetMeleeVerb() : null;
+								var verb = pawn.meleeVerbs != null ? pawn.meleeVerbs.TryGetMeleeVerb(t) : null;
 								if (verb != null) {
 									return new Job(AllowToolDefOf.FinishOffPawn, t) {
 										verbToUse = verb,

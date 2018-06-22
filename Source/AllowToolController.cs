@@ -23,7 +23,6 @@ namespace AllowTool {
 		private const string HaulWorktypeSettingName = "haulUrgentlyWorktype";
 		private const string FinishOffWorktypeSettingName = "finishOffWorktype";
 
-		public static FieldInfo ReverseDesignatorDatabaseDesListField;
 		public static FieldInfo GizmoGridGizmoListField;
 		public static AllowToolController Instance { get; private set; }
 
@@ -105,7 +104,7 @@ namespace AllowTool {
 		}
 
 		public override void OnGUI() {
-			if (Current.Game == null || Current.Game.VisibleMap == null) return;
+			if (Current.Game == null || Current.Game.CurrentMap == null) return;
 			var selectedDesignator = Find.MapUI.designatorManager.SelectedDesignator;
 			for (int i = 0; i < activeDesignators.Count; i++) {
 				var designator = activeDesignators[i].designator;
@@ -125,7 +124,7 @@ namespace AllowTool {
 		// we do our injections at world load because some mods overwrite ThingDesignatorDef.resolvedDesignators during init
 		public override void WorldLoaded() {
 			InjectDesignators();
-			DesignatorContextMenuController.PrepareContextMenus();
+			DesignatorContextMenuController.PrepareDesignatorContextMenus();
 		}
 
 		public override void MapLoaded(Map map) {
@@ -239,13 +238,11 @@ namespace AllowTool {
 		}
 
 		private void PrepareReflection() {
-			ReverseDesignatorDatabaseDesListField = typeof(ReverseDesignatorDatabase).GetField("desList", HugsLibUtility.AllBindingFlags);
 			var gizmoGridType = GenTypes.GetTypeInAnyAssembly("RimWorld.InspectGizmoGrid");
 			if (gizmoGridType != null) {
 				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
 			}
-			if (ReverseDesignatorDatabaseDesListField == null || ReverseDesignatorDatabaseDesListField.FieldType != typeof(List<Designator>)
-				|| GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)) {
+			if (GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)) {
 				Logger.Error("Failed to reflect required members");
 			}
 		}
@@ -257,7 +254,7 @@ namespace AllowTool {
 			if (AllowToolDefOf.ToolContextMenuAction.JustPressed) {
 				DesignatorContextMenuController.ProcessContextActionHotkeyPress();
 			}
-			if (!settingGlobalHotkeys || Find.VisibleMap == null) return;
+			if (!settingGlobalHotkeys || Find.CurrentMap == null) return;
 			for (int i = 0; i < activeDesignators.Count; i++) {
 				var entry = activeDesignators[i];
 				if(entry.key == null || !entry.key.JustPressed || !entry.designator.Visible) continue;

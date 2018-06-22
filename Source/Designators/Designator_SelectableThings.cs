@@ -31,8 +31,8 @@ namespace AllowTool {
 			defaultDesc = def.description;
 			icon = def.IconTex;
 			useMouseIcon = true;
-			soundDragSustain = SoundDefOf.DesignateDragStandard;
-			soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			soundDragSustain = SoundDefOf.Designate_DragStandard;
+			soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
 			soundSucceeded = def.soundSucceeded;
 			hotKey = def.hotkeyDef;
 		}
@@ -53,7 +53,7 @@ namespace AllowTool {
 
 		public override void DesignateSingleCell(IntVec3 cell) {
 			numThingsDesignated = 0;
-			var map = Find.VisibleMap;
+			var map = Find.CurrentMap;
 			if (map == null) return;
 			var things = map.thingGrid.ThingsListAt(cell);
 			for (int i = 0; i < things.Count; i++) {

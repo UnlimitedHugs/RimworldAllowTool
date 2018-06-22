@@ -19,7 +19,7 @@ Click and drag over an area to use.</description>
 		<!-- the texture to appear over a tile with items this designator is dragged over -->
 		<dragHighlightTex>allowHighlight</dragHighlightTex>
 		<!-- sound def played after a successful designation -->
-		<soundSucceeded>TickHigh</soundSucceeded>
+		<soundSucceeded>Tick_High</soundSucceeded>
 		<!-- key binding def used to activate the designator, optional -->
 		<hotkeyDef>DesignatorAllow</hotkeyDef>
 		<!-- a string id to be displayed as a message on designation success. Optional. -->
@@ -38,7 +38,7 @@ Click and drag over an area to use.</description>
 Click and drag over an area to use.</description>
 		<iconTex>forbid</iconTex>
 		<dragHighlightTex>forbidHighlight</dragHighlightTex>
-		<soundSucceeded>TickLow</soundSucceeded>
+		<soundSucceeded>Tick_Low</soundSucceeded>
 		<hotkeyDef>DesignatorForbid</hotkeyDef>
 		<messageSuccess>Forbid_area_success</messageSuccess>
 		<messageFailure>Forbid_area_failure</messageFailure>
@@ -56,7 +56,7 @@ Click to activate.
 &lt;b&gt;Hold Shift&lt;/b&gt; to include skeletons and non-fresh corpses.</description>
 		<iconTex>allowAll</iconTex>
 		<dragHighlightTex>allowHighlight</dragHighlightTex>
-		<soundSucceeded>TickHigh</soundSucceeded>
+		<soundSucceeded>Tick_High</soundSucceeded>
 		<hotkeyDef>DesignatorAllowAll</hotkeyDef>
 		<messageSuccess>Allow_all_success</messageSuccess>
 		<messageFailure>Allow_all_failure</messageFailure>

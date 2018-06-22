@@ -99,7 +99,7 @@ namespace AllowTool.Context {
 
 		protected void InvokeActionWithErrorHandling(MenuActionMethod action, Designator designator) {
 			try {
-				var map = Find.VisibleMap;
+				var map = Find.CurrentMap;
 				if(map == null) return;
 				action(designator, map);
 			} catch (Exception e) {

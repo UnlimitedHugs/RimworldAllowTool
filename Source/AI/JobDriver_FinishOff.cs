@@ -57,7 +57,7 @@ namespace AllowTool {
 			for (int i = 0; i < num; i++) {
 				victim.health.DropBloodFilth();
 			}
-			var part = victim.RaceProps.body.GetPartsWithTag("ConsciousnessSource").FirstOrDefault();
+			var part = victim.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ConsciousnessSource).FirstOrDefault();
 			int amount = part != null ? Mathf.Clamp((int)victim.health.hediffSet.GetPartHealth(part) - 1, 1, 20) : 20;
 			var damageInfo = new DamageInfo(DamageDefOf.ExecutionCut, amount, -1f, slayer, part);
 			victim.TakeDamage(damageInfo);

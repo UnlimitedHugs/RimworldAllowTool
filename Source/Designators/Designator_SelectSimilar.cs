@@ -48,7 +48,7 @@ namespace AllowTool {
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
-			var map = Find.VisibleMap;
+			var map = Find.CurrentMap;
 			var cellThings = map.thingGrid.ThingsListAtFast(cell);
 			numThingsDesignated = 0;
 			for (var i = 0; i < cellThings.Count; i++) {
@@ -148,7 +148,7 @@ namespace AllowTool {
 				ReindexSelectionConstraints();
 			}
 			if (cell.IsValid) {
-				var things = Find.VisibleMap.thingGrid.ThingsAt(cell);
+				var things = Find.CurrentMap.thingGrid.ThingsAt(cell);
 				foreach (var thing in things) {
 					if (TrySelectThing(thing)) {
 						break;
