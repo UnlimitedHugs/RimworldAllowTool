@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using HugsLib.Settings;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace AllowTool.Context {
@@ -41,7 +40,8 @@ namespace AllowTool.Context {
 		}
 
 		public virtual void OpenContextMenu(Designator designator) {
-			Find.WindowStack.Add(new FloatMenu(ListMenuEntries(designator).ToList()));
+			var entries = ListMenuEntries(designator).Concat(designator.RightClickFloatMenuOptions);
+			Find.WindowStack.Add(new FloatMenu(entries.ToList()));
 		}
 
 		protected virtual IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
