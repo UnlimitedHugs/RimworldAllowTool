@@ -9,6 +9,8 @@
 		<category>Orders</category>
 		<!-- the designator type to insert this designator after -->
 		<insertAfter>Designator_Claim</insertAfter>
+		<!-- a designator type that should be removed, and its context menu options inherited -->
+		<replaces>Rimworld.Designator_Unforbid</replaces>
 		<!-- the label on the button, optional -->
         <label>Unforbid selection</label>
 		<!-- button tooltip, optional -->
@@ -33,6 +35,7 @@ Click and drag over an area to use.</description>
 		<designatorClass>AllowTool.Designator_Forbid</designatorClass>
 		<category>Orders</category>
 		<insertAfter>AllowTool.Designator_Allow</insertAfter>
+		<replaces>Rimworld.Designator_Forbid</replaces>
         <label>Forbid selection</label>
 		<description>Forbid all items in the selected area.
 Click and drag over an area to use.</description>

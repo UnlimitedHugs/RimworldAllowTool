@@ -10,7 +10,7 @@ namespace AllowTool {
 	/// Holding Shift will include rotten remains.
 	/// </summary>
 	public class Designator_AllowAll : Designator_SelectableThings {
-		public Designator_AllowAll(ThingDesignatorDef def) : base(def) {
+		public Designator_AllowAll(ThingDesignatorDef def): base(def) {
 		} 
 
 		public override void Selected() {

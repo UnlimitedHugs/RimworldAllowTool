@@ -11,6 +11,7 @@ namespace AllowTool {
 		public Type designatorClass;
 		public string category;
 		public Type insertAfter = null;
+		public Type replaces = null;
 		public string iconTex;
 		public string dragHighlightTex;
 		public SoundDef soundSucceeded = null;

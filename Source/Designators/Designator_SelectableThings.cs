@@ -12,12 +12,20 @@ namespace AllowTool {
 		internal readonly ThingDesignatorDef def;
 		protected int numThingsDesignated;
 
+		public Designator ReplacedDesignator { get; set; }
+
 		public override int DraggableDimensions {
 			get { return 2; }
 		}
 
 		public override bool DragDrawMeasurements {
 			get { return true; }
+		}
+
+		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
+			get {
+				return ReplacedDesignator != null ? ReplacedDesignator.RightClickFloatMenuOptions : new FloatMenuOption[0];
+			}
 		}
 
 		private bool visible = true;

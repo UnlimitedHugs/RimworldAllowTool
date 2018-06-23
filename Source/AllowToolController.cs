@@ -195,9 +195,11 @@ namespace AllowTool {
 			};
 		}
 
-		public Designator_SelectableThings InstantiateDesignator(Type designatorType, ThingDesignatorDef designatorDef) {
+		public Designator_SelectableThings InstantiateDesignator(Type designatorType, ThingDesignatorDef designatorDef, Designator replacedDesignator = null) {
 			try {
-				return (Designator_SelectableThings) Activator.CreateInstance(designatorType, designatorDef);
+				var des = (Designator_SelectableThings) Activator.CreateInstance(designatorType, designatorDef);
+				des.ReplacedDesignator = replacedDesignator;
+				return des;
 			} catch (Exception e) {
 				Logger.ReportException(e, null, false, string.Format("instantiation of {0} with Def {1}", (designatorType != null ? designatorType.FullName : "(null)"), designatorDef));
 			}
@@ -216,11 +218,27 @@ namespace AllowTool {
 					break;
 				}
 				if (insertIndex >= 0) {
-					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef);
+					Designator replacedDesignator = null;
+					if (designatorDef.replaces != null) {
+						// remove matching designator
+						var replacedIndex = resolvedDesignators.FindIndex(des => designatorDef.replaces.IsInstanceOfType(des));
+						if (replacedIndex >= 0) {
+							replacedDesignator = resolvedDesignators[replacedIndex];
+							resolvedDesignators.RemoveAt(replacedIndex);
+							// adjust index to compensate for removed element
+							if (replacedIndex < insertIndex) {
+								insertIndex--;
+							}
+						} else {
+							Logger.Warning(string.Format("{0} could not find {1} for replacement", designatorDef.defName, designatorDef.replaces));		
+						}
+					}
+					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef, replacedDesignator);
 					resolvedDesignators.Insert(insertIndex + 1, designator);
 					designator.SetVisible(IsDesignatorEnabledInSettings(designatorDef));
 					activeDesignators.Add(new DesignatorEntry(designator, designatorDef.hotkeyDef));
 					numDesignatorsInjected++;
+					
 				} else {
 					Logger.Error(string.Format("Failed to inject {0} after {1}", designatorDef.defName, designatorDef.insertAfter.Name));		
 				}
