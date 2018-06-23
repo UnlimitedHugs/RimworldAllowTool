@@ -64,22 +64,16 @@ namespace AllowTool {
 		}
 
 		protected override bool HarmonyAutoPatch {
-			get { return false; } // we patch out stuff early on. See AllowToolEarlyInit
+			get { return false; } // we patch our stuff early on. See AllowToolEarlyInit
 		}
 
 		internal SettingHandle<int> SelectionLimitSetting { get; private set; }
-
-		internal SettingHandle<bool> ContextOverlaySetting { get; set; }
-
+		internal SettingHandle<bool> ContextOverlaySetting { get; private set; }
 		internal SettingHandle<bool> ContextWatermarkSetting { get; private set; }
-
-		public SettingHandle<bool> ExtendedContextActionSetting { get; set; }
-
-		public SettingHandle<bool> ReverseDesignatorPickSetting { get; set; }
-		
-		public SettingHandle<bool> FinishOffSkillRequirement { get; set; }
-
-		public SettingHandle<bool> FinishOffUnforbidsSetting { get; set; }
+		internal SettingHandle<bool> ExtendedContextActionSetting { get; private set; }
+		internal SettingHandle<bool> ReverseDesignatorPickSetting { get; private set; }
+		internal SettingHandle<bool> FinishOffSkillRequirement { get; private set; }
+		internal SettingHandle<bool> FinishOffUnforbidsSetting { get; private set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 

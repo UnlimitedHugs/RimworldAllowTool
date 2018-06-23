@@ -76,21 +76,9 @@ namespace AllowTool.Context {
 		}
 
 		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action) {
-			var showWatermark = AllowToolController.Instance.ContextWatermarkSetting.Value;
-			const string watermarkSpacing = "         ";
-			var label = labelKey.Translate();
-			if (showWatermark) label = watermarkSpacing + label;
-			var opt = new FloatMenuOption(label, () => {
+			return new ATFloatMenuOption(labelKey.Translate(), () => {
 				InvokeActionWithErrorHandling(action, designator);
 			});
-			if (showWatermark) {
-				opt.extraPartOnGUI = rect => {
-					var tex = AllowToolDefOf.Textures.contextMenuWatermark;
-					GUI.DrawTexture(new Rect(rect.x, rect.y, tex.width, tex.height), tex);
-					return false;
-				};
-			}
-			return opt;
 		}
 
 		protected virtual bool ValidForDesignation(Thing thing) {
