@@ -1,4 +1,8 @@
-﻿using Harmony;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
+using Harmony;
+using RimWorld;
 using Verse;
 
 namespace AllowTool.Patches {
@@ -9,7 +13,7 @@ namespace AllowTool.Patches {
 	internal static class ReverseDesignatorDatabase_Init_Patch {
 		[HarmonyPostfix]
 		public static void InjectReverseDesignators(ReverseDesignatorDatabase __instance) {
-			ReverseDesignatorProvider.OnReverseDesignatorInit(__instance);
+			ReverseDesignatorProvider.InjectCustomReverseDesignators(__instance);
 		}
 	}
 }

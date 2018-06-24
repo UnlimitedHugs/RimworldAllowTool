@@ -85,6 +85,7 @@
     <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
     <Compile Include="Source\Patches\DesignatorChop_CanDesignateThing.cs" />
+    <Compile Include="Source\Patches\DesignatorCut_Reverse_Patch.cs" />
     <Compile Include="Source\Patches\DesignatorHarvest_CanDesignateThing_Patch.cs" />
     <Compile Include="Source\Patches\Thing_GetFloatMenuOptions_Patch.cs" />
     <Compile Include="Source\Reverse\Designator_SelectSimilarReverse.cs" />

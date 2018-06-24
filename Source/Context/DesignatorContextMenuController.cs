@@ -30,6 +30,7 @@ namespace AllowTool.Context {
 			typeof(Designator_Tame),
 			typeof(Designator_PlantsCut),
 			typeof(Designator_PlantsHarvest),
+			typeof(Designator_PlantsHarvestWood),
 			typeof(Designator_Mine),
 			typeof(Designator_Strip),
 			typeof(Designator_RearmTrap),

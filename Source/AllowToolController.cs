@@ -230,7 +230,7 @@ namespace AllowTool {
 				if (insertIndex >= 0) {
 					Designator replacedDesignator = null;
 					if (designatorDef.replaces != null) {
-						// remove matching designator
+						// remove the designator to replace, if specified
 						var replacedIndex = resolvedDesignators.FindIndex(des => designatorDef.replaces.IsInstanceOfType(des));
 						if (replacedIndex >= 0) {
 							replacedDesignator = resolvedDesignators[replacedIndex];
