@@ -75,8 +75,6 @@ namespace AllowTool {
 		internal SettingHandle<bool> ReverseDesignatorPickSetting { get; private set; }
 		internal SettingHandle<bool> FinishOffSkillRequirement { get; private set; }
 		internal SettingHandle<bool> FinishOffUnforbidsSetting { get; private set; }
-		internal SettingHandle<bool> HarvestFullyGrownSetting { get; private set; }
-		internal SettingHandle<bool> ChopFullyGrownSetting { get; private set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 
@@ -189,11 +187,6 @@ namespace AllowTool {
 			FinishOffSkillRequirement = Settings.GetHandle("finishOffSkill", "setting_finishOffSkill_label".Translate(), "setting_finishOffSkill_desc".Translate(), true);
 			FinishOffSkillRequirement.VisibilityPredicate = () => Prefs.DevMode;
 			SettingHandle.ShouldDisplay neverVisiblePredicate = () => false;
-			// hidden settings
-			HarvestFullyGrownSetting = Settings.GetHandle("harvestFullyGrown", null, null, false);
-			HarvestFullyGrownSetting.VisibilityPredicate = neverVisiblePredicate;
-			ChopFullyGrownSetting = Settings.GetHandle("chopFullyGrown", null, null, false);
-			ChopFullyGrownSetting.VisibilityPredicate = neverVisiblePredicate;
 		}
 
 		private void MakeSettingsCategoryToggle(string labelId, Action buttonAction) {

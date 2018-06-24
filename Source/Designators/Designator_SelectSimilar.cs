@@ -79,7 +79,7 @@ namespace AllowTool {
 			} else {
 				label = "SelectSimilar_cursor_needConstraint".Translate();
 			}
-			DrawMouseAttachedLabel(label);
+			AllowToolUtility.DrawMouseAttachedLabel(label);
 		}
 
 		public bool SelectionLimitAllowsAdditionalThing() {
@@ -167,18 +167,6 @@ namespace AllowTool {
 			if (Find.Selector.NumSelected == 0) return;
 			if (Find.MainTabsRoot.OpenTab != MainButtonDefOf.Architect) return;
 			Find.MainTabsRoot.EscapeCurrentTab();
-		}
-
-		private void DrawMouseAttachedLabel(string text) {
-			const float CursorOffset = 12f;
-			const float AttachedIconHeight = 32f;
-			const float LabelWidth = 200f;
-			var mousePosition = Event.current.mousePosition;
-			if (!text.NullOrEmpty()) {
-				var rect = new Rect(mousePosition.x + CursorOffset, mousePosition.y + CursorOffset + AttachedIconHeight, LabelWidth, 9999f);
-				Text.Font = GameFont.Small;
-				Widgets.Label(rect, text);
-			}
 		}
 
 		private bool ThingMatchesSelectionConstraints(Thing thing) {

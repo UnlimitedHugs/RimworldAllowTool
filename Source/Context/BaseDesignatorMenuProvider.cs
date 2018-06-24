@@ -77,10 +77,10 @@ namespace AllowTool.Context {
 			}
 		}
 
-		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action) {
+		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action, string descriptionKey = null) {
 			return new ATFloatMenuOption(labelKey.Translate(), () => {
 				InvokeActionWithErrorHandling(action, designator);
-			});
+			}, MenuOptionPriority.Default, null, null, 0f, null, null, descriptionKey!=null?descriptionKey.Translate():null);
 		}
 
 		protected FloatMenuOption MakeSettingCheckmarkOption(string labelKey, string descriptionKey, SettingHandle<bool> handle) {

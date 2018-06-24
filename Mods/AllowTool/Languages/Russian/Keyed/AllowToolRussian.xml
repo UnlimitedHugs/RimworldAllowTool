@@ -59,6 +59,9 @@
 	<Finish_off_floatMenu>Добить {0}</Finish_off_floatMenu>
 	<Finish_off_floatMenu_reason_friendly>друг, удерживать Shift</Finish_off_floatMenu_reason_friendly>
 
+	<HarvestFullyGrown_cursorTip>Выделение полностью созревших растений</HarvestFullyGrown_cursorTip>
+	<ChopFullyGrown_cursorTip>Выделение полностью созревших деревьев</ChopFullyGrown_cursorTip>
+	
 	<Designator_context_similar>Выделить схожие предметы на карте</Designator_context_similar>
 	<Designator_context_similar_succ>Выделено {0} схожих предметов на карте.</Designator_context_similar_succ>
 	<Designator_context_similar_part>Выделено {0} из доступных {1} схожих предметов на карте.</Designator_context_similar_part>

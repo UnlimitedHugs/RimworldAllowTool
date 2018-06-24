@@ -22,7 +22,9 @@ namespace AllowTool.Context {
 		}
 
 		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
-			yield return MakeSettingCheckmarkOption("Designator_context_chopFullyGrown", "Designator_context_fullyGrown_desc", AllowToolController.Instance.ChopFullyGrownSetting);
+			yield return MakeMenuOption(designator, "Designator_context_chopFullyGrown", (des, map) =>
+					Find.DesignatorManager.Select(new Designator_ChopFullyGrown()),
+			"Designator_context_fullyGrown_desc");
 		}
 	}
 }

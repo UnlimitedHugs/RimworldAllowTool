@@ -58,6 +58,9 @@
 	<Finish_off_failure>No valid downed creatures found.</Finish_off_failure>
 	<Finish_off_floatMenu>Finish off {0}</Finish_off_floatMenu>
 	<Finish_off_floatMenu_reason_friendly>friendly, hold Shift</Finish_off_floatMenu_reason_friendly>
+
+	<HarvestFullyGrown_cursorTip>Selecting only fully grown plants</HarvestFullyGrown_cursorTip>
+	<ChopFullyGrown_cursorTip>Selecting only fully grown trees</ChopFullyGrown_cursorTip>
 	
 	<Designator_context_similar>Select similar things on map</Designator_context_similar>
 	<Designator_context_similar_succ>Selected {0} similar things on the map.</Designator_context_similar_succ>

@@ -4,6 +4,7 @@ using System.Linq;
 using Harmony;
 using HugsLib.Utils;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -97,6 +98,18 @@ namespace AllowTool {
 		public static bool PawnIsFriendly(Thing t) {
 			var pawn = t as Pawn;
 			return pawn != null && pawn.Faction != null && (pawn.IsPrisonerOfColony || !pawn.Faction.HostileTo(Faction.OfPlayer));
+		}
+
+		public static void DrawMouseAttachedLabel(string text) {
+			const float CursorOffset = 12f;
+			const float AttachedIconHeight = 32f;
+			const float LabelWidth = 200f;
+			var mousePosition = Event.current.mousePosition;
+			if (!text.NullOrEmpty()) {
+				var rect = new Rect(mousePosition.x + CursorOffset, mousePosition.y + CursorOffset + AttachedIconHeight, LabelWidth, 9999f);
+				Text.Font = GameFont.Small;
+				Widgets.Label(rect, text);
+			}
 		}
 
 		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
