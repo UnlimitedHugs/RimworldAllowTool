@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HugsLib;
 using RimWorld;
 using Verse;
 
@@ -27,6 +28,7 @@ namespace AllowTool.Context {
 		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
 			yield return MakeMenuOption(designator, HarvestAllTextKey, (des, map) => HarvestAction(designator, map, false));
 			yield return MakeMenuOption(designator, HarvestHomeAreaTextKey, (des, map) => HarvestAction(designator, map, true));
+			yield return MakeSettingCheckmarkOption("Designator_context_harvestFullyGrown", "Designator_context_fullyGrown_desc", AllowToolController.Instance.HarvestFullyGrownSetting);
 		}
 
 		public virtual void HarvestAction(Designator designator, Map map, bool homeAreaOnly) {

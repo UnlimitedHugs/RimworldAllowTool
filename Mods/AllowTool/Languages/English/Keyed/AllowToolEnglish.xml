@@ -106,5 +106,8 @@
 	<Designator_context_cut>Cut all blighted plants</Designator_context_cut>
 	<Designator_context_cut_succ>Designated {0} blighted plants to cut.</Designator_context_cut_succ>
 	<Designator_context_cut_fail>Found no new blighted plants to cut.</Designator_context_cut_fail>
+	<Designator_context_harvestFullyGrown>Harvest only fully grown</Designator_context_harvestFullyGrown>
+	<Designator_context_chopFullyGrown>Chop only fully grown</Designator_context_chopFullyGrown>
+	<Designator_context_fullyGrown_desc>Plants that are not fully grown will yield less resources.</Designator_context_fullyGrown_desc>
 	
 </LanguageData>

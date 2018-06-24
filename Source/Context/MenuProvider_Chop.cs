@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
@@ -18,6 +19,10 @@ namespace AllowTool.Context {
 
 		protected override ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.Plant; }
+		}
+
+		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
+			yield return MakeSettingCheckmarkOption("Designator_context_chopFullyGrown", "Designator_context_fullyGrown_desc", AllowToolController.Instance.ChopFullyGrownSetting);
 		}
 	}
 }

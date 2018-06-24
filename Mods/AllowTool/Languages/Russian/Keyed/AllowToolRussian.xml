@@ -106,5 +106,8 @@
 	<Designator_context_cut>Срезать все больные растения</Designator_context_cut>
 	<Designator_context_cut_succ>Отмечено {0} больных растений для срезания.</Designator_context_cut_succ>
 	<Designator_context_cut_fail>Не найдено новых больных растений для срезания.</Designator_context_cut_fail>
+	<Designator_context_harvestFullyGrown>Собирать только полностью созревшие</Designator_context_harvestFullyGrown>
+	<Designator_context_chopFullyGrown>Рубить только полностью созревшие</Designator_context_chopFullyGrown>
+	<Designator_context_fullyGrown_desc>Не полностью созревшие растения дают меньше ресурсов. </Designator_context_fullyGrown_desc>
 	
 </LanguageData>

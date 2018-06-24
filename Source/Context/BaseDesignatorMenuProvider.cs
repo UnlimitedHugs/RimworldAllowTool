@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HugsLib;
 using HugsLib.Settings;
 using RimWorld;
 using Verse;
+using Verse.Sound;
 
 namespace AllowTool.Context {
 	/// <summary>
@@ -79,6 +81,22 @@ namespace AllowTool.Context {
 			return new ATFloatMenuOption(labelKey.Translate(), () => {
 				InvokeActionWithErrorHandling(action, designator);
 			});
+		}
+
+		protected FloatMenuOption MakeSettingCheckmarkOption(string labelKey, string descriptionKey, SettingHandle<bool> handle) {
+			const float checkmarkButtonSize = 24f;
+			const float labelMargin = 10f;
+			bool checkOn = handle.Value;
+			return new ATFloatMenuOption(labelKey.Translate(), () => {
+					handle.Value = !handle.Value;
+					checkOn = handle.Value;
+					HugsLibController.SettingsManager.SaveChanges();
+					var feedbackSound = checkOn?SoundDefOf.Checkbox_TurnedOn:SoundDefOf.Checkbox_TurnedOff;
+					feedbackSound.PlayOneShotOnCamera();
+				}, MenuOptionPriority.Default, null, null, checkmarkButtonSize + labelMargin, rect => {
+					Widgets.Checkbox(rect.x + labelMargin, rect.height/2f - checkmarkButtonSize/2f + rect.y, ref checkOn);
+					return false;
+				}, null, descriptionKey.Translate());
 		}
 
 		protected virtual bool ValidForDesignation(Thing thing) {
