@@ -41,7 +41,9 @@
 	<setting_finishOffWorktype_desc>Если включено, панель настроек работ отображает дополнительный тип работы для инструмента "Добить". Требуется перезапуск.</setting_finishOffWorktype_desc>
 	<setting_finishOffSkill_label>"Добить" требует навык ближнего боя</setting_finishOffSkill_label>
 	<setting_finishOffSkill_desc>Инструмент "Добить" будет требовать поселенца с достаточно развитым навыком ближнего боя для выполнения приказа.</setting_finishOffSkill_desc>
-
+	<setting_replaceIcons_label>Заменит иконки Разрешить/Запретить</setting_replaceIcons_label>
+	<setting_replaceIcons_desc>Заменяет иконки инструментов Разрешить и Запретить на более ясные. Требуется перезапуск.</setting_replaceIcons_desc>
+	
 	<SelectSimilar_cursor_needConstraint>Клик для выделения предмета</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Будет выделено только: {0}</SelectSimilar_cursor_nowSelecting>
 	<SelectSimilar_cursor_limit>Выделено максимум предметов</SelectSimilar_cursor_limit>

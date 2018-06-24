@@ -11,8 +11,18 @@ namespace AllowTool {
 	public abstract class Designator_SelectableThings : Designator {
 		internal readonly ThingDesignatorDef def;
 		protected int numThingsDesignated;
+		protected bool inheritIcon;
 
-		public Designator ReplacedDesignator { get; set; }
+		private Designator _replacedDesignator;
+		public Designator ReplacedDesignator {
+			get { return _replacedDesignator; }
+			set {
+				_replacedDesignator = value;
+				if (inheritIcon) {
+					icon = _replacedDesignator.icon;
+				}
+			}
+		}
 
 		public override int DraggableDimensions {
 			get { return 2; }
@@ -29,6 +39,7 @@ namespace AllowTool {
 		}
 
 		private bool visible = true;
+		
 		public override bool Visible {
 			get { return visible; }
 		}

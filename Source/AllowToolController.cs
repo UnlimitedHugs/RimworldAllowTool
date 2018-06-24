@@ -70,6 +70,7 @@ namespace AllowTool {
 		internal SettingHandle<int> SelectionLimitSetting { get; private set; }
 		internal SettingHandle<bool> ContextOverlaySetting { get; private set; }
 		internal SettingHandle<bool> ContextWatermarkSetting { get; private set; }
+		internal SettingHandle<bool> ReplaceIconsSetting { get; private set; }
 		internal SettingHandle<bool> ExtendedContextActionSetting { get; private set; }
 		internal SettingHandle<bool> ReverseDesignatorPickSetting { get; private set; }
 		internal SettingHandle<bool> FinishOffSkillRequirement { get; private set; }
@@ -152,6 +153,7 @@ namespace AllowTool {
 			settingGlobalHotkeys = Settings.GetHandle("globalHotkeys", "setting_globalHotkeys_label".Translate(), "setting_globalHotkeys_desc".Translate(), true);
 			ContextOverlaySetting = Settings.GetHandle("contextOverlay", "setting_contextOverlay_label".Translate(), "setting_contextOverlay_desc".Translate(), true);
 			ContextWatermarkSetting = Settings.GetHandle("contextWatermark", "setting_contextWatermark_label".Translate(), "setting_contextWatermark_desc".Translate(), true);
+			ReplaceIconsSetting = Settings.GetHandle("replaceIcons", "setting_replaceIcons_label".Translate(), "setting_replaceIcons_desc".Translate(), true);
 			Settings.GetHandle(HaulWorktypeSettingName, "setting_haulUrgentlyWorktype_label".Translate(), "setting_haulUrgentlyWorktype_desc".Translate(), true);
 			Settings.GetHandle(FinishOffWorktypeSettingName, "setting_finishOffWorktype_label".Translate(), "setting_finishOffWorktype_desc".Translate(), false);
 			ExtendedContextActionSetting = Settings.GetHandle("extendedContextActionKey", "setting_extendedContextHotkey_label".Translate(), "setting_extendedContextHotkey_desc".Translate(), true);

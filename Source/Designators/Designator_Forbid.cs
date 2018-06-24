@@ -7,6 +7,7 @@ namespace AllowTool {
 	/// </summary>
 	public class Designator_Forbid : Designator_SelectableThings {
 		public Designator_Forbid(ThingDesignatorDef def) : base(def) {
+			inheritIcon = !AllowToolController.Instance.ReplaceIconsSetting;
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
