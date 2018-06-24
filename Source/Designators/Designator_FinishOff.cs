@@ -26,6 +26,10 @@ namespace AllowTool {
 			return result ? true : new AcceptanceReport("Finish_off_floatMenu_reason_friendly".Translate());
 		}
 
+		protected override DesignationDef Designation {
+			get { return AllowToolDefOf.FinishOffDesignation; }
+		}
+
 		public override string Desc {
 			get {
 				if (AllowToolController.Instance.FinishOffSkillRequirement) {

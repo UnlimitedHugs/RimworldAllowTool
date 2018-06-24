@@ -7,6 +7,10 @@ namespace AllowTool {
 	/// Designates things for urgent hauling.
 	/// </summary>
 	public class Designator_HaulUrgently : Designator_SelectableThings {
+		protected override DesignationDef Designation {
+			get { return AllowToolDefOf.HaulUrgentlyDesignation; }
+		}
+
 		public Designator_HaulUrgently(ThingDesignatorDef def)
 			: base(def) {
 		}
