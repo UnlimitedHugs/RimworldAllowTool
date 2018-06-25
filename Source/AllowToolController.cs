@@ -24,6 +24,9 @@ namespace AllowTool {
 		private const string FinishOffWorktypeSettingName = "finishOffWorktype";
 
 		public static FieldInfo GizmoGridGizmoListField;
+		public static FieldInfo DesignatorHasDesignateAllFloatMenuOptionField;
+		public static MethodInfo DesignatorGetDesignationMethod;
+		public static MethodInfo DesignatorGetRightClickFloatMenuOptionsMethod;
 		public static AllowToolController Instance { get; private set; }
 
 		internal static HarmonyInstance HarmonyInstance { get; set; }
@@ -186,7 +189,6 @@ namespace AllowTool {
 			}
 			FinishOffSkillRequirement = Settings.GetHandle("finishOffSkill", "setting_finishOffSkill_label".Translate(), "setting_finishOffSkill_desc".Translate(), true);
 			FinishOffSkillRequirement.VisibilityPredicate = () => Prefs.DevMode;
-			SettingHandle.ShouldDisplay neverVisiblePredicate = () => false;
 		}
 
 		private void MakeSettingsCategoryToggle(string labelId, Action buttonAction) {
@@ -257,7 +259,13 @@ namespace AllowTool {
 			if (gizmoGridType != null) {
 				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
 			}
-			if (GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)) {
+			DesignatorGetDesignationMethod = typeof(Designator).GetMethod("get_Designation", HugsLibUtility.AllBindingFlags);
+			DesignatorHasDesignateAllFloatMenuOptionField = typeof(Designator).GetField("hasDesignateAllFloatMenuOption", HugsLibUtility.AllBindingFlags);
+			DesignatorGetRightClickFloatMenuOptionsMethod = typeof(Designator).GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
+			if (GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)
+				|| DesignatorGetDesignationMethod == null || DesignatorGetDesignationMethod.ReturnType != typeof(DesignationDef)
+				|| DesignatorHasDesignateAllFloatMenuOptionField == null || DesignatorHasDesignateAllFloatMenuOptionField.FieldType != typeof(bool)
+				|| DesignatorGetRightClickFloatMenuOptionsMethod == null || DesignatorGetRightClickFloatMenuOptionsMethod.ReturnType != typeof(IEnumerable<FloatMenuOption>)) {
 				Logger.Error("Failed to reflect required members");
 			}
 		}

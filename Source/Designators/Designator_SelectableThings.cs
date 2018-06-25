@@ -34,7 +34,14 @@ namespace AllowTool {
 
 		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
 			get {
-				return ReplacedDesignator != null ? ReplacedDesignator.RightClickFloatMenuOptions : new FloatMenuOption[0];
+				foreach (var option in base.RightClickFloatMenuOptions) {
+					yield return option;
+				}
+				if (ReplacedDesignator != null) {
+					foreach (var option in ReplacedDesignator.RightClickFloatMenuOptions) {
+						yield return option;
+					}
+				}
 			}
 		}
 

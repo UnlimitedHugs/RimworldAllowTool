@@ -68,6 +68,7 @@
     <Compile Include="Source\Context\MenuProvider_Chop.cs" />
     <Compile Include="Source\Context\MenuProvider_Cut.cs" />
     <Compile Include="Source\Context\MenuProvider_FinishOff.cs" />
+    <Compile Include="Source\Context\MenuProvider_Generic.cs" />
     <Compile Include="Source\Context\MenuProvider_Harvest.cs" />
     <Compile Include="Source\Context\MenuProvider_Haul.cs" />
     <Compile Include="Source\Context\MenuProvider_HaulUrgently.cs" />

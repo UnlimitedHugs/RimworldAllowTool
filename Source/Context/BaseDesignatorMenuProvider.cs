@@ -42,8 +42,11 @@ namespace AllowTool.Context {
 		}
 
 		public virtual void OpenContextMenu(Designator designator) {
-			var entries = ListMenuEntries(designator).Concat(designator.RightClickFloatMenuOptions);
-			Find.WindowStack.Add(new FloatMenu(entries.ToList()));
+			var handlerEntries = Enabled ? ListMenuEntries(designator) : new FloatMenuOption[0];
+			var allEntries = handlerEntries.Concat(designator.RightClickFloatMenuOptions).ToList();
+			if (allEntries.Count > 0) {
+				Find.WindowStack.Add(new FloatMenu(allEntries));
+			}
 		}
 
 		protected virtual IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {

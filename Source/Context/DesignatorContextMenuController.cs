@@ -96,11 +96,10 @@ namespace AllowTool.Context {
 				if (Event.current.button == (int)MouseButtons.Left && HugsLibUtility.ShiftIsHeld && AllowToolController.Instance.ReverseDesignatorPickSetting) {
 					return TryPickDesignatorFromReverseDesignator(designator);
 				} else if (Event.current.button == (int)MouseButtons.Right) {
-					foreach (var provider in MenuProviderInstances) {
-						if (provider.HandledDesignatorType.IsInstanceOfType(designator) && provider.Enabled) {
-							provider.OpenContextMenu(designator);
-							return true;
-						}
+					BaseDesignatorMenuProvider provider;
+					if (designatorMenuProviders.TryGetValue(designator, out provider)) {
+						provider.OpenContextMenu(designator);
+						return true;
 					}
 				}
 			} catch (Exception e) {
@@ -180,7 +179,7 @@ namespace AllowTool.Context {
 			} catch (Exception e) {
 				AllowToolController.Logger.ReportException(e);
 			}
-			providers.SortBy(p => p.SettingId);
+			providers.SortBy(p => p.SettingId ?? string.Empty);
 			return providers;
 		}
 
@@ -190,10 +189,30 @@ namespace AllowTool.Context {
 			if (designator == null || designatorMenuProviders.ContainsKey(designator)) {
 				return;
 			}
+			var handlerBound = false;
 			for (int i = 0; i < providers.Count; i++) {
-				if (providers[i].HandledDesignatorType.IsInstanceOfType(designator)) {
-					designatorMenuProviders.Add(designator, providers[i]);
+				var provider = providers[i];
+				if (provider.HandledDesignatorType != null && provider.HandledDesignatorType.IsInstanceOfType(designator)) {
+					designatorMenuProviders.Add(designator, provider);
+					handlerBound = true;
 					break;
+				}
+			}
+			if (!handlerBound && designator.GetType() != typeof(Designator_Build)) {
+				try {
+					// if designator has no handler but has a context menu, provide the generic one
+					var hasDesignation = AllowToolController.DesignatorGetDesignationMethod.Invoke(designator, new object[0]) != null;
+					var hasDesignateAll = (bool)AllowToolController.DesignatorHasDesignateAllFloatMenuOptionField.GetValue(designator);
+					var getOptionsMethod = designator.GetType().GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
+					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator) && getOptionsMethod.DeclaringType != typeof(Designator_SelectableThings);
+					var ATDesignator = designator as Designator_SelectableThings;
+					var hasReplacedOptions = ATDesignator != null && ATDesignator.ReplacedDesignator != null;
+					if (hasDesignation || hasDesignateAll || hasOptionsMethod || hasReplacedOptions) {
+						// detection is not fool-proof, but it's good enough- and better than calling RightClickFloatMenuOptions
+						designatorMenuProviders.Add(designator, providers.OfType<MenuProvider_Generic>().First());
+					}
+				} catch (Exception) {
+					// no problem- the designator will just have no handler assigned
 				}
 			}
 		}
