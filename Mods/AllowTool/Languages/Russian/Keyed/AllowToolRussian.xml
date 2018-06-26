@@ -62,6 +62,8 @@
 	<HarvestFullyGrown_cursorTip>Выделение полностью созревших растений</HarvestFullyGrown_cursorTip>
 	<ChopFullyGrown_cursorTip>Выделение полностью созревших деревьев</ChopFullyGrown_cursorTip>
 	
+	<RearmUrgently_cursorTip>Выделение ловушек для срочной зарядки</RearmUrgently_cursorTip>
+	
 	<Designator_context_similar>Выделить схожие предметы на карте</Designator_context_similar>
 	<Designator_context_similar_succ>Выделено {0} схожих предметов на карте.</Designator_context_similar_succ>
 	<Designator_context_similar_part>Выделено {0} из доступных {1} схожих предметов на карте.</Designator_context_similar_part>
@@ -75,9 +77,10 @@
 	<Designator_context_strip>Снять одежду со всех врагов</Designator_context_strip>
 	<Designator_context_strip_succ>{0} отмечено тел для снятия одежды.</Designator_context_strip_succ>
 	<Designator_context_strip_fail>Не найдено тел для снятия одежды.</Designator_context_strip_fail>
-	<Designator_context_rearm>Зарядить все капканы</Designator_context_rearm>
-	<Designator_context_rearm_succ>{0} капканов будут заряжены.</Designator_context_rearm_succ>
-	<Designator_context_rearm_fail>Не найдено капканов, требующих зарядки.</Designator_context_rearm_fail>
+	<Designator_context_rearm>Срочно зарядить ловушки</Designator_context_rearm>
+	<Designator_context_rearmAll>Срочно зарядить все ловушки</Designator_context_rearmAll>
+	<Designator_context_rearmAll_succ>{0} ловушек будут срочно заряжены.</Designator_context_rearmAll_succ>
+	<Designator_context_rearmAll_fail>Не найдено ловушек, требующих зарядки.</Designator_context_rearmAll_fail>
 	<Designator_context_harvest>Собрать урожай со всех растений</Designator_context_harvest>
 	<Designator_context_harvest_home>Собрать урожай в домашней области</Designator_context_harvest_home>
 	<Designator_context_harvest_succ>{0} растений отмечено для сбора урожая.</Designator_context_harvest_succ>

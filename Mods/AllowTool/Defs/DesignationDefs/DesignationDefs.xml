@@ -6,6 +6,12 @@
 		<texturePath>haulDesignation</texturePath>
 		<targetType>Thing</targetType>
 	</DesignationDef>
+	
+	<DesignationDef>
+		<defName>RearmUrgentlyDesignation</defName>
+		<texturePath>haulDesignation</texturePath>
+		<targetType>Thing</targetType>
+	</DesignationDef>
 
 	<DesignationDef>
 		<defName>FinishOffDesignation</defName>

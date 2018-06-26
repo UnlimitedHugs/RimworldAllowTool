@@ -14,6 +14,20 @@
 			<li>Manipulation</li>
 		</requiredCapacities>
 	</WorkGiverDef>
+	
+	<WorkGiverDef>
+		<defName>RearmUrgently</defName>
+		<label>rearm traps urgently</label>
+		<giverClass>AllowTool.WorkGiver_RearmUrgently</giverClass>
+		<workType>HaulingUrgent</workType>
+		<verb>rearm urgently</verb>
+		<gerund>rearming urgently</gerund>
+		<priorityInType>75</priorityInType>
+		<directOrderable>true</directOrderable>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
 
 	<WorkGiverDef>
 		<defName>FinishOff</defName>

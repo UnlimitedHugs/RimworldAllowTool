@@ -4,6 +4,7 @@ using System.Linq;
 using HugsLib;
 using HugsLib.Settings;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.Sound;
 
@@ -80,10 +81,21 @@ namespace AllowTool.Context {
 			}
 		}
 
-		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action, string descriptionKey = null) {
+		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action, string descriptionKey = null, Texture2D extraIcon = null) {
+			const float extraIconsSize = 24f;
+			const float labelMargin = 10f;
+			Func<Rect, bool> extraIconOnGUI = null;
+			var extraPartWidth = 0f;
+			if (extraIcon != null) {
+				extraIconOnGUI = rect => {
+					Graphics.DrawTexture(new Rect(rect.x + labelMargin, rect.height / 2f - extraIconsSize / 2f + rect.y, extraIconsSize, extraIconsSize), extraIcon);
+					return false;
+				};
+				extraPartWidth = extraIconsSize + labelMargin;
+			}
 			return new ATFloatMenuOption(labelKey.Translate(), () => {
 				InvokeActionWithErrorHandling(action, designator);
-			}, MenuOptionPriority.Default, null, null, 0f, null, null, descriptionKey!=null?descriptionKey.Translate():null);
+			}, MenuOptionPriority.Default, null, null, extraPartWidth, extraIconOnGUI, null, descriptionKey != null ? descriptionKey.Translate() : null);
 		}
 
 		protected FloatMenuOption MakeSettingCheckmarkOption(string labelKey, string descriptionKey, SettingHandle<bool> handle) {
