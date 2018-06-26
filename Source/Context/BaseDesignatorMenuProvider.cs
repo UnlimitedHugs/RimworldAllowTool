@@ -66,8 +66,16 @@ namespace AllowTool.Context {
 		}
 
 		// called if the common hotkey is pressed while the designator is selected
-		public virtual void HotkeyAction(Designator designator) {
-			InvokeActionWithErrorHandling(ContextMenuAction, designator);
+		// or the designator is the first reverse designator
+		public virtual bool TryInvokeHotkeyAction(Designator designator) {
+			if (Enabled) {
+				var entry = ListMenuEntries(designator).FirstOrDefault();
+				if (entry is ATFloatMenuOption && entry.action != null) {
+					entry.action();
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public virtual void ReportActionResult(int designationCount, string baseMessageKey = null) {

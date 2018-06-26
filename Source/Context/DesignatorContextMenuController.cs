@@ -127,13 +127,14 @@ namespace AllowTool.Context {
 		public static void ProcessContextActionHotkeyPress() {
 			var selectedDesignator = Find.DesignatorManager.SelectedDesignator;
 			if (selectedDesignator != null && designatorMenuProviders.ContainsKey(selectedDesignator)) {
-				designatorMenuProviders[selectedDesignator].HotkeyAction(selectedDesignator);
+				designatorMenuProviders[selectedDesignator].TryInvokeHotkeyAction(selectedDesignator);
 			} else if(AllowToolController.Instance.ExtendedContextActionSetting.Value) {
 				// activate hotkey action for first visible reverse designator
 				foreach (var designator in currentDrawnReverseDesignators.Values) {
 					if (designatorMenuProviders.ContainsKey(designator)) {
-						designatorMenuProviders[designator].HotkeyAction(designator);
-						break;
+						if (designatorMenuProviders[designator].TryInvokeHotkeyAction(designator)) {
+							break;
+						}
 					}
 				}
 			}
