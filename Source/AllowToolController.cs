@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AllowTool.Context;
+using AllowTool.Settings;
 using Harmony;
 using HugsLib;
 using HugsLib.Settings;
 using HugsLib.Utils;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -24,6 +26,7 @@ namespace AllowTool {
 		private const string FinishOffWorktypeSettingName = "finishOffWorktype";
 
 		public static FieldInfo GizmoGridGizmoListField;
+		public static FieldInfo DraftControllerAutoUndrafterField;
 		public static FieldInfo DesignatorHasDesignateAllFloatMenuOptionField;
 		public static MethodInfo DesignatorGetDesignationMethod;
 		public static MethodInfo DesignatorGetRightClickFloatMenuOptionsMethod;
@@ -78,8 +81,12 @@ namespace AllowTool {
 		internal SettingHandle<bool> ReverseDesignatorPickSetting { get; private set; }
 		internal SettingHandle<bool> FinishOffSkillRequirement { get; private set; }
 		internal SettingHandle<bool> FinishOffUnforbidsSetting { get; private set; }
+		internal SettingHandle<bool> PartyHuntSetting { get; private set; }
+		internal SettingHandle<bool> PartyHuntFinishSetting { get; private set; }
+		internal SettingHandle<bool> PartyHuntDesignatedSetting { get; private set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
+		public WorldSettings WorldSettings { get; private set; }
 
 		private AllowToolController() {
 			Instance = this;
@@ -123,6 +130,7 @@ namespace AllowTool {
 		public override void WorldLoaded() {
 			InjectDesignators();
 			DesignatorContextMenuController.PrepareDesignatorContextMenus();
+			WorldSettings = UtilityWorldObjectManager.GetUtilityWorldObject<WorldSettings>();
 		}
 
 		public override void MapLoaded(Map map) {
@@ -162,6 +170,13 @@ namespace AllowTool {
 			ExtendedContextActionSetting = Settings.GetHandle("extendedContextActionKey", "setting_extendedContextHotkey_label".Translate(), "setting_extendedContextHotkey_desc".Translate(), true);
 			ReverseDesignatorPickSetting = Settings.GetHandle("reverseDesignatorPick", "setting_reverseDesignatorPick_label".Translate(), "setting_reverseDesignatorPick_desc".Translate(), true);
 			FinishOffUnforbidsSetting = Settings.GetHandle("finishOffUnforbids", "setting_finishOffUnforbids_label".Translate(), "setting_finishOffUnforbids_desc".Translate(), true);
+			
+			// party hunt
+			PartyHuntSetting = Settings.GetHandle("partyHunt", "setting_partyHunt_label".Translate(), "setting_partyHunt_desc".Translate(), true);
+			PartyHuntFinishSetting = Settings.GetHandle("partyHuntFinish", "setting_partyHuntFinish_label".Translate(), "setting_partyHuntFinish_desc".Translate(), true);
+			PartyHuntDesignatedSetting = Settings.GetHandle("partyHuntDesignated", "setting_partyHuntDesignated_label".Translate(), "setting_partyHuntDesignated_desc".Translate(), false);
+			PartyHuntFinishSetting.VisibilityPredicate = PartyHuntDesignatedSetting.VisibilityPredicate = () => PartyHuntSetting.Value;
+
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
 			SelectionLimitSetting.SpinnerIncrement = 50;
 			// designators
@@ -262,15 +277,16 @@ namespace AllowTool {
 			DesignatorGetDesignationMethod = typeof(Designator).GetMethod("get_Designation", HugsLibUtility.AllBindingFlags);
 			DesignatorHasDesignateAllFloatMenuOptionField = typeof(Designator).GetField("hasDesignateAllFloatMenuOption", HugsLibUtility.AllBindingFlags);
 			DesignatorGetRightClickFloatMenuOptionsMethod = typeof(Designator).GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
+			DraftControllerAutoUndrafterField = typeof(Pawn_DraftController).GetField("autoUndrafter", HugsLibUtility.AllBindingFlags);
 			if (GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)
 				|| DesignatorGetDesignationMethod == null || DesignatorGetDesignationMethod.ReturnType != typeof(DesignationDef)
 				|| DesignatorHasDesignateAllFloatMenuOptionField == null || DesignatorHasDesignateAllFloatMenuOptionField.FieldType != typeof(bool)
-				|| DesignatorGetRightClickFloatMenuOptionsMethod == null || DesignatorGetRightClickFloatMenuOptionsMethod.ReturnType != typeof(IEnumerable<FloatMenuOption>)) {
+				|| DesignatorGetRightClickFloatMenuOptionsMethod == null || DesignatorGetRightClickFloatMenuOptionsMethod.ReturnType != typeof(IEnumerable<FloatMenuOption>)
+				|| DraftControllerAutoUndrafterField == null || DraftControllerAutoUndrafterField.FieldType != typeof(AutoUndrafter)
+				) {
 				Logger.Error("Failed to reflect required members");
 			}
 		}
-
-		
 
 		private void CheckForHotkeyPresses() {
 			if (Event.current.keyCode == KeyCode.None) return;

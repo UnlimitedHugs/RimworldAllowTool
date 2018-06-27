@@ -60,7 +60,9 @@
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_RearmUrgently.cs" />
     <Compile Include="Source\AllowToolEarlyInit.cs" />
+
     <Compile Include="Source\Context\ATFloatMenuOption.cs" />
+    <Compile Include="Source\Comp\CompPartyHunt.cs" />
     <Compile Include="Source\Context\DesignatorContextMenuController.cs" />
     <Compile Include="Source\AllowToolController.cs" />
     <Compile Include="Source\AllowToolDefOf.cs" />
@@ -90,9 +92,13 @@
     <Compile Include="Source\Designators\Designator_RearmUrgently.cs" />
     <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
+    <Compile Include="Source\PartyHuntController.cs" />
     <Compile Include="Source\Patches\DesignatorCut_Reverse_Patch.cs" />
+    <Compile Include="Source\Patches\DraftController_Drafted_Patch.cs" />
+    <Compile Include="Source\Patches\Pawn_GetGizmos_Patch.cs" />
     <Compile Include="Source\Patches\Thing_GetFloatMenuOptions_Patch.cs" />
     <Compile Include="Source\Patches\ToilsHaul_PlaceInCell_Patch.cs" />
+    <Compile Include="Source\Patches\JobDriverWait_CheckForAutoAttack_Patch.cs" />
     <Compile Include="Source\Reverse\Designator_SelectSimilarReverse.cs" />
     <Compile Include="Source\Patches\Command_GizmoOnGUI_Patch.cs" />
     <Compile Include="Source\Patches\DefOfHelper_RebindAll_Patch.cs" />
@@ -100,6 +106,7 @@
     <Compile Include="Source\Patches\ReverseDesignatorDatabase_Init_Patch.cs" />
     <Compile Include="Source\ReverseDesignatorProvider.cs" />
     <Compile Include="Source\Reverse\ReverseDesignatorDef.cs" />
+    <Compile Include="Source\Settings\WorldSettings.cs" />
     <Compile Include="Source\UnlimitedDesignationDragger.cs" />
     <Compile Include="Source\ThingDesignatorDef.cs" />
     <Compile Include="Source\AI\WorkGiver_HaulUrgently.cs" />

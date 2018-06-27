@@ -11,8 +11,9 @@ namespace AllowTool {
 	/// Walk up to and murderize a downed pawn with a fancy effect
 	/// </summary>
 	public class JobDriver_FinishOff : JobDriver {
-		private const int prepareSwingDuration = 60;
-		private const float victimSkullMoteChance = .25f;
+		private const int PrepareSwingDuration = 60;
+		private const float VictimSkullMoteChance = .25f;
+		private const float OpportunityTargetMaxRange = 8f;
 
 		public override bool TryMakePreToilReservations() {
 			return pawn.Reserve(job.GetTarget(TargetIndex.A), job);
@@ -29,10 +30,10 @@ namespace AllowTool {
 			yield return new Toil {
 				initAction = () => {
 					var victim = job.targetA.Thing as Pawn;
-					skullMote = TryMakeSkullMote(victim, victimSkullMoteChance);
+					skullMote = TryMakeSkullMote(victim, VictimSkullMoteChance);
 					AllowToolDefOf.EffecterWeaponGlint.Spawn().Trigger(pawn, job.targetA.Thing);
 				},
-				defaultDuration = prepareSwingDuration,
+				defaultDuration = PrepareSwingDuration,
 				defaultCompleteMode = ToilCompleteMode.Delay
 			};
 			yield return new Toil {
@@ -44,6 +45,14 @@ namespace AllowTool {
 					DoExecution(pawn, victim);
 					if (skullMote != null && !skullMote.Destroyed) {
 						skullMote.Destroy();
+					}
+					// look for a target of opportunity nearby before moving on
+					// needed by drafted hunters. Their finish off job was not work-related, so they need to be fed a new opportunity job manually
+					if (!job.playerForced) {
+						var opportunityJob = WorkGiver_FinishOff.CreateInstance().TryGetJobInRange(pawn, OpportunityTargetMaxRange);
+						if (opportunityJob != null) {
+							pawn.jobs.jobQueue.EnqueueFirst(opportunityJob);
+						}
 					}
 				},
 				defaultCompleteMode = ToilCompleteMode.Instant
@@ -108,7 +117,9 @@ namespace AllowTool {
 		private void UnforbidAdjacentThingsTo(IntVec3 center, Map map) {
 			foreach (var offset in GenAdj.AdjacentCellsAndInside) {
 				var pos = center + offset;
-				AllowToolUtility.ToggleForbiddenInCell(pos, map, false);
+				if (pos.InBounds(map)) {
+					AllowToolUtility.ToggleForbiddenInCell(pos, map, false);
+				}
 			}
 		}
 	}

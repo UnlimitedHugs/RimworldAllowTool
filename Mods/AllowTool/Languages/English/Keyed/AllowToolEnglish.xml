@@ -43,6 +43,13 @@
 	<setting_finishOffSkill_desc>The "Finish off" tool will require a pawn with a sufficiently high melee skill to use.</setting_finishOffSkill_desc>
 	<setting_replaceIcons_label>Replace Forbid/Unforbid icons</setting_replaceIcons_label>
 	<setting_replaceIcons_desc>Replace the icons for the Forbid and Unforbid tools with clearer ones.\nThe game must be restarted for this setting to take effect.</setting_replaceIcons_desc>
+
+	<setting_partyHunt_label>Party hunting tool</setting_partyHunt_label>
+	<setting_partyHunt_desc>When enabled, shows the "Party hunting" toggle for drafted colonists.</setting_partyHunt_desc>
+	<setting_partyHuntFinish_label>Party hunting: finish off</setting_partyHuntFinish_label>
+	<setting_partyHuntFinish_desc>When enabled, colonists in party hunting mode will automatically finish off nearby downed animals.</setting_partyHuntFinish_desc>
+	<setting_partyHuntDesignated_label>Party hunting: designated only</setting_partyHuntDesignated_label>
+	<setting_partyHuntDesignated_desc>When enabled, party hunting colonists will only target animals marked with the "Hunt" tool.</setting_partyHuntDesignated_desc>
 	
 	<SelectSimilar_cursor_needConstraint>Click to pick something</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Drag to select only: {0}</SelectSimilar_cursor_nowSelecting>
@@ -115,5 +122,8 @@
 	<Designator_context_harvestFullyGrown>Harvest only fully grown</Designator_context_harvestFullyGrown>
 	<Designator_context_chopFullyGrown>Chop only fully grown</Designator_context_chopFullyGrown>
 	<Designator_context_fullyGrown_desc>Plants that are not fully grown will yield less resources.</Designator_context_fullyGrown_desc>
+	
+	<PartyHuntToggle_label>Party hunt</PartyHuntToggle_label>
+	<PartyHuntToggle_desc>When enabled, drafted colonists will automatically fire on passive wild animals.\nAdded by the Allow Tool mod.</PartyHuntToggle_desc>
 	
 </LanguageData>
