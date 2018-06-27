@@ -27,8 +27,8 @@ namespace AllowTool.Context {
 
 		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
 			var urgentDesignator = new Designator_RearmUrgently();
-			yield return MakeMenuOption(urgentDesignator, "Designator_context_rearm", (des, map) => Find.DesignatorManager.Select(des), null, AllowToolDefOf.Textures.rearmUrgently);
-			yield return MakeMenuOption(urgentDesignator, EntryTextKey, ContextMenuAction, null, AllowToolDefOf.Textures.rearmUrgently);
+			yield return MakeMenuOption(urgentDesignator, "Designator_context_rearm", (des, map) => Find.DesignatorManager.Select(des), null, AllowToolDefOf.Textures.designatorSelectionOption);
+			yield return MakeMenuOption(urgentDesignator, EntryTextKey, ContextMenuAction);
 		}
 	}
 }
