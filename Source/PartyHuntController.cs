@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HugsLib.Utils;
 using RimWorld;
@@ -16,10 +17,12 @@ namespace AllowTool {
 		// stop attacking and don't target downed animals if auto finish off is enabled
 		private static readonly Predicate<Pawn> HuntingTargetAttackFilter = pawn => !pawn.Downed || !AllowToolController.Instance.PartyHuntFinishSetting;
 		private static readonly Predicate<Pawn> HuntingTargetFinishFilter = pawn => pawn.Downed && !pawn.HasDesignation(AllowToolDefOf.FinishOffDesignation);
+		private static readonly List<HuntingTargetCandidate> huntingTargetCandidates = new List<HuntingTargetCandidate>();
 
 		public static Gizmo TryGetGizmo(Pawn pawn) {
 			if (!pawn.Drafted || !AllowToolController.Instance.PartyHuntSetting) return null;
 			var toggle = new Command_Toggle {
+				icon = AllowToolDefOf.Textures.partyHunt,
 				defaultLabel = "PartyHuntToggle_label".Translate(),
 				defaultDesc = "PartyHuntToggle_desc".Translate(),
 				isActive = () => PartyHuntIsEnabled(pawn),
@@ -89,30 +92,50 @@ namespace AllowTool {
 		private static Pawn TryFindHuntingTarget(Pawn searcher, float minDistance, float maxDistance, Predicate<Pawn> extraPredicate) {
 			var minDistanceSquared = minDistance * minDistance;
 			var maxDistanceSquared = maxDistance * maxDistance;
-			Predicate<Thing> validator = t => {
-				var targetPawn = t as Pawn;
-				if (targetPawn == null) return false;
-				var distanceSquared = (searcher.Position - t.Position).LengthHorizontalSquared;
+			Predicate<Pawn> validator = pawn => {
+				if (pawn == null) return false;
+				var distanceSquared = (searcher.Position - pawn.Position).LengthHorizontalSquared;
 				if (distanceSquared < minDistanceSquared || distanceSquared > maxDistanceSquared){
 					return false;
 				}
-				if (targetPawn.Position.Fogged(searcher.Map) || !searcher.CanSee(targetPawn)) {
+				if (pawn.Position.Fogged(searcher.Map) || !searcher.CanSee(pawn)) {
 					return false;
 				}
-				return targetPawn.RaceProps != null && targetPawn.RaceProps.Animal && targetPawn.Faction == null && 
-					(!AllowToolController.Instance.PartyHuntDesignatedSetting || targetPawn.HasDesignation(DesignationDefOf.Hunt)) && 
-					(extraPredicate == null || extraPredicate(targetPawn));
+				return pawn.RaceProps != null && pawn.RaceProps.Animal && pawn.Faction == null && 
+					(!AllowToolController.Instance.PartyHuntDesignatedSetting || pawn.HasDesignation(DesignationDefOf.Hunt)) && 
+					(extraPredicate == null || extraPredicate(pawn));
 			};
-			int searchRegionsMax = maxDistance <= 800f ? 40 : -1;
-			var target = GenClosest.ClosestThingReachable(searcher.Position, searcher.Map, ThingRequest.ForGroup(ThingRequestGroup.AttackTarget),
-				PathEndMode.Touch, TraverseParms.For(searcher), maxDistance, validator, null, 0, searchRegionsMax);
-			return target as Pawn;
+			huntingTargetCandidates.Clear();
+			var mapPawns = searcher.Map.mapPawns.AllPawnsSpawned;
+			for (var i = 0; i < mapPawns.Count; i++) {
+				var pawn = mapPawns[i];
+				if (validator(pawn)) {
+					huntingTargetCandidates.Add(new HuntingTargetCandidate(pawn, (searcher.Position - pawn.Position).LengthHorizontalSquared));
+				}
+			}
+			huntingTargetCandidates.Sort();
+			return huntingTargetCandidates.Count > 0 ? huntingTargetCandidates[0].target : null;
 		}
 
 		private static void ResetAutoUndraftTimer(Pawn_DraftController draftController) {
 			// resets the expiration timer on the pawn draft
 			var undrafter = (AutoUndrafter)AllowToolController.DraftControllerAutoUndrafterField.GetValue(draftController);
 			undrafter.Notify_Drafted();
+		}
+
+		// provides a more efficient way to sort hunting targets by distance
+		private struct HuntingTargetCandidate : IComparable<HuntingTargetCandidate> {
+			public readonly Pawn target;
+			private readonly int distanceSquared;
+
+			public HuntingTargetCandidate(Pawn target, int distanceSquared) {
+				this.target = target;
+				this.distanceSquared = distanceSquared;
+			}
+
+			public int CompareTo(HuntingTargetCandidate other) {
+				return distanceSquared.CompareTo(other.distanceSquared);
+			}
 		}
 	}
 }
