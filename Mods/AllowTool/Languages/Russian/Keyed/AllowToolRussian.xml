@@ -44,6 +44,11 @@
 	<setting_replaceIcons_label>Заменит иконки Разрешить/Запретить</setting_replaceIcons_label>
 	<setting_replaceIcons_desc>Заменяет иконки инструментов Разрешить и Запретить на более ясные. Требуется перезапуск.</setting_replaceIcons_desc>
 	
+	<setting_partyHunt_label>Инструмент "Командная охота"</setting_partyHunt_label>
+	<setting_partyHunt_desc>Если включено, показывает кнопку "Командная охота" для призванных поселенцев.</setting_partyHunt_desc>
+	<setting_partyHuntFinish_label>Добивать раненых животных</setting_partyHuntFinish_label>
+	<setting_partyHuntDesignated_label>Только цели с пометкой "Охотиться"</setting_partyHuntDesignated_label>
+	
 	<SelectSimilar_cursor_needConstraint>Клик для выделения предмета</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Будет выделено только: {0}</SelectSimilar_cursor_nowSelecting>
 	<SelectSimilar_cursor_limit>Выделено максимум предметов</SelectSimilar_cursor_limit>
@@ -115,5 +120,8 @@
 	<Designator_context_harvestFullyGrown>Собирать только полностью созревшие</Designator_context_harvestFullyGrown>
 	<Designator_context_chopFullyGrown>Рубить только полностью созревшие</Designator_context_chopFullyGrown>
 	<Designator_context_fullyGrown_desc>Не полностью созревшие растения дают меньше ресурсов. </Designator_context_fullyGrown_desc>
+
+	<PartyHuntToggle_label>Командная охота</PartyHuntToggle_label>
+	<PartyHuntToggle_desc>Позволяет поселенцам открывать огонь по диким животным. Правый щелчок открывает настройки.\nДобавлено модом Allow Tool.</PartyHuntToggle_desc>
 	
 </LanguageData>
