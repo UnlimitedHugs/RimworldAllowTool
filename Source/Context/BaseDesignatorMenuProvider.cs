@@ -106,22 +106,6 @@ namespace AllowTool.Context {
 			}, MenuOptionPriority.Default, null, null, extraPartWidth, extraIconOnGUI, null, descriptionKey != null ? descriptionKey.Translate() : null);
 		}
 
-		protected FloatMenuOption MakeSettingCheckmarkOption(string labelKey, string descriptionKey, SettingHandle<bool> handle) {
-			const float checkmarkButtonSize = 24f;
-			const float labelMargin = 10f;
-			bool checkOn = handle.Value;
-			return new ATFloatMenuOption(labelKey.Translate(), () => {
-					handle.Value = !handle.Value;
-					checkOn = handle.Value;
-					HugsLibController.SettingsManager.SaveChanges();
-					var feedbackSound = checkOn?SoundDefOf.Checkbox_TurnedOn:SoundDefOf.Checkbox_TurnedOff;
-					feedbackSound.PlayOneShotOnCamera();
-				}, MenuOptionPriority.Default, null, null, checkmarkButtonSize + labelMargin, rect => {
-					Widgets.Checkbox(rect.x + labelMargin, rect.height/2f - checkmarkButtonSize/2f + rect.y, ref checkOn);
-					return false;
-				}, null, descriptionKey.Translate());
-		}
-
 		protected virtual bool ValidForDesignation(Thing thing) {
 			return thing != null && thing.def != null && thing.Map != null && !thing.Map.fogGrid.IsFogged(thing.Position);
 		}

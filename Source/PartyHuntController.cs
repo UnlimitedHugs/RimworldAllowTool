@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AllowTool.Context;
 using HugsLib.Utils;
 using RimWorld;
 using Verse;
@@ -21,29 +22,7 @@ namespace AllowTool {
 
 		public static Gizmo TryGetGizmo(Pawn pawn) {
 			if (!pawn.Drafted || !AllowToolController.Instance.PartyHuntSetting) return null;
-			var toggle = new Command_Toggle {
-				icon = AllowToolDefOf.Textures.partyHunt,
-				defaultLabel = "PartyHuntToggle_label".Translate(),
-				defaultDesc = "PartyHuntToggle_desc".Translate(),
-				isActive = () => PartyHuntIsEnabled(pawn),
-				toggleAction = () => ToggleAction(pawn),
-				hotKey = KeyBindingDefOf.Misc9,
-				disabled = !AllowToolUtility.PawnCapableOfViolence(pawn)
-			};
-			if (toggle.disabled) {
-				toggle.disabledReason = "IsIncapableOfViolence".Translate(pawn.Name.ToStringShort);
-			}
-			return toggle;
-		}
-
-		private static void ToggleAction(Pawn pawn) {
-			AllowToolController.Instance.WorldSettings.TogglePawnPartyHunting(pawn, !PartyHuntIsEnabled(pawn));
-		}
-
-
-		private static bool PartyHuntIsEnabled(Pawn pawn) {
-			var settings = AllowToolController.Instance.WorldSettings;
-			return settings != null && settings.PawnIsPartyHunting(pawn);
+			return new Command_PartyHunt(pawn);
 		}
 
 		public static void OnPawnUndrafted(Pawn pawn) {
@@ -52,7 +31,7 @@ namespace AllowTool {
 
 		public static void DoBehaviorForPawn(JobDriver_Wait driver) {
 			var hunter = driver.pawn;
-			if (!AllowToolController.Instance.PartyHuntSetting || !PartyHuntIsEnabled(hunter)) return;
+			if (!AllowToolController.Instance.PartyHuntSetting || !AllowToolUtility.PartyHuntIsEnabled(hunter)) return;
 			var verb = hunter.TryGetAttackVerb(null, !hunter.IsColonist);
 			if (hunter.Faction != null && driver.job.def == JobDefOf.Wait_Combat && AllowToolUtility.PawnCapableOfViolence(hunter) && !hunter.stances.FullBodyBusy) {
 				// fire at target
@@ -84,8 +63,7 @@ namespace AllowTool {
 		}
 
 		private static bool AnyHuntingPartyMembersInCombat(Pawn centerPawn, float maxPartyMemberDistance) {
-			return centerPawn.Map.mapPawns.FreeColonists.Where(p => 
-				PartyHuntIsEnabled(p) && centerPawn.Position.DistanceTo(p.Position) <= maxPartyMemberDistance
+			return centerPawn.Map.mapPawns.FreeColonists.Where(p => AllowToolUtility.PartyHuntIsEnabled(p) && centerPawn.Position.DistanceTo(p.Position) <= maxPartyMemberDistance
 			).Any(p => p.stances.FullBodyBusy);
 		}
 

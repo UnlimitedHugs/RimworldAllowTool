@@ -80,8 +80,7 @@ namespace AllowTool.Context {
 					if (!AllowToolController.Instance.ContextOverlaySetting.Value) return;
 					BaseDesignatorMenuProvider provider;
 					if (designatorMenuProviders.TryGetValue(designator, out provider) && provider.Enabled) {
-						var overlay = AllowToolDefOf.Textures.rightClickOverlay;
-						GUI.DrawTexture(new Rect(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y, overlay.width, overlay.height), overlay);
+						AllowToolUtility.DrawRightClickIcon(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y);
 					}
 				} catch (Exception e) {
 					designatorMenuProviders.Remove(designator);

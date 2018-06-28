@@ -45,9 +45,9 @@
 	<setting_replaceIcons_desc>Replace the icons for the Forbid and Unforbid tools with clearer ones.\nThe game must be restarted for this setting to take effect.</setting_replaceIcons_desc>
 
 	<setting_partyHunt_label>Drafted hunting tool</setting_partyHunt_label>
-	<setting_partyHunt_desc>When enabled, shows the "Drafted hunting" button for drafted colonists.</setting_partyHunt_desc>
+	<setting_partyHunt_desc>When enabled, shows the "Drafted hunt" button for drafted colonists.</setting_partyHunt_desc>
 	<setting_partyHuntFinish_label>Finish off downed animals</setting_partyHuntFinish_label>
-	<setting_partyHuntDesignated_label>Target only hunt-designated animals</setting_partyHuntDesignated_label>
+	<setting_partyHuntDesignated_label>Hunt-designated animals only</setting_partyHuntDesignated_label>
 	
 	<SelectSimilar_cursor_needConstraint>Click to pick something</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Drag to select only: {0}</SelectSimilar_cursor_nowSelecting>
@@ -121,7 +121,7 @@
 	<Designator_context_chopFullyGrown>Chop only fully grown</Designator_context_chopFullyGrown>
 	<Designator_context_fullyGrown_desc>Plants that are not fully grown will yield less resources.</Designator_context_fullyGrown_desc>
 	
-	<PartyHuntToggle_label>Drafted hunting</PartyHuntToggle_label>
+	<PartyHuntToggle_label>Drafted hunt</PartyHuntToggle_label>
 	<PartyHuntToggle_desc>When enabled, drafted colonists will automatically fire on passive wild animals. Right-click to change settings.\nAdded by the Allow Tool mod.</PartyHuntToggle_desc>
 	
 </LanguageData>

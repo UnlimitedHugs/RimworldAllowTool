@@ -173,9 +173,9 @@ namespace AllowTool {
 			
 			// party hunt
 			PartyHuntSetting = Settings.GetHandle("partyHunt", "setting_partyHunt_label".Translate(), "setting_partyHunt_desc".Translate(), true);
-			PartyHuntFinishSetting = Settings.GetHandle("partyHuntFinish", "setting_partyHuntFinish_label".Translate(), "setting_partyHuntFinish_desc".Translate(), true);
-			PartyHuntDesignatedSetting = Settings.GetHandle("partyHuntDesignated", "setting_partyHuntDesignated_label".Translate(), "setting_partyHuntDesignated_desc".Translate(), false);
-			PartyHuntFinishSetting.VisibilityPredicate = PartyHuntDesignatedSetting.VisibilityPredicate = () => PartyHuntSetting.Value;
+			PartyHuntFinishSetting = Settings.GetHandle("partyHuntFinish", "setting_partyHuntFinish_label".Translate(), null, true);
+			PartyHuntDesignatedSetting = Settings.GetHandle("partyHuntDesignated", "setting_partyHuntDesignated_label".Translate(), null, false);
+			PartyHuntFinishSetting.VisibilityPredicate = PartyHuntDesignatedSetting.VisibilityPredicate = () => false;
 
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
 			SelectionLimitSetting.SpinnerIncrement = 50;

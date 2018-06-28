@@ -60,9 +60,8 @@
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_RearmUrgently.cs" />
     <Compile Include="Source\AllowToolEarlyInit.cs" />
-
     <Compile Include="Source\Context\ATFloatMenuOption.cs" />
-    <Compile Include="Source\Comp\CompPartyHunt.cs" />
+    <Compile Include="Source\Context\Command_PartyHunt.cs" />
     <Compile Include="Source\Context\DesignatorContextMenuController.cs" />
     <Compile Include="Source\AllowToolController.cs" />
     <Compile Include="Source\AllowToolDefOf.cs" />

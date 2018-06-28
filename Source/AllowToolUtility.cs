@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AllowTool.Context;
 using Harmony;
+using HugsLib;
+using HugsLib.Settings;
 using HugsLib.Utils;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace AllowTool {
 	public static class AllowToolUtility {
@@ -116,6 +120,32 @@ namespace AllowTool {
 			return !(pawn.story == null || pawn.story.WorkTagIsDisabled(WorkTags.Violent));
 		}
 
+		public static bool PartyHuntIsEnabled(Pawn pawn) {
+			var settings = AllowToolController.Instance.WorldSettings;
+			return settings != null && settings.PawnIsPartyHunting(pawn);
+		}
+
+		public static void DrawRightClickIcon(float x, float y) {
+			var overlay = AllowToolDefOf.Textures.rightClickOverlay;
+			GUI.DrawTexture(new Rect(x, y, overlay.width, overlay.height), overlay);
+		}
+
+		public static ATFloatMenuOption MakeSettingCheckmarkOption(string labelKey, string descriptionKey, SettingHandle<bool> handle) {
+			const float checkmarkButtonSize = 24f;
+			const float labelMargin = 10f;
+			bool checkOn = handle.Value;
+			return new ATFloatMenuOption(labelKey.Translate(), () => {
+				handle.Value = !handle.Value;
+				checkOn = handle.Value;
+				HugsLibController.SettingsManager.SaveChanges();
+				var feedbackSound = checkOn ? SoundDefOf.Checkbox_TurnedOn : SoundDefOf.Checkbox_TurnedOff;
+				feedbackSound.PlayOneShotOnCamera();
+			}, MenuOptionPriority.Default, null, null, checkmarkButtonSize + labelMargin, rect => {
+				Widgets.Checkbox(rect.x + labelMargin, rect.height / 2f - checkmarkButtonSize / 2f + rect.y, ref checkOn);
+				return false;
+			}, null, descriptionKey.Translate());
+		}
+
 		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
 			if (pawn != null && pawn.workSettings != null) {
 				var workDefMap = Traverse.Create(pawn.workSettings).Field("priorities").GetValue<DefMap<WorkTypeDef, int>>();
@@ -126,7 +156,7 @@ namespace AllowTool {
 			}
 			return null;
 		}
-
+		
 		// returns a work priority based on disabled work types and tags for that pawn
 		private static int GetWorkTypePriorityForPawn(WorkTypeDef workDef, Pawn pawn) {
 			if (pawn.story != null){
