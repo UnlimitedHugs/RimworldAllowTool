@@ -68,7 +68,7 @@ namespace AllowTool {
 			}
 			var part = victim.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ConsciousnessSource).FirstOrDefault();
 			int amount = part != null ? Mathf.Clamp((int)victim.health.hediffSet.GetPartHealth(part) - 1, 1, 20) : 20;
-			var damageInfo = new DamageInfo(DamageDefOf.ExecutionCut, amount, -1f, slayer, part);
+			var damageInfo = new DamageInfo(DamageDefOf.ExecutionCut, amount, -1f, -1F, slayer, part);
 			victim.TakeDamage(damageInfo);
 			if (!victim.Dead) {
 				victim.Kill(damageInfo);

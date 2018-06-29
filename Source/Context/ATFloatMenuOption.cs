@@ -23,8 +23,8 @@ namespace AllowTool.Context {
 			}
 		}
 
-		public override bool DoGUI(Rect rect, bool colonistOrdering) {
-			var result = base.DoGUI(rect, colonistOrdering);
+		public override bool DoGUI(Rect rect, bool colonistOrdering, FloatMenu floatMenu) {
+			var result = base.DoGUI(rect, colonistOrdering, floatMenu);
 			if (showWatermark) {
 				var hoverRect = new Rect(rect.x, rect.y, rect.width, rect.height - 1f);
 				bool hovering = !Disabled && Mouse.IsOver(hoverRect);
