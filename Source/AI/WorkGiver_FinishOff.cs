@@ -62,7 +62,7 @@ namespace AllowTool {
 						// ignore if not forced- only designated targets will be picked in this case
 						JobFailReason.Is(friendlyReport.Reason);
 					} else {
-						var skillReport = Designator_FinishOff.PawnMeetsSkillRequirement(pawn);
+						var skillReport = Designator_FinishOff.PawnMeetsSkillRequirement(pawn, t as Pawn);
 						if (!skillReport.Accepted) {
 							JobFailReason.Is(skillReport.Reason);
 						} else {
