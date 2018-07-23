@@ -33,7 +33,6 @@ namespace AllowTool.Context {
 			typeof(Designator_PlantsHarvestWood),
 			typeof(Designator_Mine),
 			typeof(Designator_Strip),
-			typeof(Designator_RearmTrap),
 			typeof(Designator_Open)
 		}; 
 

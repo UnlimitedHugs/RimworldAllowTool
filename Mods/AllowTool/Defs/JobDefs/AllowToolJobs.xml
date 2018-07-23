@@ -8,13 +8,5 @@
 		<alwaysShowWeapon>true</alwaysShowWeapon>
 		<casualInterruptible>false</casualInterruptible>
 	</JobDef>
-	
-	<JobDef>
-		<defName>RearmTrapUrgently</defName>
-		<driverClass>AllowTool.JobDriver_RearmUrgently</driverClass>
-		<reportString>Rearming TargetA</reportString>
-		<alwaysShowWeapon>false</alwaysShowWeapon>
-		<casualInterruptible>false</casualInterruptible>
-	</JobDef>
 
 </Defs>

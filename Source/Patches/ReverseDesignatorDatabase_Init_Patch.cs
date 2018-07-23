@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Emit;
-using Harmony;
-using RimWorld;
+﻿using Harmony;
 using Verse;
 
 namespace AllowTool.Patches {

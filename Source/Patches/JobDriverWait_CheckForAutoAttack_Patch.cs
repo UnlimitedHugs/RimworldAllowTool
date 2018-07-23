@@ -1,6 +1,4 @@
 ﻿using Harmony;
-using RimWorld;
-using Verse;
 using Verse.AI;
 
 namespace AllowTool.Patches {

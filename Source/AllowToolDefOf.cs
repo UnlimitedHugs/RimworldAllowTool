@@ -13,7 +13,6 @@ namespace AllowTool {
 
 		// designations
 		public static DesignationDef HaulUrgentlyDesignation;
-		public static DesignationDef RearmUrgentlyDesignation;
 		public static DesignationDef FinishOffDesignation;
 
 		// designators
@@ -32,7 +31,6 @@ namespace AllowTool {
 
 		// jobs
 		public static JobDef FinishOffPawn;
-		public static JobDef RearmTrapUrgently;
 
 		// effecters
 		public static EffecterDef EffecterWeaponGlint;
@@ -43,7 +41,6 @@ namespace AllowTool {
 		[StaticConstructorOnStartup]
 		public static class Textures {
 			public static Texture2D rightClickOverlay;
-			public static Texture2D rearmUrgently;
 			public static Texture2D designatorSelectionOption;
 			public static Texture2D contextMenuWatermark;
 			public static Texture2D partyHunt;

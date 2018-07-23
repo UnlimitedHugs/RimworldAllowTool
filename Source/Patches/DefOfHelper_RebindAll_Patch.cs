@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using System;
+using Harmony;
 using RimWorld;
 
 namespace AllowTool.Patches {

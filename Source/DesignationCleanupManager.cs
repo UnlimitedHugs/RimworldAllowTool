@@ -33,7 +33,6 @@ namespace AllowTool {
 				if (desThing != null &&
 					((des.def == AllowToolDefOf.FinishOffDesignation && !Designator_FinishOff.IsValidDesignationTarget(des.target.Thing))
 					|| (des.def == AllowToolDefOf.HaulUrgentlyDesignation && desThing.IsInValidBestStorage())
-					|| (des.def == AllowToolDefOf.RearmUrgentlyDesignation && (!(desThing is Building_TrapRearmable) || (desThing as  Building_TrapRearmable).Armed))
 					)){
 					cleanupList.Enqueue(des);
 				}
