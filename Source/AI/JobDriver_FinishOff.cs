@@ -15,7 +15,7 @@ namespace AllowTool {
 		private const float VictimSkullMoteChance = .25f;
 		private const float OpportunityTargetMaxRange = 8f;
 
-		public override bool TryMakePreToilReservations() {
+		public override bool TryMakePreToilReservations(bool errorOnFailed) {
 			return pawn.Reserve(job.GetTarget(TargetIndex.A), job);
 		}
 
