@@ -40,7 +40,7 @@ namespace AllowTool {
 
 		public void Update() {
 			if (!listening) return;
-			if (Current.ProgramState != ProgramState.Playing || Find.VisibleMap == null) {
+			if (Current.ProgramState != ProgramState.Playing || Find.CurrentMap == null) {
 				listening = false;
 				return;
 			}
@@ -64,7 +64,7 @@ namespace AllowTool {
 
 		private void UpdateAffectedCellsInRect(IntVec3 pos1, IntVec3 pos2) {
 			affectedCells.Clear();
-			var map = Find.VisibleMap;
+			var map = Find.CurrentMap;
 			if (map == null) return;
 			// establish bounds
 			int minX, maxX, minZ, maxZ;

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AllowTool.Context;
+using AllowTool.Settings;
 using Harmony;
 using HugsLib;
 using HugsLib.Settings;
 using HugsLib.Utils;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -23,8 +25,11 @@ namespace AllowTool {
 		private const string HaulWorktypeSettingName = "haulUrgentlyWorktype";
 		private const string FinishOffWorktypeSettingName = "finishOffWorktype";
 
-		public static FieldInfo ReverseDesignatorDatabaseDesListField;
 		public static FieldInfo GizmoGridGizmoListField;
+		public static FieldInfo DraftControllerAutoUndrafterField;
+		public static FieldInfo DesignatorHasDesignateAllFloatMenuOptionField;
+		public static MethodInfo DesignatorGetDesignationMethod;
+		public static MethodInfo DesignatorGetRightClickFloatMenuOptionsMethod;
 		public static AllowToolController Instance { get; private set; }
 
 		internal static HarmonyInstance HarmonyInstance { get; set; }
@@ -65,24 +70,23 @@ namespace AllowTool {
 		}
 
 		protected override bool HarmonyAutoPatch {
-			get { return false; } // we patch out stuff early on. See AllowToolEarlyInit
+			get { return false; } // we patch our stuff early on. See AllowToolEarlyInit
 		}
 
 		internal SettingHandle<int> SelectionLimitSetting { get; private set; }
-
-		internal SettingHandle<bool> ContextOverlaySetting { get; set; }
-
+		internal SettingHandle<bool> ContextOverlaySetting { get; private set; }
 		internal SettingHandle<bool> ContextWatermarkSetting { get; private set; }
-
-		public SettingHandle<bool> ExtendedContextActionSetting { get; set; }
-
-		public SettingHandle<bool> ReverseDesignatorPickSetting { get; set; }
-		
-		public SettingHandle<bool> FinishOffSkillRequirement { get; set; }
-
-		public SettingHandle<bool> FinishOffUnforbidsSetting { get; set; }
+		internal SettingHandle<bool> ReplaceIconsSetting { get; private set; }
+		internal SettingHandle<bool> ExtendedContextActionSetting { get; private set; }
+		internal SettingHandle<bool> ReverseDesignatorPickSetting { get; private set; }
+		internal SettingHandle<bool> FinishOffSkillRequirement { get; private set; }
+		internal SettingHandle<bool> FinishOffUnforbidsSetting { get; private set; }
+		internal SettingHandle<bool> PartyHuntSetting { get; private set; }
+		internal SettingHandle<bool> PartyHuntFinishSetting { get; private set; }
+		internal SettingHandle<bool> PartyHuntDesignatedSetting { get; private set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
+		public WorldSettings WorldSettings { get; private set; }
 
 		private AllowToolController() {
 			Instance = this;
@@ -105,7 +109,7 @@ namespace AllowTool {
 		}
 
 		public override void OnGUI() {
-			if (Current.Game == null || Current.Game.VisibleMap == null) return;
+			if (Current.Game == null || Current.Game.CurrentMap == null) return;
 			var selectedDesignator = Find.MapUI.designatorManager.SelectedDesignator;
 			for (int i = 0; i < activeDesignators.Count; i++) {
 				var designator = activeDesignators[i].designator;
@@ -125,7 +129,8 @@ namespace AllowTool {
 		// we do our injections at world load because some mods overwrite ThingDesignatorDef.resolvedDesignators during init
 		public override void WorldLoaded() {
 			InjectDesignators();
-			DesignatorContextMenuController.PrepareContextMenus();
+			DesignatorContextMenuController.PrepareDesignatorContextMenus();
+			WorldSettings = UtilityWorldObjectManager.GetUtilityWorldObject<WorldSettings>();
 		}
 
 		public override void MapLoaded(Map map) {
@@ -159,11 +164,19 @@ namespace AllowTool {
 			settingGlobalHotkeys = Settings.GetHandle("globalHotkeys", "setting_globalHotkeys_label".Translate(), "setting_globalHotkeys_desc".Translate(), true);
 			ContextOverlaySetting = Settings.GetHandle("contextOverlay", "setting_contextOverlay_label".Translate(), "setting_contextOverlay_desc".Translate(), true);
 			ContextWatermarkSetting = Settings.GetHandle("contextWatermark", "setting_contextWatermark_label".Translate(), "setting_contextWatermark_desc".Translate(), true);
+			ReplaceIconsSetting = Settings.GetHandle("replaceIcons", "setting_replaceIcons_label".Translate(), "setting_replaceIcons_desc".Translate(), true);
 			Settings.GetHandle(HaulWorktypeSettingName, "setting_haulUrgentlyWorktype_label".Translate(), "setting_haulUrgentlyWorktype_desc".Translate(), true);
 			Settings.GetHandle(FinishOffWorktypeSettingName, "setting_finishOffWorktype_label".Translate(), "setting_finishOffWorktype_desc".Translate(), false);
 			ExtendedContextActionSetting = Settings.GetHandle("extendedContextActionKey", "setting_extendedContextHotkey_label".Translate(), "setting_extendedContextHotkey_desc".Translate(), true);
 			ReverseDesignatorPickSetting = Settings.GetHandle("reverseDesignatorPick", "setting_reverseDesignatorPick_label".Translate(), "setting_reverseDesignatorPick_desc".Translate(), true);
 			FinishOffUnforbidsSetting = Settings.GetHandle("finishOffUnforbids", "setting_finishOffUnforbids_label".Translate(), "setting_finishOffUnforbids_desc".Translate(), true);
+			
+			// party hunt
+			PartyHuntSetting = Settings.GetHandle("partyHunt", "setting_partyHunt_label".Translate(), "setting_partyHunt_desc".Translate(), true);
+			PartyHuntFinishSetting = Settings.GetHandle("partyHuntFinish", "setting_partyHuntFinish_label".Translate(), null, true);
+			PartyHuntDesignatedSetting = Settings.GetHandle("partyHuntDesignated", "setting_partyHuntDesignated_label".Translate(), null, false);
+			PartyHuntFinishSetting.VisibilityPredicate = PartyHuntDesignatedSetting.VisibilityPredicate = () => false;
+
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
 			SelectionLimitSetting.SpinnerIncrement = 50;
 			// designators
@@ -202,11 +215,13 @@ namespace AllowTool {
 			};
 		}
 
-		public Designator_SelectableThings InstantiateDesignator(Type designatorType, ThingDesignatorDef designatorDef) {
+		public Designator_SelectableThings InstantiateDesignator(Type designatorType, ThingDesignatorDef designatorDef, Designator replacedDesignator = null) {
 			try {
-				return (Designator_SelectableThings) Activator.CreateInstance(designatorType, designatorDef);
+				var des = (Designator_SelectableThings) Activator.CreateInstance(designatorType, designatorDef);
+				des.ReplacedDesignator = replacedDesignator;
+				return des;
 			} catch (Exception e) {
-				Logger.ReportException(e, null, false, string.Format("instantiation of {0} with Def {1}", (designatorType != null ? designatorType.FullName : "(null)"), designatorDef));
+				Logger.ReportException(e, null, false, $"instantiation of {(designatorType != null ? designatorType.FullName : "(null)")} with Def {designatorDef}");
 			}
 			return null;
 		}
@@ -223,13 +238,29 @@ namespace AllowTool {
 					break;
 				}
 				if (insertIndex >= 0) {
-					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef);
+					Designator replacedDesignator = null;
+					if (designatorDef.replaces != null) {
+						// remove the designator to replace, if specified
+						var replacedIndex = resolvedDesignators.FindIndex(des => designatorDef.replaces.IsInstanceOfType(des));
+						if (replacedIndex >= 0) {
+							replacedDesignator = resolvedDesignators[replacedIndex];
+							resolvedDesignators.RemoveAt(replacedIndex);
+							// adjust index to compensate for removed element
+							if (replacedIndex < insertIndex) {
+								insertIndex--;
+							}
+						} else {
+							Logger.Warning($"{designatorDef.defName} could not find {designatorDef.replaces} for replacement");		
+						}
+					}
+					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef, replacedDesignator);
 					resolvedDesignators.Insert(insertIndex + 1, designator);
 					designator.SetVisible(IsDesignatorEnabledInSettings(designatorDef));
 					activeDesignators.Add(new DesignatorEntry(designator, designatorDef.hotkeyDef));
 					numDesignatorsInjected++;
+					
 				} else {
-					Logger.Error(string.Format("Failed to inject {0} after {1}", designatorDef.defName, designatorDef.insertAfter.Name));		
+					Logger.Error($"Failed to inject {designatorDef.defName} after {designatorDef.insertAfter.Name}");		
 				}
 				designatorDef.Injected = true;
 			}
@@ -239,25 +270,30 @@ namespace AllowTool {
 		}
 
 		private void PrepareReflection() {
-			ReverseDesignatorDatabaseDesListField = typeof(ReverseDesignatorDatabase).GetField("desList", HugsLibUtility.AllBindingFlags);
 			var gizmoGridType = GenTypes.GetTypeInAnyAssembly("RimWorld.InspectGizmoGrid");
 			if (gizmoGridType != null) {
 				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
 			}
-			if (ReverseDesignatorDatabaseDesListField == null || ReverseDesignatorDatabaseDesListField.FieldType != typeof(List<Designator>)
-				|| GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)) {
+			DesignatorGetDesignationMethod = typeof(Designator).GetMethod("get_Designation", HugsLibUtility.AllBindingFlags);
+			DesignatorHasDesignateAllFloatMenuOptionField = typeof(Designator).GetField("hasDesignateAllFloatMenuOption", HugsLibUtility.AllBindingFlags);
+			DesignatorGetRightClickFloatMenuOptionsMethod = typeof(Designator).GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
+			DraftControllerAutoUndrafterField = typeof(Pawn_DraftController).GetField("autoUndrafter", HugsLibUtility.AllBindingFlags);
+			if (GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)
+				|| DesignatorGetDesignationMethod == null || DesignatorGetDesignationMethod.ReturnType != typeof(DesignationDef)
+				|| DesignatorHasDesignateAllFloatMenuOptionField == null || DesignatorHasDesignateAllFloatMenuOptionField.FieldType != typeof(bool)
+				|| DesignatorGetRightClickFloatMenuOptionsMethod == null || DesignatorGetRightClickFloatMenuOptionsMethod.ReturnType != typeof(IEnumerable<FloatMenuOption>)
+				|| DraftControllerAutoUndrafterField == null || DraftControllerAutoUndrafterField.FieldType != typeof(AutoUndrafter)
+				) {
 				Logger.Error("Failed to reflect required members");
 			}
 		}
-
-		
 
 		private void CheckForHotkeyPresses() {
 			if (Event.current.keyCode == KeyCode.None) return;
 			if (AllowToolDefOf.ToolContextMenuAction.JustPressed) {
 				DesignatorContextMenuController.ProcessContextActionHotkeyPress();
 			}
-			if (!settingGlobalHotkeys || Find.VisibleMap == null) return;
+			if (!settingGlobalHotkeys || Find.CurrentMap == null) return;
 			for (int i = 0; i < activeDesignators.Count; i++) {
 				var entry = activeDesignators[i];
 				if(entry.key == null || !entry.key.JustPressed || !entry.designator.Visible) continue;

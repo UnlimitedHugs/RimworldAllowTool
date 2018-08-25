@@ -5,6 +5,7 @@ using HugsLib.Settings;
 using RimWorld;
 using UnityEngine;
 using Verse;
+// ReSharper disable VirtualMemberNeverOverridden.Global
 
 namespace AllowTool.Context {
 	/// <summary>
@@ -41,7 +42,11 @@ namespace AllowTool.Context {
 		}
 
 		public virtual void OpenContextMenu(Designator designator) {
-			Find.WindowStack.Add(new FloatMenu(ListMenuEntries(designator).ToList()));
+			var handlerEntries = Enabled ? ListMenuEntries(designator) : new FloatMenuOption[0];
+			var allEntries = handlerEntries.Concat(designator.RightClickFloatMenuOptions).ToList();
+			if (allEntries.Count > 0) {
+				Find.WindowStack.Add(new FloatMenu(allEntries));
+			}
 		}
 
 		protected virtual IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
@@ -60,8 +65,16 @@ namespace AllowTool.Context {
 		}
 
 		// called if the common hotkey is pressed while the designator is selected
-		public virtual void HotkeyAction(Designator designator) {
-			InvokeActionWithErrorHandling(ContextMenuAction, designator);
+		// or the designator is the first reverse designator
+		public virtual bool TryInvokeHotkeyAction(Designator designator) {
+			if (Enabled) {
+				var entry = ListMenuEntries(designator).FirstOrDefault();
+				if (entry is ATFloatMenuOption && entry.action != null) {
+					entry.action();
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public virtual void ReportActionResult(int designationCount, string baseMessageKey = null) {
@@ -75,31 +88,30 @@ namespace AllowTool.Context {
 			}
 		}
 
-		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action) {
-			var showWatermark = AllowToolController.Instance.ContextWatermarkSetting.Value;
-			const string watermarkSpacing = "         ";
-			var label = labelKey.Translate();
-			if (showWatermark) label = watermarkSpacing + label;
-			var opt = new FloatMenuOption(label, () => {
-				InvokeActionWithErrorHandling(action, designator);
-			});
-			if (showWatermark) {
-				opt.extraPartOnGUI = rect => {
-					var tex = AllowToolDefOf.Textures.contextMenuWatermark;
-					GUI.DrawTexture(new Rect(rect.x, rect.y, tex.width, tex.height), tex);
+		protected virtual FloatMenuOption MakeMenuOption(Designator designator, string labelKey, MenuActionMethod action, string descriptionKey = null, Texture2D extraIcon = null) {
+			const float extraIconsSize = 24f;
+			const float labelMargin = 10f;
+			Func<Rect, bool> extraIconOnGUI = null;
+			var extraPartWidth = 0f;
+			if (extraIcon != null) {
+				extraIconOnGUI = rect => {
+					Graphics.DrawTexture(new Rect(rect.x + labelMargin, rect.height / 2f - extraIconsSize / 2f + rect.y, extraIconsSize, extraIconsSize), extraIcon);
 					return false;
 				};
+				extraPartWidth = extraIconsSize + labelMargin;
 			}
-			return opt;
+			return new ATFloatMenuOption(labelKey.Translate(), () => {
+				InvokeActionWithErrorHandling(action, designator);
+			}, MenuOptionPriority.Default, null, null, extraPartWidth, extraIconOnGUI, null, descriptionKey?.Translate());
 		}
 
 		protected virtual bool ValidForDesignation(Thing thing) {
-			return thing != null && thing.def != null && thing.Map != null && !thing.Map.fogGrid.IsFogged(thing.Position);
+			return thing?.def != null && thing.Map != null && !thing.Map.fogGrid.IsFogged(thing.Position);
 		}
 
 		protected void InvokeActionWithErrorHandling(MenuActionMethod action, Designator designator) {
 			try {
-				var map = Find.VisibleMap;
+				var map = Find.CurrentMap;
 				if(map == null) return;
 				action(designator, map);
 			} catch (Exception e) {

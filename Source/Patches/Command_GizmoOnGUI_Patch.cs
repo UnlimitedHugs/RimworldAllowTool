@@ -3,51 +3,60 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using AllowTool.Context;
 using Harmony;
+using HugsLib.Utils;
 using UnityEngine;
 using Verse;
 
 namespace AllowTool.Patches {
 	/// <summary>
-	/// Hooks an additional call right after the Command icon texture is drawn.
-	/// This allows to draw an overlay icon on certain designators.
+	/// Hooks additional calls into the drawing and event processing of Command buttons.
+	/// This allows to draw an overlay icon on certain designators and intercept their right-click and shift-click events.
 	/// </summary>
 	[HarmonyPatch(typeof(Command))]
 	[HarmonyPatch("GizmoOnGUI")]
-	[HarmonyPatch(new []{typeof(Vector2)})]
+	[HarmonyPatch(new[] {typeof(Vector2), typeof(float)})]
 	internal static class Command_GizmoOnGUI_Patch {
-		private static bool injectCompleted;
+		private static bool overlayInjected;
 
 		[HarmonyPrepare]
 		private static void PrePatch() {
 			LongEventHandler.ExecuteWhenFinished(() => {
-				if (!injectCompleted) AllowToolController.Logger.Warning("Command_GizmoOnGUI infix could not be applied. Designator button overlays disabled.");
+				if (!overlayInjected) AllowToolController.Logger.Error("Command_GizmoOnGUI infix could not be applied.");
 			});
 		}
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> DrawRightClickIcon(IEnumerable<CodeInstruction> instructions) {
-			var expectedMethod = AccessTools.Method(typeof (Widgets), "DrawTextureFitted", new[] {typeof (Rect), typeof (Texture), typeof (float), typeof (Vector2), typeof (Rect), typeof (float)});
-			var checksPassed = false;
-			injectCompleted = false;
+			var expectedMethod = AccessTools.Method(typeof(Widgets), "DrawTextureFitted",
+				new[] {typeof(Rect), typeof(Texture), typeof(float), typeof(Vector2), typeof(Rect), typeof(float), typeof(Material)});
+			overlayInjected = false;
 			if (expectedMethod == null) {
 				AllowToolController.Logger.Error("Failed to reflect required method: " + Environment.StackTrace);
-			} else {
-				checksPassed = true;
 			}
 			foreach (var instruction in instructions) {
-				if (checksPassed) {
-					// right after the gizmo icon texture is drawn
-					if (instruction.opcode == OpCodes.Call && expectedMethod.Equals(instruction.operand)) {
-						// push this (Command) arg
-						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						// push topLeft (Vector2) arg
-						yield return new CodeInstruction(OpCodes.Ldarg_1);
-						// call our delegate
-						yield return new CodeInstruction(OpCodes.Call, ((Action<Command, Vector2>)DesignatorContextMenuController.DrawCommandOverlayIfNeeded).Method);
-						injectCompleted = true;
-					}
+				// right after the gizmo icon texture is drawn
+				if (expectedMethod != null && instruction.opcode == OpCodes.Call && expectedMethod.Equals(instruction.operand)) {
+					// push this (Command) arg
+					yield return new CodeInstruction(OpCodes.Ldarg_0);
+					// push topLeft (Vector2) arg
+					yield return new CodeInstruction(OpCodes.Ldarg_1);
+					// call our delegate
+					yield return new CodeInstruction(OpCodes.Call, ((Action<Command, Vector2>)DesignatorContextMenuController.DrawCommandOverlayIfNeeded).Method);
+					overlayInjected = true;
 				}
 				yield return instruction;
+			}
+		}
+
+		[HarmonyPostfix]
+		public static void InterceptInteraction(ref GizmoResult __result, Command __instance) {
+			if (__result.State == GizmoState.Interacted || __result.State == GizmoState.OpenedFloatMenu) {
+				var designator = DesignatorContextMenuController.TryResolveCommandToDesignator(__instance);
+				Tracer.Trace(designator, __result, __instance);
+				if (designator != null && DesignatorContextMenuController.TryProcessDesignatorInput(designator)) {
+					// return a blank interact event if we intercepted the input
+					__result = new GizmoResult(GizmoState.Clear, __result.InteractEvent);
+				}
 			}
 		}
 	}

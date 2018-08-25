@@ -41,7 +41,9 @@ namespace AllowTool {
 		[StaticConstructorOnStartup]
 		public static class Textures {
 			public static Texture2D rightClickOverlay;
+			public static Texture2D designatorSelectionOption;
 			public static Texture2D contextMenuWatermark;
+			public static Texture2D partyHunt;
 
 			static Textures() {
 				foreach (var fieldInfo in typeof(Textures).GetFields(HugsLibUtility.AllBindingFlags)) {

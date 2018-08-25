@@ -45,7 +45,7 @@ namespace AllowTool.Context {
 
 		private Thing TryGetMineableAtPos(IntVec3 pos, Map map) {
 			var thing = map.edificeGrid[pos];
-			return thing != null && thing.def.building != null && thing.def.mineable && thing.def.building.isResourceRock ? thing : null;
+			return thing?.def.building != null && thing.def.mineable && thing.def.building.isResourceRock ? thing : null;
 		}
 
 		// ensure all selected ores are Mine designated

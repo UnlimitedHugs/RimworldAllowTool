@@ -8,16 +8,17 @@ namespace AllowTool {
 	public class Designator_Allow : Designator_SelectableThings {
 		
 		public Designator_Allow(ThingDesignatorDef def) : base(def) {
+			inheritIcon = !AllowToolController.Instance.ReplaceIconsSetting;
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
 			if (thing.Position.Fogged(thing.Map)) return false;
-			var comp = thing is ThingWithComps ? (thing as ThingWithComps).GetComp<CompForbiddable>() : null;
+			var comp = (thing as ThingWithComps)?.GetComp<CompForbiddable>();
 			return comp != null && comp.Forbidden;
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
-			numThingsDesignated = AllowToolUtility.ToggleForbiddenInCell(cell, Find.VisibleMap, false);
+			numThingsDesignated = AllowToolUtility.ToggleForbiddenInCell(cell, Find.CurrentMap, false);
 		}
 	}
 }

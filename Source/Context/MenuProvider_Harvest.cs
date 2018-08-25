@@ -25,6 +25,9 @@ namespace AllowTool.Context {
 		}
 
 		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
+			yield return MakeMenuOption(designator, "Designator_context_harvestFullyGrown", (des, map) => 
+					Find.DesignatorManager.Select(new Designator_HarvestFullyGrown()),
+				"Designator_context_fullyGrown_desc", AllowToolDefOf.Textures.designatorSelectionOption);
 			yield return MakeMenuOption(designator, HarvestAllTextKey, (des, map) => HarvestAction(designator, map, false));
 			yield return MakeMenuOption(designator, HarvestHomeAreaTextKey, (des, map) => HarvestAction(designator, map, true));
 		}

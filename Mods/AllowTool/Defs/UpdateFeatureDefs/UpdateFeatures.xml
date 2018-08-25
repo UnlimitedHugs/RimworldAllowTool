@@ -39,4 +39,10 @@
 		<content>&lt;b&gt;Cut blighted plants:&lt;/b&gt; marks all blighted plants on the map to be cut. Right-click the "Cut plants" tool to use.|&lt;b&gt;Cancel all of this type:&lt;/b&gt; cancels all designations found on the selected item across the whole map. Useful to undo accidentally issued commands that affect the whole map.</content>
 	</HugsLib.UpdateFeatureDef>
 	
+	<HugsLib.UpdateFeatureDef ParentName="UpdateFeatureBase">
+		<defName>AllowTool_3_5_0</defName>
+		<assemblyVersion>3.5.0</assemblyVersion>
+		<content>&lt;b&gt;New tools:&lt;/b&gt;|img:News/draftedHunt|caption:&lt;b&gt;Drafted hunt&lt;/b&gt; is a tool for manual hunting. When enabled, allows colonists to automatically target and finish off wild animals. Draft a colonist to use, right-click to change settings.|&lt;b&gt;Harvest/Chop fully grown&lt;/b&gt;: tools to mark only fully grown plants for harvesting and chopping, which improves resource yield. Right click the "Harvest" or "Chop" tools tools use.</content>
+	</HugsLib.UpdateFeatureDef>
+	
 </Defs>

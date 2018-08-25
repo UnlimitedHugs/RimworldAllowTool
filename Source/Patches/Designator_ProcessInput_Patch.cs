@@ -8,7 +8,7 @@ namespace AllowTool.Patches {
 	/// </summary>
 	[HarmonyPatch(typeof(Designator))]
 	[HarmonyPatch("ProcessInput")]
-	internal class Designator_ProcessInput_Patch {
+	internal static class Designator_ProcessInput_Patch {
 		[HarmonyPrefix]
 		public static bool InterceptRightClicksOnSupportedDesignators(Designator __instance) {
 			return !DesignatorContextMenuController.TryProcessDesignatorInput(__instance);

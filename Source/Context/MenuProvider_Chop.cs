@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
@@ -18,6 +19,12 @@ namespace AllowTool.Context {
 
 		protected override ThingRequestGroup DesignatorRequestGroup {
 			get { return ThingRequestGroup.Plant; }
+		}
+
+		protected override IEnumerable<FloatMenuOption> ListMenuEntries(Designator designator) {
+			yield return MakeMenuOption(designator, "Designator_context_chopFullyGrown", (des, map) =>
+					Find.DesignatorManager.Select(new Designator_ChopFullyGrown()),
+			"Designator_context_fullyGrown_desc", AllowToolDefOf.Textures.designatorSelectionOption);
 		}
 	}
 }

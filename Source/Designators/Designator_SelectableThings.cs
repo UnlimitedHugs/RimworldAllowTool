@@ -11,6 +11,18 @@ namespace AllowTool {
 	public abstract class Designator_SelectableThings : Designator {
 		internal readonly ThingDesignatorDef def;
 		protected int numThingsDesignated;
+		protected bool inheritIcon;
+
+		private Designator _replacedDesignator;
+		public Designator ReplacedDesignator {
+			get { return _replacedDesignator; }
+			set {
+				_replacedDesignator = value;
+				if (inheritIcon) {
+					icon = _replacedDesignator.icon;
+				}
+			}
+		}
 
 		public override int DraggableDimensions {
 			get { return 2; }
@@ -20,7 +32,21 @@ namespace AllowTool {
 			get { return true; }
 		}
 
+		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
+			get {
+				foreach (var option in base.RightClickFloatMenuOptions) {
+					yield return option;
+				}
+				if (ReplacedDesignator != null) {
+					foreach (var option in ReplacedDesignator.RightClickFloatMenuOptions) {
+						yield return option;
+					}
+				}
+			}
+		}
+
 		private bool visible = true;
+		
 		public override bool Visible {
 			get { return visible; }
 		}
@@ -31,8 +57,8 @@ namespace AllowTool {
 			defaultDesc = def.description;
 			icon = def.IconTex;
 			useMouseIcon = true;
-			soundDragSustain = SoundDefOf.DesignateDragStandard;
-			soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			soundDragSustain = SoundDefOf.Designate_DragStandard;
+			soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
 			soundSucceeded = def.soundSucceeded;
 			hotKey = def.hotkeyDef;
 		}
@@ -53,7 +79,7 @@ namespace AllowTool {
 
 		public override void DesignateSingleCell(IntVec3 cell) {
 			numThingsDesignated = 0;
-			var map = Find.VisibleMap;
+			var map = Find.CurrentMap;
 			if (map == null) return;
 			var things = map.thingGrid.ThingsListAt(cell);
 			for (int i = 0; i < things.Count; i++) {

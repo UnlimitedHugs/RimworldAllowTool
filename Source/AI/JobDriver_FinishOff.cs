@@ -11,10 +11,11 @@ namespace AllowTool {
 	/// Walk up to and murderize a downed pawn with a fancy effect
 	/// </summary>
 	public class JobDriver_FinishOff : JobDriver {
-		private const int prepareSwingDuration = 60;
-		private const float victimSkullMoteChance = .25f;
+		private const int PrepareSwingDuration = 60;
+		private const float VictimSkullMoteChance = .25f;
+		private const float OpportunityTargetMaxRange = 8f;
 
-		public override bool TryMakePreToilReservations() {
+		public override bool TryMakePreToilReservations(bool errorOnFailed) {
 			return pawn.Reserve(job.GetTarget(TargetIndex.A), job);
 		}
 
@@ -29,10 +30,10 @@ namespace AllowTool {
 			yield return new Toil {
 				initAction = () => {
 					var victim = job.targetA.Thing as Pawn;
-					skullMote = TryMakeSkullMote(victim, victimSkullMoteChance);
+					skullMote = TryMakeSkullMote(victim, VictimSkullMoteChance);
 					AllowToolDefOf.EffecterWeaponGlint.Spawn().Trigger(pawn, job.targetA.Thing);
 				},
-				defaultDuration = prepareSwingDuration,
+				defaultDuration = PrepareSwingDuration,
 				defaultCompleteMode = ToilCompleteMode.Delay
 			};
 			yield return new Toil {
@@ -44,6 +45,14 @@ namespace AllowTool {
 					DoExecution(pawn, victim);
 					if (skullMote != null && !skullMote.Destroyed) {
 						skullMote.Destroy();
+					}
+					// look for a target of opportunity nearby before moving on
+					// needed by drafted hunters. Their finish off job was not work-related, so they need to be fed a new opportunity job manually
+					if (!job.playerForced) {
+						var opportunityJob = WorkGiver_FinishOff.CreateInstance().TryGetJobInRange(pawn, OpportunityTargetMaxRange);
+						if (opportunityJob != null) {
+							pawn.jobs.jobQueue.EnqueueFirst(opportunityJob);
+						}
 					}
 				},
 				defaultCompleteMode = ToilCompleteMode.Instant
@@ -57,9 +66,9 @@ namespace AllowTool {
 			for (int i = 0; i < num; i++) {
 				victim.health.DropBloodFilth();
 			}
-			var part = victim.RaceProps.body.GetPartsWithTag("ConsciousnessSource").FirstOrDefault();
+			var part = victim.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.ConsciousnessSource).FirstOrDefault();
 			int amount = part != null ? Mathf.Clamp((int)victim.health.hediffSet.GetPartHealth(part) - 1, 1, 20) : 20;
-			var damageInfo = new DamageInfo(DamageDefOf.ExecutionCut, amount, -1f, slayer, part);
+			var damageInfo = new DamageInfo(DamageDefOf.ExecutionCut, amount, -1f, -1F, slayer, part);
 			victim.TakeDamage(damageInfo);
 			if (!victim.Dead) {
 				victim.Kill(damageInfo);
@@ -88,7 +97,7 @@ namespace AllowTool {
 		}
 
 		private Thing TryMakeSkullMote(Pawn victim, float chance) {
-			if (victim != null && victim.RaceProps != null && victim.RaceProps.intelligence == Intelligence.Humanlike) {
+			if (victim?.RaceProps != null && victim.RaceProps.intelligence == Intelligence.Humanlike) {
 				if (Rand.Chance(chance)) {
 					var def = ThingDefOf.Mote_ThoughtGood;
 					var moteBubble = (MoteBubble)ThingMaker.MakeThing(def);
@@ -108,7 +117,9 @@ namespace AllowTool {
 		private void UnforbidAdjacentThingsTo(IntVec3 center, Map map) {
 			foreach (var offset in GenAdj.AdjacentCellsAndInside) {
 				var pos = center + offset;
-				AllowToolUtility.ToggleForbiddenInCell(pos, map, false);
+				if (pos.InBounds(map)) {
+					AllowToolUtility.ToggleForbiddenInCell(pos, map, false);
+				}
 			}
 		}
 	}

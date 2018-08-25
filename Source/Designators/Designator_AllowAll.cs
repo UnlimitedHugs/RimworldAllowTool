@@ -10,7 +10,7 @@ namespace AllowTool {
 	/// Holding Shift will include rotten remains.
 	/// </summary>
 	public class Designator_AllowAll : Designator_SelectableThings {
-		public Designator_AllowAll(ThingDesignatorDef def) : base(def) {
+		public Designator_AllowAll(ThingDesignatorDef def): base(def) {
 		} 
 
 		public override void Selected() {
@@ -30,13 +30,13 @@ namespace AllowTool {
 		private void AllowAllTheThings() {
 			var includeRotten = HugsLibUtility.ShiftIsHeld;
 			var includeNonHaulable = HugsLibUtility.ControlIsHeld;
-			var map = Find.VisibleMap;
+			var map = Find.CurrentMap;
 			if(map == null) return;
-			var things = Find.VisibleMap.listerThings.AllThings;
+			var things = Find.CurrentMap.listerThings.AllThings;
 			var tallyCount = 0;
 			for (var i = 0; i < things.Count; i++) {
 				var thing = things[i];
-				var comp = thing is ThingWithComps ? (thing as ThingWithComps).GetComp<CompForbiddable>() : null;
+				var comp = (thing as ThingWithComps)?.GetComp<CompForbiddable>();
 				var thingCellFogged = map.fogGrid.IsFogged(thing.Position);
 				if (comp != null && !thingCellFogged && comp.Forbidden && (includeNonHaulable || (thing.def != null && thing.def.EverHaulable))) {
 					CompRottable rottable;

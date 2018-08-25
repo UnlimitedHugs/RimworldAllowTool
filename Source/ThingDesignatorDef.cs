@@ -11,6 +11,7 @@ namespace AllowTool {
 		public Type designatorClass;
 		public string category;
 		public Type insertAfter = null;
+		public Type replaces = null;
 		public string iconTex;
 		public string dragHighlightTex;
 		public SoundDef soundSucceeded = null;
@@ -55,7 +56,7 @@ namespace AllowTool {
 		}
 
 		private void Assert(bool check, string errorMessage) {
-			if (!check) Log.Error(string.Format("[AllowTool] Invalid data in ThingDesignatorDef {0}: {1}", defName, errorMessage));
+			if (!check) Log.Error($"[AllowTool] Invalid data in ThingDesignatorDef {defName}: {errorMessage}");
 		}
 	}
 }

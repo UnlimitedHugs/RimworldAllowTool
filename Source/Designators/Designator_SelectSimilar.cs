@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using HugsLib.Utils;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -48,7 +47,7 @@ namespace AllowTool {
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
-			var map = Find.VisibleMap;
+			var map = Find.CurrentMap;
 			var cellThings = map.thingGrid.ThingsListAtFast(cell);
 			numThingsDesignated = 0;
 			for (var i = 0; i < cellThings.Count; i++) {
@@ -79,7 +78,7 @@ namespace AllowTool {
 			} else {
 				label = "SelectSimilar_cursor_needConstraint".Translate();
 			}
-			DrawMouseAttachedLabel(label);
+			AllowToolUtility.DrawMouseAttachedLabel(label);
 		}
 
 		public bool SelectionLimitAllowsAdditionalThing() {
@@ -97,7 +96,7 @@ namespace AllowTool {
 				// get defs of selected objects, count duplicates
 				foreach (var selectedObject in selector.SelectedObjects) {
 					var thing = selectedObject as Thing;
-					if (thing == null || thing.def == null || !thing.def.selectable) continue;
+					if (thing?.def == null || !thing.def.selectable) continue;
 					int constraintHash = GetConstraintHashForThing(thing);
 					SelectionDefConstraint constraint;
 					selectionConstraints.TryGetValue(constraintHash, out constraint);
@@ -114,7 +113,7 @@ namespace AllowTool {
 					if (i < MaxNumListedConstraints - 1 || isLastEntry) {
 						if (constraint.thingDef.label == null) continue;
 						builder.Append(constraint.thingDef.label.CapitalizeFirst());
-						if (constraint.stuffDef != null && constraint.stuffDef.label != null) {
+						if (constraint.stuffDef?.label != null) {
 							builder.AppendFormat(" ({0})", constraint.stuffDef.label.CapitalizeFirst());
 						}
 						if (!isLastEntry) builder.Append(ConstraintListSeparator);
@@ -148,7 +147,7 @@ namespace AllowTool {
 				ReindexSelectionConstraints();
 			}
 			if (cell.IsValid) {
-				var things = Find.VisibleMap.thingGrid.ThingsAt(cell);
+				var things = Find.CurrentMap.thingGrid.ThingsAt(cell);
 				foreach (var thing in things) {
 					if (TrySelectThing(thing)) {
 						break;
@@ -167,18 +166,6 @@ namespace AllowTool {
 			if (Find.Selector.NumSelected == 0) return;
 			if (Find.MainTabsRoot.OpenTab != MainButtonDefOf.Architect) return;
 			Find.MainTabsRoot.EscapeCurrentTab();
-		}
-
-		private void DrawMouseAttachedLabel(string text) {
-			const float CursorOffset = 12f;
-			const float AttachedIconHeight = 32f;
-			const float LabelWidth = 200f;
-			var mousePosition = Event.current.mousePosition;
-			if (!text.NullOrEmpty()) {
-				var rect = new Rect(mousePosition.x + CursorOffset, mousePosition.y + CursorOffset + AttachedIconHeight, LabelWidth, 9999f);
-				Text.Font = GameFont.Small;
-				Widgets.Label(rect, text);
-			}
 		}
 
 		private bool ThingMatchesSelectionConstraints(Thing thing) {
