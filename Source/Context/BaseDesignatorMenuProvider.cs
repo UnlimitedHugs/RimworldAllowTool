@@ -5,6 +5,7 @@ using HugsLib.Settings;
 using RimWorld;
 using UnityEngine;
 using Verse;
+// ReSharper disable VirtualMemberNeverOverridden.Global
 
 namespace AllowTool.Context {
 	/// <summary>
@@ -101,11 +102,11 @@ namespace AllowTool.Context {
 			}
 			return new ATFloatMenuOption(labelKey.Translate(), () => {
 				InvokeActionWithErrorHandling(action, designator);
-			}, MenuOptionPriority.Default, null, null, extraPartWidth, extraIconOnGUI, null, descriptionKey != null ? descriptionKey.Translate() : null);
+			}, MenuOptionPriority.Default, null, null, extraPartWidth, extraIconOnGUI, null, descriptionKey?.Translate());
 		}
 
 		protected virtual bool ValidForDesignation(Thing thing) {
-			return thing != null && thing.def != null && thing.Map != null && !thing.Map.fogGrid.IsFogged(thing.Position);
+			return thing?.def != null && thing.Map != null && !thing.Map.fogGrid.IsFogged(thing.Position);
 		}
 
 		protected void InvokeActionWithErrorHandling(MenuActionMethod action, Designator designator) {

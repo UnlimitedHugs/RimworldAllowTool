@@ -36,7 +36,7 @@ namespace AllowTool {
 			var tallyCount = 0;
 			for (var i = 0; i < things.Count; i++) {
 				var thing = things[i];
-				var comp = thing is ThingWithComps ? (thing as ThingWithComps).GetComp<CompForbiddable>() : null;
+				var comp = (thing as ThingWithComps)?.GetComp<CompForbiddable>();
 				var thingCellFogged = map.fogGrid.IsFogged(thing.Position);
 				if (comp != null && !thingCellFogged && comp.Forbidden && (includeNonHaulable || (thing.def != null && thing.def.EverHaulable))) {
 					CompRottable rottable;

@@ -1,5 +1,4 @@
-﻿using System;
-using HugsLib.Utils;
+﻿using HugsLib.Utils;
 using RimWorld;
 using Verse;
 
@@ -9,12 +8,12 @@ namespace AllowTool {
 
 		public static bool IsValidDesignationTarget(Thing t) {
 			var p = t as Pawn;
-			return p != null && p.def != null && !p.Dead && p.Downed;
+			return p?.def != null && !p.Dead && p.Downed;
 		}
 
 		public static AcceptanceReport PawnMeetsSkillRequirement(Pawn pawn, Pawn targetPawn) {
-			var skillPass = pawn != null && pawn.skills != null && (!AllowToolController.Instance.FinishOffSkillRequirement || pawn.skills.GetSkill(SkillDefOf.Melee).Level >= MeleeSkillLevelRequired);
-			var animalTarget = targetPawn != null && targetPawn.RaceProps != null && targetPawn.RaceProps.Animal;
+			var skillPass = pawn?.skills != null && (!AllowToolController.Instance.FinishOffSkillRequirement || pawn.skills.GetSkill(SkillDefOf.Melee).Level >= MeleeSkillLevelRequired);
+			var animalTarget = targetPawn?.RaceProps != null && targetPawn.RaceProps.Animal;
 			return skillPass || animalTarget ? true : new AcceptanceReport("Finish_off_pawnSkillRequired".Translate(MeleeSkillLevelRequired));
 		}
 
@@ -30,7 +29,7 @@ namespace AllowTool {
 		public override string Desc {
 			get {
 				if (AllowToolController.Instance.FinishOffSkillRequirement) {
-					return String.Format("{0}\n\n{1}", base.Desc, "Finish_off_skillRequired".Translate(MeleeSkillLevelRequired));
+					return $"{base.Desc}\n\n{"Finish_off_skillRequired".Translate(MeleeSkillLevelRequired)}";
 				}
 				return base.Desc;
 			}

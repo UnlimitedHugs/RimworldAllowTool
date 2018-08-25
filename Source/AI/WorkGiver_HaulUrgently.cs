@@ -21,11 +21,8 @@ namespace AllowTool {
 				if (des.def != AllowToolDefOf.HaulUrgentlyDesignation) continue;
 				var thing = des.target.Thing;
 				// make sure the designated thing is a valid candidate for hauling
-				if (thing != null && thing.def != null &&
-				    (thing.def.alwaysHaulable || thing.def.EverHaulable) &&
-				    !thing.IsInValidBestStorage() &&
-				    HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, thing, false)) {
-					
+				if (thing?.def != null && (thing.def.alwaysHaulable || thing.def.EverHaulable) 
+					&& !thing.IsInValidBestStorage() && HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, thing, false)) {
 					yield return thing;
 				}
 			}

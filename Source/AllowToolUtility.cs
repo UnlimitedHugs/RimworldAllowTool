@@ -44,9 +44,9 @@ namespace AllowTool {
 		public static bool EnsureAllColonistsKnowAllWorkTypes(Map map) {
 			try {
 				var injectedPawns = new HashSet<Pawn>();
-				if (map == null || map.mapPawns == null) return false;
+				if (map?.mapPawns == null) return false;
 				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer)) {
-					if (pawn == null || pawn.workSettings == null) continue;
+					if (pawn?.workSettings == null) continue;
 					var priorityList = GetWorkPriorityListForPawn(pawn);
 					if (priorityList != null && priorityList.Count > 0) {
 						var cyclesLeft = 100;
@@ -59,7 +59,7 @@ namespace AllowTool {
 							injectedPawns.Add(pawn);
 						}
 						if (cyclesLeft == 0) {
-							throw new Exception(String.Format("Ran out of cycles while trying to pad work priorities list:  {0} {1}", pawn.Name, priorityList.Count));
+							throw new Exception($"Ran out of cycles while trying to pad work priorities list:  {pawn.Name} {priorityList.Count}");
 						}
 					}
 				}
@@ -77,7 +77,7 @@ namespace AllowTool {
 		public static void EnsureAllColonistsHaveWorkTypeEnabled(WorkTypeDef def, Map map) {
 			try {
 				var activatedPawns = new HashSet<Pawn>();
-				if (map == null || map.mapPawns == null) return;
+				if (map?.mapPawns == null) return;
 				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer).Concat(map.mapPawns.PrisonersOfColony)) {
 					var priorityList = GetWorkPriorityListForPawn(pawn);
 					if (priorityList != null && priorityList.Count > 0) {
@@ -101,7 +101,7 @@ namespace AllowTool {
 
 		public static bool PawnIsFriendly(Thing t) {
 			var pawn = t as Pawn;
-			return pawn != null && pawn.Faction != null && (pawn.IsPrisonerOfColony || !pawn.Faction.HostileTo(Faction.OfPlayer));
+			return pawn?.Faction != null && (pawn.IsPrisonerOfColony || !pawn.Faction.HostileTo(Faction.OfPlayer));
 		}
 
 		public static void DrawMouseAttachedLabel(string text) {
@@ -143,11 +143,11 @@ namespace AllowTool {
 			}, MenuOptionPriority.Default, null, null, checkmarkButtonSize + labelMargin, rect => {
 				Widgets.Checkbox(rect.x + labelMargin, rect.height / 2f - checkmarkButtonSize / 2f + rect.y, ref checkOn);
 				return false;
-			}, null, (descriptionKey != null ? descriptionKey.Translate() : null));
+			}, null, descriptionKey?.Translate());
 		}
 
 		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
-			if (pawn != null && pawn.workSettings != null) {
+			if (pawn?.workSettings != null) {
 				var workDefMap = Traverse.Create(pawn.workSettings).Field("priorities").GetValue<DefMap<WorkTypeDef, int>>();
 				if (workDefMap == null) throw new Exception("Failed to retrieve workDefMap for pawn: " + pawn);
 				var priorityList = Traverse.Create(workDefMap).Field("values").GetValue<List<int>>();

@@ -205,7 +205,7 @@ namespace AllowTool.Context {
 					var getOptionsMethod = designator.GetType().GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
 					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator) && getOptionsMethod.DeclaringType != typeof(Designator_SelectableThings);
 					var ATDesignator = designator as Designator_SelectableThings;
-					var hasReplacedOptions = ATDesignator != null && ATDesignator.ReplacedDesignator != null;
+					var hasReplacedOptions = ATDesignator?.ReplacedDesignator != null;
 					if (hasDesignation || hasDesignateAll || hasOptionsMethod || hasReplacedOptions) {
 						// detection is not fool-proof, but it's good enough- and better than calling RightClickFloatMenuOptions
 						designatorMenuProviders.Add(designator, providers.OfType<MenuProvider_Generic>().First());

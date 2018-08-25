@@ -221,7 +221,7 @@ namespace AllowTool {
 				des.ReplacedDesignator = replacedDesignator;
 				return des;
 			} catch (Exception e) {
-				Logger.ReportException(e, null, false, string.Format("instantiation of {0} with Def {1}", (designatorType != null ? designatorType.FullName : "(null)"), designatorDef));
+				Logger.ReportException(e, null, false, $"instantiation of {(designatorType != null ? designatorType.FullName : "(null)")} with Def {designatorDef}");
 			}
 			return null;
 		}
@@ -250,7 +250,7 @@ namespace AllowTool {
 								insertIndex--;
 							}
 						} else {
-							Logger.Warning(string.Format("{0} could not find {1} for replacement", designatorDef.defName, designatorDef.replaces));		
+							Logger.Warning($"{designatorDef.defName} could not find {designatorDef.replaces} for replacement");		
 						}
 					}
 					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef, replacedDesignator);
@@ -260,7 +260,7 @@ namespace AllowTool {
 					numDesignatorsInjected++;
 					
 				} else {
-					Logger.Error(string.Format("Failed to inject {0} after {1}", designatorDef.defName, designatorDef.insertAfter.Name));		
+					Logger.Error($"Failed to inject {designatorDef.defName} after {designatorDef.insertAfter.Name}");		
 				}
 				designatorDef.Injected = true;
 			}

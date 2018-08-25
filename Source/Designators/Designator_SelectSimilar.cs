@@ -96,7 +96,7 @@ namespace AllowTool {
 				// get defs of selected objects, count duplicates
 				foreach (var selectedObject in selector.SelectedObjects) {
 					var thing = selectedObject as Thing;
-					if (thing == null || thing.def == null || !thing.def.selectable) continue;
+					if (thing?.def == null || !thing.def.selectable) continue;
 					int constraintHash = GetConstraintHashForThing(thing);
 					SelectionDefConstraint constraint;
 					selectionConstraints.TryGetValue(constraintHash, out constraint);
@@ -113,7 +113,7 @@ namespace AllowTool {
 					if (i < MaxNumListedConstraints - 1 || isLastEntry) {
 						if (constraint.thingDef.label == null) continue;
 						builder.Append(constraint.thingDef.label.CapitalizeFirst());
-						if (constraint.stuffDef != null && constraint.stuffDef.label != null) {
+						if (constraint.stuffDef?.label != null) {
 							builder.AppendFormat(" ({0})", constraint.stuffDef.label.CapitalizeFirst());
 						}
 						if (!isLastEntry) builder.Append(ConstraintListSeparator);

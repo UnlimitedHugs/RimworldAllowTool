@@ -70,19 +70,19 @@ namespace AllowTool {
 		private static Pawn TryFindHuntingTarget(Pawn searcher, float minDistance, float maxDistance, Predicate<Pawn> extraPredicate) {
 			var minDistanceSquared = minDistance * minDistance;
 			var maxDistanceSquared = maxDistance * maxDistance;
-			Predicate<Pawn> validator = pawn => {
+
+			bool validator(Pawn pawn) {
 				if (pawn == null) return false;
 				var distanceSquared = (searcher.Position - pawn.Position).LengthHorizontalSquared;
-				if (distanceSquared < minDistanceSquared || distanceSquared > maxDistanceSquared){
+				if (distanceSquared < minDistanceSquared || distanceSquared > maxDistanceSquared) {
 					return false;
 				}
 				if (pawn.Position.Fogged(searcher.Map) || !searcher.CanSee(pawn)) {
 					return false;
 				}
-				return pawn.RaceProps != null && pawn.RaceProps.Animal && pawn.Faction == null && 
-					(!AllowToolController.Instance.PartyHuntDesignatedSetting || pawn.HasDesignation(DesignationDefOf.Hunt)) && 
-					(extraPredicate == null || extraPredicate(pawn));
-			};
+				return pawn.RaceProps != null && pawn.RaceProps.Animal && pawn.Faction == null && (!AllowToolController.Instance.PartyHuntDesignatedSetting || pawn.HasDesignation(DesignationDefOf.Hunt)) && (extraPredicate == null || extraPredicate(pawn));
+			}
+
 			huntingTargetCandidates.Clear();
 			var mapPawns = searcher.Map.mapPawns.AllPawnsSpawned;
 			for (var i = 0; i < mapPawns.Count; i++) {

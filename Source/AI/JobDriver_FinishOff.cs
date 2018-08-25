@@ -97,7 +97,7 @@ namespace AllowTool {
 		}
 
 		private Thing TryMakeSkullMote(Pawn victim, float chance) {
-			if (victim != null && victim.RaceProps != null && victim.RaceProps.intelligence == Intelligence.Humanlike) {
+			if (victim?.RaceProps != null && victim.RaceProps.intelligence == Intelligence.Humanlike) {
 				if (Rand.Chance(chance)) {
 					var def = ThingDefOf.Mote_ThoughtGood;
 					var moteBubble = (MoteBubble)ThingMaker.MakeThing(def);
