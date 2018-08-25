@@ -143,7 +143,7 @@ namespace AllowTool {
 			}, MenuOptionPriority.Default, null, null, checkmarkButtonSize + labelMargin, rect => {
 				Widgets.Checkbox(rect.x + labelMargin, rect.height / 2f - checkmarkButtonSize / 2f + rect.y, ref checkOn);
 				return false;
-			}, null, descriptionKey.Translate());
+			}, null, (descriptionKey != null ? descriptionKey.Translate() : null));
 		}
 
 		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
