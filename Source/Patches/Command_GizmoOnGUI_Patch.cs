@@ -52,7 +52,6 @@ namespace AllowTool.Patches {
 		public static void InterceptInteraction(ref GizmoResult __result, Command __instance) {
 			if (__result.State == GizmoState.Interacted || __result.State == GizmoState.OpenedFloatMenu) {
 				var designator = DesignatorContextMenuController.TryResolveCommandToDesignator(__instance);
-				Tracer.Trace(designator, __result, __instance);
 				if (designator != null && DesignatorContextMenuController.TryProcessDesignatorInput(designator)) {
 					// return a blank interact event if we intercepted the input
 					__result = new GizmoResult(GizmoState.Clear, __result.InteractEvent);
