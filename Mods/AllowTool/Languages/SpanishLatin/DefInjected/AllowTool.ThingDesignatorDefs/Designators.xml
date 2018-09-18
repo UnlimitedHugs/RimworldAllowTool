@@ -2,21 +2,27 @@
 <LanguageData>
 	
 	<AllowDesignator.label>Permitir selección</AllowDesignator.label>
-	<AllowDesignator.description>Permite todos los objetos en el área seleccionada.
-Clicar y arrastrar sobre el área para usar.</AllowDesignator.description>
+	<AllowDesignator.description>Permite todos los artículos en el area seleccionada. Clic y arrastrar un area para su uso.</AllowDesignator.description>
 
 	<ForbidDesignator.label>Prohibir selección</ForbidDesignator.label>
-	<ForbidDesignator.description>Prohíbe todos los objetos en el área seleccionada.
-Clicar y arrastrar sobre el área para usar.</ForbidDesignator.description>
+	<ForbidDesignator.description>Prohibe todos los artículos en el area seleccionada. Clic y arrastrar un area para su uso.</ForbidDesignator.description>
 	
 	<AllowAllDesignator.label>Permitir todo</AllowAllDesignator.label>
-	<AllowAllDesignator.description>Permite todos los objetos en el mapa.
-Clic para activar.
-Mantener Shift para incluir esqueletos y cadáveres podridos.</AllowAllDesignator.description>
+	<AllowAllDesignator.description>Permite todos los artículos en el mapa.
+Mantener Ctrl para incuir construcciones.
+Mantener Shift para incluir esqueletos y cadaveres podridos.</AllowAllDesignator.description>
 	
-	<MassSelectDesignator.label>Selección en masa</MassSelectDesignator.label>
-	<MassSelectDesignator.description>Selecciona todo en un área, ignorando los limites de detección o selección comunes. Seleccionar demasiadas cosas a la vez puede ralentizar el juego- usar con cuidado.
-Mantener Shift par añadir a la selección actual.
-Mantener Control/Option para invertir la selección.</MassSelectDesignator.description>
+	<SelectSimilarDesignator.label>Seleccionar similar</SelectSimilarDesignator.label>
+	<SelectSimilarDesignator.description>Seleccionar unicamente cosas similares a las seleccionadas.
+Mantener Shift para seleccionar cosas adicionales.
+Mantener Alt para ignorar los limites de selección</SelectSimilarDesignator.description>
+
+	<HaulUrgentlyDesignator.label>Transportar urgentemente</HaulUrgentlyDesignator.label>
+	<HaulUrgentlyDesignator.description>Designa cosas para ser transportadas con urgencia. Los colonos podrian posponer otros trabajos hasta terminar este.
+Mantener Shift para interrumpir el trabajo colono actual</HaulUrgentlyDesignator.description>
+
+	<FinishOffDesignator.label>Sacrificar</FinishOffDesignator.label>
+	<FinishOffDesignator.description>Asesina rápida e indolorosamente a las criaturas derribadas.
+Mantener Shift para incluir colonos y aliados</FinishOffDesignator.description>
 	
 </LanguageData>
