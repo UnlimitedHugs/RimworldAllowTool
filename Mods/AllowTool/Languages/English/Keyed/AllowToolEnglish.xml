@@ -94,6 +94,7 @@
 	<Designator_context_haul_succ>Designated {0} new things to haul.</Designator_context_haul_succ>
 	<Designator_context_haul_fail>Found no new things to haul.</Designator_context_haul_fail>
 	<Designator_context_chop>Chop all wood</Designator_context_chop>
+	<Designator_context_chop_home>Chop all wood in home area</Designator_context_chop_home>
 	<Designator_context_chop_succ>Designated {0} new trees to chop.</Designator_context_chop_succ>
 	<Designator_context_chop_fail>No new harvestable trees found in the area.</Designator_context_chop_fail>
 	<Designator_context_hunt>Hunt all animals</Designator_context_hunt>

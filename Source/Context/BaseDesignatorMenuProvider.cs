@@ -54,14 +54,23 @@ namespace AllowTool.Context {
 		}
 
 		public virtual void ContextMenuAction(Designator designator, Map map) {
+			ContextMenuAction(designator, map, null);
+		}
+
+		public virtual void ContextMenuAction(Designator designator, Map map, Predicate<Thing> thingFilter) {
 			int hitCount = 0;
 			foreach (var thing in map.listerThings.ThingsInGroup(DesignatorRequestGroup)) {
-				if (ValidForDesignation(thing) && designator.CanDesignateThing(thing).Accepted) {
+				if (ValidForDesignation(thing) && (thingFilter == null || thingFilter(thing)) && designator.CanDesignateThing(thing).Accepted) {
 					designator.DesignateThing(thing);
 					hitCount++;
 				}
 			}
 			ReportActionResult(hitCount);
+		}
+
+		protected void ContextMenuActionInHomeArea(Designator des, Map map) {
+			var homeArea = map.areaManager.Home;
+			ContextMenuAction(des, map, thing => homeArea.GetCellBool(map.cellIndices.CellToIndex(thing.Position)));
 		}
 
 		// called if the common hotkey is pressed while the designator is selected

@@ -28,22 +28,8 @@ namespace AllowTool.Context {
 			yield return MakeMenuOption(designator, "Designator_context_harvestFullyGrown", (des, map) => 
 					Find.DesignatorManager.Select(new Designator_HarvestFullyGrown()),
 				"Designator_context_fullyGrown_desc", AllowToolDefOf.Textures.designatorSelectionOption);
-			yield return MakeMenuOption(designator, HarvestAllTextKey, (des, map) => HarvestAction(designator, map, false));
-			yield return MakeMenuOption(designator, HarvestHomeAreaTextKey, (des, map) => HarvestAction(designator, map, true));
-		}
-
-		public virtual void HarvestAction(Designator designator, Map map, bool homeAreaOnly) {
-			int hitCount = 0;
-			var homeArea = map.areaManager.Home;
-			foreach (var thing in map.listerThings.ThingsInGroup(DesignatorRequestGroup)) {
-				if(!ValidForDesignation(thing)) continue;
-				var cellIndex = map.cellIndices.CellToIndex(thing.Position);
-				if ((!homeAreaOnly || homeArea.GetCellBool(cellIndex)) && designator.CanDesignateThing(thing).Accepted) {
-					designator.DesignateThing(thing);
-					hitCount++;
-				}
-			}
-			ReportActionResult(hitCount);
+			yield return MakeMenuOption(designator, HarvestAllTextKey, ContextMenuAction);
+			yield return MakeMenuOption(designator, HarvestHomeAreaTextKey, ContextMenuActionInHomeArea);
 		}
 	}
 }
