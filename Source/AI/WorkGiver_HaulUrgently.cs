@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -6,10 +7,13 @@ using Verse.AI;
 namespace AllowTool {
 	// Generates hauling jobs for things designated for urgent hauling
 	public class WorkGiver_HaulUrgently : WorkGiver_Scanner {
+		public delegate Job TryGetJobOnThing(Pawn pawn, Thing t, bool forced);
+		
+		// give a vanilla haul job- it works just fine for our needs
+		public static TryGetJobOnThing JobOnThingDelegate = (pawn, t, forced) => HaulAIUtility.HaulToStorageJob(pawn, t);
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false) {
-			// give a vanilla haul job- it works just fine for our needs
-			return HaulAIUtility.HaulToStorageJob(pawn, t);
+			return JobOnThingDelegate(pawn, t, forced);
 		}
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) {

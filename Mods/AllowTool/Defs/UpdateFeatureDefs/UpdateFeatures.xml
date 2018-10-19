@@ -48,7 +48,7 @@
 	<HugsLib.UpdateFeatureDef ParentName="UpdateFeatureBase">
 		<defName>AllowTool_3_6_0</defName>
 		<assemblyVersion>3.6.0</assemblyVersion>
-		<content>Added &lt;b&gt;"Chop all wood"&lt;/b&gt; and &lt;b&gt;"Chop all wood in home area"&lt;/b&gt; to the "Chop" tool right-click menu.</content>
+		<content>&lt;b&gt;Chop tool actions&lt;/b&gt;|Added "Chop all wood" and "Chop all wood in home area" to the Chop tool's right-click menu.|&lt;b&gt;Pick Up And Haul compatibility&lt;/b&gt;|"Haul urgently" will now use the custom (and more effective) hauling logic if the Pick Up And Haul mod is installed.</content>
 	</HugsLib.UpdateFeatureDef>
 	
 </Defs>

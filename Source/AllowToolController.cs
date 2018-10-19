@@ -95,6 +95,7 @@ namespace AllowTool {
 		public override void Initialize() {
 			Dragger = new UnlimitedDesignationDragger();
 			PrepareReflection();
+			Compat_PickUpAndHaul.Apply();
 		}
 
 		public override void Update() {
