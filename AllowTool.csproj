@@ -57,6 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\AI\JobDriver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
+    <Compile Include="Source\Alert_NoUrgentStorage.cs" />
     <Compile Include="Source\AllowToolEarlyInit.cs" />
     <Compile Include="Source\Compat_PickUpAndHaul.cs" />
     <Compile Include="Source\Context\ATFloatMenuOption.cs" />

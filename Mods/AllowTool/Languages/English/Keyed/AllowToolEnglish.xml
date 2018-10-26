@@ -49,6 +49,9 @@
 	<setting_partyHuntFinish_label>Finish off downed animals</setting_partyHuntFinish_label>
 	<setting_partyHuntDesignated_label>Hunt-designated animals only</setting_partyHuntDesignated_label>
 	
+	<setting_storageSpaceAlert_label>Storage space alert</setting_storageSpaceAlert_label>
+	<setting_storageSpaceAlert_desc>You will be notified with an alert message when there are things marked to be hauled urgently, but no place to store them.</setting_storageSpaceAlert_desc>
+	
 	<SelectSimilar_cursor_needConstraint>Click to pick something</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Drag to select only: {0}</SelectSimilar_cursor_nowSelecting>
 	<SelectSimilar_cursor_limit>Selection limit reached</SelectSimilar_cursor_limit>
@@ -56,6 +59,9 @@
 	
 	<Haul_urgently_success>{0} items will be hauled urgently.</Haul_urgently_success>
 	<Haul_urgently_failure>Found no items that require hauling.</Haul_urgently_failure>
+	
+	<Alert_noStorage_label>No storage space</Alert_noStorage_label>
+	<Alert_noStorage_desc>Things marked for urgent hauling have no place to be stored:\n{0}\n\nCancel the designation or free some storage space.\nCan be disabled in Options > Mod Settings.</Alert_noStorage_desc>
 	
 	<Finish_off_skillRequired>Requires a colonist with a melee skill of {0} or higher to use.</Finish_off_skillRequired>
 	<Finish_off_pawnSkillRequired>melee skill {0} required</Finish_off_pawnSkillRequired>

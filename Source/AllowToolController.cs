@@ -84,6 +84,7 @@ namespace AllowTool {
 		internal SettingHandle<bool> PartyHuntSetting { get; private set; }
 		internal SettingHandle<bool> PartyHuntFinishSetting { get; private set; }
 		internal SettingHandle<bool> PartyHuntDesignatedSetting { get; private set; }
+		internal SettingHandle<bool> StorageSpaceAlertSetting { get; private set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 		public WorldSettings WorldSettings { get; private set; }
@@ -178,6 +179,8 @@ namespace AllowTool {
 			PartyHuntDesignatedSetting = Settings.GetHandle("partyHuntDesignated", "setting_partyHuntDesignated_label".Translate(), null, false);
 			PartyHuntFinishSetting.VisibilityPredicate = PartyHuntDesignatedSetting.VisibilityPredicate = () => false;
 
+			StorageSpaceAlertSetting = Settings.GetHandle("storageSpaceAlert", "setting_storageSpaceAlert_label".Translate(), "setting_storageSpaceAlert_desc".Translate(), true);
+			
 			SelectionLimitSetting = Settings.GetHandle("selectionLimit", "setting_selectionLimit_label".Translate(), "setting_selectionLimit_desc".Translate(), 200, Validators.IntRangeValidator(50, 100000));
 			SelectionLimitSetting.SpinnerIncrement = 50;
 			// designators

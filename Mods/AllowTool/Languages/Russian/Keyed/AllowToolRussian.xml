@@ -44,6 +44,9 @@
 	<setting_replaceIcons_label>Заменит иконки Разрешить/Запретить</setting_replaceIcons_label>
 	<setting_replaceIcons_desc>Заменяет иконки инструментов Разрешить и Запретить на более ясные. Требуется перезапуск.</setting_replaceIcons_desc>
 	
+	<setting_storageSpaceAlert_label>Оповещение места на складе</setting_storageSpaceAlert_label>
+	<setting_storageSpaceAlert_desc>Если есть предметы отмеченные для срочного переноса, но отсутствует свободное место на складе, будет появляться оповещение.</setting_storageSpaceAlert_desc>
+	
 	<setting_partyHunt_label>Инструмент "Командная охота"</setting_partyHunt_label>
 	<setting_partyHunt_desc>Если включено, показывает кнопку "Командная охота" для призванных поселенцев.</setting_partyHunt_desc>
 	<setting_partyHuntFinish_label>Добивать раненых животных</setting_partyHuntFinish_label>
@@ -56,6 +59,9 @@
 
 	<Haul_urgently_success>{0} предметов будут перенесены срочно.</Haul_urgently_success>
 	<Haul_urgently_failure>Не найдено предметов нуждающихся в переносе.</Haul_urgently_failure>
+	
+	<Alert_noStorage_label>Нет места на складе</Alert_noStorage_label>
+	<Alert_noStorage_desc>Предметы нуждаются в свободном месте не складе:\n{0}\n\nНужно отменить приказ срочного переноса или освободить под них место.</Alert_noStorage_desc>
 	
 	<Finish_off_skillRequired>Требуется поселенец с навыком ближнего боя {0} или выше чтобы использовать этот инструмент.</Finish_off_skillRequired>
 	<Finish_off_pawnSkillRequired>нужен навык ближнего боя {0}</Finish_off_pawnSkillRequired>
