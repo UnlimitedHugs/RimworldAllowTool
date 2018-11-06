@@ -32,7 +32,7 @@ namespace AllowTool {
 					if (job == null) {
 						opt.Disabled = true;
 						if (JobFailReason.HaveReason) {
-							opt.Label = "CannotGenericWork".Translate(giver.def.verb, target.LabelShort) + " (" + JobFailReason.Reason + ")";
+							opt.Label = "CannotGenericWork".Translate(giver.def.verb, target.LabelShort, target) + " (" + JobFailReason.Reason + ")";
 						}
 					}
 					return opt;
