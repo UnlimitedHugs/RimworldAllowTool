@@ -12,9 +12,17 @@ namespace AllowTool {
 		}
 
 		public static AcceptanceReport PawnMeetsSkillRequirement(Pawn pawn, Pawn targetPawn) {
-			var skillPass = pawn?.skills != null && (!AllowToolController.Instance.FinishOffSkillRequirement || pawn.skills.GetSkill(SkillDefOf.Melee).Level >= MeleeSkillLevelRequired);
-			var animalTarget = targetPawn?.RaceProps != null && targetPawn.RaceProps.Animal;
-			return skillPass || animalTarget ? true : new AcceptanceReport("Finish_off_pawnSkillRequired".Translate(MeleeSkillLevelRequired));
+			if (pawn == null) return AcceptanceReport.WasRejected;
+			if (!AllowToolUtility.PawnCapableOfViolence(pawn)) {
+				return new AcceptanceReport("IsIncapableOfViolenceShort".Translate());
+			}
+			var targetIsAnimal = targetPawn?.RaceProps != null && targetPawn.RaceProps.Animal;
+			var skillPass = pawn.skills != null && (!AllowToolController.Instance.FinishOffSkillRequirement 
+				|| pawn.skills.GetSkill(SkillDefOf.Melee).Level >= MeleeSkillLevelRequired);
+			if (!targetIsAnimal && !skillPass) {
+				return new AcceptanceReport("Finish_off_pawnSkillRequired".Translate(MeleeSkillLevelRequired));
+			}
+			return AcceptanceReport.WasAccepted;
 		}
 
 		public static AcceptanceReport FriendlyPawnIsValidTarget(Thing t) {
