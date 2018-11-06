@@ -22,7 +22,7 @@ namespace AllowTool.Context {
 			hotKey = KeyBindingDefOf.Misc9;
 			disabled = !AllowToolUtility.PawnCapableOfViolence(pawn);
 			if (disabled) {
-				disabledReason = "IsIncapableOfViolence".Translate(pawn.Name.ToStringShort);
+				disabledReason = "IsIncapableOfViolence".Translate(pawn.Name.ToStringShort, pawn);
 			}
 		}
 
