@@ -9,6 +9,8 @@ namespace AllowTool {
 	/// Assigns pawns the JobDriver_FinishOff job
 	/// </summary>
 	public class WorkGiver_FinishOff : WorkGiver_Scanner {
+		private static readonly Pawn[] emptyPawnsArray = new Pawn[0];
+
 		private static bool WorkGiverEnabled {
 			get {
 				return AllowToolController.Instance.IsDesignatorEnabledInSettings(AllowToolDefOf.FinishOffDesignator)
@@ -84,11 +86,15 @@ namespace AllowTool {
 			return null;
 		}
 
+		public override ThingRequest PotentialWorkThingRequest {
+			get { return ThingRequest.ForGroup(ThingRequestGroup.Pawn); }
+		}
+
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) {
 			if (WorkGiverEnabled) {
 				return GetPotentialTargets(pawn);
 			}
-			return null;
+			return emptyPawnsArray;
 		}
 
 		private IEnumerable<Thing> GetPotentialTargets(Pawn pawn) {
