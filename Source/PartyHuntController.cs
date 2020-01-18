@@ -21,7 +21,7 @@ namespace AllowTool {
 		private static readonly List<HuntingTargetCandidate> huntingTargetCandidates = new List<HuntingTargetCandidate>();
 
 		public static Gizmo TryGetGizmo(Pawn pawn) {
-			if (!pawn.Drafted || !AllowToolController.Instance.PartyHuntSetting) return null;
+			if (pawn.Name == null || !pawn.Drafted || !AllowToolController.Instance.PartyHuntSetting) return null;
 			return new Command_PartyHunt(pawn);
 		}
 
