@@ -38,20 +38,26 @@ namespace AllowTool.Context {
 		private void RemoveSelectedDesignation(Designator designator, Map map) {
 			// distinct designation defs on selected things
 			var selectedObjects = new HashSet<object>(Find.Selector.SelectedObjects);
+			// also include designations on cells of selected things
+			var selectedTilePositions = new HashSet<IntVec3>(
+				selectedObjects.Where(t => t is Thing)
+					.Select(t => ((Thing)t).Position)
+				);
 			var selectedDesignationDefs = map.designationManager.allDesignations
-				.Where(des => des.target.Thing != null && selectedObjects.Contains(des.target.Thing))
-				.GroupBy(des => des.def).Select(grp => grp.Key).ToArray();
-			var affectedThings = new HashSet<Thing>();
+				.Where(des => des.target.HasThing ? selectedObjects.Contains(des.target.Thing) : selectedTilePositions.Contains(des.target.Cell))
+				.Select(des => des.def)
+				.Distinct()
+				.ToArray();
+			var affectedDesignations = new HashSet<LocalTargetInfo>();
 			foreach (var designation in map.designationManager.allDesignations.ToArray()) {
 				if (selectedDesignationDefs.Contains(designation.def)) {
 					map.designationManager.RemoveDesignation(designation);
-					if (designation.target.Thing != null) {
-						affectedThings.Add(designation.target.Thing);
-					}
+					affectedDesignations.Add(designation.target);
 				}
 			}
-			if (affectedThings.Count > 0) {
-				Messages.Message((CancelSelectedDesignationTextKey + SuccessMessageStringIdSuffix).Translate(selectedDesignationDefs.Length, affectedThings.Count), MessageTypeDefOf.TaskCompletion);
+			if (affectedDesignations.Count > 0) {
+				Messages.Message((CancelSelectedDesignationTextKey + SuccessMessageStringIdSuffix).Translate(selectedDesignationDefs.Length, affectedDesignations.Count), 
+					MessageTypeDefOf.TaskCompletion);
 			} else {
 				Messages.Message((CancelSelectedDesignationTextKey + FailureMessageStringIdSuffix).Translate(), MessageTypeDefOf.RejectInput);
 			}
