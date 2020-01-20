@@ -38,6 +38,11 @@ namespace AllowTool.Context {
 			return result;
 		}
 
+		public override bool InheritFloatMenuInteractionsFrom(Gizmo other) {
+			// activate context menu items only for one selected pawn
+			return false;
+		}
+
 		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
 			get {
 				yield return AllowToolUtility.MakeSettingCheckmarkOption("setting_partyHuntFinish_label", null, AllowToolController.Instance.PartyHuntFinishSetting);
