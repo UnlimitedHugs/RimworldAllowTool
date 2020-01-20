@@ -68,14 +68,20 @@ namespace AllowTool.Context {
 			while (cellsToProcess.Count > 0 && cyclesLimit > 0) {
 				cyclesLimit--;
 				var baseCell = cellsToProcess.Dequeue();
-				for (int i = 0; i < adjacent.Length; i++) {
-					var cell = baseCell + adjacent[i];
-					if (!markedCells.Contains(cell) && expansionFilter(baseCell, cell, map)) {
-						map.designationManager.AddDesignation(new Designation(cell, designationDef));
-						markedCells.Add(cell);
-						hitCount++;
-						cellsToProcess.Enqueue(cell);
+				var adjacentCell = IntVec3.Invalid;
+				try {
+					for (int i = 0; i < adjacent.Length; i++) {
+						adjacentCell = baseCell + adjacent[i];
+						if (!markedCells.Contains(adjacentCell) && expansionFilter(baseCell, adjacentCell, map)) {
+							map.designationManager.AddDesignation(new Designation(adjacentCell, designationDef));
+							markedCells.Add(adjacentCell);
+							hitCount++;
+							cellsToProcess.Enqueue(adjacentCell);
+						}
 					}
+				} catch (Exception e) {
+					markedCells.Add(adjacentCell);
+					AllowToolController.Logger.Warning($"Exception while trying to designate cell {adjacentCell} via \"mine connected\": {e}");
 				}
 			}
 			if (cyclesLimit == 0) {
