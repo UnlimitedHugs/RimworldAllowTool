@@ -73,6 +73,7 @@
     <Compile Include="Source\Context\MenuProvider_FinishOff.cs" />
     <Compile Include="Source\Context\MenuProvider_Generic.cs" />
     <Compile Include="Source\Context\MenuProvider_Harvest.cs" />
+    <Compile Include="Source\Context\MenuProvider_HarvestFullyGrown.cs" />
     <Compile Include="Source\Context\MenuProvider_Haul.cs" />
     <Compile Include="Source\Context\MenuProvider_HaulUrgently.cs" />
     <Compile Include="Source\Context\MenuProvider_Hunt.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="Source\DesignationCleanupManager.cs" />
     <Compile Include="Source\Designators\Designator_Allow.cs" />
     <Compile Include="Source\Designators\Designator_AllowAll.cs" />
-    <Compile Include="Source\Designators\Designator_ChopFullyGrown.cs" />
     <Compile Include="Source\Designators\Designator_FinishOff.cs" />
     <Compile Include="Source\Designators\Designator_Forbid.cs" />
     <Compile Include="Source\Designators\Designator_HarvestFullyGrown.cs" />

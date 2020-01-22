@@ -20,5 +20,11 @@
 		<designatorClass>AllowTool.Designator_SelectSimilarReverse</designatorClass>
 		<designatorDef>SelectSimilarDesignator</designatorDef>
 	</AllowTool.ReverseDesignatorDef>
+	
+	<AllowTool.ReverseDesignatorDef>
+		<defName>ReverseHarvestFullyGrown</defName>
+		<designatorClass>AllowTool.Designator_HarvestFullyGrown</designatorClass>
+		<designatorDef>HarvestFullyGrownDesignator</designatorDef>
+	</AllowTool.ReverseDesignatorDef>
 
 </Defs>

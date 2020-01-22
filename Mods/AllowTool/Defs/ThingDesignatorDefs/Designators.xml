@@ -113,4 +113,21 @@ Configurable in the Work tab.
 		<messageFailure>Finish_off_failure</messageFailure>
 	</AllowTool.ThingDesignatorDef>
 	
+	<AllowTool.ThingDesignatorDef>
+        <defName>HarvestFullyGrownDesignator</defName>
+		<designatorClass>AllowTool.Designator_HarvestFullyGrown</designatorClass>
+		<category>Orders</category>
+		<insertAfter>AllowTool.Designator_FinishOff</insertAfter>
+        <label>Harvest fully grown</label>
+		<description>Orders the harvesting or chopping crops and trees that are sufficiently grown to yield their maximum amount of resources when gathered.
+&lt;b&gt;Hold Shift&lt;/b&gt; to include only plants.
+&lt;b&gt;Hold Ctrl/Option&lt;/b&gt; to include only trees.</description>
+		<iconTex>harvestGrown</iconTex>
+		<dragHighlightTex>harvestGrownHighlight</dragHighlightTex>
+		<soundSucceeded>ThingSelected</soundSucceeded>
+		<hotkeyDef>DesignatorHarvestFullyGrown</hotkeyDef>
+		<messageSuccess>Harvest_fully_grown_success</messageSuccess>
+		<messageFailure>Harvest_fully_grown_failure</messageFailure>
+	</AllowTool.ThingDesignatorDef>
+	
 </Defs>

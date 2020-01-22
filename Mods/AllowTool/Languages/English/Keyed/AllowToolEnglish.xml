@@ -60,6 +60,9 @@
 	<Haul_urgently_success>{0} items will be hauled urgently.</Haul_urgently_success>
 	<Haul_urgently_failure>Found no items that require hauling.</Haul_urgently_failure>
 	
+	<Harvest_fully_grown_success>{0} fully grown plants marked for harvesting.</Harvest_fully_grown_success>
+	<Harvest_fully_grown_failure>No new fully grown plants or trees found.</Harvest_fully_grown_failure>
+	
 	<Alert_noStorage_label>No storage space</Alert_noStorage_label>
 	<Alert_noStorage_desc>Things marked for urgent hauling have no place to be stored:\n{0}\n\nCancel the designation or free some storage space.\nCan be disabled in Options > Mod Settings.</Alert_noStorage_desc>
 	
@@ -70,9 +73,6 @@
 	<Finish_off_floatMenu>Finish off {0}</Finish_off_floatMenu>
 	<Finish_off_floatMenu_reason_friendly>friendly, hold Shift</Finish_off_floatMenu_reason_friendly>
 
-	<HarvestFullyGrown_cursorTip>Selecting only fully grown plants</HarvestFullyGrown_cursorTip>
-	<ChopFullyGrown_cursorTip>Selecting only fully grown trees</ChopFullyGrown_cursorTip>
-	
 	<RearmUrgently_cursorTip>Select traps to rearm urgently</RearmUrgently_cursorTip>
 	
 	<Designator_context_similar>Select similar things on map</Designator_context_similar>
@@ -124,9 +124,10 @@
 	<Designator_context_cut>Cut all blighted plants</Designator_context_cut>
 	<Designator_context_cut_succ>Designated {0} blighted plants to cut.</Designator_context_cut_succ>
 	<Designator_context_cut_fail>Found no new blighted plants to cut.</Designator_context_cut_fail>
-	<Designator_context_harvestFullyGrown>Harvest only fully grown</Designator_context_harvestFullyGrown>
-	<Designator_context_chopFullyGrown>Chop only fully grown</Designator_context_chopFullyGrown>
-	<Designator_context_fullyGrown_desc>Plants that are not fully grown will yield less resources.</Designator_context_fullyGrown_desc>
+	<Designator_context_harvest_fullgrown>Harvest fully grown plants on map</Designator_context_harvest_fullgrown>
+	<Designator_context_harvest_home_fullgrown>Harvest fully grown plants in home area </Designator_context_harvest_home_fullgrown>
+	<Designator_context_harvest_fullgrown_succ>{0} fully grown plants designated for harvesting.</Designator_context_harvest_fullgrown_succ>
+	<Designator_context_harvest_fullgrown_fail>Found no new fully grown plants to harvest.</Designator_context_harvest_fullgrown_fail>
 	
 	<PartyHuntToggle_label>Drafted hunt</PartyHuntToggle_label>
 	<PartyHuntToggle_desc>When enabled, drafted colonists will automatically fire on passive wild animals. Right-click to change settings.\nAdded by the Allow Tool mod.</PartyHuntToggle_desc>

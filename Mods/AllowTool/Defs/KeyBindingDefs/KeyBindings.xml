@@ -45,6 +45,12 @@
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
+		<defName>DesignatorHarvestFullyGrown</defName>
+		<label>Designator: Harvest fully grown</label>
+	</KeyBindingDef>
+	
+	<KeyBindingDef>
+		<category>AllowTool</category>
 		<defName>ToolContextMenuAction</defName>
 		<label>Current tool: context menu action</label>
 		<defaultKeyCodeA>Equals</defaultKeyCodeA>

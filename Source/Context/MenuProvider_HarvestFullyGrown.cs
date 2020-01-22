@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using RimWorld;
 using Verse;
 
 namespace AllowTool.Context {
-	public class MenuProvider_Harvest : BaseDesignatorMenuProvider {
-		private const string HarvestAllTextKey = "Designator_context_harvest";
-		private const string HarvestHomeAreaTextKey = "Designator_context_harvest_home";
-		
+	public class MenuProvider_HarvestFullyGrown : BaseDesignatorMenuProvider {
+		private const string HarvestAllTextKey = "Designator_context_harvest_fullgrown";
+		private const string HarvestHomeAreaTextKey = "Designator_context_harvest_home_fullgrown";
+
 		public override string EntryTextKey {
 			get { return HarvestAllTextKey; }
 		}
 
 		public override string SettingId {
-			get { return "providerHarvest"; }
+			get { return "providerHarvestFullyGrown"; }
 		}
 
 		public override Type HandledDesignatorType {
-			get { return typeof (Designator_PlantsHarvest); }
+			get { return typeof (Designator_HarvestFullyGrown); }
 		}
 
 		protected override ThingRequestGroup DesignatorRequestGroup {
