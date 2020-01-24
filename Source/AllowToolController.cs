@@ -238,34 +238,37 @@ namespace AllowTool {
 				var insertIndex = -1;
 				for (var i = 0; i < resolvedDesignators.Count; i++) {
 					if(resolvedDesignators[i].GetType() != designatorDef.insertAfter) continue;
-					insertIndex = i;
+					insertIndex = i + 1;
 					break;
 				}
-				if (insertIndex >= 0) {
-					Designator replacedDesignator = null;
-					if (designatorDef.replaces != null) {
-						// remove the designator to replace, if specified
-						var replacedIndex = resolvedDesignators.FindIndex(des => designatorDef.replaces.IsInstanceOfType(des));
-						if (replacedIndex >= 0) {
-							replacedDesignator = resolvedDesignators[replacedIndex];
-							resolvedDesignators.RemoveAt(replacedIndex);
-							// adjust index to compensate for removed element
-							if (replacedIndex < insertIndex) {
-								insertIndex--;
-							}
-						} else {
-							Logger.Warning($"{designatorDef.defName} could not find {designatorDef.replaces} for replacement");		
-						}
-					}
-					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef, replacedDesignator);
-					resolvedDesignators.Insert(insertIndex + 1, designator);
-					designator.SetVisible(IsDesignatorEnabledInSettings(designatorDef));
-					activeDesignators.Add(new DesignatorEntry(designator, designatorDef.hotkeyDef));
-					numDesignatorsInjected++;
-					
-				} else {
-					Logger.Error($"Failed to inject {designatorDef.defName} after {designatorDef.insertAfter.Name}");		
+				
+				if(insertIndex < 1) {
+					Logger.Warning($"Could not find {designatorDef.insertAfter.Name} to inject {designatorDef.defName} after. " +
+									$"Appending to {designatorDef.Category.label} category instead.");
+					insertIndex = resolvedDesignators.Count;
 				}
+
+				Designator replacedDesignator = null;
+				if (designatorDef.replaces != null) {
+					// remove the designator to replace, if specified
+					var replacedIndex = resolvedDesignators.FindIndex(des => designatorDef.replaces.IsInstanceOfType(des));
+					if (replacedIndex >= 0) {
+						replacedDesignator = resolvedDesignators[replacedIndex];
+						resolvedDesignators.RemoveAt(replacedIndex);
+						// adjust index to compensate for removed element
+						if (replacedIndex < insertIndex) {
+							insertIndex--;
+						}
+					} else {
+						Logger.Warning($"{designatorDef.defName} could not find {designatorDef.replaces} for replacement");		
+					}
+				}
+				var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef, replacedDesignator);
+				resolvedDesignators.Insert(insertIndex, designator);
+				designator.SetVisible(IsDesignatorEnabledInSettings(designatorDef));
+				activeDesignators.Add(new DesignatorEntry(designator, designatorDef.hotkeyDef));
+				numDesignatorsInjected++;
+					
 				designatorDef.Injected = true;
 			}
 			if (numDesignatorsInjected > 0) {
