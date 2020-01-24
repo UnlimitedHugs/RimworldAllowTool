@@ -1,4 +1,5 @@
-﻿using AllowTool.Context;
+﻿using System;
+using AllowTool.Context;
 using RimWorld;
 using Verse;
 
@@ -13,11 +14,15 @@ namespace AllowTool {
 			designatorsList.Add(new Designator_PlantsHarvestWood());
 			// inject our custom designators
 			foreach (var def in DefDatabase<ReverseDesignatorDef>.AllDefs) {
-				if (AllowToolController.Instance.IsReverseDesignatorEnabledInSettings(def)) {
-					var des = AllowToolController.Instance.InstantiateDesignator(def.designatorClass, def.designatorDef);
-					if (Current.Game.Rules.DesignatorAllowed(des)) {
-						designatorsList.Add(des);
+				try {
+					if (AllowToolController.Instance.IsReverseDesignatorEnabledInSettings(def)) {
+						var des = AllowToolController.Instance.InstantiateDesignator(def.designatorClass, def.designatorDef);
+						if (Current.Game.Rules.DesignatorAllowed(des)) {
+							designatorsList.Add(des);
+						}
 					}
+				} catch (Exception e) {
+					throw new Exception("Failed to create reverse designator", e);
 				}
 			}
 			DesignatorContextMenuController.PrepareReverseDesignatorContextMenus();

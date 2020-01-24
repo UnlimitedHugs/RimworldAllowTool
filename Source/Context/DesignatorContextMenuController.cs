@@ -41,14 +41,13 @@ namespace AllowTool.Context {
 			get { return _providers ?? (_providers = InstantiateProviders()); }
 		}
 
-		public static void PrepareDesignatorContextMenus() {
+		public static void RebindAllContextMenus() {
 			try {
 				designatorMenuProviders.Clear();
 				// bind handlers to designator instances
 				// we can't do a direct type lookup here, since we want to support modded designators. 
 				// i.e. Designator_Hunt -> Designator_ModdedHunt should also be supported.
-				var allDesignators = DefDatabase<DesignationCategoryDef>.AllDefs.ToArray()
-					.SelectMany(cat => cat.AllResolvedDesignators.ToArray());
+				var allDesignators = AllowToolUtility.GetAllResolvedDesignators();
 				foreach (var designator in allDesignators) {
 					// check if designator matches the type required by any of the handlers
 					TryBindDesignatorToHandler(designator, MenuProviderInstances);

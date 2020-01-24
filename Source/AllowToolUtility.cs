@@ -146,6 +146,12 @@ namespace AllowTool {
 			}, null, descriptionKey?.Translate());
 		}
 
+		public static IEnumerable<Designator> GetAllResolvedDesignators() {
+			// ToArray calls are needed to avoid collection changed race condition caused by unknown mod
+			return DefDatabase<DesignationCategoryDef>.AllDefs.ToArray()
+				.SelectMany(cat => cat.AllResolvedDesignators.ToArray());
+		}
+
 		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
 			if (pawn?.workSettings != null) {
 				var workDefMap = Traverse.Create(pawn.workSettings).Field("priorities").GetValue<DefMap<WorkTypeDef, int>>();
