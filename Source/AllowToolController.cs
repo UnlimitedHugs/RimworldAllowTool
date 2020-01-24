@@ -17,6 +17,7 @@ namespace AllowTool {
 	/// The hub of the mod. 
 	/// Injects the custom designators and handles hotkey presses.
 	/// </summary>
+	[EarlyInit]
 	public class AllowToolController : ModBase {
 		internal const string ModId = "AllowTool";
 		internal const string DesignatorHandleNamePrefix = "show";
@@ -69,10 +70,6 @@ namespace AllowTool {
 			get { return staticLogger ?? (staticLogger = new ModLogger(ModId)); }
 		}
 
-		protected override bool HarmonyAutoPatch {
-			get { return false; } // we patch our stuff early on. See AllowToolEarlyInit
-		}
-
 		internal SettingHandle<int> SelectionLimitSetting { get; private set; }
 		internal SettingHandle<bool> ContextOverlaySetting { get; private set; }
 		internal SettingHandle<bool> ContextWatermarkSetting { get; private set; }
@@ -93,7 +90,7 @@ namespace AllowTool {
 			Instance = this;
 		}
 
-		public override void Initialize() {
+		public override void EarlyInitalize() {
 			Dragger = new UnlimitedDesignationDragger();
 			PrepareReflection();
 			Compat_PickUpAndHaul.Apply();
