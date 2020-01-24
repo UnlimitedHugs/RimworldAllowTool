@@ -274,7 +274,7 @@ namespace AllowTool {
 		}
 
 		private void PrepareReflection() {
-			var gizmoGridType = GenTypes.GetTypeInAnyAssembly("RimWorld.InspectGizmoGrid");
+			var gizmoGridType = GenTypes.GetTypeInAnyAssemblyNew("InspectGizmoGrid", "RimWorld");
 			if (gizmoGridType != null) {
 				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
 			}
