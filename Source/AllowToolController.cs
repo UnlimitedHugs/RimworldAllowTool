@@ -83,7 +83,6 @@ namespace AllowTool {
 		internal SettingHandle<bool> PartyHuntFinishSetting { get; private set; }
 		internal SettingHandle<bool> PartyHuntDesignatedSetting { get; private set; }
 		internal SettingHandle<bool> StorageSpaceAlertSetting { get; private set; }
-		internal SettingHandle<bool> LegacyInjectionSetting { get; private set; }
 
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 		public WorldSettings WorldSettings { get; private set; }
@@ -123,11 +122,6 @@ namespace AllowTool {
 		}
 
 		public override void WorldLoaded() {
-			if (LegacyInjectionSetting) {
-				// we do our injections at world load because some mods overwrite ThingDesignatorDef.resolvedDesignators during init
-				InjectDesignators();
-				ScheduleDesignatorDependencyRefresh();
-			}
 			WorldSettings = UtilityWorldObjectManager.GetUtilityWorldObject<WorldSettings>();
 		}
 
@@ -159,8 +153,6 @@ namespace AllowTool {
 		}
 
 		private void PrepareSettingsHandles() {
-			bool DevModeOnVisibilityPredicate() => Prefs.DevMode;
-
 			settingGlobalHotkeys = Settings.GetHandle("globalHotkeys", "setting_globalHotkeys_label".Translate(), "setting_globalHotkeys_desc".Translate(), true);
 			ContextOverlaySetting = Settings.GetHandle("contextOverlay", "setting_contextOverlay_label".Translate(), "setting_contextOverlay_desc".Translate(), true);
 			ContextWatermarkSetting = Settings.GetHandle("contextWatermark", "setting_contextWatermark_label".Translate(), "setting_contextWatermark_desc".Translate(), true);
@@ -205,14 +197,7 @@ namespace AllowTool {
 				reverseDesignatorToggleHandles[handleName] = handle;
 			}
 			FinishOffSkillRequirement = Settings.GetHandle("finishOffSkill", "setting_finishOffSkill_label".Translate(), "setting_finishOffSkill_desc".Translate(), true);
-			FinishOffSkillRequirement.VisibilityPredicate = DevModeOnVisibilityPredicate;
-
-			// TODO: remove this thing
-			LegacyInjectionSetting = Settings.GetHandle("legacyInjectionMode", "Legacy tool injection", 
-				"If enabled, causes Allow Tool designators to be added at world load time, instead of during designator category refresh. " +
-				"This can temporarily fix compatibility issues with certain mods.\n" +
-				"This setting will be removed, when the new injection mode is considered stable.", false);
-			LegacyInjectionSetting.VisibilityPredicate = DevModeOnVisibilityPredicate;
+			FinishOffSkillRequirement.VisibilityPredicate = () => Prefs.DevMode;
 		}
 
 		private void MakeSettingsCategoryToggle(string labelId, Action buttonAction) {
@@ -235,17 +220,14 @@ namespace AllowTool {
 		}
 
 		internal void InjectDuringResolveDesignators(DesignationCategoryDef processedCategory) {
-			if (LegacyInjectionSetting) return;
 			InjectDesignators(processedCategory);
 			ScheduleDesignatorDependencyRefresh();
 		}
 
-		private void InjectDesignators(DesignationCategoryDef onlyInCategory = null) {
-			var numDesignatorsInjected = 0;
+		private void InjectDesignators(DesignationCategoryDef onlyInCategory) {
 			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
 				try {
-					var designatorIsForThisCategory = onlyInCategory == null || designatorDef.Category == onlyInCategory;
-					if (designatorDef.Injected || !designatorIsForThisCategory) continue;
+					if (designatorDef.Category != onlyInCategory) continue;
 					var resolvedDesignators = designatorDef.Category.AllResolvedDesignators;
 					var insertIndex = -1;
 					for (var i = 0; i < resolvedDesignators.Count; i++) {
@@ -278,16 +260,10 @@ namespace AllowTool {
 					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef, replacedDesignator);
 					resolvedDesignators.Insert(insertIndex, designator);
 					designator.SetVisible(IsDesignatorEnabledInSettings(designatorDef));
-					numDesignatorsInjected++;
-					
-					if(LegacyInjectionSetting) designatorDef.Injected = true;
 				} catch (Exception e) {
 					Logger.Error($"Failed to inject designator {designatorDef}: {e}");
 					throw;
 				}
-			}
-			if (numDesignatorsInjected > 0) {
-				if(Prefs.DevMode) Logger.Trace("Refreshed " + numDesignatorsInjected + " designators");
 			}
 		}
 

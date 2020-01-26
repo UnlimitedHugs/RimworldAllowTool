@@ -19,8 +19,6 @@ namespace AllowTool {
 		public string messageSuccess = null;
 		public string messageFailure = null;
 
-		public bool Injected { get; set; }
-
 		private Texture2D resolvedIconTex;
 		public Texture2D IconTex {
 			get { return resolvedIconTex; }
