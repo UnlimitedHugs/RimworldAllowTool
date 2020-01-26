@@ -275,10 +275,12 @@ namespace AllowTool {
 			HugsLibController.Instance.DoLater.DoNextUpdate(() => {
 				try {
 					dependencyRefreshScheduled = false;
-					var thingDesignators = AllowToolUtility.GetAllResolvedDesignators()
-						.OfType<Designator_SelectableThings>();
-					foreach (var designator in thingDesignators) {
+					var resolvedDesignators = AllowToolUtility.GetAllResolvedDesignators().ToArray();
+					foreach (var designator in resolvedDesignators.OfType<Designator_SelectableThings>()) {
 						activeDesignators.Add(new DesignatorEntry(designator, designator.def.hotkeyDef));
+					}
+					foreach (var iconResolver in resolvedDesignators.OfType<IDelayedIconResolver>()) {
+						iconResolver.ResolveIcon();
 					}
 					DesignatorContextMenuController.RebindAllContextMenus();
 				} catch (Exception e) {

@@ -8,7 +8,7 @@ namespace AllowTool {
 	/// Base class for custom designators that deal with selectable Things.
 	/// This mainly exists to allow the use of an alternative DesignationDragger.
 	/// </summary>
-	public abstract class Designator_SelectableThings : Designator {
+	public abstract class Designator_SelectableThings : Designator, IDelayedIconResolver {
 		internal readonly ThingDesignatorDef def;
 		protected int numThingsDesignated;
 		protected bool inheritIcon;
@@ -55,12 +55,15 @@ namespace AllowTool {
 			this.def = def;
 			defaultLabel = def.label;
 			defaultDesc = def.description;
-			icon = def.IconTex;
 			useMouseIcon = true;
 			soundDragSustain = SoundDefOf.Designate_DragStandard;
 			soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
 			soundSucceeded = def.soundSucceeded;
 			hotKey = def.hotkeyDef;
+		}
+
+		public void ResolveIcon() {
+			icon = def.IconTex;
 		}
 
 		public void SetVisible(bool value) {

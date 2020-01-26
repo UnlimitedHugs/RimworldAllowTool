@@ -19,29 +19,19 @@ namespace AllowTool {
 		public string messageSuccess = null;
 		public string messageFailure = null;
 
-		private Texture2D resolvedIconTex;
-		public Texture2D IconTex {
-			get { return resolvedIconTex; }
-		}
+		public Texture2D IconTex { get; private set; }
+		public Texture2D DragHighlightTex { get; private set; }
 
-		private Texture2D resolvedDragHighlightTex;
-		public Texture2D DragHighlightTex {
-			get { return resolvedDragHighlightTex; }
-		}
-
-		private DesignationCategoryDef resolvedCategory;
-		public DesignationCategoryDef Category {
-			get { return resolvedCategory; }
-		}
+		public DesignationCategoryDef Category { get; private set; }
 
 		public override void ResolveReferences() {
 			base.ResolveReferences();
-			resolvedCategory = DefDatabase<DesignationCategoryDef>.GetNamed(category);
-			// load textures in main thread
-			LongEventHandler.ExecuteWhenFinished(() => {
-				resolvedIconTex = ContentFinder<Texture2D>.Get(iconTex);
-				resolvedDragHighlightTex = ContentFinder<Texture2D>.Get(dragHighlightTex);
-			});
+			Category = DefDatabase<DesignationCategoryDef>.GetNamed(category);
+		}
+
+		public void ResolveTextures() {
+			IconTex = ContentFinder<Texture2D>.Get(iconTex);
+			DragHighlightTex = ContentFinder<Texture2D>.Get(dragHighlightTex);
 		}
 
 		public override void PostLoad() {
