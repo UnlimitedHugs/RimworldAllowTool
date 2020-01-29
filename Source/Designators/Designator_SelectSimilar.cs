@@ -25,7 +25,8 @@ namespace AllowTool {
 			get { return selectionConstraints.Count > 0; }
 		}
 
-		public Designator_SelectSimilar(ThingDesignatorDef def) : base(def) {
+		public Designator_SelectSimilar() {
+			UseDesignatorDef(AllowToolDefOf.SelectSimilarDesignator);
 		}
 
 		public override void Selected() {

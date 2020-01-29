@@ -7,8 +7,8 @@ namespace AllowTool.Patches {
 	[HarmonyPriority(Priority.HigherThanNormal)]
 	internal static class DesignationCategoryDef_ResolveDesignators_Patch {
 		[HarmonyPostfix]
-		public static void InjectAllowToolDesignators(DesignationCategoryDef __instance) {
-			AllowToolController.Instance.InjectDuringResolveDesignators(__instance);
+		public static void InjectAllowToolDesignators() {
+			AllowToolController.Instance.InjectDuringResolveDesignators();
 		}
 	}
 }

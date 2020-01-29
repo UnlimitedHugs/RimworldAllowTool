@@ -10,21 +10,9 @@ namespace AllowTool {
 	/// This mainly exists to allow the use of an alternative DesignationDragger.
 	/// </summary>
 	public abstract class Designator_SelectableThings : Designator {
-		internal readonly ThingDesignatorDef def;
+		public ThingDesignatorDef Def { get; private set; }
 		protected int numThingsDesignated;
-		protected bool inheritIcon;
 		private Texture2D dragHighlight;
-
-		private Designator _replacedDesignator;
-		public Designator ReplacedDesignator {
-			get { return _replacedDesignator; }
-			set {
-				_replacedDesignator = value;
-				if (inheritIcon) {
-					icon = _replacedDesignator.icon;
-				}
-			}
-		}
 
 		public override int DraggableDimensions {
 			get { return 2; }
@@ -34,40 +22,31 @@ namespace AllowTool {
 			get { return true; }
 		}
 
-		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
-			get {
-				foreach (var option in base.RightClickFloatMenuOptions) {
-					yield return option;
-				}
-				if (ReplacedDesignator != null) {
-					foreach (var option in ReplacedDesignator.RightClickFloatMenuOptions) {
-						yield return option;
-					}
-				}
-			}
-		}
-
 		private bool visible = true;
 		
 		public override bool Visible {
 			get { return visible; }
 		}
 
-		protected Designator_SelectableThings(ThingDesignatorDef def) {
-			this.def = def;
-			defaultLabel = def.label;
-			defaultDesc = def.description;
+		protected Designator_SelectableThings() {
 			useMouseIcon = true;
 			soundDragSustain = SoundDefOf.Designate_DragStandard;
 			soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
-			soundSucceeded = def.soundSucceeded;
-			hotKey = def.hotkeyDef;
-			def.GetIconTexture(tex => icon = tex);
-			def.GetDragHighlightexture(tex => dragHighlight = tex);
 		}
 
-		public void SetVisible(bool value) {
-			visible = value;
+		protected void UseDesignatorDef(ThingDesignatorDef def) {
+			Def = def;
+			defaultLabel = def.label;
+			defaultDesc = def.description;
+			soundSucceeded = def.soundSucceeded;
+			hotKey = def.hotkeyDef;
+			visible = AllowToolController.Instance.IsDesignatorEnabledInSettings(def);
+			def.GetDragHighlightexture(tex => dragHighlight = tex);
+			ResolveIcon();
+		}
+
+		protected virtual void ResolveIcon() {
+			Def.GetIconTexture(tex => icon = tex);
 		}
 
 		// this is called by the vanilla DesignationDragger. We are using UnlimitedDesignationDragger instead.
@@ -101,10 +80,10 @@ namespace AllowTool {
 				hitCount += numThingsDesignated;
 			}
 			if (hitCount > 0) {
-				if (def.messageSuccess != null) Messages.Message(def.messageSuccess.Translate(hitCount.ToString()), MessageTypeDefOf.SilentInput);
+				if (Def.messageSuccess != null) Messages.Message(Def.messageSuccess.Translate(hitCount.ToString()), MessageTypeDefOf.SilentInput);
 				FinalizeDesignationSucceeded();
 			} else {
-				if (def.messageFailure != null) Messages.Message(def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
+				if (Def.messageFailure != null) Messages.Message(Def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
 				FinalizeDesignationFailed();
 			}
 		}

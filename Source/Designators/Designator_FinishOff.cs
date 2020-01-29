@@ -43,7 +43,8 @@ namespace AllowTool {
 			}
 		}
 
-		public Designator_FinishOff(ThingDesignatorDef def) : base(def) {
+		public Designator_FinishOff() {
+			UseDesignatorDef(AllowToolDefOf.FinishOffDesignator);
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing t) {

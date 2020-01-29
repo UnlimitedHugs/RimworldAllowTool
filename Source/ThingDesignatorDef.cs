@@ -6,16 +6,13 @@ using Verse;
 
 namespace AllowTool {
 	/// <summary>
-	/// Base def for AllowTool designators. These are automatically instantiated and injected.
+	/// Base def for AllowTool designators.
 	/// </summary>
 	public class ThingDesignatorDef : Def {
 		private readonly DeferredTextureResolver iconResolver = new DeferredTextureResolver();
 		private readonly DeferredTextureResolver highlightResolver = new DeferredTextureResolver();
 		
 		public Type designatorClass;
-		public string category;
-		public Type insertAfter = null;
-		public Type replaces = null;
 		public string iconTex;
 		public string dragHighlightTex;
 		public SoundDef soundSucceeded = null;
@@ -23,17 +20,10 @@ namespace AllowTool {
 		public string messageSuccess = null;
 		public string messageFailure = null;
 
-		public DesignationCategoryDef Category { get; private set; }
-
-		public override void ResolveReferences() {
-			base.ResolveReferences();
-			Category = DefDatabase<DesignationCategoryDef>.GetNamed(category);
-		}
-
 		public void GetIconTexture(Action<Texture2D> onLoaded) {
 			iconResolver.ResolveTexture(iconTex, onLoaded);
 		}
-		
+
 		public void GetDragHighlightexture(Action<Texture2D> onLoaded) {
 			highlightResolver.ResolveTexture(dragHighlightTex, onLoaded);
 		}
@@ -41,8 +31,6 @@ namespace AllowTool {
 		public override void PostLoad() {
 			Assert(designatorClass != null, "designatorClass field must be set");
 			Assert(designatorClass != null && typeof (Designator_SelectableThings).IsAssignableFrom(designatorClass), "designatorClass must extend Designator_SelectableThings");
-			Assert(category != null, "category field must be set");
-			Assert(insertAfter != null, "insertAfter field must be set");
 			Assert(iconTex != null, "icon texture must be set");
 			Assert(dragHighlightTex != null, "drag highlight texture must be set");
 		}

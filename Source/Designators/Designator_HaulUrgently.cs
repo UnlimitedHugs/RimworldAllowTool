@@ -11,8 +11,8 @@ namespace AllowTool {
 			get { return AllowToolDefOf.HaulUrgentlyDesignation; }
 		}
 
-		public Designator_HaulUrgently(ThingDesignatorDef def)
-			: base(def) {
+		public Designator_HaulUrgently() {
+			UseDesignatorDef(AllowToolDefOf.HaulUrgentlyDesignator);
 		}
 
 		protected override void FinalizeDesignationSucceeded() {

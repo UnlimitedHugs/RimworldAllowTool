@@ -8,13 +8,11 @@ namespace AllowTool {
 	/// Instead of designating, picks up the actual SelectSimilar designator.
 	/// </summary>
 	public class Designator_SelectSimilarReverse : Designator_SelectSimilar {
-		public Designator_SelectSimilarReverse(ThingDesignatorDef def) : base(def) {
-		}
-
 		public Designator_SelectSimilar GetNonReverseVersion() {
 			var des = (Designator_SelectSimilar) AllowToolController.Instance.TryGetDesignator(AllowToolDefOf.SelectSimilarDesignator);
 			if (des == null) {
-				throw new Exception("Could not get Designator_SelectSimilar from AllowToolController");
+				throw new Exception("The Select Similar designator must exist somewhere in the Architect categories for this to work. " +
+									"It can be hidden in the Allow Tool mod options if desired.");
 			}
 			return des;
 		}

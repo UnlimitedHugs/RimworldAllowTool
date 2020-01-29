@@ -52,23 +52,11 @@ namespace AllowTool.Context {
 					// check if designator matches the type required by any of the handlers
 					TryBindDesignatorToHandler(designator, MenuProviderInstances);
 				}
+				PrepareReverseDesignatorContextMenus();
 			} catch (Exception e) {
 				AllowToolController.Logger.ReportException(e);
 			}
 		}
-
-		public static void PrepareReverseDesignatorContextMenus() {
-			try {
-				ClearReverseDesignatorPairs();
-				var allReverseDesignators = Find.ReverseDesignatorDatabase.AllDesignators;
-				foreach (var reverseDesignator in allReverseDesignators) {
-					TryBindDesignatorToHandler(reverseDesignator, MenuProviderInstances);
-				}
-			} catch (Exception e) {
-				AllowToolController.Logger.ReportException(e);
-			}
-		}
-
 
 		// draws the "rightclickable" icon over compatible designator buttons
 		public static void DrawCommandOverlayIfNeeded(Command command, Vector2 topLeft) {
@@ -155,6 +143,15 @@ namespace AllowTool.Context {
 			}
 		}
 
+		private static void PrepareReverseDesignatorContextMenus() {
+			ClearReverseDesignatorPairs();
+			if (!ReverseDesignatorProvider.ReverseDesignatorDatabaseInitialized) return;
+			var allReverseDesignators = Find.ReverseDesignatorDatabase.AllDesignators;
+			foreach (var reverseDesignator in allReverseDesignators) {
+				TryBindDesignatorToHandler(reverseDesignator, MenuProviderInstances);
+			}
+		}
+
 		private static bool TryPickDesignatorFromReverseDesignator(Designator designator) {
 			if (designator is Designator_SelectableThings || (designator!=null && reversePickingSupportedDesignators.Contains(designator.GetType()))) {
 				Find.DesignatorManager.Select(designator);
@@ -203,9 +200,7 @@ namespace AllowTool.Context {
 					var hasDesignateAll = (bool)AllowToolController.DesignatorHasDesignateAllFloatMenuOptionField.GetValue(designator);
 					var getOptionsMethod = designator.GetType().GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
 					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator) && getOptionsMethod.DeclaringType != typeof(Designator_SelectableThings);
-					var ATDesignator = designator as Designator_SelectableThings;
-					var hasReplacedOptions = ATDesignator?.ReplacedDesignator != null;
-					if (hasDesignation || hasDesignateAll || hasOptionsMethod || hasReplacedOptions) {
+					if (hasDesignation || hasDesignateAll || hasOptionsMethod) {
 						// detection is not fool-proof, but it's good enough- and better than calling RightClickFloatMenuOptions
 						designatorMenuProviders.Add(designator, providers.OfType<MenuProvider_Generic>().First());
 					}

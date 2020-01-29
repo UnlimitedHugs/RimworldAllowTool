@@ -1,5 +1,4 @@
 ﻿using System;
-using AllowTool.Context;
 using RimWorld;
 using Verse;
 
@@ -8,15 +7,19 @@ namespace AllowTool {
 	/// Injects custom reverse designators- the ones that show up when appropriate items are selected
 	/// </summary>
 	public static class ReverseDesignatorProvider {
+		public static bool ReverseDesignatorDatabaseInitialized {
+			get { return Current.Root?.uiRoot is UIRoot_Play uiPlay && uiPlay.mapUI?.reverseDesignatorDatabase != null; }
+		}
+
 		public static void InjectCustomReverseDesignators(ReverseDesignatorDatabase database) {
 			var designatorsList = database.AllDesignators;
-			// inject a chop designator to compensate for the normalized Designator_PlantsCut
+			// inject a chop designator to compensate for the removal of the chop functionality from Designator_PlantsCut
 			designatorsList.Add(new Designator_PlantsHarvestWood());
 			// inject our custom designators
 			foreach (var def in DefDatabase<ReverseDesignatorDef>.AllDefs) {
 				try {
 					if (AllowToolController.Instance.IsReverseDesignatorEnabledInSettings(def)) {
-						var des = AllowToolController.Instance.InstantiateDesignator(def.designatorClass, def.designatorDef);
+						var des = InstantiateThingDesignator(def);
 						if (Current.Game.Rules.DesignatorAllowed(des)) {
 							designatorsList.Add(des);
 						}
@@ -25,7 +28,17 @@ namespace AllowTool {
 					throw new Exception("Failed to create reverse designator", e);
 				}
 			}
-			DesignatorContextMenuController.PrepareReverseDesignatorContextMenus();
+			// ensure newly created designators have context menus
+			AllowToolController.Instance.ScheduleDesignatorDependencyRefresh();
+		}
+
+		private static Designator InstantiateThingDesignator(ReverseDesignatorDef reverseDef) {
+			var designatorType = reverseDef.designatorClass;
+			try {
+				return (Designator)Activator.CreateInstance(designatorType);
+			} catch (Exception e) {
+				throw new Exception($"Failed to instantiate designator {designatorType.FullName} (def {reverseDef.defName})", e);
+			}
 		}
 	}
 }

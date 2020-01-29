@@ -7,7 +7,8 @@ namespace AllowTool {
 	/// A Harvest designator that selects only fully grown plants
 	/// </summary>
 	public class Designator_HarvestFullyGrown : Designator_SelectableThings {
-		public Designator_HarvestFullyGrown(ThingDesignatorDef def) : base(def) {
+		public Designator_HarvestFullyGrown() {
+			UseDesignatorDef(AllowToolDefOf.HarvestFullyGrownDesignator);
 		}
 
 		protected override DesignationDef Designation {

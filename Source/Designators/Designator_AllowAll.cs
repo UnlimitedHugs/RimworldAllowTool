@@ -10,7 +10,8 @@ namespace AllowTool {
 	/// Holding Shift will include rotten remains.
 	/// </summary>
 	public class Designator_AllowAll : Designator_SelectableThings {
-		public Designator_AllowAll(ThingDesignatorDef def): base(def) {
+		public Designator_AllowAll() {
+			UseDesignatorDef(AllowToolDefOf.AllowAllDesignator);
 		} 
 
 		public override void Selected() {
@@ -47,10 +48,10 @@ namespace AllowTool {
 				}
 			}
 			if (tallyCount > 0) {
-				if (def.messageSuccess != null) Messages.Message(def.messageSuccess.Translate(tallyCount.ToString()), MessageTypeDefOf.SilentInput);
-				def.soundSucceeded.PlayOneShotOnCamera();
+				if (Def.messageSuccess != null) Messages.Message(Def.messageSuccess.Translate(tallyCount.ToString()), MessageTypeDefOf.SilentInput);
+				Def.soundSucceeded.PlayOneShotOnCamera();
 			} else {
-				if (def.messageFailure != null) Messages.Message(def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
+				if (Def.messageFailure != null) Messages.Message(Def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
 			}
 		}
 	}

@@ -18,7 +18,6 @@ namespace AllowTool {
 	/// </summary>
 	[EarlyInit]
 	public class AllowToolController : ModBase {
-		internal const string ModId = "AllowTool";
 		internal const string DesignatorHandleNamePrefix = "show";
 		internal const string ReverseDesignatorHandleNamePrefix = "showrev";
 
@@ -27,6 +26,7 @@ namespace AllowTool {
 		public static FieldInfo DesignatorHasDesignateAllFloatMenuOptionField;
 		public static MethodInfo DesignatorGetDesignationMethod;
 		public static MethodInfo DesignatorGetRightClickFloatMenuOptionsMethod;
+		public static MethodInfo DesignationCategoryDefResolveDesignatorsMethod;
 		public static AllowToolController Instance { get; private set; }
 
 		// called before implied def generation
@@ -58,7 +58,7 @@ namespace AllowTool {
 		private bool dependencyRefreshScheduled;
 		
 		public override string ModIdentifier {
-			get { return ModId; }
+			get { return "AllowTool"; }
 		}
 
 		// needed to access protected field from static getter below
@@ -135,9 +135,7 @@ namespace AllowTool {
 		}
 
 		public override void SettingsChanged() {
-			foreach (var entry in activeDesignators) {
-				entry.designator.SetVisible(IsDesignatorEnabledInSettings(entry.designator.def));
-			}
+			ResolveAllDesignationCategories();
 		}
 
 		public bool IsDesignatorEnabledInSettings(ThingDesignatorDef def) {
@@ -149,7 +147,7 @@ namespace AllowTool {
 		}
 
 		public Designator_SelectableThings TryGetDesignator(ThingDesignatorDef def) {
-			return activeDesignators.Select(e => e.designator).FirstOrDefault(d => d.def == def);
+			return activeDesignators.Select(e => e.designator).FirstOrDefault(d => d.Def == def);
 		}
 
 		private void PrepareSettingsHandles() {
@@ -209,65 +207,11 @@ namespace AllowTool {
 			};
 		}
 
-		public Designator_SelectableThings InstantiateDesignator(Type designatorType, ThingDesignatorDef designatorDef, Designator replacedDesignator = null) {
-			try {
-				var des = (Designator_SelectableThings) Activator.CreateInstance(designatorType, designatorDef);
-				des.ReplacedDesignator = replacedDesignator;
-				return des;
-			} catch (Exception e) {
-				throw new Exception($"Failed to instantiate designator {designatorType.FullName} (def {designatorDef.defName})", e);
-			}
-		}
-
-		internal void InjectDuringResolveDesignators(DesignationCategoryDef processedCategory) {
-			InjectDesignators(processedCategory);
+		internal void InjectDuringResolveDesignators() {
 			ScheduleDesignatorDependencyRefresh();
 		}
 
-		private void InjectDesignators(DesignationCategoryDef onlyInCategory) {
-			foreach (var designatorDef in DefDatabase<ThingDesignatorDef>.AllDefs) {
-				try {
-					if (designatorDef.Category != onlyInCategory) continue;
-					var resolvedDesignators = designatorDef.Category.AllResolvedDesignators;
-					var insertIndex = -1;
-					for (var i = 0; i < resolvedDesignators.Count; i++) {
-						if(resolvedDesignators[i].GetType() != designatorDef.insertAfter) continue;
-						insertIndex = i + 1;
-						break;
-					}
-				
-					if(insertIndex < 1) {
-						if(Prefs.DevMode) Logger.Warning($"Could not find {designatorDef.insertAfter.Name} to inject {designatorDef.defName} after. " +
-														$"Appending to {designatorDef.Category.label} category instead.");
-						insertIndex = resolvedDesignators.Count;
-					}
-
-					Designator replacedDesignator = null;
-					if (designatorDef.replaces != null) {
-						// remove the designator to replace, if specified
-						var replacedIndex = resolvedDesignators.FindIndex(des => designatorDef.replaces.IsInstanceOfType(des));
-						if (replacedIndex >= 0) {
-							replacedDesignator = resolvedDesignators[replacedIndex];
-							resolvedDesignators.RemoveAt(replacedIndex);
-							// adjust index to compensate for removed element
-							if (replacedIndex < insertIndex) {
-								insertIndex--;
-							}
-						} else {
-							if(Prefs.DevMode) Logger.Warning($"{designatorDef.defName} could not find {designatorDef.replaces} for replacement");		
-						}
-					}
-					var designator = InstantiateDesignator(designatorDef.designatorClass, designatorDef, replacedDesignator);
-					resolvedDesignators.Insert(insertIndex, designator);
-					designator.SetVisible(IsDesignatorEnabledInSettings(designatorDef));
-				} catch (Exception e) {
-					Logger.Error($"Failed to inject designator {designatorDef}: {e}");
-					throw;
-				}
-			}
-		}
-
-		private void ScheduleDesignatorDependencyRefresh() {
+		internal void ScheduleDesignatorDependencyRefresh() {
 			if (dependencyRefreshScheduled) return;
 			dependencyRefreshScheduled = true;
 			activeDesignators.Clear();
@@ -277,7 +221,7 @@ namespace AllowTool {
 					dependencyRefreshScheduled = false;
 					var resolvedDesignators = AllowToolUtility.GetAllResolvedDesignators().ToArray();
 					foreach (var designator in resolvedDesignators.OfType<Designator_SelectableThings>()) {
-						activeDesignators.Add(new DesignatorEntry(designator, designator.def.hotkeyDef));
+						activeDesignators.Add(new DesignatorEntry(designator, designator.Def.hotkeyDef));
 					}
 					DesignatorContextMenuController.RebindAllContextMenus();
 				} catch (Exception e) {
@@ -295,11 +239,13 @@ namespace AllowTool {
 			DesignatorHasDesignateAllFloatMenuOptionField = typeof(Designator).GetField("hasDesignateAllFloatMenuOption", HugsLibUtility.AllBindingFlags);
 			DesignatorGetRightClickFloatMenuOptionsMethod = typeof(Designator).GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
 			DraftControllerAutoUndrafterField = typeof(Pawn_DraftController).GetField("autoUndrafter", HugsLibUtility.AllBindingFlags);
+			DesignationCategoryDefResolveDesignatorsMethod = typeof(DesignationCategoryDef).GetMethod("ResolveDesignators", HugsLibUtility.AllBindingFlags);
 			if (GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)
 				|| DesignatorGetDesignationMethod == null || DesignatorGetDesignationMethod.ReturnType != typeof(DesignationDef)
 				|| DesignatorHasDesignateAllFloatMenuOptionField == null || DesignatorHasDesignateAllFloatMenuOptionField.FieldType != typeof(bool)
 				|| DesignatorGetRightClickFloatMenuOptionsMethod == null || DesignatorGetRightClickFloatMenuOptionsMethod.ReturnType != typeof(IEnumerable<FloatMenuOption>)
 				|| DraftControllerAutoUndrafterField == null || DraftControllerAutoUndrafterField.FieldType != typeof(AutoUndrafter)
+				|| DesignationCategoryDefResolveDesignatorsMethod == null
 				) {
 				Logger.Error("Failed to reflect required members");
 			}
@@ -329,9 +275,13 @@ namespace AllowTool {
 		}
 
 		private bool GetToolHandleSettingValue(Dictionary<string, SettingHandle<bool>> handleDict, string handleName) {
-			SettingHandle<bool> handle;
-			handleDict.TryGetValue(handleName, out handle);
-			return handle == null || handle.Value;
+			return handleDict.TryGetValue(handleName, out SettingHandle<bool> handle) && handle.Value;
+		}
+
+		private void ResolveAllDesignationCategories() {
+			foreach (var categoryDef in DefDatabase<DesignationCategoryDef>.AllDefs) {
+				DesignationCategoryDefResolveDesignatorsMethod.Invoke(categoryDef, new object[0]);
+			}
 		}
 	}
 }
