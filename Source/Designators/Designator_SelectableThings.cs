@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -8,10 +9,11 @@ namespace AllowTool {
 	/// Base class for custom designators that deal with selectable Things.
 	/// This mainly exists to allow the use of an alternative DesignationDragger.
 	/// </summary>
-	public abstract class Designator_SelectableThings : Designator, IDelayedIconResolver {
+	public abstract class Designator_SelectableThings : Designator {
 		internal readonly ThingDesignatorDef def;
 		protected int numThingsDesignated;
 		protected bool inheritIcon;
+		private Texture2D dragHighlight;
 
 		private Designator _replacedDesignator;
 		public Designator ReplacedDesignator {
@@ -60,10 +62,8 @@ namespace AllowTool {
 			soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
 			soundSucceeded = def.soundSucceeded;
 			hotKey = def.hotkeyDef;
-		}
-
-		public void ResolveIcon() {
-			icon = def.IconTex;
+			def.GetIconTexture(tex => icon = tex);
+			def.GetDragHighlightexture(tex => dragHighlight = tex);
 		}
 
 		public void SetVisible(bool value) {
@@ -77,7 +77,7 @@ namespace AllowTool {
 		}
 		
 		public override void Selected() {
-			AllowToolController.Instance.Dragger.BeginListening(CanDesignateThing, def.DragHighlightTex);
+			AllowToolController.Instance.Dragger.BeginListening(CanDesignateThing, dragHighlight);
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {

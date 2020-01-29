@@ -1,5 +1,6 @@
 ﻿// ReSharper disable UnassignedField.Global
 using System;
+using HugsLib;
 using UnityEngine;
 using Verse;
 
@@ -8,6 +9,9 @@ namespace AllowTool {
 	/// Base def for AllowTool designators. These are automatically instantiated and injected.
 	/// </summary>
 	public class ThingDesignatorDef : Def {
+		private readonly DeferredTextureResolver iconResolver = new DeferredTextureResolver();
+		private readonly DeferredTextureResolver highlightResolver = new DeferredTextureResolver();
+		
 		public Type designatorClass;
 		public string category;
 		public Type insertAfter = null;
@@ -19,9 +23,6 @@ namespace AllowTool {
 		public string messageSuccess = null;
 		public string messageFailure = null;
 
-		public Texture2D IconTex { get; private set; }
-		public Texture2D DragHighlightTex { get; private set; }
-
 		public DesignationCategoryDef Category { get; private set; }
 
 		public override void ResolveReferences() {
@@ -29,9 +30,12 @@ namespace AllowTool {
 			Category = DefDatabase<DesignationCategoryDef>.GetNamed(category);
 		}
 
-		public void ResolveTextures() {
-			IconTex = ContentFinder<Texture2D>.Get(iconTex);
-			DragHighlightTex = ContentFinder<Texture2D>.Get(dragHighlightTex);
+		public void GetIconTexture(Action<Texture2D> onLoaded) {
+			iconResolver.ResolveTexture(iconTex, onLoaded);
+		}
+		
+		public void GetDragHighlightexture(Action<Texture2D> onLoaded) {
+			highlightResolver.ResolveTexture(dragHighlightTex, onLoaded);
 		}
 
 		public override void PostLoad() {
@@ -45,6 +49,24 @@ namespace AllowTool {
 
 		private void Assert(bool check, string errorMessage) {
 			if (!check) Log.Error($"[AllowTool] Invalid data in ThingDesignatorDef {defName}: {errorMessage}");
+		}
+
+		// ensures that textures are loaded in the main thread, since designators are created in a work thread while the game is loading
+		private class DeferredTextureResolver {
+			private bool resolved;
+			private Texture2D texture;
+
+			public void ResolveTexture(string path, Action<Texture2D> onLoaded) {
+				if (resolved) {
+					onLoaded(texture);
+				} else {
+					HugsLibController.Instance.DoLater.DoNextUpdate(() => {
+						resolved = true;
+						texture = ContentFinder<Texture2D>.Get(path);
+						onLoaded(texture);
+					});
+				}
+			}
 		}
 	}
 }

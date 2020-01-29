@@ -48,13 +48,6 @@ namespace AllowTool {
 				foreach (var fieldInfo in typeof(Textures).GetFields(HugsLibUtility.AllBindingFlags)) {
 					fieldInfo.SetValue(null, ContentFinder<Texture2D>.Get(fieldInfo.Name));
 				}
-				LoadDesignatorTextures();
-			}
-
-			private static void LoadDesignatorTextures() {
-				foreach (var def in DefDatabase<ThingDesignatorDef>.AllDefs) {
-					def.ResolveTextures();
-				}
 			}
 		}
 	}
