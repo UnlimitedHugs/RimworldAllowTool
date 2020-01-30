@@ -33,7 +33,7 @@ namespace AllowTool {
 		}
 
 		private static Designator InstantiateThingDesignator(ReverseDesignatorDef reverseDef) {
-			var designatorType = reverseDef.designatorClass;
+			var designatorType = reverseDef.designatorClass ?? reverseDef.designatorDef.designatorClass;
 			try {
 				return (Designator)Activator.CreateInstance(designatorType);
 			} catch (Exception e) {

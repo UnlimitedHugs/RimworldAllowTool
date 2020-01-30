@@ -5,13 +5,13 @@
 		<defName>ReverseHaulUrgently</defName>
 		<!-- the ThingDesignatorDef that will be used for this reverse designator -->
 		<designatorDef>HaulUrgentlyDesignator</designatorDef>
-		<!-- the class that will be instantiated for this reverse designator. Can be the same as the regular designator -->
-		<designatorClass>AllowTool.Designator_HaulUrgently</designatorClass>
+		<!-- the class that will be instantiated for this reverse designator.
+		Defaults to the same as the ThingDesignatorDef when not specified.
+		<designatorClass>AllowTool.Designator_HaulUrgently</designatorClass> -->
 	</AllowTool.ReverseDesignatorDef>
 
 	<AllowTool.ReverseDesignatorDef>
 		<defName>ReverseFinishOff</defName>
-		<designatorClass>AllowTool.Designator_FinishOff</designatorClass>
 		<designatorDef>FinishOffDesignator</designatorDef>
 	</AllowTool.ReverseDesignatorDef>
 	
@@ -23,7 +23,6 @@
 	
 	<AllowTool.ReverseDesignatorDef>
 		<defName>ReverseHarvestFullyGrown</defName>
-		<designatorClass>AllowTool.Designator_HarvestFullyGrown</designatorClass>
 		<designatorDef>HarvestFullyGrownDesignator</designatorDef>
 	</AllowTool.ReverseDesignatorDef>
 
