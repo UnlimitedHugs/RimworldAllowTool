@@ -153,7 +153,8 @@ namespace AllowTool.Context {
 		}
 
 		private static bool TryPickDesignatorFromReverseDesignator(Designator designator) {
-			if (designator is Designator_SelectableThings || (designator!=null && reversePickingSupportedDesignators.Contains(designator.GetType()))) {
+			if (designator != null && reversePickingSupportedDesignators.Contains(designator.GetType()) ||
+				designator is IReversePickableDesignator pickable && pickable.ReversePickingAllowed) {
 				Find.DesignatorManager.Select(designator);
 				return true;
 			}

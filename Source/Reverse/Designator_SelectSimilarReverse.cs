@@ -8,6 +8,10 @@ namespace AllowTool {
 	/// Instead of designating, picks up the actual SelectSimilar designator.
 	/// </summary>
 	public class Designator_SelectSimilarReverse : Designator_SelectSimilar {
+		public override bool ReversePickingAllowed {
+			get { return false; }
+		}
+
 		public Designator_SelectSimilar GetNonReverseVersion() {
 			var des = (Designator_SelectSimilar) AllowToolController.Instance.TryGetDesignator(AllowToolDefOf.SelectSimilarDesignator);
 			if (des == null) {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AllowTool.Context;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -9,7 +10,7 @@ namespace AllowTool {
 	/// Base class for custom designators that deal with selectable Things.
 	/// This mainly exists to allow the use of an alternative DesignationDragger.
 	/// </summary>
-	public abstract class Designator_SelectableThings : Designator {
+	public abstract class Designator_SelectableThings : Designator, IReversePickableDesignator {
 		public ThingDesignatorDef Def { get; private set; }
 		protected int numThingsDesignated;
 		private Texture2D dragHighlight;
@@ -26,6 +27,10 @@ namespace AllowTool {
 		
 		public override bool Visible {
 			get { return visible; }
+		}
+
+		public virtual bool ReversePickingAllowed {
+			get { return true; }
 		}
 
 		protected Designator_SelectableThings() {

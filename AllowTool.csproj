@@ -66,6 +66,7 @@
     <Compile Include="Source\AllowToolDefOf.cs" />
     <Compile Include="Source\AllowToolUtility.cs" />
     <Compile Include="Source\Context\BaseDesignatorMenuProvider.cs" />
+    <Compile Include="Source\Context\IReversePickableDesignator.cs" />
     <Compile Include="Source\Context\MenuProvider_Cancel.cs" />
     <Compile Include="Source\Context\MenuProvider_Chop.cs" />
     <Compile Include="Source\Context\MenuProvider_Cut.cs" />
