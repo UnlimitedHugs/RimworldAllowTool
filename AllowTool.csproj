@@ -96,6 +96,8 @@
     <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
     <Compile Include="Source\Designators\Designator_Replacement.cs" />
+    <Compile Include="Source\Handlers\HotkeyHandler.cs" />
+    <Compile Include="Source\Handlers\IGlobalHotkeyProvider.cs" />
     <Compile Include="Source\Handlers\ReflectionHandler.cs" />
     <Compile Include="Source\PartyHuntController.cs" />
     <Compile Include="Source\Patches\DesignationCategoryDef_ResolveDesignators_Patch.cs" />

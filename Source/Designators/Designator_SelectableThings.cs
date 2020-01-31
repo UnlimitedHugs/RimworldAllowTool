@@ -10,7 +10,7 @@ namespace AllowTool {
 	/// Base class for custom designators that deal with selectable Things.
 	/// This mainly exists to allow the use of an alternative DesignationDragger.
 	/// </summary>
-	public abstract class Designator_SelectableThings : Designator, IReversePickableDesignator {
+	public abstract class Designator_SelectableThings : Designator, IReversePickableDesignator, IGlobalHotKeyProvider {
 		public ThingDesignatorDef Def { get; private set; }
 		protected int numThingsDesignated;
 		private Texture2D dragHighlight;
@@ -31,6 +31,10 @@ namespace AllowTool {
 
 		public virtual bool ReversePickingAllowed {
 			get { return true; }
+		}
+
+		public KeyBindingDef GlobalHotKey {
+			get { return Def.hotkeyDef; }
 		}
 
 		protected Designator_SelectableThings() {

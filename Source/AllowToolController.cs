@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AllowTool.Context;
 using AllowTool.Settings;
 using HugsLib;
 using HugsLib.Utils;
-using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -34,10 +31,6 @@ namespace AllowTool {
 				Log.Error("Error during early setting handle setup: "+e);
 			}
 		}
-
-		private readonly List<DesignatorEntry> activeDesignators = new List<DesignatorEntry>();
-
-		private bool dependencyRefreshScheduled;
 		
 		public override string ModIdentifier {
 			get { return "AllowTool"; }
@@ -55,6 +48,8 @@ namespace AllowTool {
 		public WorldSettings WorldSettings { get; private set; }
 		public ModSettingsHandler Handles { get; private set; }
 		public ReflectionHandler Reflection { get; private set; }
+		private HotKeyHandler hotKeys;
+		private bool dependencyRefreshScheduled;
 
 		private AllowToolController() {
 			Instance = this;
@@ -65,6 +60,7 @@ namespace AllowTool {
 			Handles = new ModSettingsHandler();
 			Reflection = new ReflectionHandler();
 			Reflection.PrepareReflection();
+			hotKeys = new HotKeyHandler();
 			Compat_PickUpAndHaul.Apply();
 		}
 
@@ -78,10 +74,7 @@ namespace AllowTool {
 		}
 
 		public override void OnGUI() {
-			if (Current.Game == null || Current.Game.CurrentMap == null) return;
-			if (Event.current.type == EventType.KeyDown) {
-				CheckForHotkeyPresses();
-			}
+			hotKeys.OnGUI();
 		}
 
 		public override void WorldLoaded() {
@@ -111,43 +104,16 @@ namespace AllowTool {
 		internal void ScheduleDesignatorDependencyRefresh() {
 			if (dependencyRefreshScheduled) return;
 			dependencyRefreshScheduled = true;
-			activeDesignators.Clear();
 			// push the job to the next frame to avoid repeating this for every category as the game loads
 			HugsLibController.Instance.DoLater.DoNextUpdate(() => {
 				try {
 					dependencyRefreshScheduled = false;
-					var resolvedDesignators = AllowToolUtility.EnumerateResolvedDirectDesignators().ToArray();
-					foreach (var designator in resolvedDesignators.OfType<Designator_SelectableThings>()) {
-						activeDesignators.Add(new DesignatorEntry(designator, designator.Def.hotkeyDef));
-					}
+					hotKeys.RebindAllDesignators();
 					DesignatorContextMenuController.RebindAllContextMenus();
 				} catch (Exception e) {
 					Logger.Error($"Error during designator dependency refresh: {e}");
 				}
 			});
-		}
-
-		private void CheckForHotkeyPresses() {
-			if (Event.current.keyCode == KeyCode.None) return;
-			if (AllowToolDefOf.ToolContextMenuAction.JustPressed) {
-				DesignatorContextMenuController.ProcessContextActionHotkeyPress();
-			}
-			if (!Handles.GlobalHotkeysSetting || Find.CurrentMap == null) return;
-			for (int i = 0; i < activeDesignators.Count; i++) {
-				var entry = activeDesignators[i];
-				if(entry.key == null || !entry.key.JustPressed || !entry.designator.Visible) continue;
-				Find.DesignatorManager.Select(entry.designator);
-				break;
-			}
-		}
-
-		private class DesignatorEntry {
-			public readonly Designator_SelectableThings designator;
-			public readonly KeyBindingDef key;
-			public DesignatorEntry(Designator_SelectableThings designator, KeyBindingDef key) {
-				this.designator = designator;
-				this.key = key;
-			}
 		}
 
 		private void ResolveAllDesignationCategories() {
