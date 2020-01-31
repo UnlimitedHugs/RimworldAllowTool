@@ -68,7 +68,7 @@ namespace AllowTool {
 			TryCloseArchitectMenu();
 		}
 
-		public override void SelectedOnGUI() {
+		public override void DrawMouseAttachments() {
 			// update def filter and draw filter readout on cursor
 			if (constraintsNeedReindexing) ReindexSelectionConstraints();
 			string label;
@@ -80,6 +80,7 @@ namespace AllowTool {
 				label = "SelectSimilar_cursor_needConstraint".Translate();
 			}
 			AllowToolUtility.DrawMouseAttachedLabel(label);
+			base.DrawMouseAttachments();
 		}
 
 		public bool SelectionLimitAllowsAdditionalThing() {

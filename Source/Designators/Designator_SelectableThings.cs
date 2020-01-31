@@ -92,8 +92,5 @@ namespace AllowTool {
 				FinalizeDesignationFailed();
 			}
 		}
-
-		public virtual void SelectedOnGUI() {
-		}
 	}
 }

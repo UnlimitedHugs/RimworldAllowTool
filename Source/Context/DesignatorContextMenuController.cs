@@ -151,7 +151,14 @@ namespace AllowTool.Context {
 			currentDrawnReverseDesignators.Add(designatorButton, designator);
 		}
 
-		public static void CheckForMemoryLeak() {
+		
+		public static void Update() {
+			if (Time.frameCount % (60*60) == 0) { // 'bout every minute
+				CheckForMemoryLeak();
+			}
+		}
+
+		private static void CheckForMemoryLeak() {
 			// this should not happen, unless another mod patches out our ClearReverseDesignatorPairs call
 			if (currentDrawnReverseDesignators.Count > 100000) {
 				AllowToolController.Logger.Error("Too many reverse designators! A mod interaction may have caused a memory leak.");

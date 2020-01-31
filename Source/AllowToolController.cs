@@ -99,9 +99,7 @@ namespace AllowTool {
 
 		public override void Update() {
 			Dragger.Update();
-			if (Time.frameCount % (60*60) == 0) { // 'bout every minute
-				DesignatorContextMenuController.CheckForMemoryLeak();
-			}
+			DesignatorContextMenuController.Update();
 		}
 
 		public override void Tick(int currentTick) {
@@ -110,12 +108,6 @@ namespace AllowTool {
 
 		public override void OnGUI() {
 			if (Current.Game == null || Current.Game.CurrentMap == null) return;
-			var selectedDesignator = Find.MapUI.designatorManager.SelectedDesignator;
-			for (int i = 0; i < activeDesignators.Count; i++) {
-				var designator = activeDesignators[i].designator;
-				if (selectedDesignator != designator) continue;
-				designator.SelectedOnGUI();
-			}
 			if (Event.current.type == EventType.KeyDown) {
 				CheckForHotkeyPresses();
 			}
