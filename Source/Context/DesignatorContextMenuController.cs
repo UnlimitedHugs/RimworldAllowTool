@@ -64,7 +64,7 @@ namespace AllowTool.Context {
 				// bind handlers to designator instances
 				// we can't do a direct type lookup here, since we want to support modded designators. 
 				// i.e. Designator_Hunt -> Designator_ModdedHunt should also be supported.
-				var allDesignators = AllowToolUtility.GetAllResolvedDesignators();
+				var allDesignators = AllowToolUtility.EnumerateResolvedDirectDesignators();
 				foreach (var designator in allDesignators) {
 					// check if designator matches the type required by any of the handlers
 					TryBindDesignatorToProvider(designator);
@@ -173,9 +173,7 @@ namespace AllowTool.Context {
 
 		private static void PrepareReverseDesignatorContextMenus() {
 			ClearReverseDesignatorPairs();
-			if (!AllowToolUtility.ReverseDesignatorDatabaseInitialized) return;
-			var allReverseDesignators = Find.ReverseDesignatorDatabase.AllDesignators;
-			foreach (var reverseDesignator in allReverseDesignators) {
+			foreach (var reverseDesignator in AllowToolUtility.EnumerateReverseDesignators()) {
 				TryBindDesignatorToProvider(reverseDesignator);
 			}
 		}

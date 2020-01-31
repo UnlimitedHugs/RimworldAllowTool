@@ -104,10 +104,6 @@ namespace AllowTool {
 			}
 		}
 
-		public Designator_SelectableThings TryGetDesignator(ThingDesignatorDef def) {
-			return activeDesignators.Select(e => e.designator).FirstOrDefault(d => d.Def == def);
-		}
-
 		internal void InjectDuringResolveDesignators() {
 			ScheduleDesignatorDependencyRefresh();
 		}
@@ -120,7 +116,7 @@ namespace AllowTool {
 			HugsLibController.Instance.DoLater.DoNextUpdate(() => {
 				try {
 					dependencyRefreshScheduled = false;
-					var resolvedDesignators = AllowToolUtility.GetAllResolvedDesignators().ToArray();
+					var resolvedDesignators = AllowToolUtility.EnumerateResolvedDirectDesignators().ToArray();
 					foreach (var designator in resolvedDesignators.OfType<Designator_SelectableThings>()) {
 						activeDesignators.Add(new DesignatorEntry(designator, designator.Def.hotkeyDef));
 					}

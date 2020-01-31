@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Verse;
 
 namespace AllowTool {
@@ -13,7 +14,7 @@ namespace AllowTool {
 		}
 
 		public Designator_SelectSimilar GetNonReverseVersion() {
-			var des = (Designator_SelectSimilar) AllowToolController.Instance.TryGetDesignator(AllowToolDefOf.SelectSimilarDesignator);
+			var des = AllowToolUtility.EnumerateResolvedDirectDesignators().OfType<Designator_SelectSimilar>().FirstOrDefault();
 			if (des == null) {
 				throw new Exception("The Select Similar designator must exist somewhere in the Architect categories for this to work. " +
 									"It can be hidden in the Allow Tool mod options if desired.");

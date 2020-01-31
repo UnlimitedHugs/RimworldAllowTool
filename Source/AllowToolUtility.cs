@@ -146,10 +146,13 @@ namespace AllowTool {
 			}, null, descriptionKey?.Translate());
 		}
 
-		public static IEnumerable<Designator> GetAllResolvedDesignators() {
-			// ToArray calls are needed to avoid collection changed race condition caused by unknown mod
-			return DefDatabase<DesignationCategoryDef>.AllDefs.ToArray()
-				.SelectMany(cat => cat.AllResolvedDesignators.ToArray());
+		public static IEnumerable<Designator> EnumerateResolvedDirectDesignators() {
+			return DefDatabase<DesignationCategoryDef>.AllDefs
+				.SelectMany(cat => cat.AllResolvedDesignators).ToArray();
+		}
+
+		public static IEnumerable<Designator> EnumerateReverseDesignators() {
+			return ReverseDesignatorDatabaseInitialized ? Find.ReverseDesignatorDatabase.AllDesignators : new List<Designator>();
 		}
 
 		public static bool ReverseDesignatorDatabaseInitialized {
