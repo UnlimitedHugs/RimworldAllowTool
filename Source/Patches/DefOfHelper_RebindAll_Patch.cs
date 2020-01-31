@@ -12,7 +12,7 @@ namespace AllowTool.Patches {
 		[HarmonyPostfix]
 		public static void HookBeforeImpliedDefsGeneration(bool earlyTryMode) {
 			if (earlyTryMode) return;
-			AllowToolController.BeforeImpliedDefGeneration();
+			AllowToolController.Instance.OnBeforeImpliedDefGeneration();
 		}
 	}
 }

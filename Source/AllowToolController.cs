@@ -13,25 +13,6 @@ namespace AllowTool {
 	public class AllowToolController : ModBase {
 		public static AllowToolController Instance { get; private set; }
 
-		// called before implied def generation
-		public static void BeforeImpliedDefGeneration() {
-			try {
-				// setting handles bust be created after language data is loaded
-				// and before DesignationCategoryDef.ResolveDesignators is called
-				// implied def generation is a good loading stage to do that on
-				Instance.Handles.PrepareSettingsHandles(Instance.Settings);
-
-				if (!Instance.Handles.HaulWorktypeSetting) {
-					AllowToolDefOf.HaulingUrgent.visible = false;
-				}
-				if (Instance.Handles.FinishOffWorktypeSetting) {
-					AllowToolDefOf.FinishingOff.visible = true;
-				}
-			} catch (Exception e) {
-				Log.Error("Error during early setting handle setup: "+e);
-			}
-		}
-		
 		public override string ModIdentifier {
 			get { return "AllowTool"; }
 		}
@@ -97,7 +78,30 @@ namespace AllowTool {
 			}
 		}
 
-		internal void InjectDuringResolveDesignators() {
+		internal void OnBeforeImpliedDefGeneration() {
+			try {
+				// setting handles bust be created after language data is loaded
+				// and before DesignationCategoryDef.ResolveDesignators is called
+				// implied def generation is a good loading stage to do that on
+				Handles.PrepareSettingsHandles(Instance.Settings);
+
+				if (!Handles.HaulWorktypeSetting) {
+					AllowToolDefOf.HaulingUrgent.visible = false;
+				}
+				if (Handles.FinishOffWorktypeSetting) {
+					AllowToolDefOf.FinishingOff.visible = true;
+				}
+			} catch (Exception e) {
+				Logger.Error("Error during early setting handle setup: "+e);
+			}
+		}
+
+		internal void OnDesignationCategoryResolveDesignators() {
+			ScheduleDesignatorDependencyRefresh();
+		}
+
+		internal void OnReverseDesignatorDatabaseInit(ReverseDesignatorDatabase database) {
+			ReverseDesignatorProvider.InjectReverseDesignators(database);
 			ScheduleDesignatorDependencyRefresh();
 		}
 

@@ -7,7 +7,7 @@ namespace AllowTool {
 	/// Injects custom reverse designators- the ones that show up when appropriate items are selected
 	/// </summary>
 	public static class ReverseDesignatorProvider {
-		public static void InjectCustomReverseDesignators(ReverseDesignatorDatabase database) {
+		internal static void InjectReverseDesignators(ReverseDesignatorDatabase database) {
 			var designatorsList = database.AllDesignators;
 			// inject a chop designator to compensate for the removal of the chop functionality from Designator_PlantsCut
 			designatorsList.Add(new Designator_PlantsHarvestWood());
