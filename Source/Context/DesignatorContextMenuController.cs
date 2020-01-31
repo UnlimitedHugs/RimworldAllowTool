@@ -173,7 +173,7 @@ namespace AllowTool.Context {
 
 		private static void PrepareReverseDesignatorContextMenus() {
 			ClearReverseDesignatorPairs();
-			if (!ReverseDesignatorProvider.ReverseDesignatorDatabaseInitialized) return;
+			if (!AllowToolUtility.ReverseDesignatorDatabaseInitialized) return;
 			var allReverseDesignators = Find.ReverseDesignatorDatabase.AllDesignators;
 			foreach (var reverseDesignator in allReverseDesignators) {
 				TryBindDesignatorToProvider(reverseDesignator);

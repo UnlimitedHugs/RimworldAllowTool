@@ -99,9 +99,10 @@ namespace AllowTool {
 
 		public override void SettingsChanged() {
 			ResolveAllDesignationCategories();
+			if (AllowToolUtility.ReverseDesignatorDatabaseInitialized) {
+				Find.ReverseDesignatorDatabase.Reinit();
+			}
 		}
-
-		
 
 		public Designator_SelectableThings TryGetDesignator(ThingDesignatorDef def) {
 			return activeDesignators.Select(e => e.designator).FirstOrDefault(d => d.Def == def);

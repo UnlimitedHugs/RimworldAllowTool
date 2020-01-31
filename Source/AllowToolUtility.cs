@@ -152,6 +152,10 @@ namespace AllowTool {
 				.SelectMany(cat => cat.AllResolvedDesignators.ToArray());
 		}
 
+		public static bool ReverseDesignatorDatabaseInitialized {
+			get { return Current.Root?.uiRoot is UIRoot_Play uiPlay && uiPlay.mapUI?.reverseDesignatorDatabase != null; }
+		}
+
 		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
 			if (pawn?.workSettings != null) {
 				var workDefMap = Traverse.Create(pawn.workSettings).Field("priorities").GetValue<DefMap<WorkTypeDef, int>>();
