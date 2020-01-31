@@ -39,7 +39,7 @@ namespace AllowTool {
 			GlobalHotkeysSetting = pack.GetHandle("globalHotkeys", "setting_globalHotkeys_label".Translate(), "setting_globalHotkeys_desc".Translate(), true);
 			ContextOverlaySetting = pack.GetHandle("contextOverlay", "setting_contextOverlay_label".Translate(), "setting_contextOverlay_desc".Translate(), true);
 			ContextWatermarkSetting = pack.GetHandle("contextWatermark", "setting_contextWatermark_label".Translate(), "setting_contextWatermark_desc".Translate(), true);
-			ReplaceIconsSetting = pack.GetHandle("replaceIcons", "setting_replaceIcons_label".Translate(), "setting_replaceIcons_desc".Translate(), true);
+			ReplaceIconsSetting = pack.GetHandle("replaceIcons", "setting_replaceIcons_label".Translate(), "setting_replaceIcons_desc".Translate(), false);
 			HaulWorktypeSetting = pack.GetHandle("haulUrgentlyWorktype", "setting_haulUrgentlyWorktype_label".Translate(), "setting_haulUrgentlyWorktype_desc".Translate(), true);
 			FinishOffWorktypeSetting = pack.GetHandle("finishOffWorktype", "setting_finishOffWorktype_label".Translate(), "setting_finishOffWorktype_desc".Translate(), false);
 			ExtendedContextActionSetting = pack.GetHandle("extendedContextActionKey", "setting_extendedContextHotkey_label".Translate(), "setting_extendedContextHotkey_desc".Translate(), true);
