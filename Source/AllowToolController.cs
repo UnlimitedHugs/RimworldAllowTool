@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using AllowTool.Context;
 using AllowTool.Settings;
 using HugsLib;
 using HugsLib.Utils;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -16,12 +14,6 @@ namespace AllowTool {
 	/// </summary>
 	[EarlyInit]
 	public class AllowToolController : ModBase {
-		public static FieldInfo GizmoGridGizmoListField;
-		public static FieldInfo DraftControllerAutoUndrafterField;
-		public static FieldInfo DesignatorHasDesignateAllFloatMenuOptionField;
-		public static MethodInfo DesignatorGetDesignationMethod;
-		public static MethodInfo DesignatorGetRightClickFloatMenuOptionsMethod;
-		public static MethodInfo DesignationCategoryDefResolveDesignatorsMethod;
 		public static AllowToolController Instance { get; private set; }
 
 		// called before implied def generation
@@ -62,6 +54,7 @@ namespace AllowTool {
 		public UnlimitedDesignationDragger Dragger { get; private set; }
 		public WorldSettings WorldSettings { get; private set; }
 		public ModSettingsHandler Handles { get; private set; }
+		public ReflectionHandler Reflection { get; private set; }
 
 		private AllowToolController() {
 			Instance = this;
@@ -70,7 +63,8 @@ namespace AllowTool {
 		public override void EarlyInitalize() {
 			Dragger = new UnlimitedDesignationDragger();
 			Handles = new ModSettingsHandler();
-			PrepareReflection();
+			Reflection = new ReflectionHandler();
+			Reflection.PrepareReflection();
 			Compat_PickUpAndHaul.Apply();
 		}
 
@@ -136,27 +130,6 @@ namespace AllowTool {
 			});
 		}
 
-		private void PrepareReflection() {
-			var gizmoGridType = GenTypes.GetTypeInAnyAssemblyNew("InspectGizmoGrid", "RimWorld");
-			if (gizmoGridType != null) {
-				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
-			}
-			DesignatorGetDesignationMethod = typeof(Designator).GetMethod("get_Designation", HugsLibUtility.AllBindingFlags);
-			DesignatorHasDesignateAllFloatMenuOptionField = typeof(Designator).GetField("hasDesignateAllFloatMenuOption", HugsLibUtility.AllBindingFlags);
-			DesignatorGetRightClickFloatMenuOptionsMethod = typeof(Designator).GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
-			DraftControllerAutoUndrafterField = typeof(Pawn_DraftController).GetField("autoUndrafter", HugsLibUtility.AllBindingFlags);
-			DesignationCategoryDefResolveDesignatorsMethod = typeof(DesignationCategoryDef).GetMethod("ResolveDesignators", HugsLibUtility.AllBindingFlags);
-			if (GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)
-				|| DesignatorGetDesignationMethod == null || DesignatorGetDesignationMethod.ReturnType != typeof(DesignationDef)
-				|| DesignatorHasDesignateAllFloatMenuOptionField == null || DesignatorHasDesignateAllFloatMenuOptionField.FieldType != typeof(bool)
-				|| DesignatorGetRightClickFloatMenuOptionsMethod == null || DesignatorGetRightClickFloatMenuOptionsMethod.ReturnType != typeof(IEnumerable<FloatMenuOption>)
-				|| DraftControllerAutoUndrafterField == null || DraftControllerAutoUndrafterField.FieldType != typeof(AutoUndrafter)
-				|| DesignationCategoryDefResolveDesignatorsMethod == null
-				) {
-				Logger.Error("Failed to reflect required members");
-			}
-		}
-
 		private void CheckForHotkeyPresses() {
 			if (Event.current.keyCode == KeyCode.None) return;
 			if (AllowToolDefOf.ToolContextMenuAction.JustPressed) {
@@ -182,7 +155,7 @@ namespace AllowTool {
 
 		private void ResolveAllDesignationCategories() {
 			foreach (var categoryDef in DefDatabase<DesignationCategoryDef>.AllDefs) {
-				DesignationCategoryDefResolveDesignatorsMethod.Invoke(categoryDef, new object[0]);
+				Reflection.DesignationCategoryDefResolveDesignatorsMethod.Invoke(categoryDef, new object[0]);
 			}
 		}
 	}

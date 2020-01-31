@@ -4,7 +4,10 @@ using AllowTool.Context;
 using HugsLib.Settings;
 using Verse;
 
-namespace AllowTool.Settings {
+namespace AllowTool {
+	/// <summary>
+	/// Creates and stores HugsLib setting handles for all configurable Allow Tool features
+	/// </summary>
 	public class ModSettingsHandler {
 		private const string DesignatorHandleNamePrefix = "show";
 		private const string ReverseDesignatorHandleNamePrefix = "showrev";

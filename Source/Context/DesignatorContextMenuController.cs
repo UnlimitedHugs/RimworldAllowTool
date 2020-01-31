@@ -204,8 +204,8 @@ namespace AllowTool.Context {
 		private static bool DesignatorShouldHaveDefaultContextMenuProvider(Designator designator){
 			try {
 				if (designator.GetType() != typeof(Designator_Build)) {
-					var hasDesignation = AllowToolController.DesignatorGetDesignationMethod.Invoke(designator, new object[0]) != null;
-					var hasDesignateAll = (bool)AllowToolController.DesignatorHasDesignateAllFloatMenuOptionField.GetValue(designator);
+					var hasDesignation = AllowToolController.Instance.Reflection.DesignatorGetDesignationMethod.Invoke(designator, new object[0]) != null;
+					var hasDesignateAll = (bool)AllowToolController.Instance.Reflection.DesignatorHasDesignateAllFloatMenuOptionField.GetValue(designator);
 					var getOptionsMethod = designator.GetType().GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
 					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator) &&
 											getOptionsMethod.DeclaringType != typeof(Designator_SelectableThings);

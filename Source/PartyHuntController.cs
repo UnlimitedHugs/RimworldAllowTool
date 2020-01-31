@@ -101,7 +101,7 @@ namespace AllowTool {
 
 		private static void ResetAutoUndraftTimer(Pawn_DraftController draftController) {
 			// resets the expiration timer on the pawn draft
-			var undrafter = (AutoUndrafter)AllowToolController.DraftControllerAutoUndrafterField.GetValue(draftController);
+			var undrafter = (AutoUndrafter)AllowToolController.Instance.Reflection.DraftControllerAutoUndrafterField.GetValue(draftController);
 			undrafter.Notify_Drafted();
 		}
 
