@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Verse;
+﻿using Verse;
 
 namespace AllowTool {
 	/// <summary>
@@ -14,12 +12,7 @@ namespace AllowTool {
 		}
 
 		public Designator_SelectSimilar GetNonReverseVersion() {
-			var des = AllowToolUtility.EnumerateResolvedDirectDesignators().OfType<Designator_SelectSimilar>().FirstOrDefault();
-			if (des == null) {
-				throw new Exception("The Select Similar designator must exist somewhere in the Architect categories for this to work. " +
-									"It can be hidden in the Allow Tool mod options if desired.");
-			}
-			return des;
+			return new Designator_SelectSimilar();
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
