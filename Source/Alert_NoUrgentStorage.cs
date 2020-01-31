@@ -20,7 +20,7 @@ namespace AllowTool {
 
 		public override bool Active {
 			get {
-				if(!AllowToolController.Instance.StorageSpaceAlertSetting.Value) return false;
+				if(!AllowToolController.Instance.Handles.StorageSpaceAlertSetting.Value) return false;
 				RecacheIfNeeded();
 				return cachedHaulablesWithoutDestination.Count > 0;
 			}

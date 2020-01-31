@@ -13,8 +13,8 @@ namespace AllowTool {
 
 		private static bool WorkGiverEnabled {
 			get {
-				return AllowToolController.Instance.IsDesignatorEnabledInSettings(AllowToolDefOf.FinishOffDesignator)
-						|| AllowToolController.Instance.IsReverseDesignatorEnabledInSettings(AllowToolDefOf.ReverseFinishOff);
+				return AllowToolController.Instance.Handles.IsDesignatorEnabled(AllowToolDefOf.FinishOffDesignator)
+						|| AllowToolController.Instance.Handles.IsReverseDesignatorEnabled(AllowToolDefOf.ReverseFinishOff);
 			}
 		}
 

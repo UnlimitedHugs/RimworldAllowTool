@@ -80,7 +80,7 @@ namespace AllowTool.Context {
 			var designator = TryResolveCommandToDesignator(command);
 			if (designator != null) {
 				try {
-					if (!AllowToolController.Instance.ContextOverlaySetting.Value) return;
+					if (!AllowToolController.Instance.Handles.ContextOverlaySetting.Value) return;
 					if (designatorMenuProviders.ContainsKey(designator)) {
 						AllowToolUtility.DrawRightClickIcon(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y);
 					}
@@ -94,7 +94,7 @@ namespace AllowTool.Context {
 		// catch right-clicks and shift-clicks on supported designators and reverse designators. Left clicks return false.
 		public static bool TryProcessDesignatorInput(Designator designator) {
 			try {
-				if (Event.current.button == (int)MouseButtons.Left && HugsLibUtility.ShiftIsHeld && AllowToolController.Instance.ReverseDesignatorPickSetting) {
+				if (Event.current.button == (int)MouseButtons.Left && HugsLibUtility.ShiftIsHeld && AllowToolController.Instance.Handles.ReverseDesignatorPickSetting) {
 					return TryPickDesignatorFromReverseDesignator(designator);
 				} else if (Event.current.button == (int)MouseButtons.Right) {
 					if (designatorMenuProviders.TryGetValue(designator, out MenuProvider provider)) {
@@ -128,7 +128,7 @@ namespace AllowTool.Context {
 			var selectedDesignator = Find.DesignatorManager.SelectedDesignator;
 			if (selectedDesignator != null && designatorMenuProviders.TryGetValue(selectedDesignator, out MenuProvider selectedProvider)) {
 				selectedProvider.TryInvokeHotkeyAction();
-			} else if (AllowToolController.Instance.ExtendedContextActionSetting.Value) {
+			} else if (AllowToolController.Instance.Handles.ExtendedContextActionSetting.Value) {
 				// activate hotkey action for first visible reverse designator
 				foreach (var reverseDesignator in currentDrawnReverseDesignators.Values) {
 					if (designatorMenuProviders.TryGetValue(reverseDesignator, out MenuProvider reverseProvider)) {

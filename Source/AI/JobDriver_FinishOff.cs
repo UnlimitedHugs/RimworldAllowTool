@@ -77,7 +77,7 @@ namespace AllowTool {
 			if (body != null) {
 				body.SetForbiddenIfOutsideHomeArea();
 			}
-			if (AllowToolController.Instance.FinishOffUnforbidsSetting) {
+			if (AllowToolController.Instance.Handles.FinishOffUnforbidsSetting) {
 				UnforbidAdjacentThingsTo(position, Map);
 			}
 		}

@@ -84,7 +84,9 @@ namespace AllowTool {
 		}
 
 		public bool SelectionLimitAllowsAdditionalThing() {
-			return Find.Selector.NumSelected < AllowToolController.Instance.SelectionLimitSetting.Value || AllowToolController.Instance.Dragger.SelectingSingleCell || HugsLibUtility.AltIsHeld;
+			return Find.Selector.NumSelected < AllowToolController.Instance.Handles.SelectionLimitSetting.Value 
+				|| AllowToolController.Instance.Dragger.SelectingSingleCell 
+				|| HugsLibUtility.AltIsHeld;
 		}
 
 		// generate an index of defs to compare other things against, based on currently selected things

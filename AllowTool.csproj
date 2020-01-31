@@ -111,6 +111,7 @@
     <Compile Include="Source\Patches\ReverseDesignatorDatabase_Init_Patch.cs" />
     <Compile Include="Source\ReverseDesignatorProvider.cs" />
     <Compile Include="Source\Reverse\ReverseDesignatorDef.cs" />
+    <Compile Include="Source\Settings\ModSettingsHandler.cs" />
     <Compile Include="Source\Settings\WorldSettings.cs" />
     <Compile Include="Source\UnlimitedDesignationDragger.cs" />
     <Compile Include="Source\ThingDesignatorDef.cs" />

@@ -45,7 +45,7 @@ namespace AllowTool {
 			defaultDesc = def.description;
 			soundSucceeded = def.soundSucceeded;
 			hotKey = def.hotkeyDef;
-			visible = AllowToolController.Instance.IsDesignatorEnabledInSettings(def);
+			visible = AllowToolController.Instance.Handles.IsDesignatorEnabled(def);
 			def.GetDragHighlightexture(tex => dragHighlight = tex);
 			ResolveIcon();
 		}

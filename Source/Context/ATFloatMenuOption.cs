@@ -17,7 +17,7 @@ namespace AllowTool.Context {
 		public ATFloatMenuOption(string label, Action action, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null, string tooltipText = null) : 
 			base(label, action, priority, mouseoverGuiAction, revalidateClickTarget, extraPartWidth, extraPartOnGUI, revalidateWorldClickTarget) {
 			this.tooltipText = tooltipText;
-			showWatermark = AllowToolController.Instance.ContextWatermarkSetting;
+			showWatermark = AllowToolController.Instance.Handles.ContextWatermarkSetting;
 			if (showWatermark) {
 				Label = "      " + label;
 			}

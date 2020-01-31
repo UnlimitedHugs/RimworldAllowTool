@@ -17,7 +17,7 @@ namespace AllowTool {
 				return new AcceptanceReport("IsIncapableOfViolenceShort".Translate());
 			}
 			var targetIsAnimal = targetPawn?.RaceProps != null && targetPawn.RaceProps.Animal;
-			var skillPass = pawn.skills != null && (!AllowToolController.Instance.FinishOffSkillRequirement 
+			var skillPass = pawn.skills != null && (!AllowToolController.Instance.Handles.FinishOffSkillRequirement 
 				|| pawn.skills.GetSkill(SkillDefOf.Melee).Level >= MeleeSkillLevelRequired);
 			if (!targetIsAnimal && !skillPass) {
 				return new AcceptanceReport("Finish_off_pawnSkillRequired".Translate(MeleeSkillLevelRequired));
@@ -36,7 +36,7 @@ namespace AllowTool {
 
 		public override string Desc {
 			get {
-				if (AllowToolController.Instance.FinishOffSkillRequirement) {
+				if (AllowToolController.Instance.Handles.FinishOffSkillRequirement) {
 					return $"{base.Desc}\n\n{"Finish_off_skillRequired".Translate(MeleeSkillLevelRequired)}";
 				}
 				return base.Desc;

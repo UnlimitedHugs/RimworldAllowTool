@@ -6,7 +6,7 @@ namespace AllowTool {
 		protected Designator replacedDesignator;
 
 		private bool InheritReplacedDesignatorIcon {
-			get { return !AllowToolController.Instance.ReplaceIconsSetting; }
+			get { return !AllowToolController.Instance.Handles.ReplaceIconsSetting; }
 		}
 
 		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {

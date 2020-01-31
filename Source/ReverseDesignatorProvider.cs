@@ -18,7 +18,7 @@ namespace AllowTool {
 			// inject our custom designators
 			foreach (var def in DefDatabase<ReverseDesignatorDef>.AllDefs) {
 				try {
-					if (AllowToolController.Instance.IsReverseDesignatorEnabledInSettings(def)) {
+					if (AllowToolController.Instance.Handles.IsReverseDesignatorEnabled(def)) {
 						var des = InstantiateThingDesignator(def);
 						if (Current.Game.Rules.DesignatorAllowed(des)) {
 							designatorsList.Add(des);

@@ -45,8 +45,10 @@ namespace AllowTool.Context {
 
 		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
 			get {
-				yield return AllowToolUtility.MakeSettingCheckmarkOption("setting_partyHuntFinish_label", null, AllowToolController.Instance.PartyHuntFinishSetting);
-				yield return AllowToolUtility.MakeSettingCheckmarkOption("setting_partyHuntDesignated_label", null, AllowToolController.Instance.PartyHuntDesignatedSetting);
+				yield return AllowToolUtility.MakeSettingCheckmarkOption("setting_partyHuntFinish_label", null, 
+					AllowToolController.Instance.Handles.PartyHuntFinishSetting);
+				yield return AllowToolUtility.MakeSettingCheckmarkOption("setting_partyHuntDesignated_label", null, 
+					AllowToolController.Instance.Handles.PartyHuntDesignatedSetting);
 			}
 		}
 	}
