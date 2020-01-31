@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HugsLib.Settings;
 using HugsLib.Utils;
 using RimWorld;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace AllowTool.Context {
 			Left = 0, Right = 1
 		}
 
-		private static readonly Dictionary<Command, BaseDesignatorMenuProvider> designatorMenuProviders = new Dictionary<Command, BaseDesignatorMenuProvider>();
+		private static readonly Dictionary<Command, MenuProvider> designatorMenuProviders = new Dictionary<Command, MenuProvider>();
 		private static readonly Dictionary<Command, Designator> currentDrawnReverseDesignators = new Dictionary<Command, Designator>();
 		private static readonly Vector2 overlayIconOffset = new Vector2(59f, 2f);
 		private static readonly HashSet<Type> reversePickingSupportedDesignators = new HashSet<Type> {
@@ -34,12 +35,28 @@ namespace AllowTool.Context {
 			typeof(Designator_Mine),
 			typeof(Designator_Strip),
 			typeof(Designator_Open)
-		}; 
+		};
 
-		private static List<BaseDesignatorMenuProvider> _providers;
-		public static List<BaseDesignatorMenuProvider> MenuProviderInstances {
-			get { return _providers ?? (_providers = InstantiateProviders()); }
-		}
+		private static readonly List<BaseContextMenuEntry> menuEntries = new List<BaseContextMenuEntry> {
+			new MenuEntry_CancelSelected(), 
+			new MenuEntry_CancelDesignations(), 
+			new MenuEntry_CancelBlueprints(),
+			new MenuEntry_ChopAll(),
+			new MenuEntry_ChopHome(),
+			new MenuEntry_CutBlighted(),
+			new MenuEntry_FinishOffAll(),
+			new MenuEntry_HarvestAll(),
+			new MenuEntry_HarvestHome(),
+			new MenuEntry_HarvestGrownAll(),
+			new MenuEntry_HarvestGrownHome(),
+			new MenuEntry_HaulAll(),
+			new MenuEntry_HaulUrgentAll(),
+			new MenuEntry_HaulUrgentVisible(),
+			new MenuEntry_HuntAll(),
+			new MenuEntry_MineConnected(),
+			new MenuEntry_SelectSimilarAll(),
+			new MenuEntry_StripAll()
+		};
 
 		public static void RebindAllContextMenus() {
 			try {
@@ -50,7 +67,7 @@ namespace AllowTool.Context {
 				var allDesignators = AllowToolUtility.GetAllResolvedDesignators();
 				foreach (var designator in allDesignators) {
 					// check if designator matches the type required by any of the handlers
-					TryBindDesignatorToHandler(designator, MenuProviderInstances);
+					TryBindDesignatorToProvider(designator);
 				}
 				PrepareReverseDesignatorContextMenus();
 			} catch (Exception e) {
@@ -64,8 +81,7 @@ namespace AllowTool.Context {
 			if (designator != null) {
 				try {
 					if (!AllowToolController.Instance.ContextOverlaySetting.Value) return;
-					BaseDesignatorMenuProvider provider;
-					if (designatorMenuProviders.TryGetValue(designator, out provider) && provider.Enabled) {
+					if (designatorMenuProviders.ContainsKey(designator)) {
 						AllowToolUtility.DrawRightClickIcon(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y);
 					}
 				} catch (Exception e) {
@@ -81,9 +97,8 @@ namespace AllowTool.Context {
 				if (Event.current.button == (int)MouseButtons.Left && HugsLibUtility.ShiftIsHeld && AllowToolController.Instance.ReverseDesignatorPickSetting) {
 					return TryPickDesignatorFromReverseDesignator(designator);
 				} else if (Event.current.button == (int)MouseButtons.Right) {
-					BaseDesignatorMenuProvider provider;
-					if (designatorMenuProviders.TryGetValue(designator, out provider)) {
-						provider.OpenContextMenu(designator);
+					if (designatorMenuProviders.TryGetValue(designator, out MenuProvider provider)) {
+						provider.OpenContextMenu();
 						return true;
 					}
 				}
@@ -111,13 +126,13 @@ namespace AllowTool.Context {
 
 		public static void ProcessContextActionHotkeyPress() {
 			var selectedDesignator = Find.DesignatorManager.SelectedDesignator;
-			if (selectedDesignator != null && designatorMenuProviders.ContainsKey(selectedDesignator)) {
-				designatorMenuProviders[selectedDesignator].TryInvokeHotkeyAction(selectedDesignator);
-			} else if(AllowToolController.Instance.ExtendedContextActionSetting.Value) {
+			if (selectedDesignator != null && designatorMenuProviders.TryGetValue(selectedDesignator, out MenuProvider selectedProvider)) {
+				selectedProvider.TryInvokeHotkeyAction();
+			} else if (AllowToolController.Instance.ExtendedContextActionSetting.Value) {
 				// activate hotkey action for first visible reverse designator
-				foreach (var designator in currentDrawnReverseDesignators.Values) {
-					if (designatorMenuProviders.ContainsKey(designator)) {
-						if (designatorMenuProviders[designator].TryInvokeHotkeyAction(designator)) {
+				foreach (var reverseDesignator in currentDrawnReverseDesignators.Values) {
+					if (designatorMenuProviders.TryGetValue(reverseDesignator, out MenuProvider reverseProvider)) {
+						if (reverseProvider.TryInvokeHotkeyAction()) {
 							break;
 						}
 					}
@@ -143,12 +158,18 @@ namespace AllowTool.Context {
 			}
 		}
 
+		internal static IEnumerable<SettingHandle<bool>> RegisterMenuEntryHandles(ModSettingsPack pack) {
+			foreach (var menuEntry in menuEntries) {
+				yield return menuEntry.RegisterSettingHandle(pack);
+			}
+		}
+
 		private static void PrepareReverseDesignatorContextMenus() {
 			ClearReverseDesignatorPairs();
 			if (!ReverseDesignatorProvider.ReverseDesignatorDatabaseInitialized) return;
 			var allReverseDesignators = Find.ReverseDesignatorDatabase.AllDesignators;
 			foreach (var reverseDesignator in allReverseDesignators) {
-				TryBindDesignatorToHandler(reverseDesignator, MenuProviderInstances);
+				TryBindDesignatorToProvider(reverseDesignator);
 			}
 		}
 
@@ -161,53 +182,64 @@ namespace AllowTool.Context {
 			return false;
 		}
 
-		private static List<BaseDesignatorMenuProvider> InstantiateProviders() {
-			var providers = new List<BaseDesignatorMenuProvider>();
-			try {
-				var menuProviderTypes = typeof (BaseDesignatorMenuProvider).AllSubclassesNonAbstract();	
-				foreach (var providerType in menuProviderTypes) {
-					try {
-						providers.Add((BaseDesignatorMenuProvider) Activator.CreateInstance(providerType));
-					} catch (Exception e) {
-						AllowToolController.Logger.Error("Exception while instantiating {0}: {1}", providerType, e);
-					}
-				}
-			} catch (Exception e) {
-				AllowToolController.Logger.ReportException(e);
-			}
-			providers.SortBy(p => p.SettingId ?? string.Empty);
-			return providers;
-		}
-
-		/// <param name="designator">The designator that will be paired to a menu provider</param>
-		/// <param name="providers">All available handlers</param>
-		private static void TryBindDesignatorToHandler(Designator designator, List<BaseDesignatorMenuProvider> providers) {
+		private static void TryBindDesignatorToProvider(Designator designator) {
 			if (designator == null || designatorMenuProviders.ContainsKey(designator)) {
 				return;
 			}
-			var handlerBound = false;
-			for (int i = 0; i < providers.Count; i++) {
-				var provider = providers[i];
-				if (provider.HandledDesignatorType != null && provider.HandledDesignatorType.IsInstanceOfType(designator)) {
-					designatorMenuProviders.Add(designator, provider);
-					handlerBound = true;
-					break;
-				}
+			var provider = new MenuProvider(designator, menuEntries.Where(e => e.HandledDesignatorType.IsInstanceOfType(designator)));
+			if (provider.EntryCount > 0 || DesignatorShouldHaveDefaultContextMenuProvider(designator)) {
+				designatorMenuProviders.Add(designator, provider);
 			}
-			if (!handlerBound && designator.GetType() != typeof(Designator_Build)) {
-				try {
-					// if designator has no handler but has a context menu, provide the generic one
+		}
+
+		// if designator has no custom context menu entries but has a stock context menu, still show a right click icon
+		// detection is not fool-proof, but it's good enough- and better than calling RightClickFloatMenuOptions
+		private static bool DesignatorShouldHaveDefaultContextMenuProvider(Designator designator){
+			try {
+				if (designator.GetType() != typeof(Designator_Build)) {
 					var hasDesignation = AllowToolController.DesignatorGetDesignationMethod.Invoke(designator, new object[0]) != null;
 					var hasDesignateAll = (bool)AllowToolController.DesignatorHasDesignateAllFloatMenuOptionField.GetValue(designator);
 					var getOptionsMethod = designator.GetType().GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
-					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator) && getOptionsMethod.DeclaringType != typeof(Designator_SelectableThings);
-					if (hasDesignation || hasDesignateAll || hasOptionsMethod) {
-						// detection is not fool-proof, but it's good enough- and better than calling RightClickFloatMenuOptions
-						designatorMenuProviders.Add(designator, providers.OfType<MenuProvider_Generic>().First());
-					}
-				} catch (Exception) {
-					// no problem- the designator will just have no handler assigned
+					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator) &&
+											getOptionsMethod.DeclaringType != typeof(Designator_SelectableThings);
+					return hasDesignation || hasDesignateAll || hasOptionsMethod;
 				}
+			} catch (Exception) {
+				// no problem- the designator will just have no handler assigned
+			}
+			return false;
+		}
+
+		private class MenuProvider {
+			private readonly Designator designator;
+			private readonly BaseContextMenuEntry[] entries;
+
+			public int EntryCount {
+				get { return entries.Count(e => e.Enabled); }
+			}
+
+			public MenuProvider(Designator designator, IEnumerable<BaseContextMenuEntry> entries) {
+				this.designator = designator;
+				this.entries = entries.ToArray();
+			}
+
+			public void OpenContextMenu() {
+				var menuOptions = entries.Where(e => e.Enabled)
+					.Select(e => e.MakeMenuOption(designator))
+					.Concat(designator.RightClickFloatMenuOptions).ToList();
+				if (menuOptions.Count > 0) {
+					Find.WindowStack.Add(new FloatMenu(menuOptions));
+				}
+			}
+
+			public bool TryInvokeHotkeyAction() {
+				// stock right click menu options can't be activated by hotkey
+				var firstEnabledEntry = entries.FirstOrDefault(e => e.Enabled);
+				if (firstEnabledEntry != null) {
+					firstEnabledEntry.ActivateAndHandleResult(designator);
+					return true;
+				}
+				return false;
 			}
 		}
 	}

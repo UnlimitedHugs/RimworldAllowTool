@@ -181,10 +181,9 @@ namespace AllowTool {
 			}
 			// context menus
 			MakeSettingsCategoryToggle("setting_showProviderToggles_label", () => expandProviderSettings = !expandProviderSettings);
-			foreach (var provider in DesignatorContextMenuController.MenuProviderInstances) {
-				if (provider.SettingId == null) continue;
-				provider.ProviderHandle = Settings.GetHandle(provider.SettingId, "setting_providerPrefix".Translate(provider.EntryTextKey.Translate()), "setting_provider_desc".Translate(), true);
-				provider.ProviderHandle.VisibilityPredicate = () => expandProviderSettings;
+			SettingHandle.ShouldDisplay menuEntryHandleVisibility = () => expandProviderSettings;
+			foreach (var handle in DesignatorContextMenuController.RegisterMenuEntryHandles(Settings)) {
+				handle.VisibilityPredicate = menuEntryHandleVisibility;
 			}
 			// reverse designators
 			MakeSettingsCategoryToggle("setting_showReverseToggles_label", () => expandReverseToolSettings = !expandReverseToolSettings);
