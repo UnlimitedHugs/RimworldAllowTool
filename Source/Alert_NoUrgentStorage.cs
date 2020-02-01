@@ -15,6 +15,7 @@ namespace AllowTool {
 		private const int MaxListedCulpritsInExplanation = 5;
 
 		private readonly List<GlobalTargetInfo> cachedHaulablesWithoutDestination = new List<GlobalTargetInfo>();
+		private readonly HashSet<Thing> cachedReservedThings = new HashSet<Thing>(); 
 		private int cachedForMapIndex = -1;
 		private int lastRecacheFrame;
 
@@ -52,6 +53,7 @@ namespace AllowTool {
 		private void RecacheIfNeeded() {
 			var map = Find.CurrentMap;
 			if (map != null && (cachedForMapIndex != map.Index || lastRecacheFrame + RecacheFrameInterval < Time.frameCount)) {
+				RecacheReservedThingsForMap(map);
 				cachedForMapIndex = map.Index;
 				lastRecacheFrame = Time.frameCount;
 				cachedHaulablesWithoutDestination.Clear();
@@ -60,11 +62,23 @@ namespace AllowTool {
 					var des = allDesignations[i];
 					if (des.def == AllowToolDefOf.HaulUrgentlyDesignation) {
 						var thing = des.target.Thing;
-						if (thing != null && thing.Spawned && HasNoHaulDestination(thing)) {
+						if (thing != null
+							&& thing.Spawned
+							// reservations on our thing will cause false positives in HasNoHaulDestination
+							&& !cachedReservedThings.Contains(thing)
+							&& HasNoHaulDestination(thing)) {
 							cachedHaulablesWithoutDestination.Add(new GlobalTargetInfo(thing));
 						}
 					}
 				}
+			}
+			cachedReservedThings.Clear();
+		}
+
+		private void RecacheReservedThingsForMap(Map map) {
+			cachedReservedThings.Clear();
+			foreach (var reservedThing in map.reservationManager.AllReservedThings()) {
+				cachedReservedThings.Add(reservedThing);
 			}
 		}
 
