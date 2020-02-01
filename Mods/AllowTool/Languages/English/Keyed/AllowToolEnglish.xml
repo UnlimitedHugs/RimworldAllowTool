@@ -34,7 +34,7 @@
 	<setting_showToolToggles_label>Enable or disable tools</setting_showToolToggles_label>
 	<setting_showProviderToggles_label>Enable or disable context menus</setting_showProviderToggles_label>
 	<setting_showReverseToggles_label>Tools on selected things</setting_showReverseToggles_label>
-	<setting_reverseDesignator_desc>When enabled, shows this tool when supported things are selected. Load or start a game for this setting to take effect.</setting_reverseDesignator_desc>
+	<setting_reverseDesignator_desc>When enabled, shows this tool when supported things are selected.</setting_reverseDesignator_desc>
 	<setting_haulUrgentlyWorktype_label>Show "Haul+" work type</setting_haulUrgentlyWorktype_label>
 	<setting_haulUrgentlyWorktype_desc>When enabled, shows the work type for the "Haul urgently" tool in the Work tab.\nThe game must be restarted for this setting to take effect.</setting_haulUrgentlyWorktype_desc>
 	<setting_finishOffWorktype_label>Show "Finish off" work type</setting_finishOffWorktype_label>
@@ -42,7 +42,7 @@
 	<setting_finishOffSkill_label>"Finish off" skill requirement</setting_finishOffSkill_label>
 	<setting_finishOffSkill_desc>The "Finish off" tool will require a pawn with a sufficiently high melee skill to use.</setting_finishOffSkill_desc>
 	<setting_replaceIcons_label>Replace Forbid/Allow icons</setting_replaceIcons_label>
-	<setting_replaceIcons_desc>Replace the icons for the Forbid and Allow tools with clearer ones.\nThe game must be restarted for this setting to take effect.</setting_replaceIcons_desc>
+	<setting_replaceIcons_desc>Replace the icons for the Forbid and Allow tools with clearer ones.</setting_replaceIcons_desc>
 
 	<setting_partyHunt_label>Drafted hunting tool</setting_partyHunt_label>
 	<setting_partyHunt_desc>When enabled, shows the "Drafted hunt" button for drafted colonists.</setting_partyHunt_desc>
