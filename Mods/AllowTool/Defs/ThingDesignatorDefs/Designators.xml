@@ -7,7 +7,7 @@
 		<designatorClass>AllowTool.Designator_Allow</designatorClass>
 		<!-- the category def name to add this designator to -->
 		<!-- the label on the button, optional -->
-        <label>Unforbid selection</label>
+        <label>Allow selection</label>
 		<!-- button tooltip, optional -->
 		<description>Unforbid all items in the selected area.
 Click and drag over an area to use.</description>
@@ -42,7 +42,7 @@ Click and drag over an area to use.</description>
     <AllowTool.ThingDesignatorDef>
         <defName>AllowAllDesignator</defName>
 		<designatorClass>AllowTool.Designator_AllowAll</designatorClass>
-        <label>Unforbid everything</label>
+        <label>Allow everything</label>
 		<description>Unforbids all forbidden items on the map.
 Click to activate.
 &lt;b&gt;Hold Ctrl/Option&lt;/b&gt; to include buildings.
