@@ -25,4 +25,9 @@
 	<FinishOffDesignator.description>Быстро и безболезненно убить поверженных существ.
 Удерживать Shift чтобы включить поселенцев и союзников.</FinishOffDesignator.description>
 	
+	<HarvestFullyGrownDesignator.label>Собрать созревшие</HarvestFullyGrownDesignator.label>
+	<HarvestFullyGrownDesignator.description>Отмечает для сбора только достаточно зрелые растения для получения максимального урожая.
+Удерживать Shift чтобы отмечать только растения.
+Удерживать Ctrl чтобы отмечать только деревья.</HarvestFullyGrownDesignator.description>
+
 </LanguageData>
