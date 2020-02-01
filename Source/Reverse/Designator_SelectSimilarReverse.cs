@@ -7,11 +7,7 @@ namespace AllowTool {
 	/// Instead of designating, picks up the actual SelectSimilar designator.
 	/// </summary>
 	public class Designator_SelectSimilarReverse : Designator_SelectSimilar {
-		public override bool ReversePickingAllowed {
-			get { return false; }
-		}
-
-		public Designator_SelectSimilar GetNonReverseVersion() {
+		public override Designator PickUpReverseDesignator() {
 			return new Designator_SelectSimilar();
 		}
 
@@ -24,7 +20,7 @@ namespace AllowTool {
 		}
 
 		protected override void FinalizeDesignationSucceeded() {
-			var selectSimilarNonReverse = GetNonReverseVersion();
+			var selectSimilarNonReverse = PickUpReverseDesignator();
 			Find.DesignatorManager.Select(selectSimilarNonReverse);
 			base.FinalizeDesignationSucceeded();
 		}

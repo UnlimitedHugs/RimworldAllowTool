@@ -179,10 +179,16 @@ namespace AllowTool.Context {
 		}
 
 		private static bool TryPickDesignatorFromReverseDesignator(Designator designator) {
-			if (designator != null && reversePickingSupportedDesignators.Contains(designator.GetType()) ||
-				designator is IReversePickableDesignator pickable && pickable.ReversePickingAllowed) {
-				Find.DesignatorManager.Select(designator);
-				return true;
+			var interfaceSupport = false;
+			if (designator != null && designator is IReversePickableDesignator rp) {
+				designator = rp.PickUpReverseDesignator();
+				interfaceSupport = true;
+			}
+			if (designator != null) {
+				if (interfaceSupport || reversePickingSupportedDesignators.Contains(designator.GetType())) {
+					Find.DesignatorManager.Select(designator);
+					return true;
+				}
 			}
 			return false;
 		}

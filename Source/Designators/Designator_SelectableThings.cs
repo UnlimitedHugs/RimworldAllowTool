@@ -29,10 +29,6 @@ namespace AllowTool {
 			get { return visible; }
 		}
 
-		public virtual bool ReversePickingAllowed {
-			get { return true; }
-		}
-
 		public KeyBindingDef GlobalHotKey {
 			get { return Def.hotkeyDef; }
 		}
@@ -56,6 +52,10 @@ namespace AllowTool {
 
 		protected virtual void ResolveIcon() {
 			Def.GetIconTexture(tex => icon = tex);
+		}
+
+		public virtual Designator PickUpReverseDesignator() {
+			return this;
 		}
 
 		// this is called by the vanilla DesignationDragger. We are using UnlimitedDesignationDragger instead.

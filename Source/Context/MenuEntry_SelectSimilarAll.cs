@@ -11,7 +11,7 @@ namespace AllowTool.Context {
 		public override ActivationResult Activate(Designator designator, Map map) {
 			var des = (Designator_SelectSimilar)designator;
 			if (des is Designator_SelectSimilarReverse reverse) {
-				des = reverse.GetNonReverseVersion();
+				des = (Designator_SelectSimilar)reverse.PickUpReverseDesignator();
 			}
 			if (Find.Selector.NumSelected == 0) {
 				return ActivationResult.Failure(BaseMessageKey);
