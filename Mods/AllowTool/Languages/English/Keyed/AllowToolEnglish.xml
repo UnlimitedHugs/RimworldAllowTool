@@ -73,8 +73,6 @@
 	<Finish_off_floatMenu>Finish off {0}</Finish_off_floatMenu>
 	<Finish_off_floatMenu_reason_friendly>friendly, hold Shift</Finish_off_floatMenu_reason_friendly>
 
-	<RearmUrgently_cursorTip>Select traps to rearm urgently</RearmUrgently_cursorTip>
-	
 	<Designator_context_similar>Select similar things on map</Designator_context_similar>
 	<Designator_context_similar_succ>Selected {0} similar things on the map.</Designator_context_similar_succ>
 	<Designator_context_similar_part>Selected {0} closest similar things out of {1} on the map.</Designator_context_similar_part>
@@ -91,10 +89,6 @@
 	<Designator_context_strip>Strip all enemies</Designator_context_strip>
 	<Designator_context_strip_succ>{0} bodies designated for stripping.</Designator_context_strip_succ>
 	<Designator_context_strip_fail>Found no bodies to strip.</Designator_context_strip_fail>
-	<Designator_context_rearm>Urgently rearm traps</Designator_context_rearm>
-	<Designator_context_rearmAll>Urgently rearm all traps</Designator_context_rearmAll>
-	<Designator_context_rearmAll_succ>{0} traps have been designated for urgent rearming.</Designator_context_rearmAll_succ>
-	<Designator_context_rearmAll_fail>No traps need rearming right now.</Designator_context_rearmAll_fail>
 	<Designator_context_harvest>Harvest all plants</Designator_context_harvest>
 	<Designator_context_harvest_home>Harvest plants in home area</Designator_context_harvest_home>
 	<Designator_context_harvest_succ>{0} plants designated for harvesting.</Designator_context_harvest_succ>
