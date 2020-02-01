@@ -7,10 +7,10 @@ namespace AllowTool {
 	/// Compatibility patch for Pick Up And Haul mod.
 	/// Uses the included work giver to assign hauling jobs scheduled by haul urgently.
 	/// </summary>
-	public class Compat_PickUpAndHaul {
+	public static class Compat_PickUpAndHaul {
 		public static void Apply() {
 			try {
-				var workGiverType = GenTypes.GetTypeInAnyAssemblyNew("WorkGiver_HaulToInventory", "PickUpAndHaul");
+				var workGiverType = GenTypes.GetTypeInAnyAssemblyNew("PickUpAndHaul.WorkGiver_HaulToInventory", null);
 				if (workGiverType == null) return;
 				if(!typeof(WorkGiver_HaulGeneral).IsAssignableFrom(workGiverType)) 
 					throw new Exception("Expected work giver to extend "+nameof(WorkGiver_HaulGeneral));

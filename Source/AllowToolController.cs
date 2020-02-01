@@ -42,7 +42,8 @@ namespace AllowTool {
 			Reflection = new ReflectionHandler();
 			Reflection.PrepareReflection();
 			hotKeys = new HotKeyHandler();
-			Compat_PickUpAndHaul.Apply();
+			// wait for other mods to be loaded
+			LongEventHandler.QueueLongEvent(Compat_PickUpAndHaul.Apply, null, false, null);
 		}
 
 		public override void Update() {
