@@ -127,7 +127,10 @@ namespace AllowTool.Context {
 
 		public static void ProcessContextActionHotkeyPress() {
 			var selectedDesignator = Find.DesignatorManager.SelectedDesignator;
-			if (selectedDesignator != null && designatorMenuProviders.TryGetValue(selectedDesignator, out MenuProvider selectedProvider)) {
+			if (selectedDesignator != null) {
+				// get an existing provider or make a temporary one (e.g.: for shift-picked Select Similar which is never registered)
+				var selectedProvider = designatorMenuProviders.TryGetValue(selectedDesignator) 
+					?? MakeMenuProviderForDesignator(selectedDesignator);
 				selectedProvider.TryInvokeHotkeyAction();
 			} else if (AllowToolController.Instance.Handles.ExtendedContextActionSetting.Value) {
 				// activate hotkey action for first visible reverse designator
@@ -198,10 +201,14 @@ namespace AllowTool.Context {
 			if (designator == null || designatorMenuProviders.ContainsKey(designator)) {
 				return;
 			}
-			var provider = new MenuProvider(designator, menuEntries.Where(e => e.HandledDesignatorType.IsInstanceOfType(designator)));
+			var provider = MakeMenuProviderForDesignator(designator);
 			if (provider.EntryCount > 0 || DesignatorShouldHaveDefaultContextMenuProvider(designator)) {
 				designatorMenuProviders.Add(designator, provider);
 			}
+		}
+
+		private static MenuProvider MakeMenuProviderForDesignator(Designator designator) {
+			return new MenuProvider(designator, menuEntries.Where(e => e.HandledDesignatorType.IsInstanceOfType(designator)));
 		}
 
 		// if designator has no custom context menu entries but has a stock context menu, still show a right click icon
