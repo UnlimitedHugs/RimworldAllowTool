@@ -77,10 +77,6 @@ namespace AllowTool.Patches {
 			} else {
 				prechecksSuccess = true;
 			}
-			if (prechecksSuccess) {
-				// clear designator-command pairs from previous call
-				yield return new CodeInstruction(OpCodes.Call, ((Action)DesignatorContextMenuController.ClearReverseDesignatorPairs).Method);
-			}
 			// currentCommandIndex: 7
 			// currentDesignatorHolderIndex: 10 
 			foreach (var instruction in instructionsArr) {

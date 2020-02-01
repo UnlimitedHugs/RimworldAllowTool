@@ -144,29 +144,16 @@ namespace AllowTool.Context {
 			}
 		}
 
-		// called every OnGUI- Commands for reverse designators are instantiated each time they are drawn, so we need to discard the old ones
-		public static void ClearReverseDesignatorPairs() {
-			currentDrawnReverseDesignators.Clear();
-		}
-
 		// Pairs a Command_Action with its reverse designator. This is necessary to display the context menu icon,
 		// as well as to intercept reverse designator right-clicks and shift-clicks
 		public static void RegisterReverseDesignatorPair(Designator designator, Command_Action designatorButton) {
 			currentDrawnReverseDesignators.Add(designatorButton, designator);
 		}
-
 		
 		public static void Update() {
-			if (Time.frameCount % (60*60) == 0) { // 'bout every minute
-				CheckForMemoryLeak();
-			}
-		}
-
-		private static void CheckForMemoryLeak() {
-			// this should not happen, unless another mod patches out our ClearReverseDesignatorPairs call
-			if (currentDrawnReverseDesignators.Count > 100000) {
-				AllowToolController.Logger.Error("Too many reverse designators! A mod interaction may have caused a memory leak.");
-			}
+			// Commands for reverse designators are instantiated each time an 
+			// OnGUI event is processed, so we need to discard the old ones regularly
+			ClearReverseDesignatorPairs();
 		}
 
 		internal static IEnumerable<SettingHandle<bool>> RegisterMenuEntryHandles(ModSettingsPack pack) {
@@ -180,6 +167,10 @@ namespace AllowTool.Context {
 			foreach (var reverseDesignator in AllowToolUtility.EnumerateReverseDesignators()) {
 				TryBindDesignatorToProvider(reverseDesignator);
 			}
+		}
+
+		private static void ClearReverseDesignatorPairs() {
+			currentDrawnReverseDesignators.Clear();
 		}
 
 		private static bool TryPickDesignatorFromReverseDesignator(Designator designator) {
