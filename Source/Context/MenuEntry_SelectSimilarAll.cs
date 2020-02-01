@@ -9,19 +9,23 @@ namespace AllowTool.Context {
 		public override Type HandledDesignatorType => typeof(Designator_SelectSimilar);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
+			return SelectSimilarWithFilter(designator, map, BaseMessageKey, BaseMessageKey);
+		}
+
+		public static ActivationResult SelectSimilarWithFilter(Designator designator, Map map,
+			string successMessageKey, string failureMessageKey, Predicate<Thing> filter = null) {
 			var des = (Designator_SelectSimilar)designator;
-			if (des is Designator_SelectSimilarReverse reverse) {
-				des = (Designator_SelectSimilar)reverse.PickUpReverseDesignator();
-			}
+			des = (Designator_SelectSimilar)des.PickUpReverseDesignator();
+
 			if (Find.Selector.NumSelected == 0) {
-				return ActivationResult.Failure(BaseMessageKey);
+				return ActivationResult.Failure(failureMessageKey);
 			}
 
 			des.ReindexSelectionConstraints();
 			// find things to select
 			var thingsToSelect = new List<Thing>();
 			foreach (var thing in map.listerThings.AllThings) {
-				if (des.CanDesignateThing(thing).Accepted) {
+				if (thing != null && (filter == null || filter(thing)) && des.CanDesignateThing(thing).Accepted) {
 					thingsToSelect.Add(thing);
 				}
 			}
@@ -44,8 +48,8 @@ namespace AllowTool.Context {
 			}
 
 			return limitWasHit
-				? ActivationResult.SuccessMessage("Designator_context_similar_part".Translate(hitCount, thingsToSelect.Count))
-				: ActivationResult.Success(BaseMessageKey, hitCount);
+				? ActivationResult.SuccessMessage((successMessageKey + "_part").Translate(hitCount, thingsToSelect.Count))
+				: ActivationResult.Success(successMessageKey, hitCount);
 		}
 	}
 }

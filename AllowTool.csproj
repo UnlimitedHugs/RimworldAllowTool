@@ -62,6 +62,7 @@
     <Compile Include="Source\Context\ActivationResult.cs" />
     <Compile Include="Source\Context\ATFloatMenuOption.cs" />
     <Compile Include="Source\Context\BaseContextMenuEntry.cs" />
+    <Compile Include="Source\Context\MenuEntry_SelectSimilarVisible.cs" />
     <Compile Include="Source\Designators\Command_PartyHunt.cs" />
     <Compile Include="Source\Context\DesignatorContextMenuController.cs" />
     <Compile Include="Source\AllowToolController.cs" />

@@ -55,6 +55,7 @@ namespace AllowTool.Context {
 			new MenuEntry_HuntAll(),
 			new MenuEntry_MineConnected(),
 			new MenuEntry_SelectSimilarAll(),
+			new MenuEntry_SelectSimilarVisible(),
 			new MenuEntry_StripAll()
 		};
 

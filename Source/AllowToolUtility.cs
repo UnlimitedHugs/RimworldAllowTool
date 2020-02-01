@@ -146,6 +146,21 @@ namespace AllowTool {
 			}, null, descriptionKey?.Translate());
 		}
 
+		public static CellRect GetVisibleMapRect() {
+			// code swiped from ThingSelectionUtility
+			var screenRect = new Rect(0f, 0f, UI.screenWidth, UI.screenHeight);
+			var screenLoc1 = new Vector2(screenRect.x, UI.screenHeight - screenRect.y);
+			var screenLoc2 = new Vector2(screenRect.x + screenRect.width, UI.screenHeight - (screenRect.y + screenRect.height));
+			var corner1 = UI.UIToMapPosition(screenLoc1);
+			var corner2 = UI.UIToMapPosition(screenLoc2);
+			return new CellRect {
+				minX = Mathf.FloorToInt(corner1.x),
+				minZ = Mathf.FloorToInt(corner2.z),
+				maxX = Mathf.FloorToInt(corner2.x),
+				maxZ = Mathf.FloorToInt(corner1.z)
+			};
+		}
+
 		public static IEnumerable<Designator> EnumerateResolvedDirectDesignators() {
 			return DefDatabase<DesignationCategoryDef>.AllDefs
 				.SelectMany(cat => cat.AllResolvedDesignators).ToArray();

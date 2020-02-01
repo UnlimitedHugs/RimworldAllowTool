@@ -77,8 +77,11 @@
 	
 	<Designator_context_similar>Select similar things on map</Designator_context_similar>
 	<Designator_context_similar_succ>Selected {0} similar things on the map.</Designator_context_similar_succ>
-	<Designator_context_similar_part>Selected {0} closest similar things out of {1} on the map</Designator_context_similar_part>
+	<Designator_context_similar_part>Selected {0} closest similar things out of {1} on the map.</Designator_context_similar_part>
 	<Designator_context_similar_fail>Something must be selected to select similar things.</Designator_context_similar_fail>
+	<Designator_context_similar_visible>Select similar things in visible area</Designator_context_similar_visible>
+	<Designator_context_similar_visible_succ>Selected {0} visible similar things.</Designator_context_similar_visible_succ>
+	<Designator_context_similar_visible_part>Selected {0} closest visible similar things out of {1}</Designator_context_similar_visible_part>
 	<Designator_context_urgent>Haul all items urgently</Designator_context_urgent>
 	<Designator_context_urgent_visible>Haul visible items urgently</Designator_context_urgent_visible>
 	<Designator_context_urgent_all>Haul all map items urgently</Designator_context_urgent_all>
