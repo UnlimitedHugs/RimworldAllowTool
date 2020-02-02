@@ -1,12 +1,9 @@
-﻿using System;
-using RimWorld;
-using Verse;
+﻿using Verse;
 
 namespace AllowTool.Context {
 	public class MenuEntry_CancelBlueprints : BaseContextMenuEntry {
 		protected override string SettingHandleSuffix => "cancelBlueprints";
 		protected override string BaseTextKey => "Designator_context_cancel_build";
-		public override Type HandledDesignatorType => typeof(Designator_Cancel);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
 			int hitCount = 0;

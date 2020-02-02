@@ -1,5 +1,4 @@
-﻿using System;
-using HugsLib.Utils;
+﻿using HugsLib.Utils;
 using RimWorld;
 using Verse;
 
@@ -8,7 +7,6 @@ namespace AllowTool.Context {
 		protected override string SettingHandleSuffix => "cutBlighted";
 		protected override string BaseTextKey => "Designator_context_cut";
 		protected override ThingRequestGroup DesignationRequestGroup => ThingRequestGroup.Plant;
-		public override Type HandledDesignatorType => typeof(Designator_PlantsCut);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
 			var hitCount = DesignateAllThings(designator, map,

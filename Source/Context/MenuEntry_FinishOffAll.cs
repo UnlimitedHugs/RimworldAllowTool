@@ -1,5 +1,4 @@
-﻿using System;
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 
 namespace AllowTool.Context {
@@ -7,7 +6,6 @@ namespace AllowTool.Context {
 		protected override string SettingHandleSuffix => "finishOffAll";
 		protected override string BaseTextKey => "Designator_context_finish";
 		protected override ThingRequestGroup DesignationRequestGroup => ThingRequestGroup.Pawn;
-		public override Type HandledDesignatorType => typeof(Designator_FinishOff);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
 			int hitCount = 0;

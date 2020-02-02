@@ -1,6 +1,4 @@
-﻿using System;
-using RimWorld;
-using Verse;
+﻿using Verse;
 
 namespace AllowTool.Context {
 	public class MenuEntry_HarvestHome : BaseContextMenuEntry {
@@ -8,7 +6,6 @@ namespace AllowTool.Context {
 		protected override string BaseMessageKey => "Designator_context_harvest";
 		protected override string SettingHandleSuffix => "harvestHome";
 		protected override ThingRequestGroup DesignationRequestGroup => ThingRequestGroup.Plant;
-		public override Type HandledDesignatorType => typeof(Designator_PlantsHarvest);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
 			return ActivateInHomeArea(designator, map);

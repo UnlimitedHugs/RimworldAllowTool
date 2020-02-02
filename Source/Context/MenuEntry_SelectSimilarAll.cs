@@ -6,7 +6,6 @@ namespace AllowTool.Context {
 	public class MenuEntry_SelectSimilarAll : BaseContextMenuEntry {
 		protected override string BaseTextKey => "Designator_context_similar";
 		protected override string SettingHandleSuffix => "selectSimilarAll";
-		public override Type HandledDesignatorType => typeof(Designator_SelectSimilar);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
 			return SelectSimilarWithFilter(designator, map, BaseMessageKey, BaseMessageKey);

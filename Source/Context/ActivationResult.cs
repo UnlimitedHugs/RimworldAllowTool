@@ -2,6 +2,10 @@
 using Verse;
 
 namespace AllowTool.Context {
+	/// <summary>
+	/// Used by context menu entries to report the result of their activation.
+	/// Can be displayed as a Message.
+	/// </summary>
 	public class ActivationResult {
 		public const string SuccessIdSuffix = "_succ";
 		public const string FailureIdSuffix = "_fail";

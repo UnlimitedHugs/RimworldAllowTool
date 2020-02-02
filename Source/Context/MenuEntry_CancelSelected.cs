@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
 using Verse;
 
 namespace AllowTool.Context {
 	public class MenuEntry_CancelSelected : BaseContextMenuEntry {
 		protected override string SettingHandleSuffix => "cancelSelected";
 		protected override string BaseTextKey => "Designator_context_cancel_selected";
-		public override Type HandledDesignatorType => typeof(Designator_Cancel);
-		
+
 		public override ActivationResult Activate(Designator designator, Map map) {
 			// distinct designation defs on selected things
 			var selectedObjects = new HashSet<object>(Find.Selector.SelectedObjects);

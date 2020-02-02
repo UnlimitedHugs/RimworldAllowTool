@@ -12,7 +12,6 @@ namespace AllowTool.Context {
 
 		protected override string BaseTextKey => "Designator_context_mine";
 		protected override string SettingHandleSuffix => "mineConnected";
-		public override Type HandledDesignatorType => typeof(Designator_Mine);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
 			MineDesignateSelectedOres(map);

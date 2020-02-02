@@ -4,6 +4,9 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool.Context {
+	/// <summary>
+	/// Base type for all custom right-click menu entries added by Allow Tool
+	/// </summary>
 	public abstract class BaseContextMenuEntry {
 		private const string SettingHandlePrefix = "contextEntry_";
 
@@ -23,7 +26,6 @@ namespace AllowTool.Context {
 
 		protected abstract string BaseTextKey { get; }
 		protected abstract string SettingHandleSuffix { get; }
-		public abstract Type HandledDesignatorType { get; }
 
 		protected virtual string Label {
 			get { return BaseTextKey.Translate(); }

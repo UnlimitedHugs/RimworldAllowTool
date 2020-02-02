@@ -1,5 +1,4 @@
-﻿using System;
-using Verse;
+﻿using Verse;
 
 namespace AllowTool.Context {
 	public class MenuEntry_HaulUrgentVisible : BaseContextMenuEntry {
@@ -7,7 +6,6 @@ namespace AllowTool.Context {
 		protected override string BaseMessageKey => "Designator_context_urgent";
 		protected override string SettingHandleSuffix => "haulUrgentVisible";
 		protected override ThingRequestGroup DesignationRequestGroup => ThingRequestGroup.HaulableEver;
-		public override Type HandledDesignatorType => typeof(Designator_HaulUrgently);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
 			var visibleRect = AllowToolUtility.GetVisibleMapRect();

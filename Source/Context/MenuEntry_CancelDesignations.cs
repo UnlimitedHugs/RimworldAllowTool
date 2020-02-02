@@ -1,12 +1,10 @@
-﻿using System;
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 
 namespace AllowTool.Context {
 	public class MenuEntry_CancelDesignations : BaseContextMenuEntry {
 		protected override string SettingHandleSuffix => "cancelDesginations";
 		protected override string BaseTextKey => "Designator_context_cancel_desig";
-		public override Type HandledDesignatorType => typeof(Designator_Cancel);
 
 		public override ActivationResult Activate(Designator designator, Map map) {
 			int hitCountThings = 0;
