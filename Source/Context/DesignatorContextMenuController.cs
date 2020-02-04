@@ -230,8 +230,7 @@ namespace AllowTool.Context {
 					var hasDesignateAll = (bool)AllowToolController.Instance.Reflection.DesignatorHasDesignateAllFloatMenuOptionField.GetValue(designator);
 					if (hasDesignateAll) return true;
 					var getOptionsMethod = designator.GetType().GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
-					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator) &&
-											getOptionsMethod.DeclaringType != typeof(Designator_SelectableThings);
+					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator);
 					if (hasOptionsMethod) return true;
 				}
 			} catch (Exception) {

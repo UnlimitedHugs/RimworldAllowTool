@@ -30,7 +30,8 @@ namespace AllowTool {
 
 		public override void PostLoad() {
 			Assert(designatorClass != null, "designatorClass field must be set");
-			Assert(designatorClass != null && typeof (Designator_SelectableThings).IsAssignableFrom(designatorClass), "designatorClass must extend Designator_SelectableThings");
+			Assert(designatorClass != null && typeof(Designator_DefBased).IsAssignableFrom(designatorClass), 
+				"designatorClass must extend " + nameof(Designator_DefBased));
 			Assert(iconTex != null, "icon texture must be set");
 			Assert(dragHighlightTex != null, "drag highlight texture must be set");
 		}

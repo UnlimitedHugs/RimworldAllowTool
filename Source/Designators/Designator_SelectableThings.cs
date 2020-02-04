@@ -1,71 +1,24 @@
 ﻿using System.Collections.Generic;
-using AllowTool.Context;
 using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace AllowTool {
-	
 	/// <summary>
-	/// Base class for custom designators that deal with selectable Things.
-	/// This mainly exists to allow the use of an alternative DesignationDragger.
+	/// Base class for all designators that use a dragger to operate on things, rather than cells.
 	/// </summary>
-	public abstract class Designator_SelectableThings : Designator, IReversePickableDesignator, IGlobalHotKeyProvider {
-		public ThingDesignatorDef Def { get; private set; }
-		protected int numThingsDesignated;
-		private Texture2D dragHighlight;
+	public abstract class Designator_SelectableThings : Designator_UnlimitedDragger {
+		private Material dragHighlightMat;
 
-		public override int DraggableDimensions {
-			get { return 2; }
+		protected override void OnDefAssigned() {
+			Def.GetDragHighlightexture(tex => {
+				dragHighlightMat = MaterialPool.MatFrom(tex, ShaderDatabase.MetaOverlay, Color.white);
+			});
 		}
 
-		public override bool DragDrawMeasurements {
-			get { return true; }
-		}
-
-		private bool visible = true;
-		
-		public override bool Visible {
-			get { return visible; }
-		}
-
-		public KeyBindingDef GlobalHotKey {
-			get { return Def.hotkeyDef; }
-		}
-
-		protected Designator_SelectableThings() {
-			useMouseIcon = true;
-			soundDragSustain = SoundDefOf.Designate_DragStandard;
-			soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
-		}
-
-		protected void UseDesignatorDef(ThingDesignatorDef def) {
-			Def = def;
-			defaultLabel = def.label;
-			defaultDesc = def.description;
-			soundSucceeded = def.soundSucceeded;
-			hotKey = def.hotkeyDef;
-			visible = AllowToolController.Instance.Handles.IsDesignatorEnabled(def);
-			def.GetDragHighlightexture(tex => dragHighlight = tex);
-			ResolveIcon();
-		}
-
-		protected virtual void ResolveIcon() {
-			Def.GetIconTexture(tex => icon = tex);
-		}
-
-		public virtual Designator PickUpReverseDesignator() {
-			return this;
-		}
-
-		// this is called by the vanilla DesignationDragger. We are using UnlimitedDesignationDragger instead.
-		// returning false prevents the vanilla dragger from selecting any of the cells.
-		public override AcceptanceReport CanDesignateCell(IntVec3 c) {
-			return false;
-		}
-		
 		public override void Selected() {
-			AllowToolController.Instance.Dragger.BeginListening(CanDesignateThing, dragHighlight);
+			base.Selected();
+			Dragger.SelectionUpdate += OnDraggerSelectionUpdate;
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
@@ -84,7 +37,7 @@ namespace AllowTool {
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
 			var hitCount = 0;
-			foreach (var cell in AllowToolController.Instance.Dragger.GetAffectedCells()) {
+			foreach (var cell in Dragger.SelectedArea) {
 				DesignateSingleCell(cell);
 				hitCount += numThingsDesignated;
 			}
@@ -95,6 +48,20 @@ namespace AllowTool {
 				if (Def.messageFailure != null) Messages.Message(Def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
 				FinalizeDesignationFailed();
 			}
+		}
+
+		private void OnDraggerSelectionUpdate(CellRect rect) {
+			var allTheThings = Map.listerThings.AllThings;
+			for (var i = 0; i < allTheThings.Count; i++) {
+				var thing = allTheThings[i];
+				if (thing.def.selectable && rect.Contains(thing.Position) && CanDesignateThing(thing).Accepted) {
+					DrawDragHighlightInCell(thing.Position);
+				}
+			}
+		}
+
+		private void DrawDragHighlightInCell(IntVec3 pos) {
+			Graphics.DrawMesh(MeshPool.plane10, pos.ToVector3Shifted() + 10f * Vector3.up, Quaternion.identity, dragHighlightMat, 0);	
 		}
 	}
 }

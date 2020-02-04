@@ -2,6 +2,9 @@
 using Verse;
 
 namespace AllowTool {
+	/// <summary>
+	/// Base class for Allow Tool designators that replace a vanilla designator
+	/// </summary>
 	public abstract class Designator_Replacement : Designator_SelectableThings {
 		protected Designator replacedDesignator;
 

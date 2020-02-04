@@ -25,7 +25,6 @@ namespace AllowTool {
 			get { return Instance.GetLogger; }
 		}
 
-		public UnlimitedDesignationDragger Dragger { get; private set; }
 		public WorldSettings WorldSettings { get; private set; }
 		public ModSettingsHandler Handles { get; private set; }
 		public ReflectionHandler Reflection { get; private set; }
@@ -37,7 +36,6 @@ namespace AllowTool {
 		}
 
 		public override void EarlyInitalize() {
-			Dragger = new UnlimitedDesignationDragger();
 			Handles = new ModSettingsHandler();
 			Reflection = new ReflectionHandler();
 			Reflection.PrepareReflection();
@@ -47,7 +45,6 @@ namespace AllowTool {
 		}
 
 		public override void Update() {
-			Dragger.Update();
 			DesignatorContextMenuController.Update();
 		}
 

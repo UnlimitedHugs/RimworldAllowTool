@@ -4,12 +4,11 @@ using Verse;
 using Verse.Sound;
 
 namespace AllowTool {
-	
 	/// <summary>
 	/// Unforbids all forbidden things on the map.
 	/// Holding Shift will include rotten remains.
 	/// </summary>
-	public class Designator_AllowAll : Designator_SelectableThings {
+	public class Designator_AllowAll : Designator_DefBased {
 		public Designator_AllowAll() {
 			UseDesignatorDef(AllowToolDefOf.AllowAllDesignator);
 		} 
@@ -21,6 +20,10 @@ namespace AllowTool {
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing t) {
+			return false;
+		}
+
+		public override AcceptanceReport CanDesignateCell(IntVec3 loc) {
 			return false;
 		}
 

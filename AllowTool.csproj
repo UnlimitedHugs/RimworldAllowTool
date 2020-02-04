@@ -91,6 +91,7 @@
     <Compile Include="Source\DesignationCleanupManager.cs" />
     <Compile Include="Source\Designators\Designator_Allow.cs" />
     <Compile Include="Source\Designators\Designator_AllowAll.cs" />
+    <Compile Include="Source\Designators\Designator_DefBased.cs" />
     <Compile Include="Source\Designators\Designator_FinishOff.cs" />
     <Compile Include="Source\Designators\Designator_Forbid.cs" />
     <Compile Include="Source\Designators\Designator_HarvestFullyGrown.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
     <Compile Include="Source\Designators\Designator_Replacement.cs" />
+    <Compile Include="Source\Designators\Designator_UnlimitedDragger.cs" />
     <Compile Include="Source\Handlers\HotkeyHandler.cs" />
     <Compile Include="Source\Handlers\IGlobalHotkeyProvider.cs" />
     <Compile Include="Source\Handlers\ReflectionHandler.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="Source\Reverse\ReverseDesignatorDef.cs" />
     <Compile Include="Source\Handlers\ModSettingsHandler.cs" />
     <Compile Include="Source\Settings\WorldSettings.cs" />
-    <Compile Include="Source\UnlimitedDesignationDragger.cs" />
+    <Compile Include="Source\UnlimitedAreaDragger.cs" />
     <Compile Include="Source\ThingDesignatorDef.cs" />
     <Compile Include="Source\AI\WorkGiver_HaulUrgently.cs" />
   </ItemGroup>

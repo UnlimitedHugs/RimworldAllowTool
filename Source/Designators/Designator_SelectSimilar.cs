@@ -25,6 +25,10 @@ namespace AllowTool {
 			get { return selectionConstraints.Count > 0; }
 		}
 
+		private bool SelectingSingleCell {
+			get { return Dragger.SelectionInProgress && Dragger.SelectedArea.Area == 1; }
+		}
+
 		public Designator_SelectSimilar() {
 			UseDesignatorDef(AllowToolDefOf.SelectSimilarDesignator);
 		}
@@ -33,13 +37,14 @@ namespace AllowTool {
 			base.Selected();
 			ReindexSelectionConstraints();
 		}
-		
+
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
 			return thing.def != null &&
 				   thing.def.selectable &&
 				   thing.def.label != null &&
 				   !BlockedByFog(thing.Position, thing.Map) &&
-				   (ThingMatchesSelectionConstraints(thing) || AllowToolController.Instance.Dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection constraints if we are not dragging, only clicking
+				    // this allows us to select items that don't match the selection constraints if we are not dragging, only clicking
+				   (ThingMatchesSelectionConstraints(thing) || SelectingSingleCell) &&
 				   SelectionLimitAllowsAdditionalThing();
 		}
 
@@ -59,8 +64,8 @@ namespace AllowTool {
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> vanillaCells) {
-			var selectedCells = AllowToolController.Instance.Dragger.GetAffectedCells().ToList();
-			if (AllowToolController.Instance.Dragger.SelectingSingleCell) {
+			var selectedCells = Dragger.SelectedArea.Cells.ToList();
+			if (SelectingSingleCell) {
 				ProcessSingleCellClick(selectedCells.FirstOrDefault());
 			} else {
 				base.DesignateMultiCell(vanillaCells);
@@ -85,7 +90,7 @@ namespace AllowTool {
 
 		public bool SelectionLimitAllowsAdditionalThing() {
 			return Find.Selector.NumSelected < AllowToolController.Instance.Handles.SelectionLimitSetting.Value 
-				|| AllowToolController.Instance.Dragger.SelectingSingleCell 
+				|| SelectingSingleCell 
 				|| HugsLibUtility.AltIsHeld;
 		}
 
