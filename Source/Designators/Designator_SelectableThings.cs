@@ -8,7 +8,11 @@ namespace AllowTool {
 	/// Base class for all designators that use a dragger to operate on things, rather than cells.
 	/// </summary>
 	public abstract class Designator_SelectableThings : Designator_UnlimitedDragger {
+		private const float HighlightedCellsRecacheInterval = .5f;
+
+		private static readonly List<Vector3> cachedHighlightQuadPositions = new List<Vector3>();
 		private Material dragHighlightMat;
+		private float nextHighlightRecacheTime;
 
 		protected override void OnDefAssigned() {
 			Def.GetDragHighlightexture(tex => {
@@ -18,7 +22,10 @@ namespace AllowTool {
 
 		public override void Selected() {
 			base.Selected();
-			Dragger.SelectionUpdate += OnDraggerSelectionUpdate;
+			Dragger.SelectionStart += DraggerOnSelectionStart;
+			Dragger.SelectionChanged += DraggerOnSelectionChanged;
+			Dragger.SelectionComplete += DraggerOnSelectionComplete;
+			Dragger.SelectionUpdate += DraggerOnSelectionUpdate;
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
@@ -50,18 +57,44 @@ namespace AllowTool {
 			}
 		}
 
-		private void OnDraggerSelectionUpdate(CellRect rect) {
-			var allTheThings = Map.listerThings.AllThings;
-			for (var i = 0; i < allTheThings.Count; i++) {
-				var thing = allTheThings[i];
-				if (thing.def.selectable && rect.Contains(thing.Position) && CanDesignateThing(thing).Accepted) {
-					DrawDragHighlightInCell(thing.Position);
+		private void DraggerOnSelectionStart(CellRect rect) {
+			RecacheHighlightCellPositions(rect);
+		}
+
+		private void DraggerOnSelectionChanged(CellRect rect) {
+			RecacheHighlightCellPositions(rect);
+		}
+
+		private void DraggerOnSelectionComplete(CellRect rect) {
+			RecacheHighlightCellPositions(rect);
+		}
+
+		private void DraggerOnSelectionUpdate(CellRect rect) {
+			if (Time.time >= nextHighlightRecacheTime) {
+				RecacheHighlightCellPositions(rect);
+			}
+			DrawCachedCellHighlights();
+		}
+
+		private void RecacheHighlightCellPositions(CellRect rect) {
+			nextHighlightRecacheTime = Time.time + HighlightedCellsRecacheInterval;
+			cachedHighlightQuadPositions.Clear();
+			if (Dragger.SelectionInProgress) {
+				var allTheThings = Map.listerThings.AllThings;
+				var drawOnTopOffset = 10f * Vector3.up;
+				for (var i = 0; i < allTheThings.Count; i++) {
+					var thing = allTheThings[i];
+					if (thing.def.selectable && rect.Contains(thing.Position) && CanDesignateThing(thing).Accepted) {
+						cachedHighlightQuadPositions.Add(thing.Position.ToVector3Shifted() + drawOnTopOffset);
+					}
 				}
 			}
 		}
 
-		private void DrawDragHighlightInCell(IntVec3 pos) {
-			Graphics.DrawMesh(MeshPool.plane10, pos.ToVector3Shifted() + 10f * Vector3.up, Quaternion.identity, dragHighlightMat, 0);	
+		private void DrawCachedCellHighlights() {
+			for (var i = 0; i < cachedHighlightQuadPositions.Count; i++) {
+				Graphics.DrawMesh(MeshPool.plane10, cachedHighlightQuadPositions[i], Quaternion.identity, dragHighlightMat, 0);	
+			}
 		}
 	}
 }
