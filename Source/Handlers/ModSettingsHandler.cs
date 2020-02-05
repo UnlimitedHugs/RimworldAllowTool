@@ -15,6 +15,8 @@ namespace AllowTool {
 		private readonly Dictionary<string, SettingHandle<bool>> designatorToggleHandles = new Dictionary<string, SettingHandle<bool>>();
 		private readonly Dictionary<string, SettingHandle<bool>> reverseDesignatorToggleHandles = new Dictionary<string, SettingHandle<bool>>();
 
+		public event Action PackSettingsChanged;
+
 		public SettingHandle<int> SelectionLimitSetting { get; private set; }
 		public SettingHandle<bool> GlobalHotkeysSetting { get; private set; }
 		public SettingHandle<bool> ContextOverlaySetting { get; private set; }
@@ -80,6 +82,8 @@ namespace AllowTool {
 			}
 			FinishOffSkillRequirement = pack.GetHandle("finishOffSkill", "setting_finishOffSkill_label".Translate(), "setting_finishOffSkill_desc".Translate(), true);
 			FinishOffSkillRequirement.VisibilityPredicate = () => Prefs.DevMode;
+
+			RegisterPackHandlesChangedCallback(pack);
 		}
 
 		public bool IsDesignatorEnabled(ThingDesignatorDef def) {
@@ -101,6 +105,15 @@ namespace AllowTool {
 
 		private bool GetToolHandleSettingValue(Dictionary<string, SettingHandle<bool>> handleDict, string handleName) {
 			return handleDict.TryGetValue(handleName, out SettingHandle<bool> handle) && handle.Value;
+		}
+
+		private void RegisterPackHandlesChangedCallback(ModSettingsPack pack) {
+			SettingHandle<bool>.ValueChanged onHandleValueChanged = val => PackSettingsChanged?.Invoke();
+			foreach (var handle in pack.Handles) {
+				if (handle is SettingHandle<bool> shb) {
+					shb.OnValueChanged = onHandleValueChanged;
+				}
+			}
 		}
 	}
 }

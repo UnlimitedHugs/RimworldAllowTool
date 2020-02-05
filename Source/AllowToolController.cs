@@ -30,6 +30,7 @@ namespace AllowTool {
 		public ReflectionHandler Reflection { get; private set; }
 		private HotKeyHandler hotKeys;
 		private bool dependencyRefreshScheduled;
+		private bool modSettingsHaveChanged;
 
 		private AllowToolController() {
 			Instance = this;
@@ -37,6 +38,7 @@ namespace AllowTool {
 
 		public override void EarlyInitalize() {
 			Handles = new ModSettingsHandler();
+			Handles.PackSettingsChanged += () => modSettingsHaveChanged = true;
 			Reflection = new ReflectionHandler();
 			Reflection.PrepareReflection();
 			hotKeys = new HotKeyHandler();
@@ -75,6 +77,8 @@ namespace AllowTool {
 		}
 
 		public override void SettingsChanged() {
+			if (!modSettingsHaveChanged) return;
+			modSettingsHaveChanged = false;
 			ResolveAllDesignationCategories();
 			if (AllowToolUtility.ReverseDesignatorDatabaseInitialized) {
 				Find.ReverseDesignatorDatabase.Reinit();
