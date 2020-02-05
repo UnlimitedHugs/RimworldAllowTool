@@ -45,7 +45,7 @@ namespace AllowTool {
 
 		private void OnSelectionStarted() {
 			SelectionInProgress = true;
-			SelectionStartCell = UI.MouseCell();
+			SelectionStartCell = ClampPositionToMapRect(Find.CurrentMap, UI.MouseCell());
 			SelectionStart?.Invoke(CellRect.SingleCell(SelectionStartCell));
 		}
 
@@ -76,8 +76,7 @@ namespace AllowTool {
 			}
 			if (SelectionInProgress) {
 				var mouseCell = UI.MouseCell();
-				IntVec3 ClampCellToMapRect (IntVec3 cell) => CellRect.WholeMap(map).ClosestCellTo(cell);
-				var currentCell = ClampCellToMapRect(mouseCell);
+				var currentCell = ClampPositionToMapRect(map, mouseCell);
 				var currentRect = CellRect.FromLimits(SelectionStartCell, currentCell);
 				if (currentRect != SelectedArea) {
 					SelectedArea = currentRect;
@@ -85,6 +84,10 @@ namespace AllowTool {
 				}
 				SelectionUpdate?.Invoke(SelectedArea);
 			}
+		}
+
+		private IntVec3 ClampPositionToMapRect (Map map, IntVec3 pos) {
+			return CellRect.WholeMap(map).ClosestCellTo(pos);
 		}
 
 		private void RegisterForNextUpdate() {
