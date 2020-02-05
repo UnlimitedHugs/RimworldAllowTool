@@ -3,7 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace AllowTool.Context {
+namespace AllowTool {
 	/// <summary>
 	/// A toggle button with context options to switch party hunting mode for a pawn.
 	/// </summary>

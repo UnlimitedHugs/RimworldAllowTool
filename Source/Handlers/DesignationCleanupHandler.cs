@@ -6,7 +6,7 @@ namespace AllowTool {
 	/// <summary>
 	/// Periodically cleans up designations that no longer have valid targets.
 	/// </summary>
-	public static class DesignationCleanupManager {
+	public static class DesignationCleanupHandler {
 		private const int TickInterval = 30;
 
 		private static readonly Queue<Designation> cleanupList = new Queue<Designation>();

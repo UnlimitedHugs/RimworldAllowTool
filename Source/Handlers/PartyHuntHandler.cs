@@ -11,7 +11,7 @@ namespace AllowTool {
 	/// <summary>
 	/// Draws controls, handles input, and provides job driving functionality for the "drafted hunting" tool.
 	/// </summary>
-	public static class PartyHuntController {
+	public static class PartyHuntHandler {
 		private const float MaxPartyMemberDistance = 20f;
 		private const float MaxFinishOffDistance = 20f;
 

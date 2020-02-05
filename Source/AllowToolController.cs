@@ -43,7 +43,7 @@ namespace AllowTool {
 			Reflection.PrepareReflection();
 			hotKeys = new HotKeyHandler();
 			// wait for other mods to be loaded
-			LongEventHandler.QueueLongEvent(Compat_PickUpAndHaul.Apply, null, false, null);
+			LongEventHandler.QueueLongEvent(PickUpAndHaulCompatHandler.Apply, null, false, null);
 		}
 
 		public override void Update() {
@@ -51,7 +51,7 @@ namespace AllowTool {
 		}
 
 		public override void Tick(int currentTick) {
-			DesignationCleanupManager.Tick(currentTick);
+			DesignationCleanupHandler.Tick(currentTick);
 		}
 
 		public override void OnGUI() {
@@ -108,7 +108,7 @@ namespace AllowTool {
 		}
 
 		internal void OnReverseDesignatorDatabaseInit(ReverseDesignatorDatabase database) {
-			ReverseDesignatorProvider.InjectReverseDesignators(database);
+			ReverseDesignatorHandler.InjectReverseDesignators(database);
 			ScheduleDesignatorDependencyRefresh();
 		}
 
