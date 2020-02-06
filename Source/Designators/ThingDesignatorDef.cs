@@ -24,7 +24,7 @@ namespace AllowTool {
 			iconResolver.ResolveTexture(iconTex, onLoaded);
 		}
 
-		public void GetDragHighlightexture(Action<Texture2D> onLoaded) {
+		public void GetDragHighlightTexture(Action<Texture2D> onLoaded) {
 			highlightResolver.ResolveTexture(dragHighlightTex, onLoaded);
 		}
 
