@@ -12,7 +12,8 @@ namespace AllowTool {
 		private readonly List<Vector3> cachedHighlightQuadPositions = new List<Vector3>();
 		private readonly Func<IEnumerable<IntVec3>> cellSelector;
 		private readonly float recacheInterval;
-		
+		private readonly AltitudeLayer drawAltitude;
+
 		private Material dragHighlightMat;
 		public Texture2D HighlightTexture {
 			set { dragHighlightMat = MaterialPool.MatFrom(value, ShaderDatabase.MetaOverlay, Color.white); }
@@ -20,9 +21,10 @@ namespace AllowTool {
 
 		private float nextHighlightRecacheTime;
 
-		public MapCellHighlighter(Func<IEnumerable<IntVec3>> cellSelector, float recacheInterval = .5f) {
+		public MapCellHighlighter(Func<IEnumerable<IntVec3>> cellSelector, float recacheInterval = .5f, AltitudeLayer drawAltitude = AltitudeLayer.MetaOverlays) {
 			this.cellSelector = cellSelector ?? throw new ArgumentNullException(nameof(cellSelector));
 			this.recacheInterval = recacheInterval;
+			this.drawAltitude = drawAltitude;
 		}
 
 		public void ClearCachedCells() {
@@ -40,9 +42,8 @@ namespace AllowTool {
 		private void RecacheCellPositions() {
 			nextHighlightRecacheTime = Time.time + recacheInterval;
 			cachedHighlightQuadPositions.Clear();
-			var drawOnTopOffset = 10f * Vector3.up;
 			foreach (var cell in cellSelector()) {
-				cachedHighlightQuadPositions.Add(cell.ToVector3Shifted() + drawOnTopOffset);
+				cachedHighlightQuadPositions.Add(cell.ToVector3ShiftedWithAltitude(drawAltitude));
 			}
 		}
 

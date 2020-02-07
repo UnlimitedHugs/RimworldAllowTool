@@ -23,6 +23,7 @@ namespace AllowTool {
 		public static ThingDesignatorDef HaulUrgentlyDesignator;
 		public static ThingDesignatorDef FinishOffDesignator;
 		public static ThingDesignatorDef HarvestFullyGrownDesignator;
+		public static ThingDesignatorDef StripMineDesignator;
 
 		// reverse designators
 		public static ReverseDesignatorDef ReverseFinishOff;

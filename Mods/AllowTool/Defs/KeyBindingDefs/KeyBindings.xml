@@ -51,6 +51,12 @@
 	
 	<KeyBindingDef>
 		<category>AllowTool</category>
+		<defName>DesignatorStripMine</defName>
+		<label>Designator: Strip mine</label>
+	</KeyBindingDef>
+	
+	<KeyBindingDef>
+		<category>AllowTool</category>
 		<defName>ToolContextMenuAction</defName>
 		<label>Current tool: context menu action</label>
 		<defaultKeyCodeA>Equals</defaultKeyCodeA>

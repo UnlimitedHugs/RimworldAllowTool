@@ -12,6 +12,7 @@
 				<order>Append</order>
 				<xpath>/Defs/DesignationCategoryDef[defName="Orders"]/specialDesignatorClasses/li[13]</xpath>
 				<value>
+					<li>AllowTool.Designator_StripMine</li>
 					<li>AllowTool.Designator_HarvestFullyGrown</li>
 					<li>AllowTool.Designator_FinishOff</li>
 					<li>AllowTool.Designator_HaulUrgently</li>

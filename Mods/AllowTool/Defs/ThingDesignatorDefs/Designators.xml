@@ -112,4 +112,15 @@ Configurable in the Work tab.
 		<messageFailure>Harvest_fully_grown_failure</messageFailure>
 	</AllowTool.ThingDesignatorDef>
 	
+	<AllowTool.ThingDesignatorDef>
+        <defName>StripMineDesignator</defName>
+		<designatorClass>AllowTool.Designator_StripMine</designatorClass>
+        <label>Strip mine</label>
+		<description>Lays out mine orders in a grid to maximize the chance to find hidden ores.</description>
+		<iconTex>allow</iconTex>
+		<dragHighlightTex>allowHighlight</dragHighlightTex>
+		<soundSucceeded>Tick_High</soundSucceeded>
+		<hotkeyDef>DesignatorStripMine</hotkeyDef>
+	</AllowTool.ThingDesignatorDef>
+	
 </Defs>
