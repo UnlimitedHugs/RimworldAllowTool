@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -8,10 +9,10 @@ namespace AllowTool {
 	/// Base class for all designators that use a dragger to operate on things, rather than cells.
 	/// </summary>
 	public abstract class Designator_SelectableThings : Designator_UnlimitedDragger {
-		private readonly MapCellHighlighter highlighter;
+		private Material highlightMaterial;
 
 		protected Designator_SelectableThings() {
-			highlighter = new MapCellHighlighter(SelectHighlightedCells);
+			var highlighter = new MapCellHighlighter(SelectHighlightedCells);
 			Action<CellRect> clearHighlightedCells = r => highlighter.ClearCachedCells();
 			Dragger.SelectionStart += clearHighlightedCells;
 			Dragger.SelectionChanged += clearHighlightedCells;
@@ -20,7 +21,9 @@ namespace AllowTool {
 		}
 
 		protected override void OnDefAssigned() {
-			Def.GetDragHighlightTexture(tex => highlighter.HighlightTexture = tex);
+			Def.GetDragHighlightTexture(tex => 
+				highlightMaterial = MaterialPool.MatFrom(tex, ShaderDatabase.MetaOverlay, Color.white)
+			);
 		}
 
 		public override void DesignateSingleCell(IntVec3 cell) {
@@ -52,12 +55,12 @@ namespace AllowTool {
 			}
 		}
 
-		private IEnumerable<IntVec3> SelectHighlightedCells() {
+		private IEnumerable<MapCellHighlighter.Request> SelectHighlightedCells() {
 			var allTheThings = Map.listerThings.AllThings;
 			for (var i = 0; i < allTheThings.Count; i++) {
 				var thing = allTheThings[i];
 				if (thing.def.selectable && Dragger.SelectedArea.Contains(thing.Position) && CanDesignateThing(thing).Accepted) {
-					yield return thing.Position;
+					yield return new MapCellHighlighter.Request(thing.Position, highlightMaterial);
 				}
 			}
 		}

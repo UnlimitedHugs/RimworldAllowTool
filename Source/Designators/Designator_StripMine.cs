@@ -9,16 +9,20 @@ using Verse;
 
 namespace AllowTool {
 	public class Designator_StripMine : Designator_UnlimitedDragger {
+		private const float InvalidCellHighlightAlpha = .2f;
+
 		private static readonly Material areaOutlineMaterial = 
 			(Material)AllowToolController.Instance.Reflection.GenDrawLineMatMetaOverlay.GetValue(null);
 		private readonly Action updateCallback;
 		private readonly MapCellHighlighter highlighter;
+		private Material designationValidMat;
+		private Material designationInvalidMat;
 		private CellRect currentSelection;
 		private bool updateCallbackScheduled;
 
 		public Designator_StripMine() {
 			UseDesignatorDef(AllowToolDefOf.StripMineDesignator);
-			highlighter = new MapCellHighlighter(EnumerateTargetCells);
+			highlighter = new MapCellHighlighter(EnumerateHighlightCells);
 			Dragger.SelectionStart += DraggerOnSelectionStart;
 			Dragger.SelectionChanged += DraggerOnSelectionChanged;
 			Dragger.SelectionComplete += DraggerOnSelectionComplete;
@@ -26,7 +30,13 @@ namespace AllowTool {
 		}
 
 		protected override void OnDefAssigned() {
-			Def.GetDragHighlightTexture(tex => highlighter.HighlightTexture = tex);
+			Material GetMaterial(Texture2D tex, float alpha) {
+				return MaterialPool.MatFrom(tex, ShaderDatabase.MetaOverlay, new Color(1f, 1f, 1f, alpha));
+			}
+			Def.GetDragHighlightTexture(tex => {
+				designationValidMat = GetMaterial(tex, 1f);
+				designationInvalidMat = GetMaterial(tex, InvalidCellHighlightAlpha);
+			});
 		}
 
 		public override void Selected() {
@@ -43,7 +53,7 @@ namespace AllowTool {
 					.SpawnedDesignationsOfDef(mineDef)
 					.Select(d => d.target.Cell)
 				);
-				foreach (var cell in EnumerateTargetCells()) {
+				foreach (var cell in EnumerateDesignationCells()) {
 					currentCell = cell;
 					if (alreadyDesignatedCells.Contains(cell)) continue;
 					cell.ToggleDesignation(DesignationDefOf.Mine, true);
@@ -77,18 +87,30 @@ namespace AllowTool {
 			HugsLibController.Instance.DoLater.DoNextUpdate(updateCallback);
 		}
 
-		private IEnumerable<IntVec3> EnumerateTargetCells() {
-			var map = Find.CurrentMap;
+		private IEnumerable<IntVec3> EnumerateGridCells() {
 			const int spacing = 4;
 			bool CellIsOnGridLine(IntVec3 c) {
 				return c.x % spacing == 0 || c.z % spacing == 0;
 			}
-			bool CellIsMineable(IntVec3 c) {
-				if (c.Fogged(map)) return true;
-				var m = c.GetFirstMineable(map);
-				return m != null && m.def.mineable;
-			}
-			return currentSelection.Cells.Where(c => CellIsOnGridLine(c) && CellIsMineable(c));
+			return currentSelection.Cells.Where(CellIsOnGridLine);
+		}
+
+		private IEnumerable<IntVec3> EnumerateDesignationCells() {
+			var map = Find.CurrentMap;
+			return EnumerateGridCells().Where(c => CellIsMineable(map, c));
+		}
+
+		private IEnumerable<MapCellHighlighter.Request> EnumerateHighlightCells() {
+			var map = Find.CurrentMap;
+			return EnumerateGridCells().Select(c =>
+				new MapCellHighlighter.Request(c, CellIsMineable(map, c) ? designationValidMat : designationInvalidMat)
+			);
+		}
+
+		private bool CellIsMineable(Map map, IntVec3 c) {
+			if (c.Fogged(map)) return true;
+			var m = c.GetFirstMineable(map);
+			return m != null && m.def.mineable;
 		}
 
 		private void DraggerOnSelectionStart(CellRect cellRect) {

@@ -59,7 +59,7 @@
     <Compile Include="Source\AI\JobDriver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
     <Compile Include="Source\Designators\Designator_StripMine.cs" />
-    <Compile Include="Source\Designators\MapCellHighlighter.cs" />
+    <Compile Include="Source\Utils\MapCellHighlighter.cs" />
     <Compile Include="Source\Utils\Alert_NoUrgentStorage.cs" />
     <Compile Include="Source\Handlers\PickUpAndHaulCompatHandler.cs" />
     <Compile Include="Source\Context\ActivationResult.cs" />

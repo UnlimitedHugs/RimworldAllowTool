@@ -9,19 +9,15 @@ namespace AllowTool {
 	/// Caches highlighted cell positions for better performance.
 	/// </summary>
 	public class MapCellHighlighter {
-		private readonly List<Vector3> cachedHighlightQuadPositions = new List<Vector3>();
-		private readonly Func<IEnumerable<IntVec3>> cellSelector;
+		private readonly List<CachedHighlight> cachedHighlightQuadPositions = new List<CachedHighlight>();
+		private readonly Func<IEnumerable<Request>> cellSelector;
 		private readonly float recacheInterval;
 		private readonly AltitudeLayer drawAltitude;
 
-		private Material dragHighlightMat;
-		public Texture2D HighlightTexture {
-			set { dragHighlightMat = MaterialPool.MatFrom(value, ShaderDatabase.MetaOverlay, Color.white); }
-		}
-
 		private float nextHighlightRecacheTime;
 
-		public MapCellHighlighter(Func<IEnumerable<IntVec3>> cellSelector, float recacheInterval = .5f, AltitudeLayer drawAltitude = AltitudeLayer.MetaOverlays) {
+		public MapCellHighlighter(Func<IEnumerable<Request>> cellSelector, 
+			float recacheInterval = .5f, AltitudeLayer drawAltitude = AltitudeLayer.MetaOverlays) {
 			this.cellSelector = cellSelector ?? throw new ArgumentNullException(nameof(cellSelector));
 			this.recacheInterval = recacheInterval;
 			this.drawAltitude = drawAltitude;
@@ -42,15 +38,48 @@ namespace AllowTool {
 		private void RecacheCellPositions() {
 			nextHighlightRecacheTime = Time.time + recacheInterval;
 			cachedHighlightQuadPositions.Clear();
-			foreach (var cell in cellSelector()) {
-				cachedHighlightQuadPositions.Add(cell.ToVector3ShiftedWithAltitude(drawAltitude));
+			var altitudeOffset = drawAltitude.AltitudeFor();
+			foreach (var request in cellSelector()) {
+				cachedHighlightQuadPositions.Add(new CachedHighlight(
+					new Vector3(request.Cell.x + .5f, altitudeOffset, request.Cell.z + .5f),
+					request.Material)
+				);
 			}
 		}
 
 		private void DrawCachedCellHighlights() {
-			if (dragHighlightMat == null) return;
 			for (var i = 0; i < cachedHighlightQuadPositions.Count; i++) {
-				Graphics.DrawMesh(MeshPool.plane10, cachedHighlightQuadPositions[i], Quaternion.identity, dragHighlightMat, 0);	
+				var values = cachedHighlightQuadPositions[i];
+				Graphics.DrawMesh(MeshPool.plane10, values.DrawPosition, Quaternion.identity, values.Material, 0);	
+			}
+		}
+
+		private Color Color32ToColor(Color32 c) {
+			return new Color {
+				r = c.r / (float)byte.MaxValue,
+				g = c.g / (float)byte.MaxValue,
+				b = c.b / (float)byte.MaxValue,
+				a = c.a / (float)byte.MaxValue
+			};
+		}
+
+		public class Request {
+			public readonly IntVec3 Cell;
+			public readonly Material Material;
+
+			public Request(IntVec3 cell, Material material) {
+				Cell = cell;
+				Material = material;
+			}
+		}
+
+		private class CachedHighlight {
+			public readonly Vector3 DrawPosition;
+			public readonly Material Material;
+
+			public CachedHighlight(Vector3 drawPosition, Material material) {
+				DrawPosition = drawPosition;
+				Material = material;
 			}
 		}
 	}
