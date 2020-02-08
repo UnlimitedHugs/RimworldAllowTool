@@ -59,6 +59,10 @@
     <Compile Include="Source\AI\JobDriver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
     <Compile Include="Source\Designators\Designator_StripMine.cs" />
+    <Compile Include="Source\Settings\StripMineGlobalSettings.cs" />
+    <Compile Include="Source\Settings\StripMineWorldSettings.cs" />
+    <Compile Include="Source\UI\Dialog_StripMineSettings.cs" />
+    <Compile Include="Source\UI\IStripMineSettings.cs" />
     <Compile Include="Source\Utils\MapCellHighlighter.cs" />
     <Compile Include="Source\Utils\Alert_NoUrgentStorage.cs" />
     <Compile Include="Source\Handlers\PickUpAndHaulCompatHandler.cs" />

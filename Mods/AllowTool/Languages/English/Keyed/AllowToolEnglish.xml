@@ -63,6 +63,11 @@
 	<Harvest_fully_grown_success>{0} fully grown plants marked for harvesting.</Harvest_fully_grown_success>
 	<Harvest_fully_grown_failure>No new fully grown plants or trees found.</Harvest_fully_grown_failure>
 	
+	<StripMine_win_horizontalSpacing>Horizontal spacing</StripMine_win_horizontalSpacing>
+	<StripMine_win_verticalSpacing>Vertical spacing</StripMine_win_verticalSpacing>
+	<StripMine_win_showWindow>Show this window</StripMine_win_showWindow>
+	<StripMine_win_showWindow_tip>Disable to automatically use these settings next time.\nHold Shift to show this window again.</StripMine_win_showWindow_tip>
+	
 	<Alert_noStorage_label>No storage space</Alert_noStorage_label>
 	<Alert_noStorage_desc>Things marked for urgent hauling have no place to be stored:\n{0}\n\nCancel the designation or free some storage space.\nCan be disabled in Options > Mod Settings.</Alert_noStorage_desc>
 	

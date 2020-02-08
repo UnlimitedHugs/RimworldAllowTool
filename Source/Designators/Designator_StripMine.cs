@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AllowTool.Settings;
 using HugsLib;
 using HugsLib.Utils;
 using RimWorld;
@@ -42,6 +43,7 @@ namespace AllowTool {
 		public override void Selected() {
 			base.Selected();
 			ScheduleUpdateCallback();
+			Find.WindowStack.Add(new Dialog_StripMineSettings(new StripMineWorldSettings()));
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
