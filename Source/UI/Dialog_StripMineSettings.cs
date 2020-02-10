@@ -5,6 +5,8 @@ using Verse;
 
 namespace AllowTool {
 	public class Dialog_StripMineSettings : Window {
+		public delegate void ClosingCallback(bool accept);
+
 		private const int SpacingMinValue = 1;
 		private const int SpacingMaxValue = 50;
 		private const float RowHeight = 36f;
@@ -12,8 +14,7 @@ namespace AllowTool {
 		private const float LabelColumnWidthPercent = .666f;
 
 		public event Action<IStripMineSettings> SettingsChanged;
-		public event Action CloseAccept;
-		public event Action CloseCancel;
+		public event ClosingCallback Closing;
 
 		private readonly IStripMineSettings settings;
 		
@@ -45,8 +46,10 @@ namespace AllowTool {
 		}
 
 		protected override void SetInitialSizeAndPosition() {
+			var presetPosition = WindowPosition;
 			base.SetInitialSizeAndPosition();
-			windowRect.x = windowRect.y = 0;
+			windowRect.x = presetPosition.x;
+			windowRect.y = presetPosition.y;
 		}
 
 		public override void DoWindowContents(Rect inRect) {
@@ -63,12 +66,12 @@ namespace AllowTool {
 			var buttonsRect = listing.GetRect(RowHeight);
 			var cancelBtnRect = buttonsRect.LeftPart(1f - LabelColumnWidthPercent);
 			if (Widgets.ButtonText(cancelBtnRect, "CancelButton".Translate())) {
-				Cancel();
+				CancelAndClose();
 			}
 			var confirmBtnRect = buttonsRect.RightPartPixels(buttonsRect.width - cancelBtnRect.width - Spacing);
 			GUI.color = Color.green;
 			if (Widgets.ButtonText(confirmBtnRect, "AcceptButton".Translate())) {
-				Accept();
+				AcceptAndClose();
 			}
 			GUI.color = Color.white;
 			if (horizontalChanged || verticalChanged) {
@@ -79,23 +82,23 @@ namespace AllowTool {
 			ConfineWindowToScreenArea();
 		}
 
-		private void Accept() {
-			CloseAccept?.Invoke();
+		public void CancelAndClose() {
+			Closing?.Invoke(false);
 			Close(false);
 		}
 
-		private void Cancel() {
-			CloseCancel?.Invoke();
+		private void AcceptAndClose() {
+			Closing?.Invoke(true);
 			Close(false);
 		}
 
 		public override void OnAcceptKeyPressed() {
-			Accept();
+			AcceptAndClose();
 			Event.current.Use();
 		}
 
 		public override void OnCancelKeyPressed() {
-			Cancel();
+			CancelAndClose();
 			Event.current.Use();
 		}
 
@@ -109,9 +112,6 @@ namespace AllowTool {
 			}
 			changed = false;
 			var rowRect = listing.GetRect(RowHeight);
-			if (HugsLibUtility.ShiftIsHeld) {
-				AllowToolController.Logger.Trace(rowRect);
-			}
 			if (DoTipArea(rowRect)) {
 				if (Event.current.isScrollWheel) {
 					var delta = Event.current.delta.y < 0 ? 1 : -1;

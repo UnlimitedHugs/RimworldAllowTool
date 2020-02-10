@@ -21,5 +21,9 @@ namespace AllowTool.Settings {
 			Scribe_Values.Look(ref hSpacing, "hSpacing");
 			Scribe_Values.Look(ref vSpacing, "vSpacing");
 		}
+
+		public StripMineWorldSettings Clone() {
+			return (StripMineWorldSettings)MemberwiseClone();
+		}
 	}
 }

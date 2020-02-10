@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using AllowTool.Settings;
 using HugsLib;
+using HugsLib.Settings;
 using HugsLib.Utils;
 using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace AllowTool {
+	[StaticConstructorOnStartup]
 	public class Designator_StripMine : Designator_UnlimitedDragger {
 		private const float InvalidCellHighlightAlpha = .2f;
 
@@ -18,8 +20,20 @@ namespace AllowTool {
 		private readonly MapCellHighlighter highlighter;
 		private Material designationValidMat;
 		private Material designationInvalidMat;
+		private IntVec3 lastSelectionStart;
 		private CellRect currentSelection;
 		private bool updateCallbackScheduled;
+		private StripMineWorldSettings worldSettings;
+		private Dialog_StripMineSettings settingsWindow;
+		private StripMineGlobalSettings globalSettings;
+
+		private static SettingHandle<StripMineGlobalSettings> GlobalSettingsHandle {
+			get { return AllowToolController.Instance.Handles.StripMineSettings; }
+		}
+
+		protected override DesignationDef Designation {
+			get { return DesignationDefOf.Mine; }
+		}
 
 		public Designator_StripMine() {
 			UseDesignatorDef(AllowToolDefOf.StripMineDesignator);
@@ -43,10 +57,26 @@ namespace AllowTool {
 		public override void Selected() {
 			base.Selected();
 			ScheduleUpdateCallback();
-			Find.WindowStack.Add(new Dialog_StripMineSettings(new StripMineWorldSettings()));
+			RevertToSavedWorldSettings();
+			RevertToSavedGlobalSettings();
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
+			// do nothing. See DraggerOnSelectionComplete
+		}
+
+		private void CommitCurrentSelection() {
+			DesignateCells(EnumerateDesignationCells());
+			ClearCurrentSelection();
+		}
+
+		private void ClearCurrentSelection() {
+			currentSelection = CellRect.Empty;
+			lastSelectionStart = IntVec3.Zero;
+			highlighter.ClearCachedCells();
+		}
+
+		private void DesignateCells(IEnumerable<IntVec3> targetCells) {
 			var currentCell = IntVec3.Invalid;
 			try {
 				var map = Find.CurrentMap;
@@ -55,15 +85,14 @@ namespace AllowTool {
 					.SpawnedDesignationsOfDef(mineDef)
 					.Select(d => d.target.Cell)
 				);
-				foreach (var cell in EnumerateDesignationCells()) {
+				foreach (var cell in targetCells) {
 					currentCell = cell;
 					if (alreadyDesignatedCells.Contains(cell)) continue;
 					cell.ToggleDesignation(DesignationDefOf.Mine, true);
 				}
 			} catch (Exception e) {
-				AllowToolController.Logger.Error($"Error while placing Mine designation in {currentCell}: {e}");
+				AllowToolController.Logger.Error($"Error while placing Mine designations (cell {currentCell}): {e}");
 			}
-			currentSelection = CellRect.Empty;
 		}
 
 		private void OnUpdate() {
@@ -79,8 +108,16 @@ namespace AllowTool {
 		}
 
 		private void OnDesignatorDeselected() {
-			currentSelection = CellRect.Empty;
-			highlighter.ClearCachedCells();
+			ClearCurrentSelection();
+			if (settingsWindow != null) {
+				settingsWindow.CancelAndClose();
+				settingsWindow = null;
+			}
+			if (!GlobalSettingsHandle.Value.Equals(globalSettings)) {
+				GlobalSettingsHandle.Value = globalSettings;
+				HugsLibController.SettingsManager.SaveChanges();
+				AllowToolController.Logger.Warning("Saved settings");
+			}
 		}
 
 		private void ScheduleUpdateCallback() {
@@ -90,10 +127,11 @@ namespace AllowTool {
 		}
 
 		private IEnumerable<IntVec3> EnumerateGridCells() {
-			const int spacing = 4;
 			bool CellIsOnGridLine(IntVec3 c) {
-				return c.x % spacing == 0 || c.z % spacing == 0;
+				return (c.x - lastSelectionStart.x) % (worldSettings.HorizontalSpacing + 1) == 0
+						|| (c.z - lastSelectionStart.z) % (worldSettings.VerticalSpacing + 1) == 0;
 			}
+
 			return currentSelection.Cells.Where(CellIsOnGridLine);
 		}
 
@@ -116,7 +154,8 @@ namespace AllowTool {
 		}
 
 		private void DraggerOnSelectionStart(CellRect cellRect) {
-			currentSelection = CellRect.Empty;
+			currentSelection = cellRect;
+			lastSelectionStart = Dragger.SelectionStartCell;
 			highlighter.ClearCachedCells();
 		}
 
@@ -126,7 +165,63 @@ namespace AllowTool {
 		}
 
 		private void DraggerOnSelectionComplete(CellRect cellRect) {
+			var invertMode = HugsLibUtility.ShiftIsHeld;
+			var windowisOpen = settingsWindow != null;
+			if (windowisOpen) {
+				if (invertMode) {
+					CommitCurrentSelection();
+				} else {
+					// wait for Accept
+				}
+			} else {
+				var openWindow = globalSettings.ShowWindow;
+				if (invertMode) {
+					openWindow = !openWindow;
+				}
+				if (openWindow) {
+					ShowSettingsWindow();
+				} else {
+					CommitCurrentSelection();
+				}
+			}
+		}
+
+		private void ShowSettingsWindow() {
+			if(settingsWindow != null) return;
+			settingsWindow = new Dialog_StripMineSettings(worldSettings) {
+				ShowWindowToggleValue = globalSettings.ShowWindow,
+				WindowPosition = globalSettings.WindowPosition
+			};
+			settingsWindow.SettingsChanged += WindowOnSettingsChanged;
+			settingsWindow.Closing += WindowOnClosing;
+			Find.WindowStack.Add(settingsWindow);
+		}
+
+		private void WindowOnSettingsChanged(IStripMineSettings stripMineSettings) {
+			// show the spacing changes
 			highlighter.ClearCachedCells();
+		}
+
+		private void WindowOnClosing(bool accept) {
+			if (accept) {
+				AllowToolController.Instance.WorldSettings.StripMineSettings = worldSettings.Clone();
+				CommitCurrentSelection();
+				globalSettings.ShowWindow = settingsWindow.ShowWindowToggleValue;
+			} else {
+				RevertToSavedWorldSettings();
+				ClearCurrentSelection();
+			}
+			globalSettings.WindowPosition = settingsWindow.WindowPosition;
+			settingsWindow = null;
+		}
+
+		private void RevertToSavedWorldSettings() {
+			worldSettings = AllowToolController.Instance.WorldSettings.StripMineSettings?.Clone()
+							?? new StripMineWorldSettings();
+		}
+
+		private void RevertToSavedGlobalSettings() {
+			globalSettings = GlobalSettingsHandle.Value.Clone();
 		}
 
 		private static void DrawCellRectOutline(CellRect rect) {

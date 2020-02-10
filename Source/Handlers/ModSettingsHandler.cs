@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AllowTool.Context;
+using AllowTool.Settings;
 using HugsLib.Settings;
 using Verse;
 
@@ -32,6 +33,8 @@ namespace AllowTool {
 		public SettingHandle<bool> PartyHuntFinishSetting { get; private set; }
 		public SettingHandle<bool> PartyHuntDesignatedSetting { get; private set; }
 		public SettingHandle<bool> StorageSpaceAlertSetting { get; private set; }
+		
+		public SettingHandle<StripMineGlobalSettings> StripMineSettings { get; private set; }
 
 		private bool expandToolSettings;
 		private bool expandProviderSettings;
@@ -82,6 +85,11 @@ namespace AllowTool {
 			}
 			FinishOffSkillRequirement = pack.GetHandle("finishOffSkill", "setting_finishOffSkill_label".Translate(), "setting_finishOffSkill_desc".Translate(), true);
 			FinishOffSkillRequirement.VisibilityPredicate = () => Prefs.DevMode;
+
+			StripMineSettings = pack.GetHandle<StripMineGlobalSettings>("stripMineSettings", null, null);
+			if (StripMineSettings.Value == null) StripMineSettings.Value = new StripMineGlobalSettings();
+			// invisible but resettable
+			StripMineSettings.VisibilityPredicate = () => false;
 
 			RegisterPackHandlesChangedCallback(pack);
 		}
