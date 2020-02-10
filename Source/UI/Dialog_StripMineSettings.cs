@@ -33,7 +33,7 @@ namespace AllowTool {
 		}
 
 		public override Vector2 InitialSize {
-			get { return new Vector2(320f, Margin * 2 + RowHeight * 4 + Spacing * 4); }
+			get { return new Vector2(320f, Margin * 2 + RowHeight * 5 + Spacing * 5); }
 		}
 
 		public Dialog_StripMineSettings(IStripMineSettings settings) {
@@ -57,12 +57,21 @@ namespace AllowTool {
 			listing.Begin(inRect);
 			var originalAnchor = Text.Anchor;
 			Text.Anchor = TextAnchor.MiddleLeft;
+			
 			settings.HorizontalSpacing = DoIntSpinner("StripMine_win_horizontalSpacing".Translate(), settings.HorizontalSpacing, listing, out bool horizontalChanged);
 			listing.Gap(Spacing);
+			
 			settings.VerticalSpacing = DoIntSpinner("StripMine_win_verticalSpacing".Translate(), settings.VerticalSpacing, listing, out bool verticalChanged);
 			listing.Gap(Spacing);
-			DoCustomCheckbox(listing);
+			
+			var variableOffsetRef = settings.VariableGridOffset;
+			DoCustomCheckbox("StripMine_win_variableOffset", "StripMine_win_variableOffset_tip", ref variableOffsetRef, listing, out bool variableOffsetChanged);
+			settings.VariableGridOffset = variableOffsetRef;
+			listing.Gap(Spacing);
+
+			DoCustomCheckbox("StripMine_win_showWindow", "StripMine_win_showWindow_tip", ref showWindowValue, listing, out _);
 			listing.Gap(Spacing * 2);
+			
 			var buttonsRect = listing.GetRect(RowHeight);
 			var cancelBtnRect = buttonsRect.LeftPart(1f - LabelColumnWidthPercent);
 			if (Widgets.ButtonText(cancelBtnRect, "CancelButton".Translate())) {
@@ -74,7 +83,7 @@ namespace AllowTool {
 				AcceptAndClose();
 			}
 			GUI.color = Color.white;
-			if (horizontalChanged || verticalChanged) {
+			if (horizontalChanged || verticalChanged || variableOffsetChanged) {
 				SettingsChanged?.Invoke(settings);
 			}
 			Text.Anchor = originalAnchor;
@@ -136,16 +145,18 @@ namespace AllowTool {
 			return value;
 		}
 
-		private void DoCustomCheckbox(Listing_Standard listing) {
+		private void DoCustomCheckbox(string labelKey, string tooltipKey, ref bool value, Listing_Standard listing, out bool changed) {
 			var checkboxRect = listing.GetRect(RowHeight);
-			DoTipArea(checkboxRect, "StripMine_win_showWindow_tip".Translate());
-			Widgets.Label(checkboxRect, "StripMine_win_showWindow".Translate());
+			DoTipArea(checkboxRect, tooltipKey.Translate());
+			Widgets.Label(checkboxRect, labelKey.Translate());
 			const float checkmarkHeight = 24f;
 			var checkmarkOffset = new Vector2(
 				checkboxRect.x + checkboxRect.width * LabelColumnWidthPercent,
 				checkboxRect.y + (checkboxRect.height - checkmarkHeight) / 2f
 			);
-			Widgets.Checkbox(checkmarkOffset, ref showWindowValue);
+			var originalValue = value;
+			Widgets.Checkbox(checkmarkOffset, ref value);
+			changed = value != originalValue;
 		}
 
 		private bool DoTipArea(Rect rect, string tooltip = null) {

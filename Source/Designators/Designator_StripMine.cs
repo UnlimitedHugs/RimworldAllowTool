@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AllowTool.Settings;
 using HugsLib;
-using HugsLib.Settings;
 using HugsLib.Utils;
 using RimWorld;
 using UnityEngine;
@@ -26,10 +25,6 @@ namespace AllowTool {
 		private StripMineWorldSettings worldSettings;
 		private Dialog_StripMineSettings settingsWindow;
 		private StripMineGlobalSettings globalSettings;
-
-		private static SettingHandle<StripMineGlobalSettings> GlobalSettingsHandle {
-			get { return AllowToolController.Instance.Handles.StripMineSettings; }
-		}
 
 		protected override DesignationDef Designation {
 			get { return DesignationDefOf.Mine; }
@@ -67,6 +62,9 @@ namespace AllowTool {
 
 		private void CommitCurrentSelection() {
 			DesignateCells(EnumerateDesignationCells());
+			if (worldSettings.VariableGridOffset) {
+				worldSettings.LastGridOffset = lastSelectionStart.ToIntVec2;
+			}
 			ClearCurrentSelection();
 		}
 
@@ -113,11 +111,8 @@ namespace AllowTool {
 				settingsWindow.CancelAndClose();
 				settingsWindow = null;
 			}
-			if (!GlobalSettingsHandle.Value.Equals(globalSettings)) {
-				GlobalSettingsHandle.Value = globalSettings;
-				HugsLibController.SettingsManager.SaveChanges();
-				AllowToolController.Logger.Warning("Saved settings");
-			}
+			CommitWorldSettings();
+			CommitGlobalSettings();
 		}
 
 		private void ScheduleUpdateCallback() {
@@ -127,11 +122,11 @@ namespace AllowTool {
 		}
 
 		private IEnumerable<IntVec3> EnumerateGridCells() {
+			var offset = worldSettings.VariableGridOffset ? lastSelectionStart : worldSettings.LastGridOffset.ToIntVec3;
 			bool CellIsOnGridLine(IntVec3 c) {
-				return (c.x - lastSelectionStart.x) % (worldSettings.HorizontalSpacing + 1) == 0
-						|| (c.z - lastSelectionStart.z) % (worldSettings.VerticalSpacing + 1) == 0;
+				return (c.x - offset.x) % (worldSettings.HorizontalSpacing + 1) == 0
+						|| (c.z - offset.z) % (worldSettings.VerticalSpacing + 1) == 0;
 			}
-
 			return currentSelection.Cells.Where(CellIsOnGridLine);
 		}
 
@@ -204,7 +199,6 @@ namespace AllowTool {
 
 		private void WindowOnClosing(bool accept) {
 			if (accept) {
-				AllowToolController.Instance.WorldSettings.StripMineSettings = worldSettings.Clone();
 				CommitCurrentSelection();
 				globalSettings.ShowWindow = settingsWindow.ShowWindowToggleValue;
 			} else {
@@ -221,7 +215,20 @@ namespace AllowTool {
 		}
 
 		private void RevertToSavedGlobalSettings() {
-			globalSettings = GlobalSettingsHandle.Value.Clone();
+			globalSettings = AllowToolController.Instance.Handles.StripMineSettings.Value.Clone();
+		}
+
+		private void CommitWorldSettings() {
+			AllowToolController.Instance.WorldSettings.StripMineSettings = worldSettings.Clone();
+		}
+
+		private void CommitGlobalSettings() {
+			var handle = AllowToolController.Instance.Handles.StripMineSettings;
+			if (!handle.Value.Equals(globalSettings)) {
+				handle.Value = globalSettings.Clone();
+				HugsLibController.SettingsManager.SaveChanges();
+				AllowToolController.Logger.Warning("Saved settings");
+			}
 		}
 
 		private static void DrawCellRectOutline(CellRect rect) {
