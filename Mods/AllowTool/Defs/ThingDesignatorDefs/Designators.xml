@@ -118,8 +118,8 @@ Configurable in the Work tab.
         <label>Strip mine</label>
 		<description>Lays out mine orders in a grid to maximize the chance to find hidden ores.
 &lt;b&gt;Hold Shift&lt;/b&gt; to show settings window or designate using current settings.</description>
-		<iconTex>allow</iconTex>
-		<dragHighlightTex>allowHighlight</dragHighlightTex>
+		<iconTex>stripMine</iconTex>
+		<dragHighlightTex>stripMineHighlight</dragHighlightTex>
 		<soundSucceeded>Tick_High</soundSucceeded>
 		<hotkeyDef>DesignatorStripMine</hotkeyDef>
 	</AllowTool.ThingDesignatorDef>
