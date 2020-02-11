@@ -109,12 +109,12 @@ namespace AllowTool {
 		}
 
 		public static void DrawMouseAttachedLabel(string text, Color textColor) {
-			const float CursorOffset = 12f;
 			const float AttachedIconHeight = 32f;
 			const float LabelWidth = 200f;
+			var cursorOffset = new Vector2(8f, 8f + 12f); // see GenUI.DrawMouseAttachment
 			var mousePosition = Event.current.mousePosition;
 			if (!text.NullOrEmpty()) {
-				var rect = new Rect(mousePosition.x + CursorOffset, mousePosition.y + CursorOffset + AttachedIconHeight, LabelWidth, 9999f);
+				var rect = new Rect(mousePosition.x + cursorOffset.x, mousePosition.y + cursorOffset.y + AttachedIconHeight, LabelWidth, 9999f);
 				Text.Font = GameFont.Small;
 				var prevColor = GUI.color;
 				GUI.color = textColor;
