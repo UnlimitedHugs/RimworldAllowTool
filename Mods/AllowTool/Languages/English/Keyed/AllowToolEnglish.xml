@@ -69,6 +69,7 @@
 	<StripMine_win_showWindow_tip>Disable to automatically use these settings next time.\nHold Shift to show this window again.</StripMine_win_showWindow_tip>
 	<StripMine_win_variableOffset>Variable grid offset</StripMine_win_variableOffset>
 	<StripMine_win_variableOffset_tip>When enabled, the grid will extend from the starting point of the selection. Otherwise, grid lines will always pass through the same cells, regardless of where the selection started.</StripMine_win_variableOffset_tip>
+	<StripMine_cursor_autoApply>Apply immediately</StripMine_cursor_autoApply>
 	
 	<Alert_noStorage_label>No storage space</Alert_noStorage_label>
 	<Alert_noStorage_desc>Things marked for urgent hauling have no place to be stored:\n{0}\n\nCancel the designation or free some storage space.\nCan be disabled in Options > Mod Settings.</Alert_noStorage_desc>

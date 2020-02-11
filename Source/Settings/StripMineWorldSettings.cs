@@ -26,6 +26,12 @@ namespace AllowTool.Settings {
 			set { variableGridOffset = value; }
 		}
 
+		private bool showWindow = true;
+		public bool ShowWindow {
+			get { return showWindow; }
+			set { showWindow = value; }
+		}
+
 		private IntVec2 lastGridOffset;
 		public IntVec2 LastGridOffset {
 			get { return lastGridOffset; }
@@ -36,6 +42,7 @@ namespace AllowTool.Settings {
 			Scribe_Values.Look(ref hSpacing, "hSpacing", DefaultSpacingX);
 			Scribe_Values.Look(ref vSpacing, "vSpacing", DefaultSpacingY);
 			Scribe_Values.Look(ref variableGridOffset, "variableOffset", true);
+			Scribe_Values.Look(ref showWindow, "showWindow", true);
 			Scribe_Values.Look(ref lastGridOffset, "lastOffset");
 		}
 

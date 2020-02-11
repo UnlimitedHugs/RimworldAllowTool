@@ -60,11 +60,17 @@ namespace AllowTool {
 			// do nothing. See DraggerOnSelectionComplete
 		}
 
+		public override void DrawMouseAttachments() {
+			base.DrawMouseAttachments();
+			if (GetSelectionCompleteAction() == SectionCompleteAction.CommitSelection) {
+				var textColor = new Color(.8f, .8f, .8f);
+				AllowToolUtility.DrawMouseAttachedLabel("StripMine_cursor_autoApply".Translate(), textColor);
+			}
+		}
+
 		private void CommitCurrentSelection() {
 			DesignateCells(EnumerateDesignationCells());
-			if (worldSettings.VariableGridOffset) {
-				worldSettings.LastGridOffset = lastSelectionStart.ToIntVec2;
-			}
+			CommitCurrentOffset();
 			ClearCurrentSelection();
 		}
 
@@ -125,7 +131,7 @@ namespace AllowTool {
 			var offset = worldSettings.VariableGridOffset ? lastSelectionStart : worldSettings.LastGridOffset.ToIntVec3;
 			bool CellIsOnGridLine(IntVec3 c) {
 				return (c.x - offset.x) % (worldSettings.HorizontalSpacing + 1) == 0
-						|| (c.z - offset.z) % (worldSettings.VerticalSpacing + 1) == 0;
+					|| (c.z - offset.z) % (worldSettings.VerticalSpacing + 1) == 0;
 			}
 			return currentSelection.Cells.Where(CellIsOnGridLine);
 		}
@@ -160,23 +166,35 @@ namespace AllowTool {
 		}
 
 		private void DraggerOnSelectionComplete(CellRect cellRect) {
+			switch (GetSelectionCompleteAction()) {
+				case SectionCompleteAction.ShowWindow:
+					ShowSettingsWindow();
+					break;
+				case SectionCompleteAction.CommitSelection:
+					CommitCurrentSelection();
+					break;
+			}
+		}
+
+		private SectionCompleteAction GetSelectionCompleteAction() {
 			var invertMode = HugsLibUtility.ShiftIsHeld;
 			var windowisOpen = settingsWindow != null;
 			if (windowisOpen) {
 				if (invertMode) {
-					CommitCurrentSelection();
+					return SectionCompleteAction.CommitSelection;
 				} else {
 					// wait for Accept
+					return SectionCompleteAction.None;
 				}
 			} else {
-				var openWindow = globalSettings.ShowWindow;
+				var openWindow = worldSettings.ShowWindow;
 				if (invertMode) {
 					openWindow = !openWindow;
 				}
 				if (openWindow) {
-					ShowSettingsWindow();
+					return SectionCompleteAction.ShowWindow;
 				} else {
-					CommitCurrentSelection();
+					return SectionCompleteAction.CommitSelection;
 				}
 			}
 		}
@@ -184,7 +202,6 @@ namespace AllowTool {
 		private void ShowSettingsWindow() {
 			if(settingsWindow != null) return;
 			settingsWindow = new Dialog_StripMineSettings(worldSettings) {
-				ShowWindowToggleValue = globalSettings.ShowWindow,
 				WindowPosition = globalSettings.WindowPosition
 			};
 			settingsWindow.SettingsChanged += WindowOnSettingsChanged;
@@ -200,7 +217,6 @@ namespace AllowTool {
 		private void WindowOnClosing(bool accept) {
 			if (accept) {
 				CommitCurrentSelection();
-				globalSettings.ShowWindow = settingsWindow.ShowWindowToggleValue;
 			} else {
 				RevertToSavedWorldSettings();
 				ClearCurrentSelection();
@@ -231,6 +247,12 @@ namespace AllowTool {
 			}
 		}
 
+		private void CommitCurrentOffset() {
+			if (!worldSettings.VariableGridOffset) return;
+			worldSettings.LastGridOffset = lastSelectionStart.ToIntVec2;
+			CommitWorldSettings();
+		}
+
 		private static void DrawCellRectOutline(CellRect rect) {
 			if (rect.Area == 0) return;
 			var altitude = AltitudeLayer.MoteLow.AltitudeFor();
@@ -242,6 +264,10 @@ namespace AllowTool {
 			GenDraw.DrawLineBetween(bottomLeft, bottomRight, areaOutlineMaterial);
 			GenDraw.DrawLineBetween(topLeft, bottomLeft, areaOutlineMaterial);
 			GenDraw.DrawLineBetween(topRight, bottomRight, areaOutlineMaterial);
+		}
+
+		private enum SectionCompleteAction {
+			None, ShowWindow, CommitSelection
 		}
 	}
 }

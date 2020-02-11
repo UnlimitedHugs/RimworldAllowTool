@@ -11,9 +11,6 @@ namespace AllowTool.Settings {
 	[Serializable]
 	public class StripMineGlobalSettings : SettingHandleConvertible, IEquatable<StripMineGlobalSettings> {
 		[XmlElement]
-		public bool ShowWindow { get; set; } = true;
-
-		[XmlElement]
 		public Vector2 WindowPosition { get; set; }
 
 		public override bool ShouldBeSaved {
@@ -26,7 +23,6 @@ namespace AllowTool.Settings {
 
 		public bool Equals(StripMineGlobalSettings other) {
 			return other != null &&
-					other.ShowWindow == ShowWindow &&
 					other.WindowPosition == WindowPosition;
 		}
 

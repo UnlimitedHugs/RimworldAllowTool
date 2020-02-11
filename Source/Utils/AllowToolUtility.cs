@@ -105,6 +105,10 @@ namespace AllowTool {
 		}
 
 		public static void DrawMouseAttachedLabel(string text) {
+			DrawMouseAttachedLabel(text, Color.white);
+		}
+
+		public static void DrawMouseAttachedLabel(string text, Color textColor) {
 			const float CursorOffset = 12f;
 			const float AttachedIconHeight = 32f;
 			const float LabelWidth = 200f;
@@ -112,7 +116,10 @@ namespace AllowTool {
 			if (!text.NullOrEmpty()) {
 				var rect = new Rect(mousePosition.x + CursorOffset, mousePosition.y + CursorOffset + AttachedIconHeight, LabelWidth, 9999f);
 				Text.Font = GameFont.Small;
+				var prevColor = GUI.color;
+				GUI.color = textColor;
 				Widgets.Label(rect, text);
+				GUI.color = prevColor;
 			}
 		}
 

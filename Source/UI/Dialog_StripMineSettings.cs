@@ -18,12 +18,6 @@ namespace AllowTool {
 
 		private readonly IStripMineSettings settings;
 		
-		private bool showWindowValue;
-		public bool ShowWindowToggleValue {
-			get { return showWindowValue; }
-			set { showWindowValue = value; }
-		}
-
 		public Vector2 WindowPosition {
 			get { return new Vector2(windowRect.x, windowRect.y); }
 			set {
@@ -57,19 +51,20 @@ namespace AllowTool {
 			listing.Begin(inRect);
 			var originalAnchor = Text.Anchor;
 			Text.Anchor = TextAnchor.MiddleLeft;
+			var settingsChanged = false;
 			
-			settings.HorizontalSpacing = DoIntSpinner("StripMine_win_horizontalSpacing".Translate(), settings.HorizontalSpacing, listing, out bool horizontalChanged);
+			settings.HorizontalSpacing = DoIntSpinner("StripMine_win_horizontalSpacing".Translate(), settings.HorizontalSpacing, listing, ref settingsChanged);
 			listing.Gap(Spacing);
 			
-			settings.VerticalSpacing = DoIntSpinner("StripMine_win_verticalSpacing".Translate(), settings.VerticalSpacing, listing, out bool verticalChanged);
+			settings.VerticalSpacing = DoIntSpinner("StripMine_win_verticalSpacing".Translate(), settings.VerticalSpacing, listing, ref settingsChanged);
 			listing.Gap(Spacing);
 			
-			var variableOffsetRef = settings.VariableGridOffset;
-			DoCustomCheckbox("StripMine_win_variableOffset", "StripMine_win_variableOffset_tip", ref variableOffsetRef, listing, out bool variableOffsetChanged);
-			settings.VariableGridOffset = variableOffsetRef;
+			settings.VariableGridOffset = DoCustomCheckbox("StripMine_win_variableOffset", "StripMine_win_variableOffset_tip", 
+				settings.VariableGridOffset, listing, ref settingsChanged);
 			listing.Gap(Spacing);
 
-			DoCustomCheckbox("StripMine_win_showWindow", "StripMine_win_showWindow_tip", ref showWindowValue, listing, out _);
+			settings.ShowWindow = DoCustomCheckbox("StripMine_win_showWindow", "StripMine_win_showWindow_tip", 
+				settings.ShowWindow, listing, ref settingsChanged);
 			listing.Gap(Spacing * 2);
 			
 			var buttonsRect = listing.GetRect(RowHeight);
@@ -83,7 +78,7 @@ namespace AllowTool {
 				AcceptAndClose();
 			}
 			GUI.color = Color.white;
-			if (horizontalChanged || verticalChanged || variableOffsetChanged) {
+			if (settingsChanged) {
 				SettingsChanged?.Invoke(settings);
 			}
 			Text.Anchor = originalAnchor;
@@ -111,7 +106,7 @@ namespace AllowTool {
 			Event.current.Use();
 		}
 
-		private int DoIntSpinner(string label, int value, Listing_Standard listing, out bool changed) {
+		private int DoIntSpinner(string label, int value, Listing_Standard listing, ref bool changed) {
 			void TryChangeValue(int delta, ref bool hasChanged) {
 				var newValue = Mathf.Clamp(value + delta * (HugsLibUtility.ShiftIsHeld ? 5 : 1), SpacingMinValue, SpacingMaxValue);
 				if (newValue != value) {
@@ -119,7 +114,6 @@ namespace AllowTool {
 					hasChanged = true;
 				}
 			}
-			changed = false;
 			var rowRect = listing.GetRect(RowHeight);
 			if (DoTipArea(rowRect)) {
 				if (Event.current.isScrollWheel) {
@@ -145,7 +139,7 @@ namespace AllowTool {
 			return value;
 		}
 
-		private void DoCustomCheckbox(string labelKey, string tooltipKey, ref bool value, Listing_Standard listing, out bool changed) {
+		private bool DoCustomCheckbox(string labelKey, string tooltipKey, bool value, Listing_Standard listing, ref bool changed) {
 			var checkboxRect = listing.GetRect(RowHeight);
 			DoTipArea(checkboxRect, tooltipKey.Translate());
 			Widgets.Label(checkboxRect, labelKey.Translate());
@@ -156,7 +150,10 @@ namespace AllowTool {
 			);
 			var originalValue = value;
 			Widgets.Checkbox(checkmarkOffset, ref value);
-			changed = value != originalValue;
+			if (value != originalValue) {
+				changed = true;
+			}
+			return value;
 		}
 
 		private bool DoTipArea(Rect rect, string tooltip = null) {
