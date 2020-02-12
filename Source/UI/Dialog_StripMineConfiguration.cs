@@ -4,7 +4,7 @@ using UnityEngine;
 using Verse;
 
 namespace AllowTool {
-	public class Dialog_StripMineSettings : Window {
+	public class Dialog_StripMineConfiguration : Window {
 		public delegate void ClosingCallback(bool accept);
 
 		private const int SpacingMinValue = 1;
@@ -13,10 +13,10 @@ namespace AllowTool {
 		private const float Spacing = 4f;
 		private const float LabelColumnWidthPercent = .666f;
 
-		public event Action<IStripMineSettings> SettingsChanged;
+		public event Action<IConfigurableStripMineSettings> SettingsChanged;
 		public event ClosingCallback Closing;
 
-		private readonly IStripMineSettings settings;
+		private readonly IConfigurableStripMineSettings settings;
 		
 		public Vector2 WindowPosition {
 			get { return new Vector2(windowRect.x, windowRect.y); }
@@ -30,7 +30,7 @@ namespace AllowTool {
 			get { return new Vector2(320f, Margin * 2 + RowHeight * 5 + Spacing * 5); }
 		}
 
-		public Dialog_StripMineSettings(IStripMineSettings settings) {
+		public Dialog_StripMineConfiguration(IConfigurableStripMineSettings settings) {
 			this.settings = settings;
 			draggable = true;
 			focusWhenOpened = false;

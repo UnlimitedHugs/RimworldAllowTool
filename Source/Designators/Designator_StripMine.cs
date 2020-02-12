@@ -23,7 +23,7 @@ namespace AllowTool {
 		private CellRect currentSelection;
 		private bool updateCallbackScheduled;
 		private StripMineWorldSettings worldSettings;
-		private Dialog_StripMineSettings settingsWindow;
+		private Dialog_StripMineConfiguration settingsWindow;
 		private StripMineGlobalSettings globalSettings;
 
 		protected override DesignationDef Designation {
@@ -201,7 +201,7 @@ namespace AllowTool {
 
 		private void ShowSettingsWindow() {
 			if(settingsWindow != null) return;
-			settingsWindow = new Dialog_StripMineSettings(worldSettings) {
+			settingsWindow = new Dialog_StripMineConfiguration(worldSettings) {
 				WindowPosition = globalSettings.WindowPosition
 			};
 			settingsWindow.SettingsChanged += WindowOnSettingsChanged;
@@ -209,7 +209,7 @@ namespace AllowTool {
 			Find.WindowStack.Add(settingsWindow);
 		}
 
-		private void WindowOnSettingsChanged(IStripMineSettings stripMineSettings) {
+		private void WindowOnSettingsChanged(IConfigurableStripMineSettings stripMineSettings) {
 			// show the spacing changes
 			highlighter.ClearCachedCells();
 		}

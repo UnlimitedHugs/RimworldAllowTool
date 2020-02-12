@@ -3,7 +3,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
-namespace AllowTool.Context {
+namespace AllowTool {
 	/// <summary>
 	/// A float menu option with the Allow Tool watermark (when enabled in settings) and a description tooltip when hovered over.
 	/// </summary>

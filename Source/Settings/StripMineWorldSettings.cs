@@ -4,7 +4,7 @@ namespace AllowTool.Settings {
 	/// <summary>
 	/// Stores settings for the Strip Mine designator that unique for each save file
 	/// </summary>
-	public class StripMineWorldSettings : IExposable, IStripMineSettings {
+	public class StripMineWorldSettings : IExposable, IConfigurableStripMineSettings {
 		private const int DefaultSpacingX = 5;
 		private const int DefaultSpacingY = 5;
 
