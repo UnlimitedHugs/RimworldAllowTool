@@ -62,7 +62,15 @@
 
 	<Harvest_fully_grown_success>{0} полностью созревших растений отмечено для сбора урожая.</Harvest_fully_grown_success>
 	<Harvest_fully_grown_failure>Больше не найдено полностью созревших растений или деревьев.</Harvest_fully_grown_failure>
-		
+
+	<StripMine_win_horizontalSpacing>Горизонтальный шаг</StripMine_win_horizontalSpacing>
+	<StripMine_win_verticalSpacing>Вертикальный шаг</StripMine_win_verticalSpacing>
+	<StripMine_win_showWindow>Показывать это окно</StripMine_win_showWindow>
+	<StripMine_win_showWindow_tip>В отключенном состоянии автоматически использует текущие настройки.\nОкно можно снова показать удерживая Shift.</StripMine_win_showWindow_tip>
+	<StripMine_win_variableOffset>Подвижная точка отсчета</StripMine_win_variableOffset>
+	<StripMine_win_variableOffset_tip>Если включено, решетка строится от ячейки, с которой было начато выделение. Если нет, то решетка всегда будет ложиться в одни и те же ячейки, независимо от начальной точки.</StripMine_win_variableOffset_tip>
+	<StripMine_cursor_autoApply>Будет применено сразу</StripMine_cursor_autoApply>
+
 	<Alert_noStorage_label>Нет места на складе</Alert_noStorage_label>
 	<Alert_noStorage_desc>Предметы нуждаются в свободном месте не складе:\n{0}\n\nНужно отменить приказ срочного переноса или освободить под них место.</Alert_noStorage_desc>
 	
