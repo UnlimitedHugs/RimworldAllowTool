@@ -113,6 +113,7 @@
 	<Designator_context_mine>Копать руду поблизости</Designator_context_mine>
 	<Designator_context_mine_succ>Отмечено {0} дополнительных кусков руды для копания.</Designator_context_mine_succ>
 	<Designator_context_mine_fail>Нужно отметить один или более кусков руды чтобы использовать эту команду.</Designator_context_mine_fail>
+	<Designator_context_mine_selectStripMine>Инструмент "Разметка шахт"</Designator_context_mine_selectStripMine>
 	<Designator_context_cancel_build>Отменить все планы на постройки</Designator_context_cancel_build>
 	<Designator_context_cancel_build_succ>{0} планов было отменено.</Designator_context_cancel_build_succ>
 	<Designator_context_cancel_build_fail>Не найдено планов для отмены.</Designator_context_cancel_build_fail>

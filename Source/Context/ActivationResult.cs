@@ -35,13 +35,18 @@ namespace AllowTool.Context {
 		public string Message { get; }
 		public MessageTypeDef MessageType { get; }
 
+		public ActivationResult() {
+		}
+
 		public ActivationResult(string message, MessageTypeDef messageType) {
 			Message = message;
 			MessageType = messageType;
 		}
 
 		public void ShowMessage() {
-			Messages.Message(Message, MessageType);
+			if (Message != null && MessageType != null) {
+				Messages.Message(Message, MessageType);
+			}
 		}
 	}
 }

@@ -114,6 +114,7 @@
 	<Designator_context_mine>Mine connected ores</Designator_context_mine>
 	<Designator_context_mine_succ>Designated {0} additional ore tiles to mine.</Designator_context_mine_succ>
 	<Designator_context_mine_fail>Designate one or more ore tiles for mining to use this command.</Designator_context_mine_fail>
+	<Designator_context_mine_selectStripMine>Select "Strip mine" tool</Designator_context_mine_selectStripMine>
 	<Designator_context_cancel_build>Cancel all building blueprints</Designator_context_cancel_build>
 	<Designator_context_cancel_build_succ>{0} building blueprints were removed.</Designator_context_cancel_build_succ>
 	<Designator_context_cancel_build_fail>Found no blueprints to remove.</Designator_context_cancel_build_fail>
