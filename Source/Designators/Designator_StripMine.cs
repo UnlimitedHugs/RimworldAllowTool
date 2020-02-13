@@ -226,8 +226,7 @@ namespace AllowTool {
 		}
 
 		private void RevertToSavedWorldSettings() {
-			worldSettings = AllowToolController.Instance.WorldSettings.StripMineSettings?.Clone()
-							?? new StripMineWorldSettings();
+			worldSettings = AllowToolController.Instance.WorldSettings.StripMine.Clone();
 		}
 
 		private void RevertToSavedGlobalSettings() {
@@ -235,7 +234,7 @@ namespace AllowTool {
 		}
 
 		private void CommitWorldSettings() {
-			AllowToolController.Instance.WorldSettings.StripMineSettings = worldSettings.Clone();
+			AllowToolController.Instance.WorldSettings.StripMine = worldSettings.Clone();
 		}
 
 		private void CommitGlobalSettings() {

@@ -10,6 +10,10 @@ namespace AllowTool {
 	public class Command_PartyHunt : Command_Toggle {
 		private static readonly Vector2 overlayIconOffset = new Vector2(59f, 57f);
 
+		private static PartyHuntSettings WorldSettings {
+			get { return AllowToolController.Instance.WorldSettings.PartyHunt; }
+		}
+
 		private readonly Pawn pawn;
 
 		public Command_PartyHunt(Pawn pawn) {
@@ -17,7 +21,7 @@ namespace AllowTool {
 			icon = AllowToolDefOf.Textures.partyHunt;
 			defaultLabel = "PartyHuntToggle_label".Translate();
 			defaultDesc = "PartyHuntToggle_desc".Translate();
-			isActive = () => AllowToolUtility.PartyHuntIsEnabled(pawn);
+			isActive = () => WorldSettings.PawnIsPartyHunting(pawn);
 			toggleAction = ToggleAction;
 			hotKey = KeyBindingDefOf.Misc9;
 			disabled = !AllowToolUtility.PawnCapableOfViolence(pawn);
@@ -27,7 +31,7 @@ namespace AllowTool {
 		}
 
 		private void ToggleAction() {
-			AllowToolController.Instance.WorldSettings.TogglePawnPartyHunting(pawn, !AllowToolUtility.PartyHuntIsEnabled(pawn));
+			WorldSettings.TogglePawnPartyHunting(pawn, !WorldSettings.PawnIsPartyHunting(pawn));
 		}
 
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth) {
@@ -45,10 +49,10 @@ namespace AllowTool {
 
 		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
 			get {
-				yield return AllowToolUtility.MakeSettingCheckmarkOption("setting_partyHuntFinish_label", null, 
-					AllowToolController.Instance.Handles.PartyHuntFinishSetting);
-				yield return AllowToolUtility.MakeSettingCheckmarkOption("setting_partyHuntDesignated_label", null, 
-					AllowToolController.Instance.Handles.PartyHuntDesignatedSetting);
+				yield return AllowToolUtility.MakeCheckmarkOption("setting_partyHuntFinish_label", null, 
+					() => WorldSettings.AutoFinishOff, b => WorldSettings.AutoFinishOff = b);
+				yield return AllowToolUtility.MakeCheckmarkOption("setting_partyHuntDesignated_label", null, 
+					() => WorldSettings.HuntDesignatedOnly, b => WorldSettings.HuntDesignatedOnly = b);
 			}
 		}
 	}

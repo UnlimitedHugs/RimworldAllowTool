@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AllowTool.Context;
 using HugsLib.Utils;
 using RimWorld;
 using Verse;
@@ -16,9 +15,15 @@ namespace AllowTool {
 		private const float MaxFinishOffDistance = 20f;
 
 		// stop attacking and don't target downed animals if auto finish off is enabled
-		private static readonly Predicate<Pawn> HuntingTargetAttackFilter = pawn => !pawn.Downed || !AllowToolController.Instance.Handles.PartyHuntFinishSetting;
-		private static readonly Predicate<Pawn> HuntingTargetFinishFilter = pawn => pawn.Downed && !pawn.HasDesignation(AllowToolDefOf.FinishOffDesignation);
+		private static readonly Predicate<Pawn> HuntingTargetAttackFilter = 
+			pawn => !pawn.Downed || !WorldSettings.AutoFinishOff;
+		private static readonly Predicate<Pawn> HuntingTargetFinishFilter = 
+			pawn => pawn.Downed && !pawn.HasDesignation(AllowToolDefOf.FinishOffDesignation);
 		private static readonly List<HuntingTargetCandidate> huntingTargetCandidates = new List<HuntingTargetCandidate>();
+
+		private static PartyHuntSettings WorldSettings {
+			get { return AllowToolController.Instance.WorldSettings.PartyHunt; }
+		}
 
 		public static Gizmo TryGetGizmo(Pawn pawn) {
 			if (pawn.Name == null || !pawn.Drafted || !AllowToolController.Instance.Handles.PartyHuntSetting) return null;
@@ -26,14 +31,17 @@ namespace AllowTool {
 		}
 
 		public static void OnPawnUndrafted(Pawn pawn) {
-			AllowToolController.Instance.WorldSettings.TogglePawnPartyHunting(pawn, false);
+			WorldSettings.TogglePawnPartyHunting(pawn, false);
 		}
 
 		public static void DoBehaviorForPawn(JobDriver_Wait driver) {
 			var hunter = driver.pawn;
-			if (!AllowToolController.Instance.Handles.PartyHuntSetting || !AllowToolUtility.PartyHuntIsEnabled(hunter)) return;
+			if (!AllowToolController.Instance.Handles.PartyHuntSetting || !WorldSettings.PawnIsPartyHunting(hunter)) return;
 			var verb = hunter.TryGetAttackVerb(null, !hunter.IsColonist);
-			if (hunter.Faction != null && driver.job.def == JobDefOf.Wait_Combat && AllowToolUtility.PawnCapableOfViolence(hunter) && !hunter.stances.FullBodyBusy) {
+			if (hunter.Faction != null 
+				&& driver.job.def == JobDefOf.Wait_Combat 
+				&& AllowToolUtility.PawnCapableOfViolence(hunter) 
+				&& !hunter.stances.FullBodyBusy) {
 				// fire at target
 				if (hunter.drafter.FireAtWill) {
 					// fudge melee range for easier target acquisition
@@ -45,7 +53,7 @@ namespace AllowTool {
 					}
 				}
 				// finish off targets. Wait for everyone to finish firing to avoid catching stray bullets
-				if(!hunter.stances.FullBodyBusy && AllowToolController.Instance.Handles.PartyHuntFinishSetting && !AnyHuntingPartyMembersInCombat(hunter, MaxPartyMemberDistance)) {
+				if(!hunter.stances.FullBodyBusy && WorldSettings.AutoFinishOff && !AnyHuntingPartyMembersInCombat(hunter, MaxPartyMemberDistance)) {
 					// try mark a downed animal
 					var target = TryFindHuntingTarget(hunter, 0, MaxFinishOffDistance, HuntingTargetFinishFilter);
 					if (target != null) {
@@ -63,7 +71,8 @@ namespace AllowTool {
 		}
 
 		private static bool AnyHuntingPartyMembersInCombat(Pawn centerPawn, float maxPartyMemberDistance) {
-			return centerPawn.Map.mapPawns.FreeColonists.Where(p => AllowToolUtility.PartyHuntIsEnabled(p) && centerPawn.Position.DistanceTo(p.Position) <= maxPartyMemberDistance
+			return centerPawn.Map.mapPawns.FreeColonists.Where(
+				p => WorldSettings.PawnIsPartyHunting(p) && centerPawn.Position.DistanceTo(p.Position) <= maxPartyMemberDistance
 			).Any(p => p.stances.FullBodyBusy);
 		}
 
@@ -83,7 +92,7 @@ namespace AllowTool {
 				return pawn.RaceProps != null
 						&& pawn.RaceProps.Animal
 						&& pawn.Faction == null
-						&& (!AllowToolController.Instance.Handles.PartyHuntDesignatedSetting || pawn.HasDesignation(DesignationDefOf.Hunt))
+						&& (!WorldSettings.HuntDesignatedOnly || pawn.HasDesignation(DesignationDefOf.Hunt))
 						&& (extraPredicate == null || extraPredicate(pawn));
 			}
 

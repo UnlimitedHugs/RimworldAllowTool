@@ -30,8 +30,6 @@ namespace AllowTool {
 		public SettingHandle<bool> FinishOffSkillRequirement { get; private set; }
 		public SettingHandle<bool> FinishOffUnforbidsSetting { get; private set; }
 		public SettingHandle<bool> PartyHuntSetting { get; private set; }
-		public SettingHandle<bool> PartyHuntFinishSetting { get; private set; }
-		public SettingHandle<bool> PartyHuntDesignatedSetting { get; private set; }
 		public SettingHandle<bool> StorageSpaceAlertSetting { get; private set; }
 		
 		public SettingHandle<StripMineGlobalSettings> StripMineSettings { get; private set; }
@@ -51,11 +49,7 @@ namespace AllowTool {
 			ReverseDesignatorPickSetting = pack.GetHandle("reverseDesignatorPick", "setting_reverseDesignatorPick_label".Translate(), "setting_reverseDesignatorPick_desc".Translate(), true);
 			FinishOffUnforbidsSetting = pack.GetHandle("finishOffUnforbids", "setting_finishOffUnforbids_label".Translate(), "setting_finishOffUnforbids_desc".Translate(), true);
 			
-			// party hunt
 			PartyHuntSetting = pack.GetHandle("partyHunt", "setting_partyHunt_label".Translate(), "setting_partyHunt_desc".Translate(), true);
-			PartyHuntFinishSetting = pack.GetHandle("partyHuntFinish", "setting_partyHuntFinish_label".Translate(), null, true);
-			PartyHuntDesignatedSetting = pack.GetHandle("partyHuntDesignated", "setting_partyHuntDesignated_label".Translate(), null, false);
-			PartyHuntFinishSetting.VisibilityPredicate = PartyHuntDesignatedSetting.VisibilityPredicate = () => false;
 
 			StorageSpaceAlertSetting = pack.GetHandle("storageSpaceAlert", "setting_storageSpaceAlert_label".Translate(), "setting_storageSpaceAlert_desc".Translate(), true);
 			

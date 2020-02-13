@@ -127,23 +127,18 @@ namespace AllowTool {
 			return !(pawn.story == null || pawn.story.WorkTagIsDisabled(WorkTags.Violent));
 		}
 
-		public static bool PartyHuntIsEnabled(Pawn pawn) {
-			var settings = AllowToolController.Instance.WorldSettings;
-			return settings != null && settings.PawnIsPartyHunting(pawn);
-		}
-
 		public static void DrawRightClickIcon(float x, float y) {
 			var overlay = AllowToolDefOf.Textures.rightClickOverlay;
 			GUI.DrawTexture(new Rect(x, y, overlay.width, overlay.height), overlay);
 		}
 
-		public static ATFloatMenuOption MakeSettingCheckmarkOption(string labelKey, string descriptionKey, SettingHandle<bool> handle) {
+		public static ATFloatMenuOption MakeCheckmarkOption(string labelKey, string descriptionKey, Func<bool> getter, Action<bool> setter) {
 			const float checkmarkButtonSize = 24f;
 			const float labelMargin = 10f;
-			bool checkOn = handle.Value;
+			bool checkOn = getter();
 			return new ATFloatMenuOption(labelKey.Translate(), () => {
-				handle.Value = !handle.Value;
-				checkOn = handle.Value;
+				setter(!getter());
+				checkOn = getter();
 				HugsLibController.SettingsManager.SaveChanges();
 				var feedbackSound = checkOn ? SoundDefOf.Checkbox_TurnedOn : SoundDefOf.Checkbox_TurnedOff;
 				feedbackSound.PlayOneShotOnCamera();
