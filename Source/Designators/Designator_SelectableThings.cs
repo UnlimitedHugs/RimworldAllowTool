@@ -6,7 +6,9 @@ using Verse;
 
 namespace AllowTool {
 	/// <summary>
-	/// Base class for all designators that use a dragger to operate on things, rather than cells.
+	/// Base class for all designators that use a dragger to select Things, rather than cells.
+	/// The purpose is twofold: efficiently highlight cells with valid things while designating an unlimited area
+	/// and deliver confirmation messages to the player that include the number of affected items.
 	/// </summary>
 	public abstract class Designator_SelectableThings : Designator_UnlimitedDragger {
 		private Material highlightMaterial;
@@ -25,33 +27,38 @@ namespace AllowTool {
 				highlightMaterial = MaterialPool.MatFrom(tex, ShaderDatabase.MetaOverlay, Color.white)
 			);
 		}
-
-		public override void DesignateSingleCell(IntVec3 cell) {
-			numThingsDesignated = 0;
+		
+		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
+			// the cells argument is empty, because we return false in CanDesignateCell. 
+			// We have our own Dragger we can query for cells, however.
 			var map = Find.CurrentMap;
 			if (map == null) return;
-			var things = map.thingGrid.ThingsListAt(cell);
-			for (int i = 0; i < things.Count; i++) {
-				var t = things[i];
-				if (CanDesignateThing(t).Accepted) {
-					DesignateThing(t);
-					numThingsDesignated++;
+			var thingGrid = map.thingGrid;
+			var mapRect = Dragger.SelectedArea.ClipInsideMap(map);
+			var designateableThings = new List<Thing>();
+			var hitCount = 0;
+			foreach (var cell in mapRect.Cells) {
+				var cellThings = thingGrid.ThingsListAtFast(cell);
+				for (var i = 0; i < cellThings.Count; i++) {
+					if (CanDesignateThing(cellThings[i]).Accepted) {
+						designateableThings.Add(cellThings[i]);
+						hitCount++;
+					}
 				}
 			}
-		}
-
-		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
-			var hitCount = 0;
-			foreach (var cell in Dragger.SelectedArea) {
-				DesignateSingleCell(cell);
-				hitCount += numThingsDesignated;
-			}
+			DesignateMultiThing(designateableThings);
 			if (hitCount > 0) {
 				if (Def.messageSuccess != null) Messages.Message(Def.messageSuccess.Translate(hitCount.ToString()), MessageTypeDefOf.SilentInput);
 				FinalizeDesignationSucceeded();
 			} else {
 				if (Def.messageFailure != null) Messages.Message(Def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
 				FinalizeDesignationFailed();
+			}
+		}
+
+		private void DesignateMultiThing(IEnumerable<Thing> things) {
+			foreach (var thing in things) {
+				DesignateThing(thing);
 			}
 		}
 

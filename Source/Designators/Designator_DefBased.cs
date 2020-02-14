@@ -10,7 +10,6 @@ namespace AllowTool {
 	/// </summary>
 	public abstract class Designator_DefBased : Designator, IReversePickableDesignator, IGlobalHotKeyProvider {
 		public ThingDesignatorDef Def { get; private set; }
-		protected int numThingsDesignated;
 		
 		private bool visible = true;
 		public override bool Visible {

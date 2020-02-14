@@ -28,19 +28,6 @@ namespace AllowTool {
 			return ThingIsRelevant(t) && !t.HasDesignation(AllowToolDefOf.HaulUrgentlyDesignation);
 		}
 
-		public override void DesignateSingleCell(IntVec3 cell) {
-			var map = Find.CurrentMap;
-			numThingsDesignated = 0;
-
-			var cellThings = map.thingGrid.ThingsListAt(cell);
-			for (var i = 0; i < cellThings.Count; i++) {
-				var thing = cellThings[i];
-				if (!ThingIsRelevant(thing)) continue;
-				numThingsDesignated++;
-				DesignateThing(thing);
-			}
-		}
-
 		public override void DesignateThing(Thing thing) {
 			if (thing.def.designateHaulable) {
 				// for things that require explicit hauling designation, such as rock chunks

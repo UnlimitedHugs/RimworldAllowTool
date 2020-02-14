@@ -27,10 +27,6 @@ namespace AllowTool {
 			return false;
 		}
 
-		public override void DesignateSingleCell(IntVec3 cell) {
-			numThingsDesignated = 0;
-		}
-
 		private void AllowAllTheThings() {
 			var includeRotten = HugsLibUtility.ShiftIsHeld;
 			var includeNonHaulable = HugsLibUtility.ControlIsHeld;

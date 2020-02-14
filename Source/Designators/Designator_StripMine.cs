@@ -242,7 +242,6 @@ namespace AllowTool {
 			if (!handle.Value.Equals(globalSettings)) {
 				handle.Value = globalSettings.Clone();
 				HugsLibController.SettingsManager.SaveChanges();
-				AllowToolController.Logger.Warning("Saved settings");
 			}
 		}
 

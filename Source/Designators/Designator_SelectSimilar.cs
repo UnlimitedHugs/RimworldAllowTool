@@ -52,17 +52,6 @@ namespace AllowTool {
 			TrySelectThing(t);
 		}
 
-		public override void DesignateSingleCell(IntVec3 cell) {
-			var map = Find.CurrentMap;
-			var cellThings = map.thingGrid.ThingsListAtFast(cell);
-			numThingsDesignated = 0;
-			for (var i = 0; i < cellThings.Count; i++) {
-				if (TrySelectThing(cellThings[i])) {
-					numThingsDesignated++;
-				}
-			}
-		}
-
 		public override void DesignateMultiCell(IEnumerable<IntVec3> vanillaCells) {
 			var selectedCells = Dragger.SelectedArea.Cells.ToList();
 			if (SelectingSingleCell) {
