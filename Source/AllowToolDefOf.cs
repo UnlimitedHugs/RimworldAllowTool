@@ -16,8 +16,14 @@ namespace AllowTool {
 		public static DesignationDef FinishOffDesignation;
 
 		// designators
+		public static ThingDesignatorDef AllowDesignator;
+		public static ThingDesignatorDef ForbidDesignator;
+		public static ThingDesignatorDef AllowAllDesignator;
 		public static ThingDesignatorDef SelectSimilarDesignator;
+		public static ThingDesignatorDef HaulUrgentlyDesignator;
 		public static ThingDesignatorDef FinishOffDesignator;
+		public static ThingDesignatorDef HarvestFullyGrownDesignator;
+		public static ThingDesignatorDef StripMineDesignator;
 
 		// reverse designators
 		public static ReverseDesignatorDef ReverseFinishOff;
@@ -41,8 +47,8 @@ namespace AllowTool {
 		[StaticConstructorOnStartup]
 		public static class Textures {
 			public static Texture2D rightClickOverlay;
-			public static Texture2D designatorSelectionOption;
 			public static Texture2D contextMenuWatermark;
+			public static Texture2D designatorSelectionOption;
 			public static Texture2D partyHunt;
 
 			static Textures() {

@@ -6,7 +6,7 @@ namespace AllowTool.Patches {
 	internal static class JobDriverWait_CheckForAutoAttack_Patch {
 		[HarmonyPostfix]
 		public static void DoPartyHunting(JobDriver_Wait __instance) {
-			PartyHuntController.DoBehaviorForPawn(__instance);
+			PartyHuntHandler.DoBehaviorForPawn(__instance);
 		}
 	}
 }

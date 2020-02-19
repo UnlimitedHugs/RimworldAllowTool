@@ -10,7 +10,7 @@ namespace AllowTool.Patches {
 		[HarmonyPostfix]
 		public static void NotifyPawnUndrafted(Pawn_DraftController __instance, bool value) {
 			if (!value) {
-				PartyHuntController.OnPawnUndrafted(__instance.pawn);
+				PartyHuntHandler.OnPawnUndrafted(__instance.pawn);
 			}
 		}
 	}

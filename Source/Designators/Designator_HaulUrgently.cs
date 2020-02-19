@@ -11,8 +11,8 @@ namespace AllowTool {
 			get { return AllowToolDefOf.HaulUrgentlyDesignation; }
 		}
 
-		public Designator_HaulUrgently(ThingDesignatorDef def)
-			: base(def) {
+		public Designator_HaulUrgently() {
+			UseDesignatorDef(AllowToolDefOf.HaulUrgentlyDesignator);
 		}
 
 		protected override void FinalizeDesignationSucceeded() {
@@ -26,19 +26,6 @@ namespace AllowTool {
 
 		public override AcceptanceReport CanDesignateThing(Thing t) {
 			return ThingIsRelevant(t) && !t.HasDesignation(AllowToolDefOf.HaulUrgentlyDesignation);
-		}
-
-		public override void DesignateSingleCell(IntVec3 cell) {
-			var map = Find.CurrentMap;
-			numThingsDesignated = 0;
-
-			var cellThings = map.thingGrid.ThingsListAt(cell);
-			for (var i = 0; i < cellThings.Count; i++) {
-				var thing = cellThings[i];
-				if (!ThingIsRelevant(thing)) continue;
-				numThingsDesignated++;
-				DesignateThing(thing);
-			}
 		}
 
 		public override void DesignateThing(Thing thing) {

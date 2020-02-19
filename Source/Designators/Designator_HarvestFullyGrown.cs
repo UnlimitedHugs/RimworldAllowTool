@@ -1,27 +1,51 @@
-﻿using RimWorld;
+﻿using HugsLib.Utils;
+using RimWorld;
 using Verse;
 
 namespace AllowTool {
 	/// <summary>
 	/// A Harvest designator that selects only fully grown plants
 	/// </summary>
-	public class Designator_HarvestFullyGrown : Designator_PlantsHarvest {
-		public override AcceptanceReport CanDesignateThing(Thing t) {
-			var result =  base.CanDesignateThing(t);
-			if (result.Accepted) {
-				var plant = t as Plant;
-				if (plant != null && plant.LifeStage == PlantLifeStage.Mature) {
-					result = true;
-				} else {
-					result = "MessageMustDesignateHarvestable".Translate();
-				}
-			}
-			return result;
+	public class Designator_HarvestFullyGrown : Designator_SelectableThings {
+		public Designator_HarvestFullyGrown() {
+			UseDesignatorDef(AllowToolDefOf.HarvestFullyGrownDesignator);
 		}
-		
-		public override void DrawMouseAttachments() {
-			base.DrawMouseAttachments();
-			AllowToolUtility.DrawMouseAttachedLabel("HarvestFullyGrown_cursorTip".Translate());
+
+		protected override DesignationDef Designation {
+			get { return DesignationDefOf.HarvestPlant; }
+		}
+
+		public override AcceptanceReport CanDesignateThing(Thing t) {
+			var plantProps = t?.def.plant;
+			var hasHarvestDesgination = t.HasDesignation(Designation);
+			return plantProps != null && 
+				!hasHarvestDesgination && 
+				t is Plant plant && 
+				plant.HarvestableNow && 
+				plant.LifeStage == PlantLifeStage.Mature &&
+				PlantMatchesModifierKeyFilter(plantProps);
+		}
+
+		public override void DesignateThing(Thing t) {
+			if (!CanDesignateThing(t).Accepted) return;
+			Map.designationManager.RemoveAllDesignationsOn(t);
+			t.ToggleDesignation(Designation, true);
+		}
+
+		protected override bool RemoveAllDesignationsAffects(LocalTargetInfo target) {
+			var plantProps = target.Thing.def.plant;
+			return plantProps != null && PlantMatchesModifierKeyFilter(plantProps);
+		}
+
+		private static bool PlantMatchesModifierKeyFilter(PlantProperties props) {
+			bool plantIsCrop() => props.harvestTag == "Standard";
+			bool plantIsTree() => props.harvestTag == "Wood";
+			bool shiftHeld = HugsLibUtility.ShiftIsHeld,
+				controlHeld = HugsLibUtility.ControlIsHeld;
+			return !shiftHeld && !controlHeld ||
+					shiftHeld && plantIsCrop() ||
+					controlHeld && plantIsTree();
+
 		}
 	}
 }

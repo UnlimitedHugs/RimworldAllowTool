@@ -8,7 +8,7 @@ namespace AllowTool.Patches {
 	internal static class Pawn_GetGizmos_Patch {
 		[HarmonyPostfix]
 		public static void InsertPartyHuntGizmo(Pawn __instance, ref IEnumerable<Gizmo> __result) {
-			var toggle = PartyHuntController.TryGetGizmo(__instance);
+			var toggle = PartyHuntHandler.TryGetGizmo(__instance);
 			if (toggle != null) {
 				__result = AppendGizmo(__result, toggle);
 			}

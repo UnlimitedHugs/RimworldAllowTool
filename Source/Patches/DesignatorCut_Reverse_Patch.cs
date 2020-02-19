@@ -6,7 +6,7 @@ using Verse;
 namespace AllowTool.Patches {
 	/// <summary>
 	/// Prevent the Cut designator from displaying a "Chop" icon when trees are selected.
-	/// We compensate for this by injecting a Designator_PlantsHarvestWood in ReverseDesignatorProvider.
+	/// We compensate for this by injecting a Designator_PlantsHarvestWood in ReverseDesignatorHandler.
 	/// This fix allows us to pick the proper tool when shift-clicking the designator, 
 	/// and get the correct context menu options when right-clicking.
 	/// </summary>

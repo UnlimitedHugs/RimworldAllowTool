@@ -25,7 +25,7 @@ namespace AllowTool.Patches {
 		// ReSharper disable once UnusedParameter.Global
 		public static MethodInfo TargetMethod(HarmonyInstance inst) {
 			// get our target type
-			gizmoGridType = GenTypes.GetTypeInAnyAssembly("InspectGizmoGrid");
+			gizmoGridType = GenTypes.GetTypeInAnyAssemblyNew("InspectGizmoGrid", "Rimworld");
 			var method = AccessTools.Method(gizmoGridType, "DrawInspectGizmoGridFor");
 			if (gizmoGridType != null) {
 				const string expectedDesignatorFieldName = "des";
@@ -76,10 +76,6 @@ namespace AllowTool.Patches {
 				AllowToolController.Logger.Warning("Failed to identify local variables for patching: "+Environment.StackTrace);
 			} else {
 				prechecksSuccess = true;
-			}
-			if (prechecksSuccess) {
-				// clear designator-command pairs from previous call
-				yield return new CodeInstruction(OpCodes.Call, ((Action)DesignatorContextMenuController.ClearReverseDesignatorPairs).Method);
 			}
 			// currentCommandIndex: 7
 			// currentDesignatorHolderIndex: 10 
