@@ -54,7 +54,7 @@
 	<HugsLib.UpdateFeatureDef ParentName="ATUpdateFeatureBase">
 		<defName>AllowTool_3_7_0</defName>
 		<assemblyVersion>3.7.0</assemblyVersion>
-		<content>&lt;b&gt;New tools:&lt;/b&gt;|img:News/harvestGrown|caption:&lt;b&gt;Harvest fully grown:&lt;/b&gt; Harvesting fully grown things has been promoted to a separate tool, which can now be used in combination with "Select similar".|img:News/stripMine|caption:&lt;b&gt;Strip mine:&lt;/b&gt; all new tool to easily lay out mining orders in a grid to maximize the chance of finding ores.|&lt;b&gt;Other additions:&lt;/b&gt;|&lt;b&gt;Select similar in visible area:&lt;/b&gt; added to "Select similar" tool right-click menu.|&lt;b&gt;Customizable tool placement:&lt;/b&gt; other mods can now affect where in the menu the tools appear (most notably RIMMSqol).</content>
+		<content>&lt;b&gt;New tools:&lt;/b&gt;|img:News/harvestGrown|caption:&lt;b&gt;Harvest fully grown:&lt;/b&gt; Harvesting fully grown things has been promoted to a separate tool, which can now be used in combination with "Select similar". Can selectively mark crops or trees only by holding Shift or Ctrl.|img:News/stripMine|caption:&lt;b&gt;Strip mine:&lt;/b&gt; all new tool to easily lay out mining orders in a grid to maximize the chance of finding ores.|&lt;b&gt;Other additions:&lt;/b&gt;|&lt;b&gt;Select similar in visible area:&lt;/b&gt; added to "Select similar" tool right-click menu.|&lt;b&gt;Customizable tool placement:&lt;/b&gt; other mods can now affect where in the menu the tools appear (most notably RIMMSqol).</content>
 	</HugsLib.UpdateFeatureDef>
 	
 </Defs>
