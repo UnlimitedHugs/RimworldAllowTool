@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AllowTool.Context;
-using Harmony;
 using HugsLib;
-using HugsLib.Settings;
 using HugsLib.Utils;
 using RimWorld;
 using UnityEngine;
@@ -177,12 +174,18 @@ namespace AllowTool {
 		}
 
 		private static List<int> GetWorkPriorityListForPawn(Pawn pawn) {
-			if (pawn?.workSettings != null) {
-				var workDefMap = Traverse.Create(pawn.workSettings).Field("priorities").GetValue<DefMap<WorkTypeDef, int>>();
-				if (workDefMap == null) throw new Exception("Failed to retrieve workDefMap for pawn: " + pawn);
-				var priorityList = Traverse.Create(workDefMap).Field("values").GetValue<List<int>>();
-				if (priorityList == null) throw new Exception("Failed to retrieve priority list for pawn: " + pawn);
-				return priorityList;
+			try {
+				if (pawn?.workSettings != null) {
+					var workDefMap = (DefMap<WorkTypeDef, int>)AllowToolController.Instance.Reflection.PawnWorkSettingsPriorities.GetValue(pawn.workSettings);
+					// could be null if pawn is not capable of work (enemies, prisoners)
+					if (workDefMap != null) {
+						var priorityList = (List<int>)AllowToolController.Instance.Reflection.WorkDefMapValues.GetValue(workDefMap);
+						return priorityList;
+					}
+				}
+			} catch (Exception e) {
+				AllowToolController.Logger.Error($"Caught exception while trying to retrieve work priorities for pawn {pawn.ToStringSafe()}: {e}");
+				throw;
 			}
 			return null;
 		}
