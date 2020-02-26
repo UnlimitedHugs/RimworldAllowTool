@@ -28,26 +28,28 @@ namespace AllowTool.Patches {
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> DrawRightClickIcon(IEnumerable<CodeInstruction> instructions) {
-			var expectedMethod = AccessTools.Method(typeof(Widgets), "DrawTextureFitted",
-				new[] {typeof(Rect), typeof(Texture), typeof(float), typeof(Vector2), typeof(Rect), typeof(float), typeof(Material)});
+			var expectedMethod = AccessTools.Method(typeof(Command), "DrawIcon",
+				new[] {typeof(Rect), typeof(Material)});
 			overlayInjected = false;
 			if (expectedMethod == null) {
 				AllowToolController.Logger.Error("Failed to reflect required method: " + Environment.StackTrace);
 			}
-			foreach (var instruction in instructions) {
-				// right after the gizmo icon texture is drawn
-				if (expectedMethod != null && instruction.opcode == OpCodes.Call && expectedMethod.Equals(instruction.operand)) {
-					// push this (Command) arg
-					yield return new CodeInstruction(OpCodes.Ldarg_0);
+
+            foreach (var instruction in instructions) {
+                // right after the gizmo icon texture is drawn
+                if (expectedMethod != null && instruction.opcode == OpCodes.Callvirt && expectedMethod.Equals(instruction.operand)) {
+                    // push this (Command) arg
+                    yield return new CodeInstruction(OpCodes.Ldarg_0);
 					// push topLeft (Vector2) arg
 					yield return new CodeInstruction(OpCodes.Ldarg_1);
 					// call our delegate
 					yield return new CodeInstruction(OpCodes.Call, ((Action<Command, Vector2>)DesignatorContextMenuController.DrawCommandOverlayIfNeeded).Method);
 					overlayInjected = true;
 				}
-				yield return instruction;
+
+                yield return instruction;
 			}
-		}
+        }
 
 		[HarmonyPostfix]
 		public static void InterceptInteraction(ref GizmoResult __result, Command __instance) {
