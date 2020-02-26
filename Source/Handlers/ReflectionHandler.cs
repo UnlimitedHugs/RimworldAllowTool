@@ -21,7 +21,7 @@ namespace AllowTool {
 		public MethodInfo DesignationCategoryDefResolveDesignatorsMethod;
 
 		internal void PrepareReflection() {
-			var gizmoGridType = GenTypes.GetTypeInAnyAssemblyNew("InspectGizmoGrid", "RimWorld");
+			var gizmoGridType = GenTypes.GetTypeInAnyAssembly("InspectGizmoGrid", "RimWorld");
 			if (gizmoGridType != null) {
 				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
 			}

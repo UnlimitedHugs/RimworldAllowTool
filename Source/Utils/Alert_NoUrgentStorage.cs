@@ -18,13 +18,6 @@ namespace AllowTool {
 		private int cachedForMapIndex = -1;
 		private int lastRecacheFrame;
 
-		public override bool Active {
-			get {
-				if(!AllowToolController.Instance.Handles.StorageSpaceAlertSetting.Value) return false;
-				RecacheIfNeeded();
-				return cachedHaulablesWithoutDestination.Count > 0;
-			}
-		}
 
 		public override AlertPriority Priority {
 			get { return AlertPriority.High; }
@@ -34,15 +27,22 @@ namespace AllowTool {
 			defaultLabel = "Alert_noStorage_label".Translate();
 		}
 
-		public override string GetExplanation() {
+		public override TaggedString GetExplanation() {
 			var culprits = cachedHaulablesWithoutDestination.Select(t => t.Thing?.LabelShort)
 				.Take(MaxListedCulpritsInExplanation).ToList();
 			if (culprits.Count < cachedHaulablesWithoutDestination.Count) culprits.Add("...");
 			return "Alert_noStorage_desc".Translate(culprits.ListElements());
 		}
 
+        private bool _shouldBeActive()
+        {
+            if (!AllowToolController.Instance.Handles.StorageSpaceAlertSetting.Value) return false;
+            RecacheIfNeeded();
+            return cachedHaulablesWithoutDestination.Count > 0;
+        }
+
 		public override AlertReport GetReport() {
-			return Active ? AlertReport.CulpritsAre(cachedHaulablesWithoutDestination) : AlertReport.Inactive;
+			return _shouldBeActive() ? AlertReport.CulpritsAre(cachedHaulablesWithoutDestination) : AlertReport.Inactive;
 		}
 
 		protected override Color BGColor {

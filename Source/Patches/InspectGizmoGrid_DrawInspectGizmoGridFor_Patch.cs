@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using AllowTool.Context;
-using Harmony;
+using HarmonyLib;
 using HugsLib.Utils;
 using Verse;
 
@@ -23,9 +23,9 @@ namespace AllowTool.Patches {
 
 		[HarmonyTargetMethod]
 		// ReSharper disable once UnusedParameter.Global
-		public static MethodInfo TargetMethod(HarmonyInstance inst) {
+		public static MethodInfo TargetMethod(Harmony inst) {
 			// get our target type
-			gizmoGridType = GenTypes.GetTypeInAnyAssemblyNew("InspectGizmoGrid", "Rimworld");
+			gizmoGridType = GenTypes.GetTypeInAnyAssembly("InspectGizmoGrid", "Rimworld");
 			var method = AccessTools.Method(gizmoGridType, "DrawInspectGizmoGridFor");
 			if (gizmoGridType != null) {
 				const string expectedDesignatorFieldName = "des";
