@@ -121,7 +121,7 @@ namespace AllowTool {
 		}
 
 		public static bool PawnCapableOfViolence(Pawn pawn) {
-			return !(pawn.story == null || pawn.story.WorkTagIsDisabled(WorkTags.Violent));
+			return !pawn.WorkTagIsDisabled(WorkTags.Violent);
 		}
 
 		public static void DrawRightClickIcon(float x, float y) {
@@ -193,7 +193,7 @@ namespace AllowTool {
 		// returns a work priority based on disabled work types and tags for that pawn
 		private static int GetWorkTypePriorityForPawn(WorkTypeDef workDef, Pawn pawn) {
 			if (pawn.story != null){
-				if (pawn.story.WorkTypeIsDisabled(workDef) || pawn.story.WorkTagIsDisabled(workDef.workTags)) {
+				if (pawn.WorkTypeIsDisabled(workDef) || pawn.WorkTagIsDisabled(workDef.workTags)) {
 					return DisabledWorkPriority;
 				}
 			}

@@ -10,7 +10,7 @@ namespace AllowTool {
 	public static class PickUpAndHaulCompatHandler {
 		public static void Apply() {
 			try {
-				var workGiverType = GenTypes.GetTypeInAnyAssemblyNew("PickUpAndHaul.WorkGiver_HaulToInventory", null);
+				var workGiverType = GenTypes.GetTypeInAnyAssembly("PickUpAndHaul.WorkGiver_HaulToInventory");
 				if (workGiverType == null) return;
 				if(!typeof(WorkGiver_HaulGeneral).IsAssignableFrom(workGiverType)) 
 					throw new Exception("Expected work giver to extend "+nameof(WorkGiver_HaulGeneral));

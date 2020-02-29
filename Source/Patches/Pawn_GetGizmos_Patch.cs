@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Harmony;
+using HarmonyLib;
 using Verse;
 
 // Appends the "party hunt" toggle to the pawn buttons.

@@ -18,14 +18,6 @@ namespace AllowTool {
 		private int cachedForMapIndex = -1;
 		private int lastRecacheFrame;
 
-		public override bool Active {
-			get {
-				if(!AllowToolController.Instance.Handles.StorageSpaceAlertSetting.Value) return false;
-				RecacheIfNeeded();
-				return cachedHaulablesWithoutDestination.Count > 0;
-			}
-		}
-
 		public override AlertPriority Priority {
 			get { return AlertPriority.High; }
 		}
@@ -34,7 +26,12 @@ namespace AllowTool {
 			defaultLabel = "Alert_noStorage_label".Translate();
 		}
 
-		public override string GetExplanation() {
+		public override void AlertActiveUpdate() {
+			if (AllowToolController.Instance.Handles.StorageSpaceAlertSetting.Value) return;
+			RecacheIfNeeded();
+		}
+
+		public override TaggedString GetExplanation() {
 			var culprits = cachedHaulablesWithoutDestination.Select(t => t.Thing?.LabelShort)
 				.Take(MaxListedCulpritsInExplanation).ToList();
 			if (culprits.Count < cachedHaulablesWithoutDestination.Count) culprits.Add("...");
