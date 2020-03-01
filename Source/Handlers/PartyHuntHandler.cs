@@ -64,7 +64,7 @@ namespace AllowTool {
 					if (job != null) {
 						hunter.jobs.StartJob(job, JobCondition.Ongoing, null, true);
 						// return to starting position
-						hunter.jobs.jobQueue.EnqueueFirst(new Job(JobDefOf.Goto, hunter.Position));
+						hunter.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(JobDefOf.Goto, hunter.Position));
 					}
 				}
 			}

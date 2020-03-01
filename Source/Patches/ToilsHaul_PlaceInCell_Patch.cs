@@ -7,7 +7,7 @@ namespace AllowTool.Patches {
 	/// </summary>
 	[HarmonyPatch(typeof(Toils_Haul))]
 	[HarmonyPatch("PlaceHauledThingInCell")]
-	[HarmonyPatch(new[]{typeof(TargetIndex), typeof(Toil), typeof(bool)})]
+	[HarmonyPatch(new[]{typeof(TargetIndex), typeof(Toil), typeof(bool), typeof(bool)})]
 	internal static class ToilsHaul_PlaceInCell_Patch {
 		[HarmonyPostfix]
 		public static void ClearHaulUrgently(Toil __result) {

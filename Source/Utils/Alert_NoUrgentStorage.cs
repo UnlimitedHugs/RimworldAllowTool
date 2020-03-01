@@ -26,11 +26,6 @@ namespace AllowTool {
 			defaultLabel = "Alert_noStorage_label".Translate();
 		}
 
-		public override void AlertActiveUpdate() {
-			if (AllowToolController.Instance.Handles.StorageSpaceAlertSetting.Value) return;
-			RecacheIfNeeded();
-		}
-
 		public override TaggedString GetExplanation() {
 			var culprits = cachedHaulablesWithoutDestination.Select(t => t.Thing?.LabelShort)
 				.Take(MaxListedCulpritsInExplanation).ToList();
@@ -39,7 +34,13 @@ namespace AllowTool {
 		}
 
 		public override AlertReport GetReport() {
-			return Active ? AlertReport.CulpritsAre(cachedHaulablesWithoutDestination) : AlertReport.Inactive;
+			if (AllowToolController.Instance.Handles.StorageSpaceAlertSetting.Value) {
+				RecacheIfNeeded();
+				if (cachedHaulablesWithoutDestination.Count > 0) {
+					return AlertReport.CulpritsAre(cachedHaulablesWithoutDestination);
+				}
+			}
+			return AlertReport.Inactive;
 		}
 
 		protected override Color BGColor {

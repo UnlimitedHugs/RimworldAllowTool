@@ -129,7 +129,6 @@
     <Compile Include="Source\Handlers\ReflectionHandler.cs" />
     <Compile Include="Source\Handlers\PartyHuntHandler.cs" />
     <Compile Include="Source\Patches\DesignationCategoryDef_ResolveDesignators_Patch.cs" />
-    <Compile Include="Source\Patches\DesignatorCut_Reverse_Patch.cs" />
     <Compile Include="Source\Patches\DraftController_Drafted_Patch.cs" />
     <Compile Include="Source\Patches\Pawn_GetGizmos_Patch.cs" />
     <Compile Include="Source\Patches\Thing_GetFloatMenuOptions_Patch.cs" />

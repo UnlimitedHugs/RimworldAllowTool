@@ -72,10 +72,10 @@ namespace AllowTool {
 								// ignore designation if forced- driver will add the designation
 								var verb = pawn.meleeVerbs?.TryGetMeleeVerb(t);
 								if (verb != null) {
-									return new Job(AllowToolDefOf.FinishOffPawn, t) {
-										verbToUse = verb,
-										killIncappedTarget = true
-									};
+									var job = JobMaker.MakeJob(AllowToolDefOf.FinishOffPawn, t);
+									job.verbToUse = verb;
+									job.killIncappedTarget = true;
+									return job;
 								}
 							}
 						}

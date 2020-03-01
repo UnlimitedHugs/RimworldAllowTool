@@ -192,10 +192,8 @@ namespace AllowTool {
 		
 		// returns a work priority based on disabled work types and tags for that pawn
 		private static int GetWorkTypePriorityForPawn(WorkTypeDef workDef, Pawn pawn) {
-			if (pawn.story != null){
-				if (pawn.WorkTypeIsDisabled(workDef) || pawn.WorkTagIsDisabled(workDef.workTags)) {
-					return DisabledWorkPriority;
-				}
+			if (pawn.WorkTypeIsDisabled(workDef) || pawn.WorkTagIsDisabled(workDef.workTags)) {
+				return DisabledWorkPriority;			
 			}
 			return DefaultWorkPriority;
 		}
