@@ -14,8 +14,6 @@ namespace AllowTool {
 		public FieldInfo DraftControllerAutoUndrafterField;
 		public FieldInfo DesignatorHasDesignateAllFloatMenuOptionField;
 		public FieldInfo GenDrawLineMatMetaOverlay;
-		public FieldInfo PawnWorkSettingsPriorities;
-		public FieldInfo WorkDefMapValues;
 		public MethodInfo DesignatorGetDesignationMethod;
 		public MethodInfo DesignatorGetRightClickFloatMenuOptionsMethod;
 		public MethodInfo DesignationCategoryDefResolveDesignatorsMethod;
@@ -31,8 +29,6 @@ namespace AllowTool {
 			DraftControllerAutoUndrafterField = typeof(Pawn_DraftController).GetField("autoUndrafter", HugsLibUtility.AllBindingFlags);
 			DesignationCategoryDefResolveDesignatorsMethod = typeof(DesignationCategoryDef).GetMethod("ResolveDesignators", HugsLibUtility.AllBindingFlags);
 			GenDrawLineMatMetaOverlay = typeof(GenDraw).GetField("LineMatMetaOverlay", BindingFlags.Static | BindingFlags.NonPublic);
-			PawnWorkSettingsPriorities = typeof(Pawn_WorkSettings).GetField("priorities", BindingFlags.Instance | BindingFlags.NonPublic);
-			WorkDefMapValues = typeof(DefMap<WorkTypeDef, int>).GetField("values", BindingFlags.Instance | BindingFlags.NonPublic);
 			if (GizmoGridGizmoListField == null || GizmoGridGizmoListField.FieldType != typeof(List<Gizmo>)
 				|| DesignatorGetDesignationMethod == null || DesignatorGetDesignationMethod.ReturnType != typeof(DesignationDef)
 				|| DesignatorHasDesignateAllFloatMenuOptionField == null || DesignatorHasDesignateAllFloatMenuOptionField.FieldType != typeof(bool)
@@ -40,8 +36,6 @@ namespace AllowTool {
 				|| DraftControllerAutoUndrafterField == null || DraftControllerAutoUndrafterField.FieldType != typeof(AutoUndrafter)
 				|| DesignationCategoryDefResolveDesignatorsMethod == null || DesignationCategoryDefResolveDesignatorsMethod.GetParameters().Length != 0
 				|| GenDrawLineMatMetaOverlay == null || GenDrawLineMatMetaOverlay.FieldType != typeof(Material)
-				|| PawnWorkSettingsPriorities == null || PawnWorkSettingsPriorities.FieldType != typeof(DefMap<WorkTypeDef, int>)
-				|| WorkDefMapValues == null || WorkDefMapValues.FieldType != typeof(List<int>)
 				) {
 				AllowToolController.Logger.Error("Failed to reflect required members");
 			}
