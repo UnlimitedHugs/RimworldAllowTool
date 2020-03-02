@@ -24,13 +24,13 @@
 	<HugsLib.UpdateFeatureDef ParentName="ATUpdateFeatureBase">
 		<defName>AllowTool_3_0_0</defName>
 		<assemblyVersion>3.0.0</assemblyVersion>
-		<content>&lt;b&gt;Massive update!&lt;/b&gt;|&lt;b&gt;New tools:&lt;/b&gt;|"Select similar" (formerly Mass select) allows to easily find and select only things similar to those already selected. Great for deconstruction and finding things around the map.|"Haul urgently" allows to have the marked items hauled before any other work is done. Holding Shift will have colonists interrupt current work and begin hauling immediately.|&lt;b&gt;Tool right-click menus:&lt;/b&gt;|Tools with the small mouse icon now have a context menu that allows them to affect the whole map. To activate the context menu action for the tool you are holding, you can also press the "Context action" key ("Equals" by default).</content>
+		<content>&lt;b&gt;Massive update!&lt;/b&gt;|&lt;b&gt;New tools:&lt;/b&gt;|img:images/selectSimilar|caption:"Select similar" (formerly Mass select) allows to easily find and select only things similar to those already selected. Great for deconstruction and finding things around the map.|img:images/haulUrgently|caption:"Haul urgently" allows to have the marked items hauled before any other work is done. Holding Shift will have colonists interrupt current work and begin hauling immediately.|&lt;b&gt;Tool right-click menus:&lt;/b&gt;|img:images/contextMenuExample|caption:Tools with the small mouse icon now have a context menu that allows them to affect the whole map. To activate the context menu action for the tool you are holding, you can also press the "Context action" key ("Equals" by default).</content>
 	</HugsLib.UpdateFeatureDef>
 	
 	<HugsLib.UpdateFeatureDef ParentName="ATUpdateFeatureBase">
 		<defName>AllowTool_3_2_0</defName>
 		<assemblyVersion>3.2.0</assemblyVersion>
-		<content>&lt;b&gt;New tool:&lt;/b&gt;|"Finish off" allows to quickly and humanely clean up downed animals and raid survivors. Requires a colonist skilled in melee combat to carry out the order.</content>
+		<content>&lt;b&gt;New tool:&lt;/b&gt;|img:images/finishOff|caption:"Finish off" allows to quickly and humanely clean up downed animals and raid survivors. Requires a colonist skilled in melee combat to carry out the order.</content>
 	</HugsLib.UpdateFeatureDef>
 	
 	<HugsLib.UpdateFeatureDef ParentName="ATUpdateFeatureBase">
@@ -42,7 +42,7 @@
 	<HugsLib.UpdateFeatureDef ParentName="ATUpdateFeatureBase">
 		<defName>AllowTool_3_5_0</defName>
 		<assemblyVersion>3.5.0</assemblyVersion>
-		<content>&lt;b&gt;New tools:&lt;/b&gt;|&lt;b&gt;Drafted hunt&lt;/b&gt; is a tool for manual hunting. When enabled, allows colonists to automatically target and finish off wild animals. Draft a colonist to use, right-click to change settings.|&lt;b&gt;Harvest/Chop fully grown&lt;/b&gt;: tools to mark only fully grown plants for harvesting and chopping, which improves resource yield. Right click the "Harvest" or "Chop" tools to use.</content>
+		<content>&lt;b&gt;New tools:&lt;/b&gt;|img:images/draftedHunt|caption:&lt;b&gt;Drafted hunt&lt;/b&gt; is a tool for manual hunting. When enabled, allows colonists to automatically target and finish off wild animals. Draft a colonist to use, right-click to change settings.|&lt;b&gt;Harvest/Chop fully grown&lt;/b&gt;: tools to mark only fully grown plants for harvesting and chopping, which improves resource yield. Right click the "Harvest" or "Chop" tools to use.</content>
 	</HugsLib.UpdateFeatureDef>	
 	
 	<HugsLib.UpdateFeatureDef ParentName="ATUpdateFeatureBase">
@@ -54,7 +54,7 @@
 	<HugsLib.UpdateFeatureDef ParentName="ATUpdateFeatureBase">
 		<defName>AllowTool_3_7_0</defName>
 		<assemblyVersion>3.7.0</assemblyVersion>
-		<content>&lt;b&gt;New tools:&lt;/b&gt;|&lt;b&gt;Harvest fully grown:&lt;/b&gt; Harvesting fully grown things has been promoted to a separate tool, which can now be used in combination with "Select similar". Can selectively mark crops or trees only by holding Shift or Ctrl.|&lt;b&gt;Strip mine:&lt;/b&gt; all new tool to easily lay out mining orders in a grid to maximize the chance of finding ores.|&lt;b&gt;Other additions:&lt;/b&gt;|&lt;b&gt;Select similar in visible area:&lt;/b&gt; added to "Select similar" tool right-click menu.|&lt;b&gt;Customizable tool placement:&lt;/b&gt; other mods can now affect where in the menu the tools appear (most notably RIMMSqol).</content>
+		<content>&lt;b&gt;New tools:&lt;/b&gt;|img:images/harvestGrown|caption:&lt;b&gt;Harvest fully grown:&lt;/b&gt; Harvesting fully grown things has been promoted to a separate tool, which can now be used in combination with "Select similar". Can selectively mark crops or trees only by holding Shift or Ctrl.|img:images/stripMine|caption:&lt;b&gt;Strip mine:&lt;/b&gt; all new tool to easily lay out mining orders in a grid to maximize the chance of finding ores.|&lt;b&gt;Other additions:&lt;/b&gt;|&lt;b&gt;Select similar in visible area:&lt;/b&gt; added to "Select similar" tool right-click menu.|&lt;b&gt;Customizable tool placement:&lt;/b&gt; other mods can now affect where in the menu the tools appear (most notably RIMMSqol).</content>
 	</HugsLib.UpdateFeatureDef>
 	
 </Defs>

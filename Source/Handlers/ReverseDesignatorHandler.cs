@@ -1,5 +1,4 @@
 ﻿using System;
-using RimWorld;
 using Verse;
 
 namespace AllowTool {
@@ -9,8 +8,6 @@ namespace AllowTool {
 	public static class ReverseDesignatorHandler {
 		internal static void InjectReverseDesignators(ReverseDesignatorDatabase database) {
 			var designatorsList = database.AllDesignators;
-			// inject a chop designator to compensate for the removal of the chop functionality from Designator_PlantsCut
-			designatorsList.Add(new Designator_PlantsHarvestWood());
 			// inject our custom designators
 			foreach (var def in DefDatabase<ReverseDesignatorDef>.AllDefs) {
 				try {
