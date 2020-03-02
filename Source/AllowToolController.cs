@@ -36,7 +36,7 @@ namespace AllowTool {
 			Instance = this;
 		}
 
-		public override void EarlyInitalize() {
+		public override void EarlyInitialize() {
 			Handles = new ModSettingsHandler();
 			Handles.PackSettingsChanged += () => modSettingsHaveChanged = true;
 			Reflection = new ReflectionHandler();
@@ -59,7 +59,7 @@ namespace AllowTool {
 		}
 
 		public override void WorldLoaded() {
-			WorldSettings = UtilityWorldObjectManager.GetUtilityWorldObject<WorldSettings>();
+			WorldSettings = Find.World.GetComponent<WorldSettings>();
 		}
 
 		public override void MapLoaded(Map map) {
