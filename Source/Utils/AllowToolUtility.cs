@@ -73,7 +73,7 @@ namespace AllowTool {
 		// due to other mods' worktypes, our worktype priority may start at zero. This should fix that.
 		public static void EnsureAllColonistsHaveWorkTypeEnabled(WorkTypeDef def, Map map) {
 			try {
-				var activatedPawns = new HashSet<Pawn>();
+				var activatedPawns = new HashSet<(int prevValue, int nowValue, Pawn pawn)>();
 				if (map?.mapPawns == null) return;
 				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer).Concat(map.mapPawns.PrisonersOfColony)) {
 					var priorityList = GetWorkPriorityListForPawn(pawn);
@@ -82,14 +82,19 @@ namespace AllowTool {
 						if (curValue == DisabledWorkPriority) {
 							var adjustedValue = GetWorkTypePriorityForPawn(def, pawn);
 							if (adjustedValue != curValue) {
+								var prevValue = priorityList[def.index];
 								priorityList[def.index] = adjustedValue;
-								activatedPawns.Add(pawn);
+								activatedPawns.Add((prevValue, adjustedValue, pawn));
 							}
 						}	
 					}
 				}
 				if (activatedPawns.Count > 0) {
-					AllowToolController.Logger.Message("Adjusted work type priority of {0} to default for pawns: {1}", def.defName, activatedPawns.Join(", ", true));
+					AllowToolController.Logger.Message("Adjusted work type priority of {0} for pawns:\n{1}", def.defName,
+						activatedPawns
+							.Select(t => $"{t.pawn.Name?.ToStringShort.ToStringSafe()}:{t.prevValue}->{t.nowValue}")
+							.Join(", ", true)
+					);
 				}
 			} catch (Exception e) {
 				AllowToolController.Logger.Error("Exception while adjusting work type priority in colonist pawns: " + e);
