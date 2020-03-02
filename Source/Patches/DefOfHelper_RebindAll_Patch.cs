@@ -11,7 +11,7 @@ namespace AllowTool.Patches {
 	internal static class DefOfHelper_RebindAll_Patch {
 		[HarmonyPostfix]
 		public static void HookBeforeImpliedDefsGeneration(bool earlyTryMode) {
-			if (earlyTryMode) return;
+			if (!earlyTryMode) return;
 			AllowToolController.Instance.OnBeforeImpliedDefGeneration();
 		}
 	}
