@@ -63,15 +63,13 @@ namespace AllowTool {
 		}
 
 		public override void MapLoaded(Map map) {
-			// necessary when adding the mod to existing saves
-			var injected = AllowToolUtility.EnsureAllColonistsKnowAllWorkTypes(map);
-			// hidden worktypes can get disabled by adding mods to a save
+			// hidden worktypes can get disabled under unknown circumstances (other mods are involved)
 			// make sure they always revert to being enabled.
 			// Don't do this for visible work types- player could have disabled the worktype manually
-			if (injected || !Handles.HaulWorktypeSetting) {
+			if (!Handles.HaulWorktypeSetting) {
 				AllowToolUtility.EnsureAllColonistsHaveWorkTypeEnabled(AllowToolDefOf.HaulingUrgent, map);
 			}
-			if (injected || !Handles.FinishOffWorktypeSetting) {
+			if (!Handles.FinishOffWorktypeSetting) {
 				AllowToolUtility.EnsureAllColonistsHaveWorkTypeEnabled(AllowToolDefOf.FinishingOff, map);
 			}
 		}

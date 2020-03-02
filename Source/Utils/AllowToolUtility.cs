@@ -36,40 +36,6 @@ namespace AllowTool {
 			return hitCount;
 		}
 
-		// Allows to add WorkTypeDefs to an existing saved game without causing exceptions in the Work tab and work scheduler.
-		// Returns true if the work type array had to be padded for at least one pawn.
-		public static bool EnsureAllColonistsKnowAllWorkTypes(Map map) {
-			try {
-				var injectedPawns = new HashSet<Pawn>();
-				if (map?.mapPawns == null) return false;
-				foreach (var pawn in map.mapPawns.PawnsInFaction(Faction.OfPlayer)) {
-					if (pawn?.workSettings == null) continue;
-					var priorityList = GetWorkPriorityListForPawn(pawn);
-					if (priorityList != null && priorityList.Count > 0) {
-						var cyclesLeft = 100;
-						// the priority list must be padded to accommodate all available WorkTypeDef.index
-						// pad by the maximum index available to make provisions for other mods' worktypes
-						var maxIndex = DefDatabase<WorkTypeDef>.AllDefs.Max(d => d.index);
-						while (priorityList.Count <= maxIndex && cyclesLeft > 0) {
-							cyclesLeft--;
-							priorityList.Add(DisabledWorkPriority);
-							injectedPawns.Add(pawn);
-						}
-						if (cyclesLeft == 0) {
-							throw new Exception($"Ran out of cycles while trying to pad work priorities list:  {pawn.Name} {priorityList.Count}");
-						}
-					}
-				}
-				if (injectedPawns.Count > 0) {
-					AllowToolController.Logger.Message("Padded work priority lists for pawns: {0}", injectedPawns.Join(", ", true));
-					return true;
-				}
-			} catch (Exception e) {
-				AllowToolController.Logger.Error("Exception while injecting WorkTypeDef into colonist pawns: " + e);
-			}
-			return false;
-		}
-
 		// due to other mods' worktypes, our worktype priority may start at zero. This should fix that.
 		public static void EnsureAllColonistsHaveWorkTypeEnabled(WorkTypeDef def, Map map) {
 			try {
