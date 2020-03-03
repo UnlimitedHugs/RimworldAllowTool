@@ -24,10 +24,8 @@ namespace AllowTool {
 			isActive = () => WorldSettings.PawnIsPartyHunting(pawn);
 			toggleAction = ToggleAction;
 			hotKey = KeyBindingDefOf.Misc9;
-			disabled = !AllowToolUtility.PawnCapableOfViolence(pawn);
-			if (disabled) {
-				disabledReason = "IsIncapableOfViolence".Translate(pawn.Name.ToStringShort, pawn);
-			}
+			disabledReason = TryGetDisabledReason(pawn);
+			disabled = disabledReason != null;
 		}
 
 		private void ToggleAction() {
@@ -54,6 +52,16 @@ namespace AllowTool {
 				yield return AllowToolUtility.MakeCheckmarkOption("setting_partyHuntDesignated_label", null, 
 					() => WorldSettings.HuntDesignatedOnly, b => WorldSettings.HuntDesignatedOnly = b);
 			}
+		}
+
+		private string TryGetDisabledReason(Pawn forPawn) {
+			string disabledMessage = null;
+			if (forPawn.WorkTagIsDisabled(WorkTags.Violent)) {
+				disabledMessage = "IsIncapableOfViolenceShort".Translate();
+			} else if (forPawn.WorkTagIsDisabled(WorkTags.Commoner)) {
+				disabledMessage = "IncapableOfCapacity".Translate("WorkTagCommoner".Translate());
+			}
+			return disabledMessage?.CapitalizeFirst();
 		}
 	}
 }
