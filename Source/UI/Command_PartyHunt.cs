@@ -55,13 +55,9 @@ namespace AllowTool {
 		}
 
 		private string TryGetDisabledReason(Pawn forPawn) {
-			string disabledMessage = null;
-			if (forPawn.WorkTagIsDisabled(WorkTags.Violent)) {
-				disabledMessage = "IsIncapableOfViolenceShort".Translate();
-			} else if (forPawn.WorkTagIsDisabled(WorkTags.Commoner)) {
-				disabledMessage = "IncapableOfCapacity".Translate("WorkTagCommoner".Translate());
-			}
-			return disabledMessage?.CapitalizeFirst();
+			return forPawn.WorkTagIsDisabled(WorkTags.Violent)
+				? "IsIncapableOfViolenceShort".Translate().CapitalizeFirst()
+				: null;
 		}
 	}
 }
