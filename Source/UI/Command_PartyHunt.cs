@@ -51,6 +51,8 @@ namespace AllowTool {
 					() => WorldSettings.AutoFinishOff, b => WorldSettings.AutoFinishOff = b);
 				yield return AllowToolUtility.MakeCheckmarkOption("setting_partyHuntDesignated_label", null, 
 					() => WorldSettings.HuntDesignatedOnly, b => WorldSettings.HuntDesignatedOnly = b);
+				yield return AllowToolUtility.MakeCheckmarkOption("setting_partyHuntUnforbid_label", null, 
+					() => WorldSettings.UnforbidDrops, b => WorldSettings.UnforbidDrops = b);
 			}
 		}
 

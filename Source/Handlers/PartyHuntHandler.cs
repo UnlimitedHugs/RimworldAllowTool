@@ -52,6 +52,9 @@ namespace AllowTool {
 					if (target != null) {
 						hunter.TryStartAttack(target);
 						ResetAutoUndraftTimer(hunter.drafter);
+						if (target.Dead && WorldSettings.UnforbidDrops) {
+							target.Corpse?.SetForbidden(false, false);
+						}
 					}
 				}
 				// finish off targets. Wait for everyone to finish firing to avoid catching stray bullets
@@ -66,6 +69,9 @@ namespace AllowTool {
 					var job = WorkGiver_FinishOff.CreateInstance().TryGetJobInRange(hunter, MaxFinishOffDistance);
 					if (job != null) {
 						hunter.jobs.StartJob(job, JobCondition.Ongoing, null, true);
+						if (hunter.jobs.curDriver is JobDriver_FinishOff jdfo && WorldSettings.UnforbidDrops) {
+							jdfo.UnforbidBody = true;
+						}
 						// return to starting position
 						hunter.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(JobDefOf.Goto, hunter.Position));
 					}

@@ -17,6 +17,12 @@ namespace AllowTool {
 			set { huntDesignatedOnly = value; }
 		}
 
+		private bool unforbidDrops;	
+		public bool UnforbidDrops {
+			get { return unforbidDrops; }
+			set { unforbidDrops = value; }
+		}
+
 		public void ExposeData() {
 			// convert to list for serialization
 			var partyHuntingList = new List<int>(partyHuntingPawns);
@@ -25,6 +31,7 @@ namespace AllowTool {
 
 			Scribe_Values.Look(ref autoFinishOff, "finishOff", true);
 			Scribe_Values.Look(ref huntDesignatedOnly, "designatedOnly");
+			Scribe_Values.Look(ref unforbidDrops, "unforbid");
 		}
 
 		public bool PawnIsPartyHunting(Pawn pawn) {

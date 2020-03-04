@@ -51,6 +51,7 @@
 	<setting_partyHunt_desc>Если включено, показывает кнопку "Командная охота" для призванных поселенцев.</setting_partyHunt_desc>
 	<setting_partyHuntFinish_label>Добивать раненых животных</setting_partyHuntFinish_label>
 	<setting_partyHuntDesignated_label>Только цели с пометкой "Охотиться"</setting_partyHuntDesignated_label>
+	<setting_partyHuntUnforbid_label>Снимать запрет с добычи</setting_partyHuntUnforbid_label>
 	
 	<SelectSimilar_cursor_needConstraint>Клик для выделения предмета</SelectSimilar_cursor_needConstraint>
 	<SelectSimilar_cursor_nowSelecting>Будет выделено только: {0}</SelectSimilar_cursor_nowSelecting>

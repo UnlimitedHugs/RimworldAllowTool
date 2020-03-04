@@ -15,6 +15,17 @@ namespace AllowTool {
 		private const float VictimSkullMoteChance = .25f;
 		private const float OpportunityTargetMaxRange = 8f;
 
+		private bool unforbidBody;
+		public bool UnforbidBody {
+			get { return unforbidBody; }
+			set { unforbidBody = value; }
+		}
+
+		public override void ExposeData() {
+			base.ExposeData();
+			Scribe_Values.Look(ref unforbidBody, "unforbidBody");
+		}
+
 		public override bool TryMakePreToilReservations(bool errorOnFailed) {
 			return pawn.Reserve(job.GetTarget(TargetIndex.A), job);
 		}
@@ -73,9 +84,8 @@ namespace AllowTool {
 			if (!victim.Dead) {
 				victim.Kill(damageInfo);
 			}
-			var body = position.GetThingList(Map).FirstOrDefault(t => t is Corpse && (t as Corpse).InnerPawn == victim);
-			if (body != null) {
-				body.SetForbiddenIfOutsideHomeArea();
+			if (UnforbidBody) {
+				victim.Corpse?.SetForbidden(false, false);
 			}
 			if (AllowToolController.Instance.Handles.FinishOffUnforbidsSetting) {
 				UnforbidAdjacentThingsTo(position, Map);

@@ -48,6 +48,7 @@
 	<setting_partyHunt_desc>When enabled, shows the "Drafted hunt" button for drafted colonists.</setting_partyHunt_desc>
 	<setting_partyHuntFinish_label>Finish off downed animals</setting_partyHuntFinish_label>
 	<setting_partyHuntDesignated_label>Hunt-designated animals only</setting_partyHuntDesignated_label>
+	<setting_partyHuntUnforbid_label>Unforbid prey</setting_partyHuntUnforbid_label>
 	
 	<setting_storageSpaceAlert_label>Storage space alert</setting_storageSpaceAlert_label>
 	<setting_storageSpaceAlert_desc>You will be notified with an alert message when there are things marked to be hauled urgently, but no place to store them.</setting_storageSpaceAlert_desc>
