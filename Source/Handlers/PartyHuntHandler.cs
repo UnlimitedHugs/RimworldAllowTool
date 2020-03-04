@@ -14,11 +14,13 @@ namespace AllowTool {
 		private const float MaxPartyMemberDistance = 20f;
 		private const float MaxFinishOffDistance = 20f;
 
+		private delegate bool HuntingTargetFilter(Pawn target, Pawn hunter);
+
 		// stop attacking and don't target downed animals if auto finish off is enabled
-		private static readonly Predicate<Pawn> HuntingTargetAttackFilter = 
-			pawn => !pawn.Downed || !WorldSettings.AutoFinishOff;
-		private static readonly Predicate<Pawn> HuntingTargetFinishFilter = 
-			pawn => pawn.Downed && !pawn.HasDesignation(AllowToolDefOf.FinishOffDesignation);
+		private static readonly HuntingTargetFilter HuntingTargetAttackFilter = 
+			(target, hunter) => !target.Downed || (CanDoCommonerWork(hunter) && !WorldSettings.AutoFinishOff);
+		private static readonly HuntingTargetFilter HuntingTargetFinishFilter = 
+			(target, _) => target.Downed && !target.HasDesignation(AllowToolDefOf.FinishOffDesignation);
 		private static readonly List<HuntingTargetCandidate> huntingTargetCandidates = new List<HuntingTargetCandidate>();
 
 		private static PartyHuntSettings WorldSettings {
@@ -53,7 +55,8 @@ namespace AllowTool {
 					}
 				}
 				// finish off targets. Wait for everyone to finish firing to avoid catching stray bullets
-				if(!hunter.stances.FullBodyBusy && WorldSettings.AutoFinishOff && !AnyHuntingPartyMembersInCombat(hunter, MaxPartyMemberDistance)) {
+				if(!hunter.stances.FullBodyBusy && WorldSettings.AutoFinishOff 
+					&& CanDoCommonerWork(hunter) && !AnyHuntingPartyMembersInCombat(hunter, MaxPartyMemberDistance)) {
 					// try mark a downed animal
 					var target = TryFindHuntingTarget(hunter, 0, MaxFinishOffDistance, HuntingTargetFinishFilter);
 					if (target != null) {
@@ -76,7 +79,7 @@ namespace AllowTool {
 			).Any(p => p.stances.FullBodyBusy);
 		}
 
-		private static Pawn TryFindHuntingTarget(Pawn searcher, float minDistance, float maxDistance, Predicate<Pawn> extraPredicate) {
+		private static Pawn TryFindHuntingTarget(Pawn searcher, float minDistance, float maxDistance, HuntingTargetFilter targetFilter) {
 			var minDistanceSquared = minDistance * minDistance;
 			var maxDistanceSquared = maxDistance * maxDistance;
 
@@ -93,7 +96,7 @@ namespace AllowTool {
 						&& pawn.RaceProps.Animal
 						&& pawn.Faction == null
 						&& (!WorldSettings.HuntDesignatedOnly || pawn.HasDesignation(DesignationDefOf.Hunt))
-						&& (extraPredicate == null || extraPredicate(pawn));
+						&& (targetFilter == null || targetFilter(pawn, searcher));
 			}
 
 			huntingTargetCandidates.Clear();
@@ -112,6 +115,10 @@ namespace AllowTool {
 			// resets the expiration timer on the pawn draft
 			var undrafter = (AutoUndrafter)AllowToolController.Instance.Reflection.DraftControllerAutoUndrafterField.GetValue(draftController);
 			undrafter.Notify_Drafted();
+		}
+
+		private static bool CanDoCommonerWork(Pawn pawn) {
+			return !pawn.WorkTagIsDisabled(WorkTags.Commoner);
 		}
 
 		// provides a more efficient way to sort hunting targets by distance
