@@ -43,7 +43,7 @@ namespace AllowTool {
 					.Concat(map.mapPawns.PrisonersOfColony); // included for prison labor mod compatibility
 				foreach (var pawn in consideredPawns) {
 					var workSettings = pawn.workSettings;
-					if (workSettings != null && !pawn.WorkTypeIsDisabled(def)) {
+					if (workSettings != null && workSettings.EverWork && !pawn.WorkTypeIsDisabled(def)) {
 						var prevValue = workSettings.GetPriority(def);
 						if (prevValue != enabledWorkPriority) {
 							workSettings.SetPriority(def, enabledWorkPriority);
