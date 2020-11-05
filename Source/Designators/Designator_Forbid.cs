@@ -1,24 +1,12 @@
-﻿using RimWorld;
-using Verse;
-
-namespace AllowTool {
+﻿namespace AllowTool {
 	/// <summary>
-	/// Forbids all forbiddable things in the designated area
+	/// A replacement for the stock Forbid designator.
+	/// Confers all the benefits provided by <see cref="Designator_SelectableThings"/>.
 	/// </summary>
 	public class Designator_Forbid : Designator_Replacement {
 		public Designator_Forbid() {
-			replacedDesignator = new RimWorld.Designator_Forbid();
+			SetReplacedDesignator(new RimWorld.Designator_Forbid());
 			UseDesignatorDef(AllowToolDefOf.ForbidDesignator);
-		}
-
-		public override AcceptanceReport CanDesignateThing(Thing thing) {
-			if (thing.Position.Fogged(thing.Map)) return false;
-			var comp = (thing as ThingWithComps)?.GetComp<CompForbiddable>();
-			return comp != null && !comp.Forbidden;
-		}
-
-		public override void DesignateThing(Thing t) {
-			t.SetForbidden(true, false);
 		}
 	}
 }

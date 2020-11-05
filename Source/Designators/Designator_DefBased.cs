@@ -28,10 +28,10 @@ namespace AllowTool {
 
 		protected void UseDesignatorDef(ThingDesignatorDef def) {
 			Def = def;
-			defaultLabel = def.label;
-			defaultDesc = def.description;
-			soundSucceeded = def.soundSucceeded;
-			hotKey = def.hotkeyDef;
+			if(def.label != null) defaultLabel = def.label;
+			if(def.description != null) defaultDesc = def.description;
+			if(def.soundSucceeded != null) soundSucceeded = def.soundSucceeded;
+			if(def.hotkeyDef != null) hotKey = def.hotkeyDef;
 			visible = AllowToolController.Instance.Handles.IsDesignatorEnabled(def);
 			ResolveIcon();
 			OnDefAssigned();

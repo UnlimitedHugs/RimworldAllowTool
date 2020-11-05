@@ -63,6 +63,8 @@
     <Compile Include="Source\AI\JobDriver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
     <Compile Include="Source\Context\MenuEntry_MineSelectStripMine.cs" />
+    <Compile Include="Source\Designators\Designator_PlantsCut.cs" />
+    <Compile Include="Source\Designators\Designator_PlantsHarvestWood.cs" />
     <Compile Include="Source\Designators\Designator_StripMine.cs" />
     <Compile Include="Source\Settings\PartyHuntSettings.cs" />
     <Compile Include="Source\Settings\StripMineGlobalSettings.cs" />

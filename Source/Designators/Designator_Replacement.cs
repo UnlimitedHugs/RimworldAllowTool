@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HarmonyLib;
 using Verse;
 
 namespace AllowTool {
@@ -12,25 +13,41 @@ namespace AllowTool {
 			get { return !AllowToolController.Instance.Handles.ReplaceIconsSetting; }
 		}
 
+		public override AcceptanceReport CanDesignateThing(Thing t) {
+			return replacedDesignator.CanDesignateThing(t);
+		}
+
+		public override void DesignateThing(Thing t) {
+			replacedDesignator.DesignateThing(t);
+		}
+		
 		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
-			get {
-				foreach (var floatMenuOption in base.RightClickFloatMenuOptions) {
-					yield return floatMenuOption;
-				}
-				if (replacedDesignator != null) {
-					foreach (var option in replacedDesignator.RightClickFloatMenuOptions) {
-						yield return option;
-					}
-				}
-			}
+			get { return replacedDesignator.RightClickFloatMenuOptions; }
+		}
+
+		protected void SetReplacedDesignator(Designator des) {
+			// acquire config values from the replaced designator.
+			// These are overridden later by values from the def, if it has the appropriate field defined
+			replacedDesignator = des;
+			defaultLabel = des.defaultLabel;
+			defaultDesc = des.defaultDesc;
+			hotKey = des.hotKey;
+			var reflect = Traverse.Create(des);
+			soundSucceeded = reflect.Field(nameof(soundSucceeded)).GetValue<SoundDef>();
+			hasDesignateAllFloatMenuOption = reflect.Field(nameof(hasDesignateAllFloatMenuOption)).GetValue<bool>();
+			designateAllLabel = reflect.Field(nameof(designateAllLabel)).GetValue<string>();
 		}
 
 		protected override void ResolveIcon() {
-			if (replacedDesignator != null && InheritReplacedDesignatorIcon) {
+			if (InheritReplacedDesignatorIcon) {
 				icon = replacedDesignator.icon;
 			} else {
 				base.ResolveIcon();
 			}
+		}
+
+		protected override void ResolveDragHighlight() {
+			HighlightMaterial = DesignatorUtility.DragHighlightThingMat;
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace AllowTool {
 	/// and deliver confirmation messages to the player that include the number of affected items.
 	/// </summary>
 	public abstract class Designator_SelectableThings : Designator_UnlimitedDragger {
-		private Material highlightMaterial;
+		protected Material HighlightMaterial { get; set; }
 
 		protected Designator_SelectableThings() {
 			var highlighter = new MapCellHighlighter(SelectHighlightedCells);
@@ -23,11 +23,15 @@ namespace AllowTool {
 		}
 
 		protected override void OnDefAssigned() {
-			Def.GetDragHighlightTexture(tex => 
-				highlightMaterial = MaterialPool.MatFrom(tex, ShaderDatabase.MetaOverlay, Color.white)
+			ResolveDragHighlight();
+		}
+
+		protected virtual void ResolveDragHighlight() {
+			Def.GetDragHighlightTexture(tex =>
+				HighlightMaterial = MaterialPool.MatFrom(tex, ShaderDatabase.MetaOverlay, Color.white)
 			);
 		}
-		
+
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
 			// the cells argument is empty, because we return false in CanDesignateCell. 
 			// We have our own Dragger we can query for cells, however.
@@ -67,7 +71,7 @@ namespace AllowTool {
 			for (var i = 0; i < allTheThings.Count; i++) {
 				var thing = allTheThings[i];
 				if (thing.def.selectable && Dragger.SelectedArea.Contains(thing.Position) && CanDesignateThing(thing).Accepted) {
-					yield return new MapCellHighlighter.Request(thing.Position, highlightMaterial);
+					yield return new MapCellHighlighter.Request(thing.Position, HighlightMaterial);
 				}
 			}
 		}
