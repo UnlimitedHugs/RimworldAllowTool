@@ -41,16 +41,23 @@ namespace AllowTool.Context {
 		}
 		
 		public virtual ActivationResult Activate(Designator designator, Map map){
-			var hitCount = DesignateAllThings(designator, map, null);
-			return ActivationResult.FromCount(hitCount, BaseMessageKey);
+			return ActivateWithFilter(designator, map, null);
 		}
 
 		public virtual FloatMenuOption MakeMenuOption(Designator designator) {
 			return MakeStandardOption(designator);
 		}
 
-		protected ActivationResult ActivateInHomeArea(Designator designator, Map map) {
-			var hitCount = DesignateAllThingsInHomeArea(designator, map);
+		protected ActivationResult ActivateInHomeArea(Designator designator, Map map, 
+			Predicate<Thing> extraFilter = null) {
+			var homeArea = map.areaManager.Home;
+			return ActivateWithFilter(designator, map, 
+				thing => homeArea.GetCellBool(map.cellIndices.CellToIndex(thing.Position)) 
+					&& (extraFilter == null || extraFilter(thing)));
+		}
+
+		protected ActivationResult ActivateWithFilter(Designator designator, Map map, Predicate<Thing> thingFilter) {
+			var hitCount = DesignateAllThings(designator, map, thingFilter);
 			return ActivationResult.FromCount(hitCount, BaseMessageKey);
 		}
 
@@ -64,7 +71,9 @@ namespace AllowTool.Context {
 			}
 			return hitCount;
 		}
-
+		
+		// TODO: remove this on next major update
+		[Obsolete]
 		protected int DesignateAllThingsInHomeArea(Designator designator, Map map) {
 			var homeArea = map.areaManager.Home;
 			return DesignateAllThings(designator, map, thing => homeArea.GetCellBool(map.cellIndices.CellToIndex(thing.Position)));
