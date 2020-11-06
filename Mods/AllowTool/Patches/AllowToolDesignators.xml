@@ -32,22 +32,6 @@
 				<success>Always</success>
 				<xpath>/Defs/DesignationCategoryDef[defName="Orders"]/specialDesignatorClasses/li[text()="Designator_Unforbid"]</xpath>
 			</li>
-			<!-- Replace stock cut plants designator with our custom one -->
-			<li Class="PatchOperationReplace">
-				<success>Always</success>
-				<xpath>/Defs/DesignationCategoryDef[defName="Orders"]/specialDesignatorClasses/li[text()="Designator_PlantsCut"]</xpath>
-				<value>
-					<li>AllowTool.Designator_PlantsCut</li>
-				</value>
-			</li>
-			<!-- Replace stock chop wood designator with our custom one -->
-			<li Class="PatchOperationReplace">
-				<success>Always</success>
-				<xpath>/Defs/DesignationCategoryDef[defName="Orders"]/specialDesignatorClasses/li[text()="Designator_PlantsHarvestWood"]</xpath>
-				<value>
-					<li>AllowTool.Designator_PlantsHarvestWood</li>
-				</value>
-			</li>
 		</operations>
 	</Operation>
 </Patch>

@@ -24,8 +24,6 @@ namespace AllowTool {
 		public static ThingDesignatorDef FinishOffDesignator;
 		public static ThingDesignatorDef HarvestFullyGrownDesignator;
 		public static ThingDesignatorDef StripMineDesignator;
-		public static ThingDesignatorDef ATPlantsCutDesignator;
-		public static ThingDesignatorDef ATPlantsHarvestWoodDesignator;
 
 		// reverse designators
 		public static ReverseDesignatorDef ReverseFinishOff;

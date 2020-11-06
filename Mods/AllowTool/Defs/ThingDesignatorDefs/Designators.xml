@@ -123,15 +123,5 @@ Configurable in the Work tab.
 		<soundSucceeded>Tick_High</soundSucceeded>
 		<hotkeyDef>DesignatorStripMine</hotkeyDef>
 	</AllowTool.ThingDesignatorDef>
-
-	<AllowTool.ThingDesignatorDef>
-		<defName>ATPlantsCutDesignator</defName>
-		<designatorClass>AllowTool.Designator_PlantsCut</designatorClass>
-	</AllowTool.ThingDesignatorDef>
-
-	<AllowTool.ThingDesignatorDef>
-		<defName>ATPlantsHarvestWoodDesignator</defName>
-		<designatorClass>AllowTool.Designator_PlantsHarvestWood</designatorClass>
-	</AllowTool.ThingDesignatorDef>
-
+	
 </Defs>

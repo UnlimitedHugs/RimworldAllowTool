@@ -21,17 +21,19 @@ namespace AllowTool {
 		public string messageFailure = null;
 
 		public void GetIconTexture(Action<Texture2D> onLoaded) {
-			iconResolver.ResolveTexture(iconTex, onLoaded, "icon", defName);
+			iconResolver.ResolveTexture(iconTex, onLoaded);
 		}
 
 		public void GetDragHighlightTexture(Action<Texture2D> onLoaded) {
-			highlightResolver.ResolveTexture(dragHighlightTex, onLoaded, "highlight", defName);
+			highlightResolver.ResolveTexture(dragHighlightTex, onLoaded);
 		}
 
 		public override void PostLoad() {
 			Assert(designatorClass != null, "designatorClass field must be set");
-			Assert(typeof(Designator_DefBased).IsAssignableFrom(designatorClass),
+			Assert(designatorClass != null && typeof(Designator_DefBased).IsAssignableFrom(designatorClass), 
 				"designatorClass must extend " + nameof(Designator_DefBased));
+			Assert(iconTex != null, "icon texture must be set");
+			Assert(dragHighlightTex != null, "drag highlight texture must be set");
 		}
 
 		private void Assert(bool check, string errorMessage) {
@@ -43,20 +45,15 @@ namespace AllowTool {
 			private bool resolved;
 			private Texture2D texture;
 
-			public void ResolveTexture(string path, Action<Texture2D> onLoaded, string textureTypeName, string defName) {
+			public void ResolveTexture(string path, Action<Texture2D> onLoaded) {
 				if (resolved) {
 					onLoaded(texture);
 				} else {
-					if (path.NullOrEmpty()) {
-						AllowToolController.Logger.Error($"Missing ${textureTypeName} texture path for def ${defName}");
+					HugsLibController.Instance.DoLater.DoNextUpdate(() => {
 						resolved = true;
-					} else {
-						HugsLibController.Instance.DoLater.DoNextUpdate(() => {
-							resolved = true;
-							texture = ContentFinder<Texture2D>.Get(path);
-							onLoaded(texture);
-						});
-					}
+						texture = ContentFinder<Texture2D>.Get(path);
+						onLoaded(texture);
+					});
 				}
 			}
 		}
