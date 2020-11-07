@@ -122,7 +122,7 @@ namespace AllowTool {
 		}
 
 		// provides a more efficient way to sort hunting targets by distance
-		private struct HuntingTargetCandidate : IComparable<HuntingTargetCandidate> {
+		private readonly struct HuntingTargetCandidate : IComparable<HuntingTargetCandidate> {
 			public readonly Pawn target;
 			private readonly int distanceSquared;
 
