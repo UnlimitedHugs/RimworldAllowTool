@@ -67,6 +67,7 @@
     <Compile Include="Source\Designators\Designator_StripMine.cs" />
     <Compile Include="Source\Patches\Designator_PlantsCut_Patch.cs" />
     <Compile Include="Source\Patches\Designator_PlantsHarvestWood_Patch.cs" />
+    <Compile Include="Source\Patches\Pawn_Kill_Patch.cs" />
     <Compile Include="Source\Settings\PartyHuntSettings.cs" />
     <Compile Include="Source\Settings\StripMineGlobalSettings.cs" />
     <Compile Include="Source\Settings\StripMineWorldSettings.cs" />
