@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using RimWorld;
 using Verse;
 
 namespace AllowTool {
@@ -10,6 +9,7 @@ namespace AllowTool {
 		private const int TickInterval = 30;
 
 		private static readonly Queue<Designation> cleanupList = new Queue<Designation>();
+		private static readonly HashSet<Thing> workThingSet = new HashSet<Thing>();
 
 		public static void Tick(int currentTick) {
 			if (Current.Game == null || Current.Game.Maps == null) return;
@@ -26,13 +26,16 @@ namespace AllowTool {
 
 		private static void CleanupDesignations(Map map) {
 			if(map.designationManager == null) return;
+			var haulableSet = GetSetOfHaulableThings(map);
 			var mapDesignations = map.designationManager.allDesignations;
 			for (int i = 0; i < mapDesignations.Count; i++) {
 				var des = mapDesignations[i];
 				var desThing = des.target.Thing;
 				if (desThing != null &&
-					((des.def == AllowToolDefOf.FinishOffDesignation && !Designator_FinishOff.IsValidDesignationTarget(des.target.Thing))
-					|| (des.def == AllowToolDefOf.HaulUrgentlyDesignation && desThing.IsInValidBestStorage())
+					((des.def == AllowToolDefOf.FinishOffDesignation 
+						&& !Designator_FinishOff.IsValidDesignationTarget(des.target.Thing))
+					|| (des.def == AllowToolDefOf.HaulUrgentlyDesignation 
+						&& !haulableSet.Contains(desThing))
 					)){
 					cleanupList.Enqueue(des);
 				}
@@ -41,6 +44,16 @@ namespace AllowTool {
 				var des = cleanupList.Dequeue();
 				des.designationManager.RemoveDesignation(des);
 			}
+			workThingSet.Clear();
+		}
+
+		private static HashSet<Thing> GetSetOfHaulableThings(Map map) {
+			workThingSet.Clear();
+			var haulables = map.listerHaulables.ThingsPotentiallyNeedingHauling();
+			for (var i = 0; i < haulables.Count; i++) {
+				workThingSet.Add(haulables[i]);
+			}
+			return workThingSet;
 		}
 	}
 }
