@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -16,17 +16,11 @@ namespace AllowTool {
 		}
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) {
-			var designations = pawn.Map.designationManager.allDesignations;
-			// look over all designations
-			for (int i = 0; i < designations.Count; i++) {
-				var des = designations[i];
-				// find our haul designation
-				if (des.def != AllowToolDefOf.HaulUrgentlyDesignation) continue;
-				var thing = des.target.Thing;
-				// make sure the designated thing is a valid candidate for hauling
-				if (thing?.def != null && (thing.def.alwaysHaulable || thing.def.EverHaulable) 
-					&& !thing.IsInValidBestStorage() && HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, thing, false)) {
-					yield return thing;
+			var things = AllowToolController.Instance.HaulUrgentlyCache.GetHaulablesForMap(
+				pawn.Map, Find.TickManager.TicksGame);
+			for (int i = 0; i < things.Count; i++) {
+				if (HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, things[i], false)) {
+					yield return things[i];
 				}
 			}
 		}
