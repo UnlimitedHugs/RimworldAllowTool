@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -9,7 +9,8 @@ namespace AllowTool {
 		public delegate Job TryGetJobOnThing(Pawn pawn, Thing t, bool forced);
 		
 		// give a vanilla haul job- it works just fine for our needs
-		public static TryGetJobOnThing JobOnThingDelegate = (pawn, t, forced) => HaulAIUtility.HaulToStorageJob(pawn, t);
+		public static TryGetJobOnThing JobOnThingDelegate = 
+			(pawn, t, forced) => HaulAIUtility.HaulToStorageJob(pawn, t);
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false) {
 			return JobOnThingDelegate(pawn, t, forced);
