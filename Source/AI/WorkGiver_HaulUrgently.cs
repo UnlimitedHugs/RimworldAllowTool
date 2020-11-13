@@ -17,13 +17,21 @@ namespace AllowTool {
 		}
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) {
-			var things = AllowToolController.Instance.HaulUrgentlyCache.GetHaulablesForMap(
-				pawn.Map, Find.TickManager.TicksGame);
+			var things = GetHaulablesForPawn(pawn);
 			for (int i = 0; i < things.Count; i++) {
 				if (HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, things[i], false)) {
 					yield return things[i];
 				}
 			}
+		}
+
+		public override bool ShouldSkip(Pawn pawn, bool forced = false) {
+			return GetHaulablesForPawn(pawn).Count == 0;
+		}
+
+		private static IReadOnlyList<Thing> GetHaulablesForPawn(Pawn pawn) {
+			return AllowToolController.Instance.HaulUrgentlyCache.GetHaulablesForMap(
+				pawn.Map, Find.TickManager.TicksGame);
 		}
 	}
 }
