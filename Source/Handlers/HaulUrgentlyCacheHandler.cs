@@ -9,11 +9,16 @@ namespace AllowTool {
 	/// </summary>
 	internal class HaulUrgentlyCacheHandler {
 		private readonly Dictionary<Map, ThingsCacheEntry> cacheEntries = new Dictionary<Map, ThingsCacheEntry>();
-		private readonly HashSet<Thing> workThingsSet = new HashSet<Thing>();  
+		private readonly HashSet<Thing> workThingsSet = new HashSet<Thing>();
 
-		public IReadOnlyList<Thing> GetHaulablesForMap(Map map, int currentTick) {
-			RecacheIfNeeded(map, currentTick);
-			return cacheEntries[map].Things;
+		public IReadOnlyList<Thing> GetDesignatedThingsForMap(Map map, float currentTime) {
+			RecacheIfNeeded(map, currentTime);
+			return cacheEntries[map].DesignatedThings;
+		}
+
+		public IReadOnlyList<Thing> GetDesignatedAndHaulableThingsForMap(Map map, float currentTime) {
+			RecacheIfNeeded(map, currentTime);
+			return cacheEntries[map].DesignatedHaulableThings;
 		}
 
 		public void ClearCacheForMap(Map map) {
@@ -24,40 +29,56 @@ namespace AllowTool {
 			cacheEntries.Clear();
 		}
 
-		private void RecacheIfNeeded(Map map, int currentTick) {
-			if (!cacheEntries.TryGetValue(map, out var entry) || !entry.IsValid(currentTick)) {
-				var things = entry.Things ?? new List<Thing>();
-				GetHaulUrgentlyDesignatedHaulables(map, things);
-				cacheEntries[map] = new ThingsCacheEntry(currentTick, things);
+		private void RecacheIfNeeded(Map map, float currentTime) {
+			if (!cacheEntries.TryGetValue(map, out var entry) || !entry.IsValid(currentTime)) {
+				var designated = entry.DesignatedThings ?? new List<Thing>();
+				GetHaulUrgentlyDesignatedThings(map, designated);
+				var designatedAndHaulable = entry.DesignatedHaulableThings ?? new List<Thing>();
+				GetMapHaulables(map, designated, designatedAndHaulable);
+				cacheEntries[map] = new ThingsCacheEntry(currentTime, designated, designatedAndHaulable);
 			}
 		}
 
-		private void GetHaulUrgentlyDesignatedHaulables(Map map, ICollection<Thing> targetList) {
+		private void GetHaulUrgentlyDesignatedThings(Map map, ICollection<Thing> targetList) {
 			targetList.Clear();
-			workThingsSet.AddRange(map.listerHaulables.ThingsPotentiallyNeedingHauling());
 			var mapDesignations = map.designationManager.allDesignations;
 			for (var i = 0; i < mapDesignations.Count; i++) {
 				var des = mapDesignations[i];
-				if(des.def == AllowToolDefOf.HaulUrgentlyDesignation && workThingsSet.Contains(des.target.Thing)) {
+				if (des.def == AllowToolDefOf.HaulUrgentlyDesignation) {
 					targetList.Add(des.target.Thing);
 				}
+			}
+		}
+		
+		private void GetMapHaulables(Map map, IReadOnlyList<Thing> intersectWith, ICollection<Thing> targetList) {
+			targetList.Clear();
+			for (var i = 0; i < intersectWith.Count; i++) {
+				workThingsSet.Add(intersectWith[i]);
+			}
+			var haulables = map.listerHaulables.ThingsPotentiallyNeedingHauling();
+			for (var i = 0; i < haulables.Count; i++) {
+				if (workThingsSet.Contains(haulables[i])) targetList.Add(haulables[i]);
 			}
 			workThingsSet.Clear();
 		}
 
 		private readonly struct ThingsCacheEntry {
-			public List<Thing> Things { get; }
-			private const int ForcedExpireTimeTicks = 1 * GenTicks.TicksPerRealSecond;
+			private const float ExpireTime = 1f;
 			
-			private readonly int createdTick;
+			public List<Thing> DesignatedThings { get; }
+			public List<Thing> DesignatedHaulableThings { get; }
 
-			public ThingsCacheEntry(int currentTick, List<Thing> things) {
-				Things = things;
-				createdTick = currentTick;
+			private readonly float createdTime;
+
+			public ThingsCacheEntry(float currentTime, List<Thing> designatedThings, List<Thing> 
+			designatedHaulableThings) {
+				createdTime = currentTime;
+				DesignatedThings = designatedThings;
+				DesignatedHaulableThings = designatedHaulableThings;
 			}
 
-			public bool IsValid(int currentTick) {
-				return currentTick > 0 && currentTick <= createdTick + ForcedExpireTimeTicks;
+			public bool IsValid(float currentTime) {
+				return createdTime > 0f && currentTime < createdTime + ExpireTime;
 			}
 		}
 	}

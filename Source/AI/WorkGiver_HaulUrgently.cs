@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -30,8 +31,8 @@ namespace AllowTool {
 		}
 
 		private static IReadOnlyList<Thing> GetHaulablesForPawn(Pawn pawn) {
-			return AllowToolController.Instance.HaulUrgentlyCache.GetHaulablesForMap(
-				pawn.Map, Find.TickManager.TicksGame);
+			return AllowToolController.Instance.HaulUrgentlyCache.GetDesignatedAndHaulableThingsForMap(
+				pawn.Map, Time.unscaledTime);
 		}
 	}
 }
