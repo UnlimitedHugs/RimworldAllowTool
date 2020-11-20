@@ -3,6 +3,7 @@ using AllowTool.Context;
 using AllowTool.Settings;
 using HugsLib;
 using HugsLib.Utils;
+using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -32,6 +33,7 @@ namespace AllowTool {
 		private HotKeyHandler hotKeys;
 		private bool dependencyRefreshScheduled;
 		private bool modSettingsHaveChanged;
+		private int fixedUpdateCount;
 
 		private AllowToolController() {
 			Instance = this;
@@ -50,6 +52,11 @@ namespace AllowTool {
 
 		public override void Update() {
 			DesignatorContextMenuController.Update();
+		}
+
+		public override void FixedUpdate() {
+			HaulUrgentlyCache.ProcessCacheEntries(fixedUpdateCount, Time.unscaledTime);
+			fixedUpdateCount++;
 		}
 
 		public override void Tick(int currentTick) {
