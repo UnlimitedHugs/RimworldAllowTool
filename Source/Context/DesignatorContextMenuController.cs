@@ -66,7 +66,8 @@ namespace AllowTool.Context {
 				new MenuEntry_MineSelectStripMine()),
 			new ContextMenuProvider(typeof(Designator_SelectSimilar), 
 				new MenuEntry_SelectSimilarAll(), 
-				new MenuEntry_SelectSimilarVisible()),
+				new MenuEntry_SelectSimilarVisible(),
+				new MenuEntry_SelectSimilarHome()),
 			new ContextMenuProvider(typeof(Designator_Strip), 
 				new MenuEntry_StripAll())
 		};

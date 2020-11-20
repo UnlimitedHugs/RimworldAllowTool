@@ -89,6 +89,9 @@
 	<Designator_context_similar_visible>Select similar things in visible area</Designator_context_similar_visible>
 	<Designator_context_similar_visible_succ>Selected {0} visible similar things.</Designator_context_similar_visible_succ>
 	<Designator_context_similar_visible_part>Selected {0} closest visible similar things out of {1}.</Designator_context_similar_visible_part>
+	<Designator_context_similar_home>Select similar things in home area</Designator_context_similar_home>
+	<Designator_context_similar_home_succ>Selected {0} similar things in home area.</Designator_context_similar_home_succ>
+	<Designator_context_similar_home_part>Selected {0} closest similar things out of {1} in home area.</Designator_context_similar_home_part>
 	<Designator_context_urgent>Haul all items urgently</Designator_context_urgent>
 	<Designator_context_urgent_visible>Haul visible items urgently</Designator_context_urgent_visible>
 	<Designator_context_urgent_all>Haul all map items urgently</Designator_context_urgent_all>

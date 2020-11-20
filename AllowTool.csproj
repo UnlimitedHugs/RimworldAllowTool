@@ -63,6 +63,7 @@
     <Compile Include="Source\AI\JobDriver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
     <Compile Include="Source\Context\MenuEntry_MineSelectStripMine.cs" />
+    <Compile Include="Source\Context\MenuEntry_SelectSimilarHome.cs" />
     <Compile Include="Source\Designators\AnimaTreeMassDesignationFix.cs" />
     <Compile Include="Source\Designators\Designator_StripMine.cs" />
     <Compile Include="Source\Handlers\HaulUrgentlyCacheHandler.cs" />
