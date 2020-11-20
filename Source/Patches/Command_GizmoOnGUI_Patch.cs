@@ -12,6 +12,7 @@ namespace AllowTool.Patches {
 	/// Hooks additional calls into the drawing and event processing of Command buttons.
 	/// This allows to draw an overlay icon on certain designators and intercept their right-click and shift-click events.
 	/// </summary>
+	/// TODO: on next major update remove fallback code for handling old method signature
 	[HarmonyPatch]
 	internal static class Command_GizmoOnGUI_Patch {
 		private static bool overlayInjected;
