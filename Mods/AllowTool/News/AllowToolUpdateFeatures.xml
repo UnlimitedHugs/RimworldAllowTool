@@ -57,4 +57,15 @@
 		<content>&lt;b&gt;New tools:&lt;/b&gt;|img:images/harvestGrown|caption:&lt;b&gt;Harvest fully grown:&lt;/b&gt; Harvesting fully grown things has been promoted to a separate tool, which can now be used in combination with "Select similar". Can selectively mark crops or trees only by holding Shift or Ctrl.|img:images/stripMine|caption:&lt;b&gt;Strip mine:&lt;/b&gt; all new tool to easily lay out mining orders in a grid to maximize the chance of finding ores.|&lt;b&gt;Other additions:&lt;/b&gt;|&lt;b&gt;Select similar in visible area:&lt;/b&gt; added to "Select similar" tool right-click menu.|&lt;b&gt;Customizable tool placement:&lt;/b&gt; other mods can now affect where in the menu the tools appear (most notably RIMMSqol).</content>
 	</HugsLib.UpdateFeatureDef>
 	
+	<HugsLib.UpdateFeatureDef ParentName="ATUpdateFeatureBase">
+		<defName>AllowTool_3_10_0</defName>
+		<assemblyVersion>3.10.0</assemblyVersion>
+		<content>
+		&lt;b&gt;Improved "Allow" toggle:&lt;/b&gt; When something is selected, you can now Shift-click the Allow button to pick up the tool, and right-click it for map actions.|
+		&lt;b&gt;New tool actions:&lt;/b&gt; "Allow/Forbid visible things" and "Select similar in home area" have been added to the right-click menus of their tools.|
+		&lt;b&gt;Anima tree chopping:&lt;/b&gt; By popular demand, the Cut and Chop tools now ignore the Anima tree, unless ordered specifically.|
+		&lt;b&gt;Performance improvements:&lt;/b&gt; Internals of the mod have been reworked to make it consume significantly fewer resources. Late-game colonies should see a noticeable improvement in frame rate.
+		</content>
+	</HugsLib.UpdateFeatureDef>
+
 </Defs>
