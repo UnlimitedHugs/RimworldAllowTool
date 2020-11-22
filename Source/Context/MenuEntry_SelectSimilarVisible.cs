@@ -7,9 +7,8 @@ namespace AllowTool.Context {
 		protected override string SettingHandleSuffix => "selectSimilarVisible";
 
 		public override ActivationResult Activate(Designator designator, Map map) {
-			var visibleRect = AllowToolUtility.GetVisibleMapRect();
 			return MenuEntry_SelectSimilarAll.SelectSimilarWithFilter(designator, map, 
-				BaseTextKey, BaseMessageKey, t => visibleRect.Contains(t.Position));
+				BaseTextKey, BaseMessageKey, GetVisibleThingFilter());
 		}
 	}
 }

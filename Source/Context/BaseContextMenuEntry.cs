@@ -55,6 +55,13 @@ namespace AllowTool.Context {
 				thing => inHomeArea(thing) && (extraFilter == null || extraFilter(thing)));
 		}
 
+		protected ActivationResult ActivateInVisibleArea(Designator designator, Map map,
+			Predicate<Thing> extraFilter = null) {
+			var thingIsVisible = GetVisibleThingFilter();
+			return ActivateWithFilter(designator, map,
+				thing => thingIsVisible(thing) && (extraFilter == null || extraFilter(thing)));
+		}
+
 		protected ActivationResult ActivateWithFilter(Designator designator, Map map, Predicate<Thing> thingFilter) {
 			var hitCount = DesignateAllThings(designator, map, thingFilter);
 			return ActivationResult.FromCount(hitCount, BaseMessageKey);
@@ -112,6 +119,11 @@ namespace AllowTool.Context {
 		protected Predicate<Thing> GetHomeAreaFilter(Map map) {
 			var homeArea = map.areaManager.Home;
 			return thing => homeArea.GetCellBool(map.cellIndices.CellToIndex(thing.Position));
+		}
+
+		protected Predicate<Thing> GetVisibleThingFilter() {
+			var visibleRect = AllowToolUtility.GetVisibleMapRect();
+			return t => visibleRect.Contains(t.Position);
 		}
 	}
 }

@@ -8,9 +8,9 @@ namespace AllowTool.Context {
 		protected override ThingRequestGroup DesignationRequestGroup => ThingRequestGroup.HaulableEver;
 
 		public override ActivationResult Activate(Designator designator, Map map) {
-			var visibleRect = AllowToolUtility.GetVisibleMapRect();
+			var thingIsVisible = GetVisibleThingFilter();
 			var hitCount = DesignateAllThings(designator, map, 
-				t => MenuEntry_HaulUrgentAll.CanAutoDesignateThingForUrgentHauling(t) && visibleRect.Contains(t.Position));
+				t => MenuEntry_HaulUrgentAll.CanAutoDesignateThingForUrgentHauling(t) && thingIsVisible(t));
 			return hitCount > 0 ?
 				ActivationResult.Success(BaseTextKey, hitCount) : 
 				ActivationResult.Failure(BaseMessageKey);

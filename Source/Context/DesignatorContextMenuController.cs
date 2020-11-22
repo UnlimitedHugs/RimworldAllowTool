@@ -69,7 +69,11 @@ namespace AllowTool.Context {
 				new MenuEntry_SelectSimilarVisible(),
 				new MenuEntry_SelectSimilarHome()),
 			new ContextMenuProvider(typeof(Designator_Strip), 
-				new MenuEntry_StripAll())
+				new MenuEntry_StripAll()),
+			new ContextMenuProvider(typeof(Designator_Allow),
+				new MenuEntry_AllowVisible()),
+			new ContextMenuProvider(typeof(Designator_Forbid),
+				new MenuEntry_ForbidVisible())
 		};
 		private static readonly ContextMenuProvider fallbackMenuProvider = new ContextMenuProvider(null);
 
