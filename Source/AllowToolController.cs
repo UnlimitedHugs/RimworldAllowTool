@@ -132,6 +132,7 @@ namespace AllowTool {
 				try {
 					dependencyRefreshScheduled = false;
 					hotKeys.RebindAllDesignators();
+					AllowThingToggleHandler.ReinitializeDesignators();
 					DesignatorContextMenuController.RebindAllContextMenus();
 				} catch (Exception e) {
 					Logger.Error($"Error during designator dependency refresh: {e}");
