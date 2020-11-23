@@ -11,8 +11,9 @@ namespace AllowTool.Patches {
 		[HarmonyPostfix]
 		public static void UnforbidDraftedHuntBody(Pawn __instance, DamageInfo? dinfo) {
 			var perpetrator = dinfo?.Instigator as Pawn;
-			var worldSettings = AllowToolController.Instance.WorldSettings.PartyHunt;
-			if (perpetrator != null && worldSettings.UnforbidDrops && worldSettings.PawnIsPartyHunting(perpetrator)) {
+			var worldSettings = AllowToolController.Instance.WorldSettings?.PartyHunt;
+			if (perpetrator != null && worldSettings != null
+				&& worldSettings.UnforbidDrops && worldSettings.PawnIsPartyHunting(perpetrator)) {
 				__instance.Corpse?.SetForbidden(false, false);
 			}
 		}
