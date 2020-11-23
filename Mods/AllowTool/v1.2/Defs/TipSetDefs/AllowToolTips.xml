@@ -11,6 +11,7 @@
 			<li TKey="ModOptions">Many mods have settings you can tweak to suit your play style. The Mod Settings button is found in the Options menu.</li>
 			<li TKey="AllowAll">Pressing the "Home" key will allow all forbidden things on the map.</li>
 			<li TKey="RightClick">Command buttons with a small mouse icon can be right-clicked for additional special commands.</li>
+			<li TKey="SelectSimilar">The "Select similar" tool has many uses. It can help find ore deposits, harvest wild healroot and deconstruct cables under walls.</li>
 		</tips>
 	</TipSetDef>
 
