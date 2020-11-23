@@ -63,7 +63,7 @@
 		<content>
 		&lt;b&gt;Improved "Allow" toggle:&lt;/b&gt; When something is selected, you can now Shift-click the Allow button to pick up the tool, and right-click it for map actions.|
 		&lt;b&gt;New tool actions:&lt;/b&gt; "Allow/Forbid visible things" and "Select similar in home area" have been added to the right-click menus of their tools.|
-		&lt;b&gt;Anima tree chopping:&lt;/b&gt; By popular demand, the Cut and Chop tools now ignore the Anima tree, unless ordered specifically.|
+		&lt;b&gt;Anima tree chopping:&lt;/b&gt; By popular demand, the "Cut", "Chop" and "Harvest fully grown" tools now ignore the Anima tree, unless ordered specifically.|
 		&lt;b&gt;Performance improvements:&lt;/b&gt; Internals of the mod have been reworked to make it consume significantly fewer resources. Late-game colonies should see a noticeable improvement in frame rate.
 		</content>
 	</HugsLib.UpdateFeatureDef>

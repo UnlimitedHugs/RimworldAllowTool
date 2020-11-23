@@ -7,7 +7,7 @@ namespace AllowTool.Context {
 		protected override ThingRequestGroup DesignationRequestGroup => ThingRequestGroup.Plant;
 
 		public override ActivationResult Activate(Designator designator, Map map) {
-			return ActivateWithFilter(designator, map, thing => !AnimaTreeMassDesignationFix.IsAnimaTree(thing));
+			return ActivateWithFilter(designator, map, GetExceptAnimaTreeFilter());
 		}
 	}
 }

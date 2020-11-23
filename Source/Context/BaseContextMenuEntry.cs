@@ -125,5 +125,9 @@ namespace AllowTool.Context {
 			var visibleRect = AllowToolUtility.GetVisibleMapRect();
 			return t => visibleRect.Contains(t.Position);
 		}
+
+		protected static Predicate<Thing> GetExceptAnimaTreeFilter() {
+			return t => !AnimaTreeMassDesignationFix.IsAnimaTree(t);
+		}
 	}
 }
