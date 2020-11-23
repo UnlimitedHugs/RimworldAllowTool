@@ -15,17 +15,6 @@ namespace AllowTool {
 		private const float VictimSkullMoteChance = .25f;
 		private const float OpportunityTargetMaxRange = 8f;
 
-		private bool unforbidBody;
-		public bool UnforbidBody {
-			get { return unforbidBody; }
-			set { unforbidBody = value; }
-		}
-
-		public override void ExposeData() {
-			base.ExposeData();
-			Scribe_Values.Look(ref unforbidBody, "unforbidBody");
-		}
-
 		public override bool TryMakePreToilReservations(bool errorOnFailed) {
 			return pawn.Reserve(job.GetTarget(TargetIndex.A), job);
 		}
@@ -84,9 +73,6 @@ namespace AllowTool {
 			if (!victim.Dead) {
 				victim.Kill(damageInfo);
 			}
-			if (UnforbidBody) {
-				victim.Corpse?.SetForbidden(false, false);
-			}
 			if (AllowToolController.Instance.Handles.FinishOffUnforbidsSetting) {
 				UnforbidAdjacentThingsTo(position, Map);
 			}
@@ -109,7 +95,7 @@ namespace AllowTool {
 		private Thing TryMakeSkullMote(Pawn victim, float chance) {
 			if (victim?.RaceProps != null && victim.RaceProps.intelligence == Intelligence.Humanlike) {
 				if (Rand.Chance(chance)) {
-					var def = ThingDefOf.Mote_ThoughtGood;
+					var def = ThingDefOf.Mote_ThoughtBad;
 					var moteBubble = (MoteBubble)ThingMaker.MakeThing(def);
 					moteBubble.SetupMoteBubble(ThoughtDefOf.WitnessedDeathAlly.Icon, null);
 					moteBubble.Attach(victim);

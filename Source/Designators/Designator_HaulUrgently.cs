@@ -36,6 +36,7 @@ namespace AllowTool {
 			thing.ToggleDesignation(AllowToolDefOf.HaulUrgentlyDesignation, true);
 			// unforbid for convenience
 			thing.SetForbidden(false, false);
+			AllowToolController.Instance.HaulUrgentlyCache.ClearCacheForMap(thing.Map);
 		}
 
 		private bool ThingIsRelevant(Thing thing) {

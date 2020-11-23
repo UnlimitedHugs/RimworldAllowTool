@@ -3,6 +3,7 @@ using AllowTool.Context;
 using AllowTool.Settings;
 using HugsLib;
 using HugsLib.Utils;
+using UnityEngine;
 using Verse;
 
 namespace AllowTool {
@@ -28,9 +29,11 @@ namespace AllowTool {
 		public WorldSettings WorldSettings { get; private set; }
 		public ModSettingsHandler Handles { get; private set; }
 		public ReflectionHandler Reflection { get; private set; }
+		internal HaulUrgentlyCacheHandler HaulUrgentlyCache { get; private set; }
 		private HotKeyHandler hotKeys;
 		private bool dependencyRefreshScheduled;
 		private bool modSettingsHaveChanged;
+		private int fixedUpdateCount;
 
 		private AllowToolController() {
 			Instance = this;
@@ -41,6 +44,7 @@ namespace AllowTool {
 			Handles.PackSettingsChanged += () => modSettingsHaveChanged = true;
 			Reflection = new ReflectionHandler();
 			Reflection.PrepareReflection();
+			HaulUrgentlyCache = new HaulUrgentlyCacheHandler();
 			hotKeys = new HotKeyHandler();
 			// wait for other mods to be loaded
 			LongEventHandler.QueueLongEvent(PickUpAndHaulCompatHandler.Apply, null, false, null);
@@ -48,6 +52,11 @@ namespace AllowTool {
 
 		public override void Update() {
 			DesignatorContextMenuController.Update();
+		}
+
+		public override void FixedUpdate() {
+			HaulUrgentlyCache.ProcessCacheEntries(fixedUpdateCount, Time.unscaledTime);
+			fixedUpdateCount++;
 		}
 
 		public override void Tick(int currentTick) {
@@ -60,6 +69,7 @@ namespace AllowTool {
 
 		public override void WorldLoaded() {
 			WorldSettings = Find.World.GetComponent<WorldSettings>();
+			HaulUrgentlyCache.ClearCacheForAllMaps();
 		}
 
 		public override void MapLoaded(Map map) {
@@ -72,6 +82,10 @@ namespace AllowTool {
 			if (!Handles.FinishOffWorktypeSetting) {
 				AllowToolUtility.EnsureAllColonistsHaveWorkTypeEnabled(AllowToolDefOf.FinishingOff, map);
 			}
+		}
+
+		public override void MapDiscarded(Map map) {
+			HaulUrgentlyCache.ClearCacheForMap(map);
 		}
 
 		public override void SettingsChanged() {
@@ -118,6 +132,7 @@ namespace AllowTool {
 				try {
 					dependencyRefreshScheduled = false;
 					hotKeys.RebindAllDesignators();
+					AllowThingToggleHandler.ReinitializeDesignators();
 					DesignatorContextMenuController.RebindAllContextMenus();
 				} catch (Exception e) {
 					Logger.Error($"Error during designator dependency refresh: {e}");

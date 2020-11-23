@@ -17,12 +17,13 @@ namespace AllowTool {
 
 		public override AcceptanceReport CanDesignateThing(Thing t) {
 			var plantProps = t?.def.plant;
-			var hasHarvestDesgination = t.HasDesignation(Designation);
+			var hasHarvestDesignation = t.HasDesignation(Designation);
 			return plantProps != null && 
-				!hasHarvestDesgination && 
+				!hasHarvestDesignation && 
 				t is Plant plant && 
 				plant.HarvestableNow && 
 				plant.LifeStage == PlantLifeStage.Mature &&
+				!AnimaTreeMassDesignationFix.IsAnimaTree(t) &&
 				PlantMatchesModifierKeyFilter(plantProps);
 		}
 

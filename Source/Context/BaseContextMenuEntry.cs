@@ -41,16 +41,29 @@ namespace AllowTool.Context {
 		}
 		
 		public virtual ActivationResult Activate(Designator designator, Map map){
-			var hitCount = DesignateAllThings(designator, map, null);
-			return ActivationResult.FromCount(hitCount, BaseMessageKey);
+			return ActivateWithFilter(designator, map, null);
 		}
 
 		public virtual FloatMenuOption MakeMenuOption(Designator designator) {
 			return MakeStandardOption(designator);
 		}
 
-		protected ActivationResult ActivateInHomeArea(Designator designator, Map map) {
-			var hitCount = DesignateAllThingsInHomeArea(designator, map);
+		protected ActivationResult ActivateInHomeArea(Designator designator, Map map,
+			Predicate<Thing> extraFilter = null) {
+			var inHomeArea = GetHomeAreaFilter(map);
+			return ActivateWithFilter(designator, map, 
+				thing => inHomeArea(thing) && (extraFilter == null || extraFilter(thing)));
+		}
+
+		protected ActivationResult ActivateInVisibleArea(Designator designator, Map map,
+			Predicate<Thing> extraFilter = null) {
+			var thingIsVisible = GetVisibleThingFilter();
+			return ActivateWithFilter(designator, map,
+				thing => thingIsVisible(thing) && (extraFilter == null || extraFilter(thing)));
+		}
+
+		protected ActivationResult ActivateWithFilter(Designator designator, Map map, Predicate<Thing> thingFilter) {
+			var hitCount = DesignateAllThings(designator, map, thingFilter);
 			return ActivationResult.FromCount(hitCount, BaseMessageKey);
 		}
 
@@ -64,10 +77,11 @@ namespace AllowTool.Context {
 			}
 			return hitCount;
 		}
-
+		
+		// TODO: remove this on next major update
+		[Obsolete]
 		protected int DesignateAllThingsInHomeArea(Designator designator, Map map) {
-			var homeArea = map.areaManager.Home;
-			return DesignateAllThings(designator, map, thing => homeArea.GetCellBool(map.cellIndices.CellToIndex(thing.Position)));
+			return DesignateAllThings(designator, map, GetHomeAreaFilter(map));
 		}
 
 		protected FloatMenuOption MakeStandardOption(Designator designator, string descriptionKey = null, Texture2D extraIcon = null) {
@@ -100,6 +114,20 @@ namespace AllowTool.Context {
 
 		protected static bool ThingIsValidForDesignation(Thing thing) {
 			return thing?.def != null && thing.Map != null && !thing.Map.fogGrid.IsFogged(thing.Position);
+		}
+
+		protected Predicate<Thing> GetHomeAreaFilter(Map map) {
+			var homeArea = map.areaManager.Home;
+			return thing => homeArea.GetCellBool(map.cellIndices.CellToIndex(thing.Position));
+		}
+
+		protected Predicate<Thing> GetVisibleThingFilter() {
+			var visibleRect = AllowToolUtility.GetVisibleMapRect();
+			return t => visibleRect.Contains(t.Position);
+		}
+
+		protected static Predicate<Thing> GetExceptAnimaTreeFilter() {
+			return t => !AnimaTreeMassDesignationFix.IsAnimaTree(t);
 		}
 	}
 }

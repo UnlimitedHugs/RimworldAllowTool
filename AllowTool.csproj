@@ -13,17 +13,6 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>Mods\AllowTool\Assemblies\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
@@ -38,7 +27,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lib.Harmony.2.0.0.7\lib\net472\0Harmony.dll</HintPath>
+      <HintPath>packages\Lib.Harmony.2.0.0.7\lib\net472\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
@@ -46,7 +35,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="HugsLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UnlimitedHugs.Rimworld.HugsLib.7.0.1\lib\net472\HugsLib.dll</HintPath>
+      <HintPath>packages\UnlimitedHugs.Rimworld.HugsLib.7.0.1\lib\net472\HugsLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -73,8 +62,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\AI\JobDriver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
+    <Compile Include="Source\Context\MenuEntry_AllowVisible.cs" />
+    <Compile Include="Source\Context\MenuEntry_ForbidVisible.cs" />
     <Compile Include="Source\Context\MenuEntry_MineSelectStripMine.cs" />
+    <Compile Include="Source\Context\MenuEntry_SelectSimilarHome.cs" />
+    <Compile Include="Source\Designators\AnimaTreeMassDesignationFix.cs" />
     <Compile Include="Source\Designators\Designator_StripMine.cs" />
+    <Compile Include="Source\Handlers\AllowThingToggleHandler.cs" />
+    <Compile Include="Source\Handlers\HaulUrgentlyCacheHandler.cs" />
+    <Compile Include="Source\Patches\CompForbiddable_Gizmos_Patch.cs" />
+    <Compile Include="Source\Patches\Designator_PlantsCut_Patch.cs" />
+    <Compile Include="Source\Patches\Designator_PlantsHarvestWood_Patch.cs" />
+    <Compile Include="Source\Patches\Pawn_Kill_Patch.cs" />
     <Compile Include="Source\Settings\PartyHuntSettings.cs" />
     <Compile Include="Source\Settings\StripMineGlobalSettings.cs" />
     <Compile Include="Source\Settings\StripMineWorldSettings.cs" />
@@ -151,9 +150,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>RimWorldWin64.exe</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

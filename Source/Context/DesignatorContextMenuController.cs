@@ -66,9 +66,14 @@ namespace AllowTool.Context {
 				new MenuEntry_MineSelectStripMine()),
 			new ContextMenuProvider(typeof(Designator_SelectSimilar), 
 				new MenuEntry_SelectSimilarAll(), 
-				new MenuEntry_SelectSimilarVisible()),
+				new MenuEntry_SelectSimilarVisible(),
+				new MenuEntry_SelectSimilarHome()),
 			new ContextMenuProvider(typeof(Designator_Strip), 
-				new MenuEntry_StripAll())
+				new MenuEntry_StripAll()),
+			new ContextMenuProvider(typeof(Designator_Allow),
+				new MenuEntry_AllowVisible()),
+			new ContextMenuProvider(typeof(Designator_Forbid),
+				new MenuEntry_ForbidVisible())
 		};
 		private static readonly ContextMenuProvider fallbackMenuProvider = new ContextMenuProvider(null);
 
@@ -96,7 +101,10 @@ namespace AllowTool.Context {
 				try {
 					if (!AllowToolController.Instance.Handles.ContextOverlaySetting.Value) return;
 					if (designatorMenuProviders.ContainsKey(designator)) {
-						AllowToolUtility.DrawRightClickIcon(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y);
+						var verticalOffset = command is Command_Toggle ? 
+							56f : 0f; // checkmark/cross is in the way, use lower right corner
+						AllowToolUtility.DrawRightClickIcon(topLeft.x + overlayIconOffset.x, 
+							topLeft.y + overlayIconOffset.y + verticalOffset);
 					}
 				} catch (Exception e) {
 					designatorMenuProviders.Remove(designator);
@@ -162,8 +170,13 @@ namespace AllowTool.Context {
 
 		// Pairs a Command_Action with its reverse designator. This is necessary to display the context menu icon,
 		// as well as to intercept reverse designator right-clicks and shift-clicks
-		public static void RegisterReverseDesignatorPair(Designator designator, Command_Action designatorButton) {
+		public static void RegisterReverseDesignatorPair(Designator designator, Command designatorButton) {
 			currentDrawnReverseDesignators.Add(designatorButton, designator);
+		}
+
+		// TODO: remove on next major update
+		public static void RegisterReverseDesignatorPair(Designator designator, Command_Action designatorButton) {
+			RegisterReverseDesignatorPair(designator, (Command)designatorButton);
 		}
 		
 		public static void Update() {
@@ -180,6 +193,9 @@ namespace AllowTool.Context {
 			ClearReverseDesignatorPairs();
 			foreach (var reverseDesignator in AllowToolUtility.EnumerateReverseDesignators()) {
 				TryBindDesignatorToProvider(reverseDesignator);
+			}
+			foreach (var designator in AllowThingToggleHandler.GetImpliedReverseDesignators()) {
+				TryBindDesignatorToProvider(designator);
 			}
 		}
 
