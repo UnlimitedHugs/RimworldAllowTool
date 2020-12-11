@@ -18,7 +18,7 @@ namespace AllowTool {
 
 		// stop attacking and don't target downed animals if auto finish off is enabled
 		private static readonly HuntingTargetFilter HuntingTargetAttackFilter = 
-			(target, hunter) => !target.Downed || (CanDoCommonerWork(hunter) && !WorldSettings.AutoFinishOff);
+			(target, hunter) => !target.HasDesignation(DesignationDefOf.Tame) && (!target.Downed || (CanDoCommonerWork(hunter) && !WorldSettings.AutoFinishOff));
 		private static readonly HuntingTargetFilter HuntingTargetFinishFilter = 
 			(target, _) => target.Downed && !target.HasDesignation(AllowToolDefOf.FinishOffDesignation);
 		private static readonly List<HuntingTargetCandidate> huntingTargetCandidates = new List<HuntingTargetCandidate>();
