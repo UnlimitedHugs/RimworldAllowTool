@@ -5,10 +5,10 @@ namespace AllowTool {
 	/// <summary>
 	/// Unforbids all forbidden things in the designated area
 	/// </summary>
-	public class Designator_Allow : Designator_SelectableThings {
-		
-		public Designator_Allow(ThingDesignatorDef def) : base(def) {
-			inheritIcon = !AllowToolController.Instance.ReplaceIconsSetting;
+	public class Designator_Allow : Designator_Replacement {
+		public Designator_Allow() {
+			replacedDesignator = new Designator_Unforbid();
+			UseDesignatorDef(AllowToolDefOf.AllowDesignator);
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
@@ -17,8 +17,8 @@ namespace AllowTool {
 			return comp != null && comp.Forbidden;
 		}
 
-		public override void DesignateSingleCell(IntVec3 cell) {
-			numThingsDesignated = AllowToolUtility.ToggleForbiddenInCell(cell, Find.CurrentMap, false);
+		public override void DesignateThing(Thing t) {
+			t.SetForbidden(false, false);
 		}
 	}
 }

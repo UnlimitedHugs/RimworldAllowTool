@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Verse;
 
 namespace AllowTool.Patches {
@@ -9,7 +9,7 @@ namespace AllowTool.Patches {
 	internal static class ReverseDesignatorDatabase_Init_Patch {
 		[HarmonyPostfix]
 		public static void InjectReverseDesignators(ReverseDesignatorDatabase __instance) {
-			ReverseDesignatorProvider.InjectCustomReverseDesignators(__instance);
+			AllowToolController.Instance.OnReverseDesignatorDatabaseInit(__instance);
 		}
 	}
 }

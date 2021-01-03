@@ -17,3 +17,5 @@ Version.h
 Version.cpp
 build.js
 *.tmp
+/packages/
+/.idea/

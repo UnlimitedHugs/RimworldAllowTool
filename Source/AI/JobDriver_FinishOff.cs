@@ -73,11 +73,7 @@ namespace AllowTool {
 			if (!victim.Dead) {
 				victim.Kill(damageInfo);
 			}
-			var body = position.GetThingList(Map).FirstOrDefault(t => t is Corpse && (t as Corpse).InnerPawn == victim);
-			if (body != null) {
-				body.SetForbiddenIfOutsideHomeArea();
-			}
-			if (AllowToolController.Instance.FinishOffUnforbidsSetting) {
+			if (AllowToolController.Instance.Handles.FinishOffUnforbidsSetting) {
 				UnforbidAdjacentThingsTo(position, Map);
 			}
 		}
@@ -99,7 +95,7 @@ namespace AllowTool {
 		private Thing TryMakeSkullMote(Pawn victim, float chance) {
 			if (victim?.RaceProps != null && victim.RaceProps.intelligence == Intelligence.Humanlike) {
 				if (Rand.Chance(chance)) {
-					var def = ThingDefOf.Mote_ThoughtGood;
+					var def = ThingDefOf.Mote_ThoughtBad;
 					var moteBubble = (MoteBubble)ThingMaker.MakeThing(def);
 					moteBubble.SetupMoteBubble(ThoughtDefOf.WitnessedDeathAlly.Icon, null);
 					moteBubble.Attach(victim);

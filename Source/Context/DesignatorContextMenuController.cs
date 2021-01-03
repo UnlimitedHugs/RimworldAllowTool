@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HugsLib.Settings;
 using HugsLib.Utils;
 using RimWorld;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace AllowTool.Context {
 			Left = 0, Right = 1
 		}
 
-		private static readonly Dictionary<Command, BaseDesignatorMenuProvider> designatorMenuProviders = new Dictionary<Command, BaseDesignatorMenuProvider>();
+		private static readonly Dictionary<Command, ContextMenuProvider> designatorMenuProviders = new Dictionary<Command, ContextMenuProvider>();
 		private static readonly Dictionary<Command, Designator> currentDrawnReverseDesignators = new Dictionary<Command, Designator>();
 		private static readonly Vector2 overlayIconOffset = new Vector2(59f, 2f);
 		private static readonly HashSet<Type> reversePickingSupportedDesignators = new HashSet<Type> {
@@ -34,52 +35,76 @@ namespace AllowTool.Context {
 			typeof(Designator_Mine),
 			typeof(Designator_Strip),
 			typeof(Designator_Open)
-		}; 
+		};
+		private static readonly ContextMenuProvider[] menuProviders = {
+			new ContextMenuProvider(typeof(Designator_Cancel), 
+				new MenuEntry_CancelSelected(), 
+				new MenuEntry_CancelDesignations(), 
+				new MenuEntry_CancelBlueprints()),
+			new ContextMenuProvider(typeof(Designator_PlantsHarvest), 
+				new MenuEntry_HarvestAll(), 
+				new MenuEntry_HarvestHome()),
+			new ContextMenuProvider(typeof(Designator_PlantsHarvestWood), 
+				new MenuEntry_ChopAll(), 
+				new MenuEntry_ChopHome()),
+			new ContextMenuProvider(typeof(Designator_PlantsCut), 
+				new MenuEntry_CutBlighted()),
+			new ContextMenuProvider(typeof(Designator_HarvestFullyGrown), 
+				new MenuEntry_HarvestGrownAll(), 
+				new MenuEntry_HarvestGrownHome()),
+			new ContextMenuProvider(typeof(Designator_FinishOff), 
+				new MenuEntry_FinishOffAll()),
+			new ContextMenuProvider(typeof(Designator_Haul), 
+				new MenuEntry_HaulAll()),
+			new ContextMenuProvider(typeof(Designator_HaulUrgently), 
+				new MenuEntry_HaulUrgentAll(), 
+				new MenuEntry_HaulUrgentVisible()),
+			new ContextMenuProvider(typeof(Designator_Hunt), 
+				new MenuEntry_HuntAll()),
+			new ContextMenuProvider(typeof(Designator_Mine), 
+				new MenuEntry_MineConnected(),
+				new MenuEntry_MineSelectStripMine()),
+			new ContextMenuProvider(typeof(Designator_SelectSimilar), 
+				new MenuEntry_SelectSimilarAll(), 
+				new MenuEntry_SelectSimilarVisible(),
+				new MenuEntry_SelectSimilarHome()),
+			new ContextMenuProvider(typeof(Designator_Strip), 
+				new MenuEntry_StripAll()),
+			new ContextMenuProvider(typeof(Designator_Allow),
+				new MenuEntry_AllowVisible()),
+			new ContextMenuProvider(typeof(Designator_Forbid),
+				new MenuEntry_ForbidVisible())
+		};
+		private static readonly ContextMenuProvider fallbackMenuProvider = new ContextMenuProvider(null);
 
-		private static List<BaseDesignatorMenuProvider> _providers;
-		public static List<BaseDesignatorMenuProvider> MenuProviderInstances {
-			get { return _providers ?? (_providers = InstantiateProviders()); }
-		}
-
-		public static void PrepareDesignatorContextMenus() {
+		public static void RebindAllContextMenus() {
 			try {
 				designatorMenuProviders.Clear();
 				// bind handlers to designator instances
 				// we can't do a direct type lookup here, since we want to support modded designators. 
 				// i.e. Designator_Hunt -> Designator_ModdedHunt should also be supported.
-				var allDesignators = DefDatabase<DesignationCategoryDef>.AllDefs.ToArray()
-					.SelectMany(cat => cat.AllResolvedDesignators.ToArray());
+				var allDesignators = AllowToolUtility.EnumerateResolvedDirectDesignators();
 				foreach (var designator in allDesignators) {
 					// check if designator matches the type required by any of the handlers
-					TryBindDesignatorToHandler(designator, MenuProviderInstances);
+					TryBindDesignatorToProvider(designator);
 				}
+				PrepareReverseDesignatorContextMenus();
 			} catch (Exception e) {
 				AllowToolController.Logger.ReportException(e);
 			}
 		}
-
-		public static void PrepareReverseDesignatorContextMenus() {
-			try {
-				ClearReverseDesignatorPairs();
-				var allReverseDesignators = Find.ReverseDesignatorDatabase.AllDesignators;
-				foreach (var reverseDesignator in allReverseDesignators) {
-					TryBindDesignatorToHandler(reverseDesignator, MenuProviderInstances);
-				}
-			} catch (Exception e) {
-				AllowToolController.Logger.ReportException(e);
-			}
-		}
-
 
 		// draws the "rightclickable" icon over compatible designator buttons
 		public static void DrawCommandOverlayIfNeeded(Command command, Vector2 topLeft) {
 			var designator = TryResolveCommandToDesignator(command);
 			if (designator != null) {
 				try {
-					if (!AllowToolController.Instance.ContextOverlaySetting.Value) return;
-					BaseDesignatorMenuProvider provider;
-					if (designatorMenuProviders.TryGetValue(designator, out provider) && provider.Enabled) {
-						AllowToolUtility.DrawRightClickIcon(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y);
+					if (!AllowToolController.Instance.Handles.ContextOverlaySetting.Value) return;
+					if (designatorMenuProviders.ContainsKey(designator)) {
+						var verticalOffset = command is Command_Toggle ? 
+							56f : 0f; // checkmark/cross is in the way, use lower right corner
+						AllowToolUtility.DrawRightClickIcon(topLeft.x + overlayIconOffset.x, 
+							topLeft.y + overlayIconOffset.y + verticalOffset);
 					}
 				} catch (Exception e) {
 					designatorMenuProviders.Remove(designator);
@@ -91,11 +116,12 @@ namespace AllowTool.Context {
 		// catch right-clicks and shift-clicks on supported designators and reverse designators. Left clicks return false.
 		public static bool TryProcessDesignatorInput(Designator designator) {
 			try {
-				if (Event.current.button == (int)MouseButtons.Left && HugsLibUtility.ShiftIsHeld && AllowToolController.Instance.ReverseDesignatorPickSetting) {
+				if (Event.current.button == (int)MouseButtons.Left 
+					&& HugsLibUtility.ShiftIsHeld 
+					&& AllowToolController.Instance.Handles.ReverseDesignatorPickSetting) {
 					return TryPickDesignatorFromReverseDesignator(designator);
 				} else if (Event.current.button == (int)MouseButtons.Right) {
-					BaseDesignatorMenuProvider provider;
-					if (designatorMenuProviders.TryGetValue(designator, out provider)) {
+					if (designatorMenuProviders.TryGetValue(designator, out ContextMenuProvider provider)) {
 						provider.OpenContextMenu(designator);
 						return true;
 					}
@@ -124,13 +150,17 @@ namespace AllowTool.Context {
 
 		public static void ProcessContextActionHotkeyPress() {
 			var selectedDesignator = Find.DesignatorManager.SelectedDesignator;
-			if (selectedDesignator != null && designatorMenuProviders.ContainsKey(selectedDesignator)) {
-				designatorMenuProviders[selectedDesignator].TryInvokeHotkeyAction(selectedDesignator);
-			} else if(AllowToolController.Instance.ExtendedContextActionSetting.Value) {
+			if (selectedDesignator != null) {
+				// get an existing provider or make a temporary one (e.g.: for shift-picked Select Similar which is never registered)
+				if (!designatorMenuProviders.TryGetValue(selectedDesignator, out ContextMenuProvider provider)) {
+					provider = GetMenuProviderForDesignator(selectedDesignator);
+				}
+				provider.TryInvokeHotkeyAction(selectedDesignator);
+			} else if (AllowToolController.Instance.Handles.ExtendedContextActionSetting.Value) {
 				// activate hotkey action for first visible reverse designator
-				foreach (var designator in currentDrawnReverseDesignators.Values) {
-					if (designatorMenuProviders.ContainsKey(designator)) {
-						if (designatorMenuProviders[designator].TryInvokeHotkeyAction(designator)) {
+				foreach (var reverseDesignator in currentDrawnReverseDesignators.Values) {
+					if (designatorMenuProviders.TryGetValue(reverseDesignator, out ContextMenuProvider reverseProvider)) {
+						if (reverseProvider.TryInvokeHotkeyAction(reverseDesignator)) {
 							break;
 						}
 					}
@@ -138,82 +168,92 @@ namespace AllowTool.Context {
 			}
 		}
 
-		// called every OnGUI- Commands for reverse designators are instantiated each time they are drawn, so we need to discard the old ones
-		public static void ClearReverseDesignatorPairs() {
-			currentDrawnReverseDesignators.Clear();
-		}
-
 		// Pairs a Command_Action with its reverse designator. This is necessary to display the context menu icon,
 		// as well as to intercept reverse designator right-clicks and shift-clicks
-		public static void RegisterReverseDesignatorPair(Designator designator, Command_Action designatorButton) {
+		public static void RegisterReverseDesignatorPair(Designator designator, Command designatorButton) {
 			currentDrawnReverseDesignators.Add(designatorButton, designator);
 		}
 
-		public static void CheckForMemoryLeak() {
-			// this should not happen, unless another mod patches out our ClearReverseDesignatorPairs call
-			if (currentDrawnReverseDesignators.Count > 100000) {
-				AllowToolController.Logger.Error("Too many reverse designators! A mod interaction may have caused a memory leak.");
+		// TODO: remove on next major update
+		public static void RegisterReverseDesignatorPair(Designator designator, Command_Action designatorButton) {
+			RegisterReverseDesignatorPair(designator, (Command)designatorButton);
+		}
+		
+		public static void Update() {
+			// Commands for reverse designators are instantiated each time an 
+			// OnGUI event is processed, so we need to discard the old ones regularly
+			ClearReverseDesignatorPairs();
+		}
+
+		internal static IEnumerable<SettingHandle<bool>> RegisterMenuEntryHandles(ModSettingsPack pack) {
+			return menuProviders.SelectMany(p => p.RegisterEntryHandles(pack));
+		}
+
+		private static void PrepareReverseDesignatorContextMenus() {
+			ClearReverseDesignatorPairs();
+			foreach (var reverseDesignator in AllowToolUtility.EnumerateReverseDesignators()) {
+				TryBindDesignatorToProvider(reverseDesignator);
+			}
+			foreach (var designator in AllowThingToggleHandler.GetImpliedReverseDesignators()) {
+				TryBindDesignatorToProvider(designator);
 			}
 		}
 
+		private static void ClearReverseDesignatorPairs() {
+			currentDrawnReverseDesignators.Clear();
+		}
+
 		private static bool TryPickDesignatorFromReverseDesignator(Designator designator) {
-			if (designator is Designator_SelectableThings || (designator!=null && reversePickingSupportedDesignators.Contains(designator.GetType()))) {
-				Find.DesignatorManager.Select(designator);
-				return true;
+			var interfaceSupport = false;
+			if (designator != null && designator is IReversePickableDesignator rp) {
+				designator = rp.PickUpReverseDesignator();
+				interfaceSupport = true;
+			}
+			if (designator != null) {
+				if (interfaceSupport || reversePickingSupportedDesignators.Contains(designator.GetType())) {
+					Find.DesignatorManager.Select(designator);
+					return true;
+				}
 			}
 			return false;
 		}
 
-		private static List<BaseDesignatorMenuProvider> InstantiateProviders() {
-			var providers = new List<BaseDesignatorMenuProvider>();
-			try {
-				var menuProviderTypes = typeof (BaseDesignatorMenuProvider).AllSubclassesNonAbstract();	
-				foreach (var providerType in menuProviderTypes) {
-					try {
-						providers.Add((BaseDesignatorMenuProvider) Activator.CreateInstance(providerType));
-					} catch (Exception e) {
-						AllowToolController.Logger.Error("Exception while instantiating {0}: {1}", providerType, e);
-					}
-				}
-			} catch (Exception e) {
-				AllowToolController.Logger.ReportException(e);
-			}
-			providers.SortBy(p => p.SettingId ?? string.Empty);
-			return providers;
-		}
-
-		/// <param name="designator">The designator that will be paired to a menu provider</param>
-		/// <param name="providers">All available handlers</param>
-		private static void TryBindDesignatorToHandler(Designator designator, List<BaseDesignatorMenuProvider> providers) {
+		private static void TryBindDesignatorToProvider(Designator designator) {
 			if (designator == null || designatorMenuProviders.ContainsKey(designator)) {
 				return;
 			}
-			var handlerBound = false;
-			for (int i = 0; i < providers.Count; i++) {
-				var provider = providers[i];
-				if (provider.HandledDesignatorType != null && provider.HandledDesignatorType.IsInstanceOfType(designator)) {
-					designatorMenuProviders.Add(designator, provider);
-					handlerBound = true;
-					break;
+			var provider = GetMenuProviderForDesignator(designator);
+			if (provider.HasCustomEnabledEntries || DesignatorShouldHaveFallbackContextMenuProvider(designator)) {
+				designatorMenuProviders.Add(designator, provider);
+			}
+		}
+
+		private static ContextMenuProvider GetMenuProviderForDesignator(Designator designator) {
+			for (int i = 0; i < menuProviders.Length; i++) {
+				if (menuProviders[i].HandledDesignatorType.IsInstanceOfType(designator)) {
+					return menuProviders[i];
 				}
 			}
-			if (!handlerBound && designator.GetType() != typeof(Designator_Build)) {
-				try {
-					// if designator has no handler but has a context menu, provide the generic one
-					var hasDesignation = AllowToolController.DesignatorGetDesignationMethod.Invoke(designator, new object[0]) != null;
-					var hasDesignateAll = (bool)AllowToolController.DesignatorHasDesignateAllFloatMenuOptionField.GetValue(designator);
+			return fallbackMenuProvider;
+		}
+
+		// if designator has no custom context menu entries but has a stock context menu, still show a right click icon
+		// detection is not fool-proof, but it's good enough- and better than calling RightClickFloatMenuOptions
+		private static bool DesignatorShouldHaveFallbackContextMenuProvider(Designator designator){
+			try {
+				if (designator.GetType() != typeof(Designator_Build)) {
+					var hasDesignation = AllowToolController.Instance.Reflection.DesignatorGetDesignationMethod.Invoke(designator, new object[0]) != null;
+					if (hasDesignation) return true;
+					var hasDesignateAll = (bool)AllowToolController.Instance.Reflection.DesignatorHasDesignateAllFloatMenuOptionField.GetValue(designator);
+					if (hasDesignateAll) return true;
 					var getOptionsMethod = designator.GetType().GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
-					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator) && getOptionsMethod.DeclaringType != typeof(Designator_SelectableThings);
-					var ATDesignator = designator as Designator_SelectableThings;
-					var hasReplacedOptions = ATDesignator?.ReplacedDesignator != null;
-					if (hasDesignation || hasDesignateAll || hasOptionsMethod || hasReplacedOptions) {
-						// detection is not fool-proof, but it's good enough- and better than calling RightClickFloatMenuOptions
-						designatorMenuProviders.Add(designator, providers.OfType<MenuProvider_Generic>().First());
-					}
-				} catch (Exception) {
-					// no problem- the designator will just have no handler assigned
+					var hasOptionsMethod = getOptionsMethod != null && getOptionsMethod.DeclaringType != typeof(Designator);
+					if (hasOptionsMethod) return true;
 				}
+			} catch (Exception) {
+				// no problem- the designator will just have no handler assigned
 			}
+			return false;
 		}
 	}
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -10,26 +10,29 @@ namespace AllowTool {
 		public delegate Job TryGetJobOnThing(Pawn pawn, Thing t, bool forced);
 		
 		// give a vanilla haul job- it works just fine for our needs
-		public static TryGetJobOnThing JobOnThingDelegate = (pawn, t, forced) => HaulAIUtility.HaulToStorageJob(pawn, t);
+		public static TryGetJobOnThing JobOnThingDelegate = 
+			(pawn, t, forced) => HaulAIUtility.HaulToStorageJob(pawn, t);
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false) {
 			return JobOnThingDelegate(pawn, t, forced);
 		}
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) {
-			var designations = pawn.Map.designationManager.allDesignations;
-			// look over all designations
-			for (int i = 0; i < designations.Count; i++) {
-				var des = designations[i];
-				// find our haul designation
-				if (des.def != AllowToolDefOf.HaulUrgentlyDesignation) continue;
-				var thing = des.target.Thing;
-				// make sure the designated thing is a valid candidate for hauling
-				if (thing?.def != null && (thing.def.alwaysHaulable || thing.def.EverHaulable) 
-					&& !thing.IsInValidBestStorage() && HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, thing, false)) {
-					yield return thing;
+			var things = GetHaulablesForPawn(pawn);
+			for (int i = 0; i < things.Count; i++) {
+				if (HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, things[i], false)) {
+					yield return things[i];
 				}
 			}
+		}
+
+		public override bool ShouldSkip(Pawn pawn, bool forced = false) {
+			return GetHaulablesForPawn(pawn).Count == 0;
+		}
+
+		private static IReadOnlyList<Thing> GetHaulablesForPawn(Pawn pawn) {
+			return AllowToolController.Instance.HaulUrgentlyCache.GetDesignatedAndHaulableThingsForMap(
+				pawn.Map, Time.unscaledTime);
 		}
 	}
 }

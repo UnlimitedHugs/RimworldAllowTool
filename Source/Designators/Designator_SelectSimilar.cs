@@ -25,20 +25,26 @@ namespace AllowTool {
 			get { return selectionConstraints.Count > 0; }
 		}
 
-		public Designator_SelectSimilar(ThingDesignatorDef def) : base(def) {
+		private bool SelectingSingleCell {
+			get { return Dragger.SelectionInProgress && Dragger.SelectedArea.Area == 1; }
+		}
+
+		public Designator_SelectSimilar() {
+			UseDesignatorDef(AllowToolDefOf.SelectSimilarDesignator);
 		}
 
 		public override void Selected() {
 			base.Selected();
 			ReindexSelectionConstraints();
 		}
-		
+
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
 			return thing.def != null &&
 				   thing.def.selectable &&
 				   thing.def.label != null &&
 				   !BlockedByFog(thing.Position, thing.Map) &&
-				   (ThingMatchesSelectionConstraints(thing) || AllowToolController.Instance.Dragger.SelectingSingleCell) && // this allows us to select items that don't match the selection constraints if we are not dragging, only clicking
+				    // this allows us to select items that don't match the selection constraints if we are not dragging, only clicking
+				   (ThingMatchesSelectionConstraints(thing) || SelectingSingleCell) &&
 				   SelectionLimitAllowsAdditionalThing();
 		}
 
@@ -46,20 +52,9 @@ namespace AllowTool {
 			TrySelectThing(t);
 		}
 
-		public override void DesignateSingleCell(IntVec3 cell) {
-			var map = Find.CurrentMap;
-			var cellThings = map.thingGrid.ThingsListAtFast(cell);
-			numThingsDesignated = 0;
-			for (var i = 0; i < cellThings.Count; i++) {
-				if (TrySelectThing(cellThings[i])) {
-					numThingsDesignated++;
-				}
-			}
-		}
-
 		public override void DesignateMultiCell(IEnumerable<IntVec3> vanillaCells) {
-			var selectedCells = AllowToolController.Instance.Dragger.GetAffectedCells().ToList();
-			if (AllowToolController.Instance.Dragger.SelectingSingleCell) {
+			var selectedCells = Dragger.SelectedArea.Cells.ToList();
+			if (SelectingSingleCell) {
 				ProcessSingleCellClick(selectedCells.FirstOrDefault());
 			} else {
 				base.DesignateMultiCell(vanillaCells);
@@ -67,7 +62,7 @@ namespace AllowTool {
 			TryCloseArchitectMenu();
 		}
 
-		public override void SelectedOnGUI() {
+		public override void DrawMouseAttachments() {
 			// update def filter and draw filter readout on cursor
 			if (constraintsNeedReindexing) ReindexSelectionConstraints();
 			string label;
@@ -79,10 +74,13 @@ namespace AllowTool {
 				label = "SelectSimilar_cursor_needConstraint".Translate();
 			}
 			AllowToolUtility.DrawMouseAttachedLabel(label);
+			base.DrawMouseAttachments();
 		}
 
 		public bool SelectionLimitAllowsAdditionalThing() {
-			return Find.Selector.NumSelected < AllowToolController.Instance.SelectionLimitSetting.Value || AllowToolController.Instance.Dragger.SelectingSingleCell || HugsLibUtility.AltIsHeld;
+			return Find.Selector.NumSelected < AllowToolController.Instance.Handles.SelectionLimitSetting.Value 
+				|| SelectingSingleCell 
+				|| HugsLibUtility.AltIsHeld;
 		}
 
 		// generate an index of defs to compare other things against, based on currently selected things

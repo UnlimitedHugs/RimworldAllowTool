@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,47 +9,52 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AllowTool</RootNamespace>
     <AssemblyName>AllowTool</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>Mods\AllowTool\Assemblies\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Mods\AllowTool\Assemblies\</OutputPath>
+    <OutputPath>Mods\AllowTool\v1.2\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>IDE0039</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Lib.Harmony.2.0.0.7\lib\net472\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\RimworldManaged\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HugsLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\UnlimitedHugs.Rimworld.HugsLib.7.0.1\lib\net472\HugsLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\RimworldManaged\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\RimworldManaged\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\RimworldManaged\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -57,73 +62,94 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\AI\JobDriver_FinishOff.cs" />
     <Compile Include="Source\AI\WorkGiver_FinishOff.cs" />
-    <Compile Include="Source\Alert_NoUrgentStorage.cs" />
-    <Compile Include="Source\AllowToolEarlyInit.cs" />
-    <Compile Include="Source\Compat_PickUpAndHaul.cs" />
-    <Compile Include="Source\Context\ATFloatMenuOption.cs" />
-    <Compile Include="Source\Context\Command_PartyHunt.cs" />
+    <Compile Include="Source\Context\MenuEntry_AllowVisible.cs" />
+    <Compile Include="Source\Context\MenuEntry_ForbidVisible.cs" />
+    <Compile Include="Source\Context\MenuEntry_MineSelectStripMine.cs" />
+    <Compile Include="Source\Context\MenuEntry_SelectSimilarHome.cs" />
+    <Compile Include="Source\Designators\AnimaTreeMassDesignationFix.cs" />
+    <Compile Include="Source\Designators\Designator_StripMine.cs" />
+    <Compile Include="Source\Handlers\AllowThingToggleHandler.cs" />
+    <Compile Include="Source\Handlers\HaulUrgentlyCacheHandler.cs" />
+    <Compile Include="Source\Patches\CompForbiddable_Gizmos_Patch.cs" />
+    <Compile Include="Source\Patches\Designator_PlantsCut_Patch.cs" />
+    <Compile Include="Source\Patches\Designator_PlantsHarvestWood_Patch.cs" />
+    <Compile Include="Source\Patches\Pawn_Kill_Patch.cs" />
+    <Compile Include="Source\Settings\PartyHuntSettings.cs" />
+    <Compile Include="Source\Settings\StripMineGlobalSettings.cs" />
+    <Compile Include="Source\Settings\StripMineWorldSettings.cs" />
+    <Compile Include="Source\UI\Dialog_StripMineConfiguration.cs" />
+    <Compile Include="Source\UI\IConfigurableStripMineSettings.cs" />
+    <Compile Include="Source\Utils\MapCellHighlighter.cs" />
+    <Compile Include="Source\Utils\Alert_NoUrgentStorage.cs" />
+    <Compile Include="Source\Handlers\PickUpAndHaulCompatHandler.cs" />
+    <Compile Include="Source\Context\ActivationResult.cs" />
+    <Compile Include="Source\UI\ATFloatMenuOption.cs" />
+    <Compile Include="Source\Context\BaseContextMenuEntry.cs" />
+    <Compile Include="Source\Context\MenuEntry_SelectSimilarVisible.cs" />
+    <Compile Include="Source\Context\ContextMenuProvider.cs" />
+    <Compile Include="Source\UI\Command_PartyHunt.cs" />
     <Compile Include="Source\Context\DesignatorContextMenuController.cs" />
     <Compile Include="Source\AllowToolController.cs" />
     <Compile Include="Source\AllowToolDefOf.cs" />
-    <Compile Include="Source\AllowToolUtility.cs" />
-    <Compile Include="Source\Context\BaseDesignatorMenuProvider.cs" />
-    <Compile Include="Source\Context\MenuProvider_Cancel.cs" />
-    <Compile Include="Source\Context\MenuProvider_Chop.cs" />
-    <Compile Include="Source\Context\MenuProvider_Cut.cs" />
-    <Compile Include="Source\Context\MenuProvider_FinishOff.cs" />
-    <Compile Include="Source\Context\MenuProvider_Generic.cs" />
-    <Compile Include="Source\Context\MenuProvider_Harvest.cs" />
-    <Compile Include="Source\Context\MenuProvider_Haul.cs" />
-    <Compile Include="Source\Context\MenuProvider_HaulUrgently.cs" />
-    <Compile Include="Source\Context\MenuProvider_Hunt.cs" />
-    <Compile Include="Source\Context\MenuProvider_Mine.cs" />
-    <Compile Include="Source\Context\MenuProvider_SelectSimilar.cs" />
-    <Compile Include="Source\Context\MenuProvider_Strip.cs" />
-    <Compile Include="Source\DesignationCleanupManager.cs" />
+    <Compile Include="Source\Utils\AllowToolUtility.cs" />
+    <Compile Include="Source\Context\IReversePickableDesignator.cs" />
+    <Compile Include="Source\Context\MenuEntry_CancelBlueprints.cs" />
+    <Compile Include="Source\Context\MenuEntry_CancelDesignations.cs" />
+    <Compile Include="Source\Context\MenuEntry_CancelSelected.cs" />
+    <Compile Include="Source\Context\MenuEntry_ChopAll.cs" />
+    <Compile Include="Source\Context\MenuEntry_ChopHome.cs" />
+    <Compile Include="Source\Context\MenuEntry_CutBlighted.cs" />
+    <Compile Include="Source\Context\MenuEntry_FinishOffAll.cs" />
+    <Compile Include="Source\Context\MenuEntry_HarvestAll.cs" />
+    <Compile Include="Source\Context\MenuEntry_HarvestGrownHome.cs" />
+    <Compile Include="Source\Context\MenuEntry_HarvestGrownAll.cs" />
+    <Compile Include="Source\Context\MenuEntry_HarvestHome.cs" />
+    <Compile Include="Source\Context\MenuEntry_HaulUrgentVisible.cs" />
+    <Compile Include="Source\Context\MenuEntry_HaulUrgentAll.cs" />
+    <Compile Include="Source\Context\MenuEntry_HaulAll.cs" />
+    <Compile Include="Source\Context\MenuEntry_HuntAll.cs" />
+    <Compile Include="Source\Context\MenuEntry_MineConnected.cs" />
+    <Compile Include="Source\Context\MenuEntry_SelectSimilarAll.cs" />
+    <Compile Include="Source\Context\MenuEntry_StripAll.cs" />
+    <Compile Include="Source\Handlers\DesignationCleanupHandler.cs" />
     <Compile Include="Source\Designators\Designator_Allow.cs" />
     <Compile Include="Source\Designators\Designator_AllowAll.cs" />
-    <Compile Include="Source\Designators\Designator_ChopFullyGrown.cs" />
+    <Compile Include="Source\Designators\Designator_DefBased.cs" />
     <Compile Include="Source\Designators\Designator_FinishOff.cs" />
     <Compile Include="Source\Designators\Designator_Forbid.cs" />
     <Compile Include="Source\Designators\Designator_HarvestFullyGrown.cs" />
     <Compile Include="Source\Designators\Designator_HaulUrgently.cs" />
     <Compile Include="Source\Designators\Designator_SelectSimilar.cs" />
     <Compile Include="Source\Designators\Designator_SelectableThings.cs" />
-    <Compile Include="Source\PartyHuntController.cs" />
-    <Compile Include="Source\Patches\DesignatorCut_Reverse_Patch.cs" />
+    <Compile Include="Source\Designators\Designator_Replacement.cs" />
+    <Compile Include="Source\Designators\Designator_UnlimitedDragger.cs" />
+    <Compile Include="Source\Handlers\HotkeyHandler.cs" />
+    <Compile Include="Source\Handlers\IGlobalHotkeyProvider.cs" />
+    <Compile Include="Source\Handlers\ReflectionHandler.cs" />
+    <Compile Include="Source\Handlers\PartyHuntHandler.cs" />
+    <Compile Include="Source\Patches\DesignationCategoryDef_ResolveDesignators_Patch.cs" />
     <Compile Include="Source\Patches\DraftController_Drafted_Patch.cs" />
     <Compile Include="Source\Patches\Pawn_GetGizmos_Patch.cs" />
     <Compile Include="Source\Patches\Thing_GetFloatMenuOptions_Patch.cs" />
     <Compile Include="Source\Patches\ToilsHaul_PlaceInCell_Patch.cs" />
     <Compile Include="Source\Patches\JobDriverWait_CheckForAutoAttack_Patch.cs" />
-    <Compile Include="Source\Reverse\Designator_SelectSimilarReverse.cs" />
+    <Compile Include="Source\Designators\Designator_SelectSimilarReverse.cs" />
     <Compile Include="Source\Patches\Command_GizmoOnGUI_Patch.cs" />
     <Compile Include="Source\Patches\DefOfHelper_RebindAll_Patch.cs" />
     <Compile Include="Source\Patches\InspectGizmoGrid_DrawInspectGizmoGridFor_Patch.cs" />
     <Compile Include="Source\Patches\ReverseDesignatorDatabase_Init_Patch.cs" />
-    <Compile Include="Source\ReverseDesignatorProvider.cs" />
-    <Compile Include="Source\Reverse\ReverseDesignatorDef.cs" />
+    <Compile Include="Source\Handlers\ReverseDesignatorHandler.cs" />
+    <Compile Include="Source\Designators\ReverseDesignatorDef.cs" />
+    <Compile Include="Source\Handlers\ModSettingsHandler.cs" />
     <Compile Include="Source\Settings\WorldSettings.cs" />
-    <Compile Include="Source\UnlimitedDesignationDragger.cs" />
-    <Compile Include="Source\ThingDesignatorDef.cs" />
+    <Compile Include="Source\Utils\UnlimitedAreaDragger.cs" />
+    <Compile Include="Source\Designators\ThingDesignatorDef.cs" />
     <Compile Include="Source\AI\WorkGiver_HaulUrgently.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HugsLibChecker\HugsLibChecker.csproj">
-      <Project>{a7dea100-952b-4516-b020-b66c8bcb4b50}</Project>
-      <Name>HugsLibChecker</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HugsLib\HugsLib.csproj">
-      <Project>{a5d9bd45-533c-4ca0-9298-8950a3da724c}</Project>
-      <Name>HugsLib</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>RimWorldWin64.exe</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

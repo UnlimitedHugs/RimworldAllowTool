@@ -1,112 +1,75 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace AllowTool {
-	
 	/// <summary>
-	/// Base class for custom designators that deal with selectable Things.
-	/// This mainly exists to allow the use of an alternative DesignationDragger.
+	/// Base class for all designators that use a dragger to select Things, rather than cells.
+	/// The purpose is twofold: efficiently highlight cells with valid things while designating an unlimited area
+	/// and deliver confirmation messages to the player that include the number of affected items.
 	/// </summary>
-	public abstract class Designator_SelectableThings : Designator {
-		internal readonly ThingDesignatorDef def;
-		protected int numThingsDesignated;
-		protected bool inheritIcon;
+	public abstract class Designator_SelectableThings : Designator_UnlimitedDragger {
+		private Material highlightMaterial;
 
-		private Designator _replacedDesignator;
-		public Designator ReplacedDesignator {
-			get { return _replacedDesignator; }
-			set {
-				_replacedDesignator = value;
-				if (inheritIcon) {
-					icon = _replacedDesignator.icon;
-				}
-			}
+		protected Designator_SelectableThings() {
+			var highlighter = new MapCellHighlighter(SelectHighlightedCells);
+			Action<CellRect> clearHighlightedCells = r => highlighter.ClearCachedCells();
+			Dragger.SelectionStart += clearHighlightedCells;
+			Dragger.SelectionChanged += clearHighlightedCells;
+			Dragger.SelectionComplete += clearHighlightedCells;
+			Dragger.SelectionUpdate += r => highlighter.DrawCellHighlights();
 		}
 
-		public override int DraggableDimensions {
-			get { return 2; }
+		protected override void OnDefAssigned() {
+			Def.GetDragHighlightTexture(tex => 
+				highlightMaterial = MaterialPool.MatFrom(tex, ShaderDatabase.MetaOverlay, Color.white)
+			);
 		}
-
-		public override bool DragDrawMeasurements {
-			get { return true; }
-		}
-
-		public override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions {
-			get {
-				foreach (var option in base.RightClickFloatMenuOptions) {
-					yield return option;
-				}
-				if (ReplacedDesignator != null) {
-					foreach (var option in ReplacedDesignator.RightClickFloatMenuOptions) {
-						yield return option;
+		
+		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
+			// the cells argument is empty, because we return false in CanDesignateCell. 
+			// We have our own Dragger we can query for cells, however.
+			var map = Find.CurrentMap;
+			if (map == null) return;
+			var thingGrid = map.thingGrid;
+			var mapRect = Dragger.SelectedArea.ClipInsideMap(map);
+			var designateableThings = new List<Thing>();
+			var hitCount = 0;
+			foreach (var cell in mapRect.Cells) {
+				var cellThings = thingGrid.ThingsListAtFast(cell);
+				for (var i = 0; i < cellThings.Count; i++) {
+					if (CanDesignateThing(cellThings[i]).Accepted) {
+						designateableThings.Add(cellThings[i]);
+						hitCount++;
 					}
 				}
 			}
-		}
-
-		private bool visible = true;
-		
-		public override bool Visible {
-			get { return visible; }
-		}
-
-		protected Designator_SelectableThings(ThingDesignatorDef def) {
-			this.def = def;
-			defaultLabel = def.label;
-			defaultDesc = def.description;
-			icon = def.IconTex;
-			useMouseIcon = true;
-			soundDragSustain = SoundDefOf.Designate_DragStandard;
-			soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
-			soundSucceeded = def.soundSucceeded;
-			hotKey = def.hotkeyDef;
-		}
-
-		public void SetVisible(bool value) {
-			visible = value;
-		}
-
-		// this is called by the vanilla DesignationDragger. We are using UnlimitedDesignationDragger instead.
-		// returning false prevents the vanilla dragger from selecting any of the cells.
-		public override AcceptanceReport CanDesignateCell(IntVec3 c) {
-			return false;
-		}
-		
-		public override void Selected() {
-			AllowToolController.Instance.Dragger.BeginListening(CanDesignateThing, def.DragHighlightTex);
-		}
-
-		public override void DesignateSingleCell(IntVec3 cell) {
-			numThingsDesignated = 0;
-			var map = Find.CurrentMap;
-			if (map == null) return;
-			var things = map.thingGrid.ThingsListAt(cell);
-			for (int i = 0; i < things.Count; i++) {
-				var t = things[i];
-				if (CanDesignateThing(t).Accepted) {
-					DesignateThing(t);
-					numThingsDesignated++;
-				}
-			}
-		}
-
-		public override void DesignateMultiCell(IEnumerable<IntVec3> cells) {
-			var hitCount = 0;
-			foreach (var cell in AllowToolController.Instance.Dragger.GetAffectedCells()) {
-				DesignateSingleCell(cell);
-				hitCount += numThingsDesignated;
-			}
+			DesignateMultiThing(designateableThings);
 			if (hitCount > 0) {
-				if (def.messageSuccess != null) Messages.Message(def.messageSuccess.Translate(hitCount.ToString()), MessageTypeDefOf.SilentInput);
+				if (Def.messageSuccess != null) Messages.Message(Def.messageSuccess.Translate(hitCount.ToString()), MessageTypeDefOf.SilentInput);
 				FinalizeDesignationSucceeded();
 			} else {
-				if (def.messageFailure != null) Messages.Message(def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
+				if (Def.messageFailure != null) Messages.Message(Def.messageFailure.Translate(), MessageTypeDefOf.RejectInput);
 				FinalizeDesignationFailed();
 			}
 		}
 
-		public virtual void SelectedOnGUI() {
+		private void DesignateMultiThing(IEnumerable<Thing> things) {
+			foreach (var thing in things) {
+				DesignateThing(thing);
+			}
+		}
+
+		private IEnumerable<MapCellHighlighter.Request> SelectHighlightedCells() {
+			var allTheThings = Map.listerThings.AllThings;
+			for (var i = 0; i < allTheThings.Count; i++) {
+				var thing = allTheThings[i];
+				if (thing.def.selectable && Dragger.SelectedArea.Contains(thing.Position) && CanDesignateThing(thing).Accepted) {
+					yield return new MapCellHighlighter.Request(thing.Position, highlightMaterial);
+				}
+			}
 		}
 	}
 }
