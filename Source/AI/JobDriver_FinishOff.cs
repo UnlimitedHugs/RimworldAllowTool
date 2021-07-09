@@ -41,7 +41,7 @@ namespace AllowTool {
 					var victim = job.targetA.Thing as Pawn;
 					if (victim == null || job.verbToUse == null) return;
 					job.verbToUse.TryStartCastOn(victim);
-					DoSocialImpact(victim);
+					DoSocialImpact(victim, pawn);
 					DoExecution(pawn, victim);
 					if (skullMote != null && !skullMote.Destroyed) {
 						skullMote.Destroy();
@@ -78,11 +78,11 @@ namespace AllowTool {
 			}
 		}
 
-		private void DoSocialImpact(Pawn victim) {
+		private void DoSocialImpact(Pawn victim, Pawn executioner) {
 			var isPrisoner = victim.IsPrisonerOfColony;
 			var giveThought = AllowToolUtility.PawnIsFriendly(victim);
 			if (giveThought) {
-				ThoughtUtility.GiveThoughtsForPawnExecuted(victim, PawnExecutionKind.GenericBrutal);
+				ThoughtUtility.GiveThoughtsForPawnExecuted(victim, executioner, PawnExecutionKind.GenericBrutal);
 			}
 			if (victim.RaceProps != null && victim.RaceProps.intelligence == Intelligence.Animal) {
 				pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);

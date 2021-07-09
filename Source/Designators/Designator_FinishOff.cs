@@ -27,7 +27,7 @@ namespace AllowTool {
 
 		public static AcceptanceReport FriendlyPawnIsValidTarget(Thing t) {
 			var result = !AllowToolUtility.PawnIsFriendly(t) || HugsLibUtility.ShiftIsHeld;
-			return result ? true : new AcceptanceReport("Finish_off_floatMenu_reason_friendly".Translate());
+			return result ? (AcceptanceReport) true : new AcceptanceReport("Finish_off_floatMenu_reason_friendly".Translate());
 		}
 
 		protected override DesignationDef Designation {
