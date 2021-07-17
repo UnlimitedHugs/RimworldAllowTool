@@ -110,10 +110,10 @@ namespace AllowTool {
 		}
 
 		private void RegisterPackHandlesChangedCallback(ModSettingsPack pack) {
-			SettingHandle<bool>.ValueChanged onHandleValueChanged = val => PackSettingsChanged?.Invoke();
+			Action<SettingHandle> onHandleValueChanged = val => PackSettingsChanged?.Invoke();
 			foreach (var handle in pack.Handles) {
 				if (handle is SettingHandle<bool> shb) {
-					shb.OnValueChanged = onHandleValueChanged;
+					shb.ValueChanged += onHandleValueChanged;
 				}
 			}
 		}
