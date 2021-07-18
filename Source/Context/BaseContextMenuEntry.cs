@@ -78,12 +78,6 @@ namespace AllowTool.Context {
 			return hitCount;
 		}
 		
-		// TODO: remove this on next major update
-		[Obsolete]
-		protected int DesignateAllThingsInHomeArea(Designator designator, Map map) {
-			return DesignateAllThings(designator, map, GetHomeAreaFilter(map));
-		}
-
 		protected FloatMenuOption MakeStandardOption(Designator designator, string descriptionKey = null, Texture2D extraIcon = null) {
 			const float extraIconsSize = 24f;
 			const float labelMargin = 10f;

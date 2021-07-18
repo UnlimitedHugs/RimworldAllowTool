@@ -14,8 +14,26 @@ namespace AllowTool {
 		private readonly bool showWatermark;
 		private readonly string tooltipText;
 
-		public ATFloatMenuOption(string label, Action action, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null, string tooltipText = null) : 
-			base(label, action, priority, mouseoverGuiAction, revalidateClickTarget, extraPartWidth, extraPartOnGUI, revalidateWorldClickTarget) {
+		public ATFloatMenuOption(
+				string label,
+				Action action,
+				MenuOptionPriority priority = MenuOptionPriority.Default,
+				Action<Rect> mouseoverGuiAction = null,
+				Thing revalidateClickTarget = null,
+				float extraPartWidth = 0,
+				Func<Rect, bool> extraPartOnGUI = null,
+				WorldObject revalidateWorldClickTarget = null,
+				string tooltipText = null
+			) : base(
+				label,
+				action,
+				priority,
+				mouseoverGuiAction,
+				revalidateClickTarget,
+				extraPartWidth,
+				extraPartOnGUI,
+				revalidateWorldClickTarget
+			) { 
 			this.tooltipText = tooltipText;
 			showWatermark = AllowToolController.Instance.Handles.ContextWatermarkSetting;
 			if (showWatermark) {

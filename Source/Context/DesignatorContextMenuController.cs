@@ -174,7 +174,6 @@ namespace AllowTool.Context {
 			currentDrawnReverseDesignators.Add(designatorButton, designator);
 		}
 
-		// TODO: remove on next major update
 		public static void RegisterReverseDesignatorPair(Designator designator, Command_Action designatorButton) {
 			RegisterReverseDesignatorPair(designator, (Command)designatorButton);
 		}

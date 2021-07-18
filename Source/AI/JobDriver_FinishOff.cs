@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using HugsLib.Utils;
 using RimWorld;
@@ -82,7 +82,7 @@ namespace AllowTool {
 			var isPrisoner = victim.IsPrisonerOfColony;
 			var giveThought = AllowToolUtility.PawnIsFriendly(victim);
 			if (giveThought) {
-				ThoughtUtility.GiveThoughtsForPawnExecuted(victim, PawnExecutionKind.GenericBrutal);
+				ThoughtUtility.GiveThoughtsForPawnExecuted(victim, pawn, PawnExecutionKind.GenericBrutal);
 			}
 			if (victim.RaceProps != null && victim.RaceProps.intelligence == Intelligence.Animal) {
 				pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);

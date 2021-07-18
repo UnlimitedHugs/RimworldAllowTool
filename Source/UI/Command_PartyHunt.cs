@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AllowTool.Settings;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -32,8 +33,8 @@ namespace AllowTool {
 			WorldSettings.TogglePawnPartyHunting(pawn, !WorldSettings.PawnIsPartyHunting(pawn));
 		}
 
-		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth) {
-			var result = base.GizmoOnGUI(topLeft, maxWidth);
+		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth, GizmoRenderParms renderParams) {
+			var result = base.GizmoOnGUI(topLeft, maxWidth, renderParams);
 			if (Event.current.type == EventType.Repaint) {
 				AllowToolUtility.DrawRightClickIcon(topLeft.x + overlayIconOffset.x, topLeft.y + overlayIconOffset.y);
 			}
