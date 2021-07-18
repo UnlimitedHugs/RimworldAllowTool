@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AllowTool.Settings;
 using HugsLib.Utils;
 using RimWorld;
 using Verse;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AllowTool.Settings;
 using RimWorld;
 using UnityEngine;
 using Verse;

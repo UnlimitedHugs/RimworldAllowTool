@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Verse;
 
-// ReSharper disable once CheckNamespace  TODO: Move to AllowTool.Settings on next major update
-namespace AllowTool {
+namespace AllowTool.Settings {
 	public class PartyHuntSettings : IExposable {
 		private HashSet<int> partyHuntingPawns = new HashSet<int>();
 
