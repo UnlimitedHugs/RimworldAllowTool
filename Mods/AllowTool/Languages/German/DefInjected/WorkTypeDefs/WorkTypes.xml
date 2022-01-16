@@ -2,15 +2,15 @@
 <LanguageData>
 	
 	<HaulingUrgent.labelShort>Transport+</HaulingUrgent.labelShort>
-	<HaulingUrgent.pawnLabel>Dringender Träger</HaulingUrgent.pawnLabel>
-	<HaulingUrgent.gerundLabel>Dringend tragen</HaulingUrgent.gerundLabel>
-	<HaulingUrgent.description>Tragen mit hoher Priorität. Funkioniert wie das reguläre Tragen, jedoch nur für Objekte, die manuell markiert werden. Benutze &lt;b&gt;Architekt &gt; Befehle &gt; Dringendes Tragen&lt;/b&gt; um Sachen zum Tragen zu markieren.\nHinzugefügt durch die AllowTool Mod. Kann in den &gt; Mod Settings deaktiviert werden.</HaulingUrgent.description>
-	<HaulingUrgent.verb>Dringend tragen</HaulingUrgent.verb>
+	<HaulingUrgent.pawnLabel>dringender Träger</HaulingUrgent.pawnLabel>
+	<HaulingUrgent.gerundLabel>Transport+</HaulingUrgent.gerundLabel>
+	<HaulingUrgent.description>Träger tragen Objekte so schnell wie möglich von A nach B. Funktioniert wie das normale Tragen, jedoch nur für Objekte, die manuell markiert wurden. Benutze &lt;b&gt;Architekt &gt; Befehle &gt; Dringend wegtragen&lt;/b&gt;, um Objekte zum Wegtragen zu markieren.\n\nEin Werkzeug der Allow Tool Mod. Kann in Optionen &gt; Mod-Einstellungen deaktiviert werden.</HaulingUrgent.description>
+	<HaulingUrgent.verb>dringend wegtragen</HaulingUrgent.verb>
 	
-	<FinishingOff.labelShort>Erledigen</FinishingOff.labelShort>
-	<FinishingOff.pawnLabel>Exekutieren</FinishingOff.pawnLabel>
-	<FinishingOff.gerundLabel>Den Rest geben</FinishingOff.gerundLabel>
-	<FinishingOff.description>Schnell und schmerzlos niedergeschlagene Kreaturen erledigen.\nHinzugefügt durch die AllowTool Mod. Kann in den &gt; Mod Settings deaktiviert werden.</FinishingOff.description>
-	<FinishingOff.verb>den Rest geben</FinishingOff.verb>
+	<FinishingOff.labelShort>sofort töten</FinishingOff.labelShort>
+	<FinishingOff.pawnLabel>Vollstrecker</FinishingOff.pawnLabel>
+	<FinishingOff.gerundLabel>sofortiges Töten</FinishingOff.gerundLabel>
+	<FinishingOff.description>Vollstrecker töten schnell und schmerzlos am Boden liegende Kreaturen.\n\nEin Werkzeug der Allow Tool Mod. Kann in Optionen &gt; Mod-Einstellungen deaktiviert werden.</FinishingOff.description>
+	<FinishingOff.verb>sofort töten</FinishingOff.verb>
 
 </LanguageData>
