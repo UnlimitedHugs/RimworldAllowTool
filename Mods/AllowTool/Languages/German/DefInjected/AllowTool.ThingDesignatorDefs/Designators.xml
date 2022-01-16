@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	
-	<AllowDesignator.label>Erlaube ausgewähltes</AllowDesignator.label>
-	<AllowDesignator.description>Erlaube alle Gegenstände in dem ausgewählten Gebiet. Klicke und halte die Maustaste gedrückt, um ein Gebiet auszuwählen, welches alle Gegenstände markiert.</AllowDesignator.description>
+	<AllowDesignator.label>Auswahl erlauben</AllowDesignator.label>
+	<AllowDesignator.description>Erlaube alle verbotenen Objekte im ausgewählten Bereich.\nKlicke und ziehe über den gewünschten Bereich.</AllowDesignator.description>
 
-	<ForbidDesignator.label>Verbiete ausgewähltes</ForbidDesignator.label>
-	<ForbidDesignator.description>Verbiete alle Gegenstände in dem ausgewählten Gebiet. Klicke und halte die Maustaste gedrückt, um ein Gebiet auszuwählen, welches alle Gegenstände markiert.</ForbidDesignator.description>
+	<ForbidDesignator.label>Auswahl verbieten</ForbidDesignator.label>
+	<ForbidDesignator.description>Verbiete alle Objekte im ausgewählten Bereich.\nKlicke und ziehe über den gewünschten Bereich.</ForbidDesignator.description>
 	
-	<AllowAllDesignator.label>Erlaube alles</AllowAllDesignator.label>
-	<AllowAllDesignator.description>Erlaube alle verbotenen Gegenstände auf der Karte. Klicke, um es zu aktivieren. &lt;b&gt;Halte Strg&lt;/b&gt; um Gebäude miteinzubeziehen.
-&lt;b&gt;Halte Shift&lt;/b&gt; um Skelette und verottende Körper miteinzubeziehen.</AllowAllDesignator.description>
+	<AllowAllDesignator.label>Alles erlauben</AllowAllDesignator.label>
+	<AllowAllDesignator.description>Erlaubt alle verbotenen Objekte auf der Karte.\nKlicke, um es zu aktivieren.\n&lt;b&gt;Halte Strg&lt;/b&gt; gedrückt, um Bauwerke einzubeziehen.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um Skelette und verrottende Leichen einzubeziehen.</AllowAllDesignator.description>
 	
-	<SelectSimilarDesignator.label>Wähle ähnliches</SelectSimilarDesignator.label>
-	<SelectSimilarDesignator.description>Wähle nur Sachen aus, die ähnlich den bereits Ausgewählten sind. &lt;b&gt;Halte Shift&lt;/b&gt; um zusätzliche Sachen auszuwählen.
-&lt;b&gt;Halte Alt&lt;/b&gt; um das Auswahllimit zu ignorieren.</SelectSimilarDesignator.description>
+	<SelectSimilarDesignator.label>Ähnliches auswählen</SelectSimilarDesignator.label>
+	<SelectSimilarDesignator.description>Wählt nur Objekte aus, die den bereits ausgewählten ähneln.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um weitere Objekte auszuwählen.\n&lt;b&gt;Halte Alt&lt;/b&gt; gedrückt, um das Auswahllimit zu ignorieren.</SelectSimilarDesignator.description>
 
-	<HaulUrgentlyDesignator.label>Dringend tragen</HaulUrgentlyDesignator.label>
-	<HaulUrgentlyDesignator.description>Markiere Sachen, um sie so schnell wie möglich zu tragen. Kolonisten werden ihre Arbeit unterdrücken, bis der Transport erledigt ist.
-Konfigurierbar in der Arbeitsleiste.
-&lt;b&gt;Halte Shift&lt;/b&gt; um die derzeitige Arbeit des jeweiligen Kolonisten abzubrechen.</HaulUrgentlyDesignator.description>
+	<HaulUrgentlyDesignator.label>Dringend wegtragen</HaulUrgentlyDesignator.label>
+	<HaulUrgentlyDesignator.description>Markiere Objekte, die so schnell wie möglich weggetragen werden sollen. Die Kolonisten zögern andere Arbeiten hinaus, bis dieser Befehl ausgeführt wurde.\nKonfigurierbar im Arbeit-Tab.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um die aktuelle Arbeit der Kolonisten zu unterbrechen.</HaulUrgentlyDesignator.description>
 
-	<FinishOffDesignator.label>den Rest geben</FinishOffDesignator.label>
-	<FinishOffDesignator.description>Schnell und schmerzlos niedergeschlagene Kreaturen töten.
-&lt;b&gt;Halte Shift&lt;/b&gt; um Kolonisten und Verbündete miteinzubeziehen.</FinishOffDesignator.description>
-	
+	<FinishOffDesignator.label>Sofort töten</FinishOffDesignator.label>
+	<FinishOffDesignator.description>Töte schnell und schmerzlos am Boden liegende Kreaturen.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um Kolonisten und Verbündete einzubeziehen.</FinishOffDesignator.description>
+
+	<HarvestFullyGrownDesignator.label>Ausgewachsene Pflanzen ernten</HarvestFullyGrownDesignator.label>
+	<HarvestFullyGrownDesignator.description>Markiert Feldfrüchte und Bäume zum Ernten bzw. Fällen, die ausreichend gewachsen sind, um den maximalen Ertrag zu gewährleisten.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um nur Feldfrüchte einzubeziehen.\n&lt;b&gt;Halte Strg&lt;/b&gt; gedrückt, um nur Bäume einzubeziehen.</HarvestFullyGrownDesignator.description>
+
+	<StripMineDesignator.label>Gitterförmig abbauen</StripMineDesignator.label>
+	<StripMineDesignator.description>Platziert ein Gitter aus Abbaubefehlen, um die Chance zu erhöhen, versteckte Erze zu finden.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um das Einstellungsfenster anzuzeigen oder die aktuellen Einstellungen zu verwenden.</StripMineDesignator.description>
+
+
 </LanguageData>
