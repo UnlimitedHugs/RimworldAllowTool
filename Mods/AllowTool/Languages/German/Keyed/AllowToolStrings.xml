@@ -61,8 +61,8 @@
 	<Haul_urgently_success>{0} Objekte werden dringend weggetragen.</Haul_urgently_success>
 	<Haul_urgently_failure>Keine Objekte zum Wegtragen gefunden.</Haul_urgently_failure>
 
-	<Harvest_fully_grown_success>{0} ausgewachsene Pflanzen zum Ernten markiert.</Harvest_fully_grown_success>
-	<Harvest_fully_grown_failure>Keine neuen ausgewachsenen Pflanzen oder Bäume gefunden.</Harvest_fully_grown_failure>
+	<Harvest_fully_grown_success>{0} vollreife Pflanzen zum Ernten markiert.</Harvest_fully_grown_success>
+	<Harvest_fully_grown_failure>Keine neuen vollreifen Pflanzen oder Bäume gefunden.</Harvest_fully_grown_failure>
 
 	<StripMine_win_horizontalSpacing>Horizontaler Abstand</StripMine_win_horizontalSpacing>
 	<StripMine_win_verticalSpacing>Vertikaler Abstand</StripMine_win_verticalSpacing>
@@ -134,10 +134,10 @@
 	<Designator_context_cut>Alle befallenen Pflanzen entfernen</Designator_context_cut>
 	<Designator_context_cut_succ>{0} befallene Pflanzen zum Entfernen markiert.</Designator_context_cut_succ>
 	<Designator_context_cut_fail>Keine neuen befallenen Pflanzen zum Entfernen gefunden.</Designator_context_cut_fail>
-	<Designator_context_harvest_fullgrown>Ausgewachsene Pflanzen auf der Karte ernten</Designator_context_harvest_fullgrown>
-	<Designator_context_harvest_home_fullgrown>Ausgewachsene Pflanzen im Heimatgebiet ernten</Designator_context_harvest_home_fullgrown>
-	<Designator_context_harvest_fullgrown_succ>{0} ausgewachsene Pflanzen zum Ernten markiert.</Designator_context_harvest_fullgrown_succ>
-	<Designator_context_harvest_fullgrown_fail>Keine neuen ausgewachsenen Pflanzen zum Ernten gefunden.</Designator_context_harvest_fullgrown_fail>
+	<Designator_context_harvest_fullgrown>Vollreife Pflanzen auf der Karte ernten</Designator_context_harvest_fullgrown>
+	<Designator_context_harvest_home_fullgrown>Vollreife Pflanzen im Heimatgebiet ernten</Designator_context_harvest_home_fullgrown>
+	<Designator_context_harvest_fullgrown_succ>{0} vollreife Pflanzen zum Ernten markiert.</Designator_context_harvest_fullgrown_succ>
+	<Designator_context_harvest_fullgrown_fail>Keine neuen vollreifen Pflanzen zum Ernten gefunden.</Designator_context_harvest_fullgrown_fail>
 	<Designator_context_allow_visible>Alle sichtbaren Objekte erlauben</Designator_context_allow_visible>
 	<Designator_context_allow_visible_succ>{0} sichtbare Objekte erlaubt.</Designator_context_allow_visible_succ>
 	<Designator_context_allow_visible_fail>Keine sichtbaren verbotenen Objekte zum Erlauben gefunden.</Designator_context_allow_visible_fail>
