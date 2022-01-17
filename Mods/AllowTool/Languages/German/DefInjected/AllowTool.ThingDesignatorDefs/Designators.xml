@@ -19,8 +19,8 @@
 	<FinishOffDesignator.label>Sofort töten</FinishOffDesignator.label>
 	<FinishOffDesignator.description>Töte schnell und schmerzlos am Boden liegende Kreaturen.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um Kolonisten und Verbündete einzubeziehen.</FinishOffDesignator.description>
 
-  <HarvestFullyGrownDesignator.label>Vollreife Pflanzen ernten</HarvestFullyGrownDesignator.label>
-  <HarvestFullyGrownDesignator.description>Markiert erntbare Pflanzen wie Bäume und Feldfrüchte, die ausreichend gewachsen sind, um den maximalen Ertrag zu erwirtschaften.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um Bäume auszuschließen.\n&lt;b&gt;Halte Strg&lt;/b&gt; gedrückt, um nur Bäume zu markieren.</HarvestFullyGrownDesignator.description>
+	<HarvestFullyGrownDesignator.label>Vollreife Pflanzen ernten</HarvestFullyGrownDesignator.label>
+	<HarvestFullyGrownDesignator.description>Markiert erntbare Pflanzen wie Bäume und Feldfrüchte, die ausreichend gewachsen sind, um den maximalen Ertrag zu erwirtschaften.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um Bäume auszuschließen.\n&lt;b&gt;Halte Strg&lt;/b&gt; gedrückt, um nur Bäume zu markieren.</HarvestFullyGrownDesignator.description>
 
 	<StripMineDesignator.label>Gitterförmig abbauen</StripMineDesignator.label>
 	<StripMineDesignator.description>Platziert ein Gitter aus Abbaubefehlen, um die Chance zu erhöhen, versteckte Erze zu finden.\n&lt;b&gt;Halte Umschalt&lt;/b&gt; gedrückt, um das Einstellungsfenster anzuzeigen oder die aktuellen Einstellungen zu verwenden.</StripMineDesignator.description>
