@@ -120,8 +120,8 @@ namespace AllowTool.Context {
 			return t => visibleRect.Contains(t.Position);
 		}
 
-		protected static Predicate<Thing> GetExceptAnimaTreeFilter() {
-			return t => !AnimaTreeMassDesignationFix.IsAnimaTree(t);
+		protected static Predicate<Thing> GetExceptSpecialTreeFilter() {
+			return t => !SpecialTreeMassDesignationFix.IsSpecialTree(t);
 		}
 	}
 }
