@@ -15,13 +15,13 @@ namespace AllowTool.Context {
 				selectedObjects.Where(t => t is Thing)
 					.Select(t => ((Thing)t).Position)
 			);
-			var selectedDesignationDefs = map.designationManager.allDesignations
+			var selectedDesignationDefs = map.designationManager.AllDesignations
 				.Where(des => des.target.HasThing ? selectedObjects.Contains(des.target.Thing) : selectedTilePositions.Contains(des.target.Cell))
 				.Select(des => des.def)
 				.Distinct()
 				.ToArray();
 			var affectedDesignations = new HashSet<LocalTargetInfo>();
-			foreach (var designation in map.designationManager.allDesignations.ToArray()) {
+			foreach (var designation in map.designationManager.AllDesignations.ToArray()) {
 				if (selectedDesignationDefs.Contains(designation.def)) {
 					map.designationManager.RemoveDesignation(designation);
 					affectedDesignations.Add(designation.target);

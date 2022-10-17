@@ -10,7 +10,7 @@ namespace AllowTool.Context {
 			int hitCountThings = 0;
 			int hitCountTiles = 0;
 			var manager = map.designationManager;
-			foreach (var des in manager.allDesignations.ToArray()) {
+			foreach (var des in manager.AllDesignations.ToArray()) {
 				// skip planning designation, as so does cancel
 				if (des.def == null || !des.def.designateCancelable || des.def == DesignationDefOf.Plan) continue;
 				if (des.target.Thing != null) {
