@@ -64,7 +64,7 @@ namespace AllowTool {
 
 		private void GetHaulUrgentlyDesignatedThings(Map map, ICollection<Thing> targetList) {
 			targetList.Clear();
-			var mapDesignations = map.designationManager.allDesignations;
+			var mapDesignations = map.designationManager.AllDesignations;
 			for (var i = 0; i < mapDesignations.Count; i++) {
 				var des = mapDesignations[i];
 				if (des.def == AllowToolDefOf.HaulUrgentlyDesignation && des.target.Thing != null) {
