@@ -7,12 +7,16 @@
 	
 	<DesignatorAllowAll.label>Werkzeug: Alles erlauben</DesignatorAllowAll.label>
 	
-	<DesignatorSelectSimilar.label>Werkzeug: Wähle ähnliches</DesignatorSelectSimilar.label>
+	<DesignatorSelectSimilar.label>Werkzeug: Ähnliches auswählen</DesignatorSelectSimilar.label>
 	
-	<DesignatorHaulUrgently.label>Werkzeug: Dringend tragen</DesignatorHaulUrgently.label>
+	<DesignatorHaulUrgently.label>Werkzeug: Dringend wegtragen</DesignatorHaulUrgently.label>
 	
-	<DesignatorFinishOff.label>Werkzeug: Den Rest geben</DesignatorFinishOff.label>
-	
-	<ToolContextMenuAction.label>Derzeitiges Werkzeug: Kontextmenü-Aktion</ToolContextMenuAction.label>
+	<DesignatorFinishOff.label>Werkzeug: Sofort töten</DesignatorFinishOff.label>
+
+	<DesignatorHarvestFullyGrown.label>Werkzeug: Vollreife Pflanzen ernten</DesignatorHarvestFullyGrown.label>
+
+	<DesignatorStripMine.label>Werkzeug: Gitterförmig abbauen</DesignatorStripMine.label>
+
+	<ToolContextMenuAction.label>Aktuelles Werkzeug: Kontextmenüaktion</ToolContextMenuAction.label>
 
 </LanguageData>

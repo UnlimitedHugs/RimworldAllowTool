@@ -27,7 +27,7 @@ namespace AllowTool {
 		private static void CleanupDesignations(Map map) {
 			if(map.designationManager == null) return;
 			var haulableSet = GetSetOfHaulableThings(map);
-			var mapDesignations = map.designationManager.allDesignations;
+			var mapDesignations = map.designationManager.AllDesignations;
 			for (int i = 0; i < mapDesignations.Count; i++) {
 				var des = mapDesignations[i];
 				var desThing = des.target.Thing;

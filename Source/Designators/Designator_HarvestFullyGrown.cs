@@ -23,7 +23,7 @@ namespace AllowTool {
 				t is Plant plant && 
 				plant.HarvestableNow && 
 				plant.LifeStage == PlantLifeStage.Mature &&
-				!AnimaTreeMassDesignationFix.IsAnimaTree(t) &&
+				!SpecialTreeMassDesignationFix.IsSpecialTree(t) &&
 				PlantMatchesModifierKeyFilter(plantProps);
 		}
 
