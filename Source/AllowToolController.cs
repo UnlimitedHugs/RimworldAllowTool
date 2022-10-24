@@ -50,10 +50,6 @@ namespace AllowTool {
 			LongEventHandler.QueueLongEvent(PickUpAndHaulCompatHandler.Apply, null, false, null);
 		}
 
-		public override void Update() {
-			DesignatorContextMenuController.Update();
-		}
-
 		public override void FixedUpdate() {
 			HaulUrgentlyCache.ProcessCacheEntries(fixedUpdateCount, Time.unscaledTime);
 			fixedUpdateCount++;

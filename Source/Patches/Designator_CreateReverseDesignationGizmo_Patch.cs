@@ -12,8 +12,7 @@ namespace AllowTool.Patches {
 	internal static class Designator_CreateReverseDesignationGizmo_Patch {
 
 		[HarmonyPostfix]
-		internal static void CreateReverseDesignationGizmo_Postfix(Designator __instance, Command_Action __result)
-		{
+		internal static void CreateReverseDesignationGizmo_Postfix(Designator __instance, Command_Action __result) {
 			if (__result == null) return;
 			DesignatorContextMenuController.RegisterReverseDesignatorPair(__instance, __result);
 		}
