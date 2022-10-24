@@ -177,12 +177,6 @@ namespace AllowTool.Context {
 		public static void RegisterReverseDesignatorPair(Designator designator, Command_Action designatorButton) {
 			RegisterReverseDesignatorPair(designator, (Command)designatorButton);
 		}
-		
-		public static void Update() {
-			// Commands for reverse designators are instantiated each time an 
-			// OnGUI event is processed, so we need to discard the old ones regularly
-			ClearReverseDesignatorPairs();
-		}
 
 		internal static IEnumerable<SettingHandle<bool>> RegisterMenuEntryHandles(ModSettingsPack pack) {
 			return menuProviders.SelectMany(p => p.RegisterEntryHandles(pack));
@@ -198,7 +192,9 @@ namespace AllowTool.Context {
 			}
 		}
 
-		private static void ClearReverseDesignatorPairs() {
+		public static void ClearReverseDesignatorPairs() {
+			// Commands for reverse designators are instantiated each time an 
+			// OnGUI event is processed, so we need to discard the old ones regularly
 			currentDrawnReverseDesignators.Clear();
 		}
 
