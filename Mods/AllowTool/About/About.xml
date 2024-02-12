@@ -22,6 +22,7 @@ All tools are found in the Architect &gt; Orders menu. Right-click tools with th
 Pressing the Context Action key ("Equals" by default) will activate the first right-click menu action of the tool you are holding. 
 
 All tools are accessible from anywhere by pressing their shortcut key without opening the menu. See the Keyboard configuration panel in the options menu to customize the hotkeys.</description>
+	<modIconPath>AllowToolModIcon</modIconPath>
 	<modDependencies>
 		<li>
 			<packageId>UnlimitedHugs.HugsLib</packageId>
