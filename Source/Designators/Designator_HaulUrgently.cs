@@ -40,7 +40,7 @@ namespace AllowTool {
 		}
 
 		private bool ThingIsRelevant(Thing thing) {
-			if (thing.def == null || thing.Position.Fogged(thing.Map)) return false;
+			if (thing.def == null || thing.Map == null || thing.Position.Fogged(thing.Map)) return false;
 			return (thing.def.alwaysHaulable || thing.def.EverHaulable) && !thing.IsInValidBestStorage();
 		}
 	}
