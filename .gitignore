@@ -19,3 +19,4 @@ build.js
 *.tmp
 /packages/
 /.idea/
+.vs/
