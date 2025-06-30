@@ -11,7 +11,7 @@ namespace AllowTool {
 		
 		// give a vanilla haul job- it works just fine for our needs
 		public static TryGetJobOnThing JobOnThingDelegate = 
-			(pawn, t, forced) => HaulAIUtility.HaulToStorageJob(pawn, t);
+			(pawn, t, forced) => HaulAIUtility.HaulToStorageJob(pawn, t, forced);
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false) {
 			return JobOnThingDelegate(pawn, t, forced);

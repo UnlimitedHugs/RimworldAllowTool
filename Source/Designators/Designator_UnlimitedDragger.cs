@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using RimWorld;
+using Verse;
 
 namespace AllowTool {
 	/// <summary>
@@ -12,8 +13,8 @@ namespace AllowTool {
 			Dragger = new UnlimitedAreaDragger();
 		}
 
-		public override int DraggableDimensions {
-			get { return 2; }
+        public override DrawStyleCategoryDef DrawStyleCategory {
+			get { return DrawStyleCategoryDefOf.FilledRectangle; }
 		}
 
 		public override bool DragDrawMeasurements {

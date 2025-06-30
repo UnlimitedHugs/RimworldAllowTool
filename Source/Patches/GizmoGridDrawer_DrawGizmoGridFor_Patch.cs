@@ -8,20 +8,20 @@ using RimWorld;
 using Verse;
 
 namespace AllowTool.Patches {
-	/// <summary>
-	/// Clears the pairs in DesignatorContextMenuController when the gizmo cache in InspectGizmoGrid is cleared.
-	/// </summary>
-	[HarmonyPatch(typeof(InspectGizmoGrid), "DrawInspectGizmoGridFor")]
-	internal static class InspectGizmoGrid_DrawInspectGizmoGridFor_Patch {
+    /// <summary>
+    /// Clears the pairs in DesignatorContextMenuController when the gizmo cache in GizmoGridDrawer is cleared.
+    /// </summary>
+    [HarmonyPatch(typeof(GizmoGridDrawer), "DrawGizmoGridFor")]
+	internal static class GizmoGridDrawer_DrawGizmoGridFor_Patch {
 		private static bool patchApplied;
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> ClearReverseDesignators(IEnumerable<CodeInstruction> instructions) {
-			var gizmoListField = AccessTools.Field(typeof(InspectGizmoGrid), "gizmoList");
+			var gizmoListField = AccessTools.Field(typeof(GizmoGridDrawer), "gizmoList");
 			var clearListMethod = AccessTools.Method(typeof(List<Gizmo>), "Clear");
 
 			if (gizmoListField == null || gizmoListField.FieldType != typeof(List<Gizmo>))
-				throw new Exception("Failed to reflect InspectGizmoGrid.gizmoList");
+				throw new Exception("Failed to reflect GizmoGridDrawer.gizmoList");
 			if (clearListMethod == null) throw new Exception("Failed to reflect List.Clear");
 
 			var instructionsArr = instructions.ToArray();
@@ -45,7 +45,7 @@ namespace AllowTool.Patches {
 			}
 
 			if (!patchApplied) {
-				AllowToolController.Logger.Warning("Failed to transpile method DrawInspectGizmoGridFor");
+				AllowToolController.Logger.Warning("Failed to transpile method DrawGizmoGridFor");
 			}
 		}
 	}

@@ -19,11 +19,8 @@ namespace AllowTool {
 		public MethodInfo DesignationCategoryDefResolveDesignatorsMethod;
 
 		internal void PrepareReflection() {
-			var gizmoGridType = GenTypes.GetTypeInAnyAssembly("InspectGizmoGrid", "RimWorld");
-			if (gizmoGridType != null) {
-				GizmoGridGizmoListField = gizmoGridType.GetField("gizmoList", HugsLibUtility.AllBindingFlags);
-			}
-			DesignatorGetDesignationMethod = typeof(Designator).GetMethod("get_Designation", HugsLibUtility.AllBindingFlags);
+            GizmoGridGizmoListField = typeof(GizmoGridDrawer).GetField("gizmoList", BindingFlags.Static | BindingFlags.NonPublic);
+            DesignatorGetDesignationMethod = typeof(Designator).GetMethod("get_Designation", HugsLibUtility.AllBindingFlags);
 			DesignatorHasDesignateAllFloatMenuOptionField = typeof(Designator).GetField("hasDesignateAllFloatMenuOption", HugsLibUtility.AllBindingFlags);
 			DesignatorGetRightClickFloatMenuOptionsMethod = typeof(Designator).GetMethod("get_RightClickFloatMenuOptions", HugsLibUtility.AllBindingFlags);
 			DraftControllerAutoUndrafterField = typeof(Pawn_DraftController).GetField("autoUndrafter", HugsLibUtility.AllBindingFlags);

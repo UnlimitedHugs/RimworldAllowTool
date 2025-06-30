@@ -50,10 +50,10 @@ namespace AllowTool {
 		private static HashSet<Thing> GetSetOfHaulableThings(Map map) {
 			workThingSet.Clear();
 			var haulables = map.listerHaulables.ThingsPotentiallyNeedingHauling();
-			for (var i = 0; i < haulables.Count; i++) {
-				workThingSet.Add(haulables[i]);
-			}
-			return workThingSet;
+            foreach (var haulable in haulables) {
+                workThingSet.Add(haulable);
+            }
+            return workThingSet;
 		}
 	}
 }
