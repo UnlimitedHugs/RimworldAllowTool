@@ -12,7 +12,7 @@ namespace AllowTool {
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing thing) {
-			if (thing.Position.Fogged(thing.Map)) return false;
+            if (thing.Position.Fogged(thing.Map) || thing == null || thing.def == null || thing.Map == null) return false;
 			var comp = (thing as ThingWithComps)?.GetComp<CompForbiddable>();
 			return comp != null && !comp.Forbidden;
 		}
