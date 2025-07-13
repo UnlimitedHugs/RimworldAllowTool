@@ -79,10 +79,10 @@ namespace AllowTool {
 				workThingsSet.Add(intersectWith[i]);
 			}
 			var haulables = map.listerHaulables.ThingsPotentiallyNeedingHauling();
-			for (var i = 0; i < haulables.Count; i++) {
-				if (workThingsSet.Contains(haulables[i])) targetList.Add(haulables[i]);
-			}
-			workThingsSet.Clear();
+            foreach (var haulable in haulables) {
+                if (workThingsSet.Contains(haulable)) targetList.Add(haulable);
+            }
+            workThingsSet.Clear();
 		}
 
 		private readonly struct ThingsCacheEntry {
