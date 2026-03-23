@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<HaulingUrgent.label>Acil taşıma</HaulingUrgent.label>
+	<HaulingUrgent.description>Acil taşıma. Normal tür gibi çalışır, ancak yalnızca elle işaretlenen şeyler için geçerlidir. Taşınacak şeyleri işaretlemek için &lt;b&gt;Mimar &gt; Emirler &gt; Acil Taşıma&lt;/b&gt; yolunu kullanın.\nAllow Tool modu tarafından eklenmiştir. Seçenekler &gt; Mod Ayarları bölümünden devre dışı bırakılabilir.</HaulingUrgent.description>
+	<HaulingUrgent.labelShort>Taşıma+</HaulingUrgent.labelShort>
+	<HaulingUrgent.pawnLabel>Taşıyıcı+</HaulingUrgent.pawnLabel>
+	<HaulingUrgent.gerundLabel>Taşıyor+</HaulingUrgent.gerundLabel>
+	<HaulingUrgent.verb>Taşıma+</HaulingUrgent.verb>
+	
+	<FinishingOff.label>İşini bitir</FinishingOff.label>
+	<FinishingOff.description>Yere düşen yaratıkları hızlı ve acısız şekilde öldürür.\nAllow Tool modu tarafından eklenmiştir. Seçenekler &gt; Mod Ayarları bölümünden devre dışı bırakılabilir.</FinishingOff.description>
+	<FinishingOff.labelShort>İşini bitir</FinishingOff.labelShort>
+	<FinishingOff.pawnLabel>Bitirici</FinishingOff.pawnLabel>
+	<FinishingOff.gerundLabel>İşini bitiriyor</FinishingOff.gerundLabel>
+	<FinishingOff.verb>İşini bitir</FinishingOff.verb>
+
+</LanguageData>

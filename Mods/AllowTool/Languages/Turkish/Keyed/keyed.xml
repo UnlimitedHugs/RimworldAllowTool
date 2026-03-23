@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<Allow_area_success>{0} öğeye izin verildi.</Allow_area_success>
+	<Allow_area_failure>Yasaklı öğe bulunamadı.</Allow_area_failure>
+
+	<Forbid_area_success>{0} öğe yasaklandı.</Forbid_area_success>
+	<Forbid_area_failure>Yasaklanabilecek öğe bulunamadı.</Forbid_area_failure>
+	
+	<Allow_all_success>Haritadaki {0} şeye izin verildi.</Allow_all_success>
+	<Allow_all_failure>Yasaklı şey bulunamadı.</Allow_all_failure>
+	
+	<Mass_Select_success>Haritada {0} {1} seçildi.</Mass_Select_success>
+	
+	<setting_showTool_label>Araç göster: {0}</setting_showTool_label>
+	<setting_showTool_desc>Etkinleştirildiğinde bu işaretleme aracı Mimar menüsünde görünür.</setting_showTool_desc>
+	<setting_globalHotkeys_label>Genel kısayol tuşlarını kullan</setting_globalHotkeys_label>
+	<setting_globalHotkeys_desc>Etkinleştirildiğinde araçlar, atanan tuşa basılarak her yerden seçilebilir.\nTuşları özelleştirmek için Seçenekler &gt; Klavye ayarlarına bakın.</setting_globalHotkeys_desc>
+	<setting_selectionLimit_label>Şey seçim sınırı</setting_selectionLimit_label>
+	<setting_selectionLimit_desc>"Benzerini Seç" aracıyla aynı anda seçilebilecek şey sayısını sınırlar. Bu değeri çok yüksek yapmak seçim sırasında oyunu yavaşlatabilir.</setting_selectionLimit_desc>
+	<setting_contextWatermark_label>Bağlam menüsü filigranı</setting_contextWatermark_label>
+	<setting_contextWatermark_desc>Etkinleştirildiğinde araçların bağlam menülerinde Allow Tool filigranı gösterilir.</setting_contextWatermark_desc>
+	<setting_contextOverlay_label>Araçlarda sağ tık simgesi</setting_contextOverlay_label>
+	<setting_contextOverlay_desc>Etkinleştirildiğinde bağlam menüsü olan işaretleme araçlarında küçük bir simge gösterir.</setting_contextOverlay_desc>
+	<setting_extendedContextHotkey_label>Genişletilmiş "Bağlamsal Eylem" kısayolu</setting_extendedContextHotkey_label>
+	<setting_extendedContextHotkey_desc>Hiçbir araç seçili değilken "Bağlamsal Eylem" kısayolu, öğeler seçiliyse görünen ilk aracın bağlamsal eylemini tetikler.</setting_extendedContextHotkey_desc>
+	<setting_reverseDesignatorPick_label>Seçili öğelerden araç seç</setting_reverseDesignatorPick_label>
+	<setting_reverseDesignatorPick_desc>Seçili öğeler varken Shift tuşunu basılı tutup bir araca tıklarsanız, öğeler yerine o araç etkinleşir.</setting_reverseDesignatorPick_desc>
+	<setting_finishOffUnforbids_label>"İşini Bitir" yasaklamayı kaldırır</setting_finishOffUnforbids_label>
+	<setting_finishOffUnforbids_desc>Etkinleştirildiğinde, yaratıkların işini bitirince düşen beden ve eşyaların taşıma yasağı otomatik kaldırılır.</setting_finishOffUnforbids_desc>
+	<setting_providerPrefix>Etkinleştir: {0}</setting_providerPrefix>
+	<setting_provider_desc>Etkinleştirildiğinde araca, tüm haritayı etkileyebilmesini sağlayan bir bağlam menüsü ekler.</setting_provider_desc>
+	<setting_showToggles_btn>▼ Ayarları göster ▼</setting_showToggles_btn>
+	<setting_showToolToggles_label>Araçları etkinleştir veya devre dışı bırak</setting_showToolToggles_label>
+	<setting_showProviderToggles_label>Bağlam menülerini etkinleştir veya devre dışı bırak</setting_showProviderToggles_label>
+	<setting_showReverseToggles_label>Seçili şeylerle görünen araçlar</setting_showReverseToggles_label>
+	<setting_reverseDesignator_desc>Etkinleştirildiğinde, uyumlu öğeler seçildiğinde bu araç gösterilir. Ayarın etkili olması için bir kayıt yükleyin veya yeni oyun başlatın.</setting_reverseDesignator_desc>
+	<setting_haulUrgentlyWorktype_label>"Taşıma+" iş türünü göster</setting_haulUrgentlyWorktype_label>
+	<setting_haulUrgentlyWorktype_desc>Etkinleştirildiğinde "Acil Taşı" aracının iş türünü İş sekmesinde gösterir.\nAyarın etkili olması için oyun yeniden başlatılmalıdır.</setting_haulUrgentlyWorktype_desc>
+	<setting_finishOffWorktype_label>"İşini Bitir" iş türünü göster</setting_finishOffWorktype_label>
+	<setting_finishOffWorktype_desc>Etkinleştirildiğinde "İşini Bitir" aracının iş türünü İş sekmesinde gösterir.\nAyarın etkili olması için oyun yeniden başlatılmalıdır.</setting_finishOffWorktype_desc>
+	<setting_finishOffSkill_label>"İşini Bitir" için beceri gereksinimi</setting_finishOffSkill_label>
+	<setting_finishOffSkill_desc>"İşini Bitir" aracı, yeterince yüksek yakın dövüş becerisine sahip bir koloniciyi gerektirir.</setting_finishOffSkill_desc>
+	<setting_replaceIcons_label>Yasakla/Yasağı Kaldır simgelerini değiştir</setting_replaceIcons_label>
+	<setting_replaceIcons_desc>Yasakla ve Yasağı Kaldır araçlarının simgelerini daha anlaşılır olanlarla değiştirir.\nAyarın etkili olması için oyun yeniden başlatılmalıdır.</setting_replaceIcons_desc>
+
+	<setting_partyHunt_label>"Toplu Av" aracı</setting_partyHunt_label>
+	<setting_partyHunt_desc>Etkinleştirildiğinde askere alınmış koloniciler için "Toplu Av" düğmesini gösterir.</setting_partyHunt_desc>
+	<setting_partyHuntFinish_label>Yere düşen hayvanların işini bitir</setting_partyHuntFinish_label>
+	<setting_partyHuntDesignated_label>Yalnızca av için işaretlenen hayvanlar</setting_partyHuntDesignated_label>
+
+	<setting_storageSpaceAlert_label>Depolama alanı uyarısı</setting_storageSpaceAlert_label>
+	<setting_storageSpaceAlert_desc>Acil taşınması işaretlenmiş öğeler olup depolanacak yer yoksa uyarı mesajı gösterilir.</setting_storageSpaceAlert_desc>
+	
+	<SelectSimilar_cursor_needConstraint>Bir şey seçmek için tıklayın</SelectSimilar_cursor_needConstraint>
+	<SelectSimilar_cursor_nowSelecting>Sadece şunları seçmek için sürükleyin: {0}</SelectSimilar_cursor_nowSelecting>
+	<SelectSimilar_cursor_limit>Seçim sınırına ulaşıldı</SelectSimilar_cursor_limit>
+	<SelectSimilar_numMoreTypes>(+{0} daha)</SelectSimilar_numMoreTypes>
+	
+	<Haul_urgently_success>{0} öğe acil olarak taşınacak.</Haul_urgently_success>
+	<Haul_urgently_failure>Taşınması gereken öğe bulunamadı.</Haul_urgently_failure>
+
+	<Alert_noStorage_label>Depolama alanı yok</Alert_noStorage_label>
+	<Alert_noStorage_desc>Acil taşıma için işaretlenen öğelerin depolanacağı bir yer yok:\n{0}\n\nİşaretlemeyi iptal edin veya depolama alanı açın.\nSeçenekler > Mod ayarlarından kapatılabilir.</Alert_noStorage_desc>
+	
+	<Finish_off_skillRequired>Kullanmak için {0} veya üstü yakın dövüş becerisine sahip bir koloni sakini gerekir.</Finish_off_skillRequired>
+	<Finish_off_pawnSkillRequired>{0} yakın dövüş becerisi gerekli</Finish_off_pawnSkillRequired>
+	<Finish_off_success>{0} hedef işaretlendi.</Finish_off_success>
+	<Finish_off_failure>Geçerli düşmüş yaratık bulunamadı.</Finish_off_failure>
+	<Finish_off_floatMenu>{0} için işini bitir</Finish_off_floatMenu>
+	<Finish_off_floatMenu_reason_friendly>dost hedef, Shift basılı tut</Finish_off_floatMenu_reason_friendly>
+
+	<HarvestFullyGrown_cursorTip>Sadece tamamen olgun bitkiler seçiliyor</HarvestFullyGrown_cursorTip>
+	<ChopFullyGrown_cursorTip>Sadece tamamen olgun ağaçlar seçiliyor</ChopFullyGrown_cursorTip>
+	
+	<RearmUrgently_cursorTip>Tuzakları acil yeniden kurmak için seç</RearmUrgently_cursorTip>
+	
+	<Designator_context_similar>Haritada benzer şeyleri seç</Designator_context_similar>
+	<Designator_context_similar_succ>Haritada {0} benzer şey seçildi.</Designator_context_similar_succ>
+	<Designator_context_similar_part>Haritadaki {1} benzer şey arasından en yakın {0} tanesi seçildi</Designator_context_similar_part>
+	<Designator_context_similar_fail>Benzer şeyleri seçmek için önce bir şey seçilmelidir.</Designator_context_similar_fail>
+	<Designator_context_urgent>Tüm öğeleri acil taşı</Designator_context_urgent>
+	<Designator_context_urgent_visible>Görünen öğeleri acil taşı</Designator_context_urgent_visible>
+	<Designator_context_urgent_all>Haritadaki tüm öğeleri acil taşı</Designator_context_urgent_all>
+	<Designator_context_urgent_succ>{0} öğe acil taşıma için işaretlendi.</Designator_context_urgent_succ>
+	<Designator_context_urgent_visible_succ>{0} görünen öğe acil taşıma için işaretlendi.</Designator_context_urgent_visible_succ>
+	<Designator_context_urgent_fail>Taşınacak yeni öğe bulunamadı.</Designator_context_urgent_fail>
+	<Designator_context_strip>Tüm düşmanları soy</Designator_context_strip>
+	<Designator_context_strip_succ>{0} ceset soyulmak için işaretlendi.</Designator_context_strip_succ>
+	<Designator_context_strip_fail>Soyulacak ceset bulunamadı.</Designator_context_strip_fail>
+	<Designator_context_rearm>Tuzakları acil yeniden kur</Designator_context_rearm>
+	<Designator_context_rearmAll>Tüm tuzakları acil yeniden kur</Designator_context_rearmAll>
+	<Designator_context_rearmAll_succ>{0} tuzak acil yeniden kurulum için işaretlendi.</Designator_context_rearmAll_succ>
+	<Designator_context_rearmAll_fail>Şu anda tuzakları yeniden kurmaya gerek yok.</Designator_context_rearmAll_fail>
+	<Designator_context_harvest>Tüm bitkileri hasat et</Designator_context_harvest>
+	<Designator_context_harvest_home>Yuva alanındaki bitkileri hasat et</Designator_context_harvest_home>
+	<Designator_context_harvest_succ>{0} bitki hasat için işaretlendi.</Designator_context_harvest_succ>
+	<Designator_context_harvest_fail>Hasat edilecek yeni bitki bulunamadı.</Designator_context_harvest_fail>
+	<Designator_context_haul>Her şeyi taşı</Designator_context_haul>
+	<Designator_context_haul_succ>Taşımak için {0} yeni şey işaretlendi.</Designator_context_haul_succ>
+	<Designator_context_haul_fail>Taşınacak yeni şey bulunamadı.</Designator_context_haul_fail>
+	<Designator_context_chop>Tüm odunu kes</Designator_context_chop>
+	<Designator_context_chop_succ>Kesim için {0} yeni ağaç işaretlendi.</Designator_context_chop_succ>
+	<Designator_context_chop_fail>Bölgede kesilebilecek yeni ağaç bulunamadı.</Designator_context_chop_fail>
+	<Designator_context_hunt>Tüm hayvanları avla</Designator_context_hunt>
+	<Designator_context_hunt_succ>Av için {0} yeni hayvan işaretlendi.</Designator_context_hunt_succ>
+	<Designator_context_hunt_fail>Şu anda bölgede avlanabilir yeni hayvan yok.</Designator_context_hunt_fail>
+	<Designator_context_mine>Bağlı cevherleri kaz</Designator_context_mine>
+	<Designator_context_mine_succ>Kazı için ek {0} cevher karesi işaretlendi.</Designator_context_mine_succ>
+	<Designator_context_mine_fail>Bu komutu kullanmak için kazılacak bir veya daha fazla cevher karesi işaretleyin.</Designator_context_mine_fail>
+	<Designator_context_cancel_build>Tüm inşaat planlarını iptal et</Designator_context_cancel_build>
+	<Designator_context_cancel_build_succ>{0} inşaat planı kaldırıldı.</Designator_context_cancel_build_succ>
+	<Designator_context_cancel_build_fail>Kaldırılacak plan bulunamadı.</Designator_context_cancel_build_fail>
+	<Designator_context_cancel_desig>Haritadaki tüm emirleri iptal et</Designator_context_cancel_desig>
+	<Designator_context_cancel_desig_msg>{0} şey emri ve {1} arazi emri iptal edildi.</Designator_context_cancel_desig_msg>
+	<Designator_context_cancel_selected>Bu türün tümünü iptal et</Designator_context_cancel_selected>
+	<Designator_context_cancel_selected_succ>{1} öğe için {0} emir iptal edildi.</Designator_context_cancel_selected_succ>
+	<Designator_context_cancel_selected_fail>Bu türün tüm emirlerini iptal etmek için emirli bir şey seçin.</Designator_context_cancel_selected_fail>
+	<Designator_context_finish>Tüm düşmüş yaratıkların işini bitir</Designator_context_finish>
+	<Designator_context_finish_succ>{0} yaratığın işi bitirilecek.</Designator_context_finish_succ>
+	<Designator_context_finish_allies>{0} yaratığın işi bitirilecek, dostlar dahil.</Designator_context_finish_allies>
+	<Designator_context_finish_fail>Geçerli düşmüş hedef bulunamadı.</Designator_context_finish_fail>
+	<Designator_context_cut>Tüm solmuş bitkileri kes</Designator_context_cut>
+	<Designator_context_cut_succ>Kesim için {0} solmuş bitki işaretlendi.</Designator_context_cut_succ>
+	<Designator_context_cut_fail>Kesilecek yeni solmuş bitki bulunamadı.</Designator_context_cut_fail>
+	<Designator_context_harvestFullyGrown>Sadece olgun ürünleri topla</Designator_context_harvestFullyGrown>
+	<Designator_context_chopFullyGrown>Sadece olgun ağaçları kes</Designator_context_chopFullyGrown>
+	<Designator_context_fullyGrown_desc>Tam olgunlaşmamış bitkiler daha az kaynak üretir.</Designator_context_fullyGrown_desc>
+	
+	<PartyHuntToggle_label>"Toplu Av"</PartyHuntToggle_label>
+	<PartyHuntToggle_desc>Etkinleştirildiğinde askere alınmış koloniciler pasif vahşi hayvanlara otomatik ateş eder. Ayarı değiştirmek için sağ tıklayın.\nAllow Tool modu tarafından eklendi.</PartyHuntToggle_desc>
+
+	<Harvest_fully_grown_success>Hasat için {0} tamamen olgun bitki işaretlendi.
+	</Harvest_fully_grown_success>
+	<Harvest_fully_grown_failure>Tamamen olgun yeni bitki veya ağaç bulunamadı.
+	</Harvest_fully_grown_failure>
+
+	<Designator_context_harvest_fullgrown>Haritadaki tamamen olgun bitkileri hasat et
+	</Designator_context_harvest_fullgrown>
+	<Designator_context_harvest_home_fullgrown>Yuva alanındaki tamamen olgun bitkileri hasat et.
+	</Designator_context_harvest_home_fullgrown>
+	<Designator_context_harvest_fullgrown_succ>Hasat için {0} tamamen olgun bitki işaretlendi.
+	</Designator_context_harvest_fullgrown_succ>
+	<Designator_context_harvest_fullgrown_fail>Hasat edilecek yeni tamamen olgun bitki bulunamadı.
+	</Designator_context_harvest_fullgrown_fail>
+	<Designator_context_allow_visible>Görünen tüm şeylere izin ver</Designator_context_allow_visible>
+	<Designator_context_allow_visible_succ>{0} görünen şeye izin verildi.</Designator_context_allow_visible_succ>
+	<Designator_context_allow_visible_fail>İzin verilecek görünür yasaklı şey bulunamadı.
+	</Designator_context_allow_visible_fail>
+	<Designator_context_forbid_visible>Görünen tüm şeyleri yasakla</Designator_context_forbid_visible>
+	<Designator_context_forbid_visible_succ>{0} görünen şey yasaklandı.
+	</Designator_context_forbid_visible_succ>
+	<Designator_context_forbid_visible_fail>Yasağı kaldırılacak görünür öğe bulunamadı.
+	</Designator_context_forbid_visible_fail>
+
+	<StripMine_win_horizontalSpacing>Yatay aralık</StripMine_win_horizontalSpacing>
+	<StripMine_win_verticalSpacing>Dikey aralık</StripMine_win_verticalSpacing>
+	<StripMine_win_showWindow>Bu pencereyi göster</StripMine_win_showWindow>
+	<StripMine_win_showWindow_tip>Bir sonraki sefer bu ayarı otomatik kullanmak için devre dışı bırakın.\nBu pencereyi tekrar göstermek için Shift tuşunu basılı tutun.
+	</StripMine_win_showWindow_tip>
+	<StripMine_win_variableOffset>Değişken ızgara kaydırması</StripMine_win_variableOffset>
+	<StripMine_win_variableOffset_tip>Etkinleştirildiğinde ızgara seçimin başlangıç noktasından uzanır. Aksi halde,
+		seçimin nerede başladığından bağımsız olarak ızgara çizgileri her zaman aynı hücrelerden geçer.
+	</StripMine_win_variableOffset_tip>
+	<StripMine_cursor_autoApply>Hemen uygula</StripMine_cursor_autoApply>
+
+	<Designator_context_mine_selectStripMine>"Şerit Kazı" aracını seçin
+	</Designator_context_mine_selectStripMine>
+
+</LanguageData>

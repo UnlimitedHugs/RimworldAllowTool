@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<HaulUrgently.label>Şeyleri acil taşı</HaulUrgently.label>
+	<HaulUrgently.verb>acil taşı</HaulUrgently.verb>
+	<HaulUrgently.gerund>acil taşıyor</HaulUrgently.gerund>
+	
+	<FinishOff.label>İşini bitir</FinishOff.label>
+	<FinishOff.verb>işini bitir</FinishOff.verb>
+	<FinishOff.gerund>işini bitiriyor</FinishOff.gerund>
+	
+</LanguageData>
