@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<AllowDesignator.label>Seçime izin ver</AllowDesignator.label>
+	<AllowDesignator.description>Seçili alandaki tüm öğelere izin verir. Kullanmak için tıklayıp bir alan sürükleyin.</AllowDesignator.description>
+
+	<ForbidDesignator.label>Seçimi yasakla</ForbidDesignator.label>
+	<ForbidDesignator.description>Seçili alandaki tüm öğeleri yasaklar. Kullanmak için tıklayıp bir alan sürükleyin.</ForbidDesignator.description>
+	
+	<AllowAllDesignator.label>Her şeye izin ver</AllowAllDesignator.label>
+	<AllowAllDesignator.description>Haritadaki tüm öğelere izin verir.
+İnşaatları dahil etmek için Ctrl tuşunu basılı tutun.
+İskeletleri ve çürümüş cesetleri dahil etmek için Shift tuşunu basılı tutun.</AllowAllDesignator.description>
+	
+	<SelectSimilarDesignator.label>Benzerini seç</SelectSimilarDesignator.label>
+	<SelectSimilarDesignator.description>Yalnızca seçilenlere benzer şeyleri seçer.
+Ek öğeler seçmek için Shift tuşunu basılı tutun.
+Seçim sınırlarını yok saymak için Alt tuşunu basılı tutun.</SelectSimilarDesignator.description>
+
+	<HaulUrgentlyDesignator.label>Acil taşı</HaulUrgentlyDesignator.label>
+	<HaulUrgentlyDesignator.description>Şeyleri acil taşınmak üzere işaretler. Koloniciler bunu bitirene kadar diğer işleri erteleyebilir.
+Mevcut koloni işini kesmek için Shift tuşunu basılı tutun.</HaulUrgentlyDesignator.description>
+
+	<FinishOffDesignator.label>İşini bitir</FinishOffDesignator.label>
+	<FinishOffDesignator.description>Yere düşen yaratıkları hızlı ve acısız şekilde öldürür.
+Kolonicileri ve müttefikleri dahil etmek için Shift tuşunu basılı tutun.</FinishOffDesignator.description>
+
+	<HarvestFullyGrownDesignator.label>Tam olgun hasat</HarvestFullyGrownDesignator.label>
+	<HarvestFullyGrownDesignator.description>Toplandığında en yüksek kaynak miktarını verecek kadar büyümüş ürünlerin ve ağaçların
+		hasadını veya kesimini emreder.
+		Yalnızca bitkileri dahil etmek için Shift tuşunu basılı tutun.
+		Yalnızca ağaçları dahil etmek için Ctrl tuşunu basılı tutun.
+	</HarvestFullyGrownDesignator.description>
+
+	<StripMineDesignator.label>Şerit kazı</StripMineDesignator.label>
+	<StripMineDesignator.description>Gizli mineralleri bulma olasılığını en üst düzeye çıkarmak için
+		bir ızgarada kazı emirleri verir.
+		Ayar penceresini göstermek veya mevcut ayarla işaretlemek için Shift tuşunu basılı tutun.
+	</StripMineDesignator.description>
+	
+</LanguageData>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<DesignatorAllow.label>İşaretle: İzin ver</DesignatorAllow.label>
+	
+	<DesignatorForbid.label>İşaretle: Yasakla</DesignatorForbid.label>
+	
+	<DesignatorAllowAll.label>İşaretle: Her şeye izin ver</DesignatorAllowAll.label>
+	
+	<DesignatorSelectSimilar.label>İşaretle: Benzerini seç</DesignatorSelectSimilar.label>
+	
+	<DesignatorHaulUrgently.label>İşaretle: Acil taşı</DesignatorHaulUrgently.label>
+	
+	<DesignatorFinishOff.label>İşaretle: İşini bitir</DesignatorFinishOff.label>
+	
+	<ToolContextMenuAction.label>Geçerli araç: bağlam menüsü eylemi</ToolContextMenuAction.label>
+	
+	<DesignatorHarvestFullyGrown.label>İşaretle: Tam olgun hasat</DesignatorHarvestFullyGrown.label>
+
+	<DesignatorStripMine.label>İşaretle: Şerit kazı</DesignatorStripMine.label>
+	
+</LanguageData>
+	
