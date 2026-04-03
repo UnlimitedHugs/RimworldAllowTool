@@ -62,27 +62,47 @@ namespace AllowTool {
 			}
 		}
 
-		private void GetHaulUrgentlyDesignatedThings(Map map, ICollection<Thing> targetList) {
+		private void GetHaulUrgentlyDesignatedThings(Map map, ICollection<Thing> targetList)
+		{
 			targetList.Clear();
 			var mapDesignations = map.designationManager.AllDesignations;
-			for (var i = 0; i < mapDesignations.Count; i++) {
+			for (var i = 0; i < mapDesignations.Count; i++)
+			{
 				var des = mapDesignations[i];
-				if (des.def == AllowToolDefOf.HaulUrgentlyDesignation && des.target.Thing != null) {
-					targetList.Add(des.target.Thing);
+				var thing = des.target.Thing;
+				if (des.def == AllowToolDefOf.HaulUrgentlyDesignation
+					&& thing != null
+					&& !thing.Destroyed
+					&& thing.Spawned
+					&& thing.Map == map)
+				{
+					targetList.Add(thing);
 				}
 			}
 		}
 		
-		private void GetMapHaulables(Map map, IReadOnlyList<Thing> intersectWith, ICollection<Thing> targetList) {
+		private void GetMapHaulables(Map map, IReadOnlyList<Thing> intersectWith, ICollection<Thing> targetList)
+		{
 			targetList.Clear();
-			for (var i = 0; i < intersectWith.Count; i++) {
-				workThingsSet.Add(intersectWith[i]);
+			for (var i = 0; i < intersectWith.Count; i++)
+			{
+				var thing = intersectWith[i];
+				if (thing != null && !thing.Destroyed && thing.Spawned && thing.Map == map)
+				{
+					workThingsSet.Add(thing);
+				}
 			}
+
 			var haulables = map.listerHaulables.ThingsPotentiallyNeedingHauling();
-            foreach (var haulable in haulables) {
-                if (workThingsSet.Contains(haulable)) targetList.Add(haulable);
-            }
-            workThingsSet.Clear();
+			foreach (var haulable in haulables)
+			{
+				if (haulable != null && !haulable.Destroyed && haulable.Spawned && haulable.Map == map && workThingsSet.Contains(haulable))
+				{
+					targetList.Add(haulable);
+				}
+			}
+
+			workThingsSet.Clear();
 		}
 
 		private readonly struct ThingsCacheEntry {

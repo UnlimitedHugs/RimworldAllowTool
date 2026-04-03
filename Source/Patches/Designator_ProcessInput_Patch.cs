@@ -1,5 +1,5 @@
 ﻿using AllowTool.Context;
-using Harmony;
+using HarmonyLib;
 using Verse;
 
 namespace AllowTool.Patches {
@@ -12,6 +12,6 @@ namespace AllowTool.Patches {
 		[HarmonyPrefix]
 		public static bool InterceptRightClicksOnSupportedDesignators(Designator __instance) {
 			return !DesignatorContextMenuController.TryProcessDesignatorInput(__instance);
-		}	 
+		}
 	}
 }

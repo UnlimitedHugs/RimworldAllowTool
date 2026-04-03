@@ -17,11 +17,25 @@ namespace AllowTool {
 			return JobOnThingDelegate(pawn, t, forced);
 		}
 
-		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) {
+		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
+		{
+			if (pawn == null || pawn.Map == null)
+			{
+				yield break;
+			}
+
 			var things = GetHaulablesForPawn(pawn);
-			for (int i = 0; i < things.Count; i++) {
-				if (HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, things[i], false)) {
-					yield return things[i];
+			for (int i = 0; i < things.Count; i++)
+			{
+				var thing = things[i];
+				if (thing == null || thing.Destroyed || !thing.Spawned || thing.Map != pawn.Map)
+				{
+					continue;
+				}
+
+				if (HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, thing, false))
+				{
+					yield return thing;
 				}
 			}
 		}
