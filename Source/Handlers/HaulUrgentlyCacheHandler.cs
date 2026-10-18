@@ -20,13 +20,21 @@ namespace AllowTool {
 		}
 
 		public IReadOnlyList<Thing> GetDesignatedThingsForMap(Map map, float currentTime) {
+			if (map == null) return Array.Empty<Thing>();
+
 			RecacheIfNeeded(map, currentTime);
-			return cacheEntries[map].DesignatedThings;
+			return cacheEntries.TryGetValue(map, out var entry)
+				? entry.DesignatedThings
+				: Array.Empty<Thing>();
 		}
 
 		public IReadOnlyList<Thing> GetDesignatedAndHaulableThingsForMap(Map map, float currentTime) {
+			if (map == null) return Array.Empty<Thing>();
+
 			RecacheIfNeeded(map, currentTime);
-			return cacheEntries[map].DesignatedHaulableThings;
+			return cacheEntries.TryGetValue(map, out var entry)
+				? entry.DesignatedHaulableThings
+				: Array.Empty<Thing>();
 		}
 
 		public List<GlobalTargetInfo> GetDesignatedThingsWithoutStorageSpace() {
@@ -67,8 +75,10 @@ namespace AllowTool {
 			var mapDesignations = map.designationManager.AllDesignations;
 			for (var i = 0; i < mapDesignations.Count; i++) {
 				var des = mapDesignations[i];
-				if (des.def == AllowToolDefOf.HaulUrgentlyDesignation && des.target.Thing != null) {
-					targetList.Add(des.target.Thing);
+				var thing = des.target.Thing;
+				if (des.def == AllowToolDefOf.HaulUrgentlyDesignation
+					&& thing != null && thing.Spawned && thing.Map == map) {
+					targetList.Add(thing);
 				}
 			}
 		}
@@ -76,13 +86,17 @@ namespace AllowTool {
 		private void GetMapHaulables(Map map, IReadOnlyList<Thing> intersectWith, ICollection<Thing> targetList) {
 			targetList.Clear();
 			for (var i = 0; i < intersectWith.Count; i++) {
-				workThingsSet.Add(intersectWith[i]);
+				var thing = intersectWith[i];
+				if (thing != null && thing.Spawned && thing.Map == map) {
+					workThingsSet.Add(thing);
+				}
 			}
 			var haulables = map.listerHaulables.ThingsPotentiallyNeedingHauling();
-            foreach (var haulable in haulables) {
-                if (workThingsSet.Contains(haulable)) targetList.Add(haulable);
-            }
-            workThingsSet.Clear();
+			foreach (var haulable in haulables) {
+				if (haulable != null && haulable.Spawned && haulable.Map == map
+					&& workThingsSet.Contains(haulable)) targetList.Add(haulable);
+			}
+			workThingsSet.Clear();
 		}
 
 		private readonly struct ThingsCacheEntry {
@@ -112,7 +126,7 @@ namespace AllowTool {
 			private readonly List<CacheEntry> targetCache = new List<CacheEntry>();
 			private readonly List<GlobalTargetInfo> outputList = new List<GlobalTargetInfo>();
 			private readonly Comparison<GlobalTargetInfo> consistentTargetOrderComparer =
-				(t1, t2) => t1.Thing.thingIDNumber.CompareTo(t2.Thing.thingIDNumber);
+				(t1, t2) => (t1.Thing?.thingIDNumber ?? int.MaxValue).CompareTo(t2.Thing?.thingIDNumber ?? int.MaxValue);
 			private int cachedForMapId = -1;
 			private HashSet<Thing> reservedThingsCache;
 			private int reservedThingsCacheExpirationUpdate = int.MinValue;
@@ -122,6 +136,11 @@ namespace AllowTool {
 			}
 
 			public void ProcessDesignations(Map map, int currentUpdate, float currentTime) {
+				if (map == null) {
+					ClearCache();
+					return;
+				}
+
 				PruneExpiredEntries();
 				VerifyCachedMap();
 				var designatedThings = cacheHandler.GetDesignatedThingsForMap(map, currentTime);
@@ -178,7 +197,10 @@ namespace AllowTool {
 			public List<GlobalTargetInfo> GetDesignatedThingsWithoutStorage() {
 				outputList.Clear();
 				for (var i = 0; i < targetCache.Count; i++) {
-					outputList.Add(targetCache[i].Target);
+					var target = targetCache[i].Target;
+					if (target.Thing != null && target.Thing.Spawned) {
+						outputList.Add(target);
+					}
 				}
 				// the list of targets rotates as cache is refreshed. Sort guarantees a consistent order for the tooltip
 				outputList.Sort(consistentTargetOrderComparer);
@@ -197,6 +219,8 @@ namespace AllowTool {
 			}
 
 			private bool HasNoHaulDestination(Thing t) {
+				if (t == null || !t.Spawned || t.Map == null) return false;
+
 				return !StoreUtility.TryFindBestBetterStorageFor(t, null, t.Map,
 					StoreUtility.CurrentStoragePriorityOf(t), Faction.OfPlayer, out _, out _);
 			}

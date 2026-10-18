@@ -7,6 +7,8 @@ using Verse.AI;
 namespace AllowTool {
 	// Generates hauling jobs for things designated for urgent hauling
 	public class WorkGiver_HaulUrgently : WorkGiver_Scanner {
+		private static readonly IReadOnlyList<Thing> EmptyThings = new Thing[0];
+
 		public delegate Job TryGetJobOnThing(Pawn pawn, Thing t, bool forced);
 		
 		// give a vanilla haul job- it works just fine for our needs
@@ -18,10 +20,14 @@ namespace AllowTool {
 		}
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn) {
+			if (pawn == null || pawn.Map == null) yield break;
+
 			var things = GetHaulablesForPawn(pawn);
 			for (int i = 0; i < things.Count; i++) {
-				if (HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, things[i], false)) {
-					yield return things[i];
+				var thing = things[i];
+				if (thing != null && thing.Spawned && thing.Map == pawn.Map
+					&& HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, thing, false)) {
+					yield return thing;
 				}
 			}
 		}
@@ -31,6 +37,8 @@ namespace AllowTool {
 		}
 
 		private static IReadOnlyList<Thing> GetHaulablesForPawn(Pawn pawn) {
+			if (pawn == null || pawn.Map == null) return EmptyThings;
+
 			return AllowToolController.Instance.HaulUrgentlyCache.GetDesignatedAndHaulableThingsForMap(
 				pawn.Map, Time.unscaledTime);
 		}
