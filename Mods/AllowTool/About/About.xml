@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
 	<name>Allow Tool</name>
 	<author>UnlimitedHugs</author>
@@ -10,10 +10,11 @@
 		<li>1.4</li>
 		<li>1.5</li>
 		<li>1.6</li>
+		<li>1.7</li>
 	</supportedVersions>
 	<url>https://ludeon.com/forums/index.php?topic=17218.0</url>
 	<packageId>UnlimitedHugs.AllowTool</packageId>
-	<description>Version: 3.14.0
+	<description>Version: 3.15.0
 
 A set of tools to make your life on the Rim a bit easier.
 Easily forbid and unforbid items, select similar things, have things hauled urgently and affect the entire map with powerful new tool extensions.
